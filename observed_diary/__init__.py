@@ -11,8 +11,8 @@ class GroupPlease(GroupCreatingWait):
 
     @classmethod
     def after_grouping(page, group):
-        for pid, watched in zip(group.players, page.watch_values):
-            pid().watched = watched
+        for player, watched in zip(players(group), page.watch_values):
+            player.watched = watched
 
 
 class Watch(Page):
