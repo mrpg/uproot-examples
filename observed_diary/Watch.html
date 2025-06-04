@@ -1,0 +1,41 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Watch
+{% endblock title %}
+
+
+{% block main %}
+
+<textarea class="form-control" id="diary" rows="5"></textarea>
+
+<script>
+    const diary = uproot.I("diary");
+</script>
+
+{% if player.watched %}
+
+<script>
+    uproot.onReady(() => {
+        diary.oninput = () => {
+            uproot.invoke("typed", diary.value);
+        };
+    });
+</script>
+
+{% else %}
+
+<script>
+    uproot.onReady(() => {
+        diary.disabled = true;
+    });
+
+    uproot.receive = (s) => {
+        diary.innerText = s;
+    };
+</script>
+
+{% endif %}
+
+{% endblock main %}
