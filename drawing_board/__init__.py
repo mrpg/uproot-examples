@@ -27,7 +27,6 @@ class Draw(Page):
 
     @live
     async def stroke(page, player, points: list[dict], lineWidth: int, **kwargs):
-        print(points, lineWidth, kwargs)
         await send_to(
             others_in_session(player),
             [
