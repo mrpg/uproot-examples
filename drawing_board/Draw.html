@@ -1,0 +1,34 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Draw
+{% endblock title %}
+
+
+{% block main %}
+
+<div class="text-center">
+    <canvas id="canvas"></canvas>
+</div>
+
+{% endblock main %}
+
+
+{% block late %}
+
+<style>
+    #canvas {
+        border: 2px solid red;
+    }
+</style>
+
+<script src="{{ static('draw.js') }}"></script>
+
+<script>
+    uproot.onCustomEvent("Strokes", (event) => {
+        drawReceivedStrokes(event.detail.data);
+    });
+</script>
+
+{% endblock late %}
