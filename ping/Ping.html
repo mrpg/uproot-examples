@@ -1,0 +1,89 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Ping
+{% endblock title %}
+
+
+{% block main %}
+
+<div class="mb-3">
+    <table class="table table-sm w-auto">
+        <tbody>
+            <tr>
+                <td><strong>&mu;</strong></td>
+                <td><span id="mean">&hellip;</span>&nbsp;ms</td>
+            </tr>
+            <tr>
+                <td>&sigma;</td>
+                <td><span id="sd">&hellip;</span>&nbsp;ms</td>
+            </tr>
+            <tr>
+                <td>se</td>
+                <td><span id="se">&hellip;</span>&nbsp;ms</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="mb-3">
+    <div class="btn-group" role="group">
+        <input type="radio" class="btn-check" name="direct" id="direct1" value="direct" autocomplete="off" checked>
+        <label class="btn btn-sm btn-outline-success" for="direct1">Direct</label>
+
+        <input type="radio" class="btn-check" name="direct" id="direct2" value="indirect" autocomplete="off">
+        <label class="btn btn-sm btn-outline-danger" for="direct2">Indirect</label>
+    </div>
+</div>
+
+<div class="mb-3">
+    <button type="button" class="btn btn btn-primary" onclick="ping()">Do it</button>
+</div>
+
+<script>
+    const n = 1000;
+    let times;
+
+    function end() {
+        uproot.I("mean").innerText = uproot.mean(times).toFixed(4);
+        uproot.I("sd").innerText = uproot.sd(times).toFixed(4);
+        uproot.I("se").innerText = (uproot.sd(times) / Math.sqrt(n)).toFixed(4);
+    }
+
+    async function ping() {
+        const direct = uproot.selectedValue("direct") == "direct";
+
+        times = [];
+
+        if (direct) {
+            let t0, t1;
+
+            while (times.length < n) {
+                t0 = await uproot.invoke("ping", Date.now(), true);
+                t1 = Date.now();
+
+                times.push(t1 - t0);
+            }
+
+            end();
+        }
+        else {
+            uproot.invoke("ping", Date.now(), false);
+        }
+    }
+
+    uproot.receive = (t0) => {
+        t1 = Date.now();
+        times.push(t1 - t0);
+
+        if (times.length < n) {
+            uproot.invoke("ping", Date.now(), false);
+        }
+        else {
+            end();
+        }
+    };
+</script>
+
+{% endblock main %}
