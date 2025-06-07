@@ -1,0 +1,13 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Payment Form
+{% endblock title %}
+
+
+{% block main %}
+
+{{ uproot.field(form.iban) }}
+{{ uproot.field(form.rating) }}
+
+{% endblock main %}
