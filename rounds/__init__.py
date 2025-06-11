@@ -2,6 +2,10 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 
+class NewRound(Page):
+    pass
+
+
 class EnterData(Page):
     fields = dict(
         number=IntegerField(label="Please enter a number."),
@@ -9,5 +13,5 @@ class EnterData(Page):
 
 
 page_order = [
-    Rounds(EnterData, n=4),  # repeat EnterData four times
+    Rounds(NewRound, EnterData, n=4),  # repeat NewRound and EnterData four times
 ]
