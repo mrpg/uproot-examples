@@ -1,0 +1,26 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You claimed <b>${{ player.claim }}</b>.</p>
+
+<p>Your partner claimed <b>${{ other.claim }}</b>.</p>
+
+<p>
+    The sum of claims is ${{ player.claim + other.claim }}.
+
+    {% if player.claim + other.claim <= 100 %}
+    This is $100 or less.
+    {% else %}
+    This is more than $100.
+    {% endif %}
+</p>
+
+<p>Therefore, your payoff is <b>${{ player.payoff }}</b>.</p>
+
+{% endblock main %}

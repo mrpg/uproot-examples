@@ -1,0 +1,19 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Enter number
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You and your partner will receive a total amount of $100 if you can agree on how to divide it without communication. Each of you will enter your claim amount. If both claims total $100 or less, each person receives exactly what they claimed. If the total exceeds $100, neither receives anything.</p>
+
+{{ uproot.field(form.claim) }}
+
+<p>
+    This page uses an instruction similar to the one used in the following paper:
+    <cite>Schelling, Thomas C. "Bargaining, Communication, and Limited War." <em>Journal of Conflict Resolution</em> 1, no. 1 (1957): 19-36.</cite>
+</p>
+
+{% endblock main %}
