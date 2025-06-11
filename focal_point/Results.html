@@ -7,12 +7,12 @@ Results
 
 {% block main %}
 
-<p>You claimed <b>${{ player.claim }}</b>.</p>
+<p>You claimed <b>${{ player.claim | to(2) }}</b>.</p>
 
-<p>Your partner claimed <b>${{ other.claim }}</b>.</p>
+<p>Your partner claimed <b>${{ other.claim | to(2) }}</b>.</p>
 
 <p>
-    The sum of claims is ${{ player.claim + other.claim }}.
+    The sum of claims is ${{ (player.claim + other.claim) | to(2) }}.
 
     {% if player.claim + other.claim <= 100 %}
     This is $100 or less.
@@ -21,6 +21,6 @@ Results
     {% endif %}
 </p>
 
-<p>Therefore, your payoff is <b>${{ player.payoff }}</b>.</p>
+<p>Therefore, your payoff is <b>${{ player.payoff | to(2) }}</b>.</p>
 
 {% endblock main %}
