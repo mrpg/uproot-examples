@@ -1,0 +1,13 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Hello
+{% endblock title %}
+
+
+{% block main %}
+
+<p>This app watches for dropouts. If you close this tab, <code>handle_dropout</code> should be triggered after some time. (Watch the command line.) If you return to this page, the player should see the End page.</p>
+
+{% endblock main %}
