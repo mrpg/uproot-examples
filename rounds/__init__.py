@@ -12,6 +12,11 @@ class EnterData(Page):
     )
 
 
+class Results(Page):
+    pass
+
+
 page_order = [
     Rounds(NewRound, EnterData, n=4),  # repeat NewRound and EnterData four times
+    Results,  # show Results only at the end
 ]

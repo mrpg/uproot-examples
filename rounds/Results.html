@@ -1,0 +1,27 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Round</th>
+            <th scope="col">Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for round, in_that_round in along(player, "round") %}
+        <tr>
+            <td>{{ round }}</td>
+            <td>{{ in_that_round.number }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock main %}
