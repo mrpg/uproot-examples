@@ -1,0 +1,14 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Chat here
+{% endblock title %}
+
+
+{% block main %}
+
+{% with chat=session.chat %}
+{% include "Chat.html" %}
+{% endwith %}
+
+{% endblock main %}
