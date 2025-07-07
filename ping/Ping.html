@@ -12,7 +12,11 @@ Ping
     <table class="table table-sm w-auto">
         <tbody>
             <tr>
-                <td><strong>&mu;</strong></td>
+                <td>n</td>
+                <td><span id="n">&hellip;</span></td>
+            </tr>
+            <tr>
+                <td>&mu;</td>
                 <td><span id="mean">&hellip;</span>&nbsp;ms</td>
             </tr>
             <tr>
@@ -42,10 +46,11 @@ Ping
 </div>
 
 <script>
-    const n = 1000;
+    const n = 5000;
     let times;
 
     function end() {
+        uproot.I("n").innerText = times.length;
         uproot.I("mean").innerText = uproot.mean(times).toFixed(4);
         uproot.I("sd").innerText = uproot.sd(times).toFixed(4);
         uproot.I("se").innerText = (uproot.sd(times) / Math.sqrt(n)).toFixed(4);
