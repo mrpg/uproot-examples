@@ -11,6 +11,8 @@
 from uproot.fields import *
 from uproot.smithereens import *
 
+DESCRIPTION = "A session-level chat"
+
 
 def new_session(session):
     session.chat = chat.create(session)
