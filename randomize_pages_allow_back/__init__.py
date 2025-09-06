@@ -15,6 +15,10 @@ from uproot.smithereens import *
 DESCRIPTION = "Randomize pages (and allow players to go back)"
 
 
+class Hello(Page):
+    allow_back = False  # First page (cannot go back)
+
+
 class A(Page):
     allow_back = True
 
@@ -36,6 +40,7 @@ class E(Page):
 
 
 page_order = [
+    Hello,
     Random(
         A,
         B,
