@@ -39,7 +39,7 @@ class Draw(Page):
 
     @live
     async def stroke(page, player, points: list[dict], lineWidth: int, **kwargs):
-        await send_to(
+        send_to(
             others_in_session(player),
             [
                 dict(

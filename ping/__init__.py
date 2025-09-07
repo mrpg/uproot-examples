@@ -20,7 +20,7 @@ class Ping(Page):
         if direct:
             return jstime
         else:
-            await send_to(player, jstime)
+            send_to(player, jstime)
 
 
 page_order = [
