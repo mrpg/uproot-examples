@@ -8,57 +8,66 @@ Ping
 
 {% block main %}
 
-<div class="mb-3">
-    <table class="table table-sm w-auto">
-        <tbody>
-            <tr>
-                <td>n</td>
-                <td><span id="n">&hellip;</span></td>
-            </tr>
-            <tr>
-                <td>&mu;</td>
-                <td><span id="mean">&hellip;</span>&nbsp;ms</td>
-            </tr>
-            <tr>
-                <td>&sigma;</td>
-                <td><span id="sd">&hellip;</span>&nbsp;ms</td>
-            </tr>
-            <tr>
-                <td>se</td>
-                <td><span id="se">&hellip;</span>&nbsp;ms</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<p>This page allows you to send short messages to the server to measure round-trip time (RTT).</p>
 
-<div class="mb-3">
-    <div class="btn-group" role="group">
-        <input type="radio" class="btn-check" name="direct" id="direct1" value="direct" autocomplete="off" checked>
-        <label class="btn btn-sm btn-outline-success" for="direct1">Direct</label>
+<div x-data="{ n: 1000 }">
+    <div class="mb-3">
+        <table class="table table-sm w-auto">
+            <tbody>
+                <tr>
+                    <td>n</td>
+                    <td><input type="number" x-model="n"></td>
+                </tr>
+                <tr>
+                    <td>&mu;</td>
+                    <td><span id="mean">&hellip;</span>&nbsp;ms</td>
+                </tr>
+                <tr>
+                    <td>&sigma;</td>
+                    <td><span id="sd">&hellip;</span>&nbsp;ms</td>
+                </tr>
+                <tr>
+                    <td>se</td>
+                    <td><span id="se">&hellip;</span>&nbsp;ms</td>
+                </tr>
+                <tr>
+                    <td class="fst-italic">Received</td>
+                    <td><span id="timeslength">&hellip;</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-        <input type="radio" class="btn-check" name="direct" id="direct2" value="indirect" autocomplete="off">
-        <label class="btn btn-sm btn-outline-danger" for="direct2">Indirect</label>
+    <div class="mb-3">
+        <div class="btn-group" role="group">
+            <input type="radio" class="btn-check" name="direct" id="direct1" value="direct" autocomplete="off" checked>
+            <label class="btn btn-sm btn-outline-success" for="direct1">Direct</label>
+
+            <input type="radio" class="btn-check" name="direct" id="direct2" value="indirect" autocomplete="off">
+            <label class="btn btn-sm btn-outline-danger" for="direct2">Indirect</label>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <button type="button" class="btn btn btn-primary" @click="ping(n)">Do it</button>
     </div>
 </div>
 
-<div class="mb-3">
-    <button type="button" class="btn btn btn-primary" onclick="ping()">Do it</button>
-</div>
-
 <script>
-    const n = 5000;
+    let n;
     let times;
 
     function end() {
-        uproot.I("n").innerText = times.length;
-        uproot.I("mean").innerText = uproot.mean(times).toFixed(4);
-        uproot.I("sd").innerText = uproot.sd(times).toFixed(4);
-        uproot.I("se").innerText = (uproot.sd(times) / Math.sqrt(n)).toFixed(4);
+        I("mean").innerText = uproot.mean(times).toFixed(4);
+        I("sd").innerText = uproot.sd(times).toFixed(4);
+        I("se").innerText = (uproot.sd(times) / Math.sqrt(n)).toFixed(4);
+        I("timeslength").innerText = times.length;
     }
 
-    async function ping() {
+    async function ping(n_) {
         const direct = uproot.selectedValue("direct") == "direct";
 
+        n = n_;
         times = [];
 
         if (direct) {
@@ -79,6 +88,8 @@ Ping
     }
 
     uproot.receive = (t0) => {
+        // Invoked when using the indirect method
+
         t1 = Date.now();
         times.push(t1 - t0);
 
