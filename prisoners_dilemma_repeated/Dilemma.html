@@ -1,0 +1,49 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Dilemma (round {{ player.round }} of {{ C.ROUNDS }})
+{% endblock title %}
+
+
+{% block main %}
+
+{{ uproot.field(form.cooperate) }}
+
+{% if player.round > 1 %}
+
+<h2 class="mt-5">History</h2>
+
+<table class="table w-50">
+    <thead>
+        <tr>
+            <th scope="col">Round</th>
+            <th scope="col">You</th>
+            <th scope="col">Your partner</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for round in rounds_so_far %}
+        <tr>
+            <th scope="row">{{ round }}</th>
+            <td>
+                {% if player.within(round=round).cooperate %}
+                Cooperated
+                {% else %}
+                Did not cooperate
+                {% endif %}
+            </td>
+            <td>
+                {% if other.within(round=round).cooperate %}
+                Cooperated
+                {% else %}
+                Did not cooperate
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endif %}
+
+{% endblock main %}

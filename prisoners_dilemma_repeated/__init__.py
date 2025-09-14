@@ -1,0 +1,75 @@
+# Docs are available at https://uproot.science/
+# Examples are available at https://github.com/mrpg/uproot-examples
+#
+# This example app is under the 0BSD license. You can use it freely and build on it
+# without any limitations and without any attribution. However, these two lines must be
+# preserved in any uproot app (the license file is automatically installed in projects):
+#
+# Third-party dependencies:
+# - uproot: LGPL v3+, see ../uproot_license.txt
+
+from uproot.fields import *
+from uproot.smithereens import *
+
+DESCRIPTION = "Repeated prisoner's dilemma"
+
+
+class C:
+    ROUNDS = 3
+
+
+class GroupPlease(GroupCreatingWait):
+    group_size = 2
+
+
+class Dilemma(Page):
+    fields = dict(
+        cooperate=BooleanField(label="Do you wish to cooperate?"),
+    )
+
+    @classmethod
+    def context(page, player):
+        return dict(
+            other=other_in_group(player),
+            rounds_so_far=range(1, player.round),
+        )
+
+
+def set_payoff(player):
+    other = other_in_group(player)
+
+    match player.cooperate, other.cooperate:
+        case True, True:
+            player.payoff = 10
+        case True, False:
+            player.payoff = 0
+        case False, True:
+            player.payoff = 15
+        case False, False:
+            player.payoff = 3
+
+
+class Sync(SynchronizingWait):
+    @classmethod
+    def all_here(page, group):
+        for player in players(group):
+            set_payoff(player)
+
+
+class Results(Page):
+    @classmethod
+    def context(page, player):
+        return dict(
+            other=other_in_group(player),
+        )
+
+
+page_order = [
+    GroupPlease,
+    Rounds(
+        Dilemma,
+        Sync,
+        Results,
+        n=C.ROUNDS,
+    ),
+]
