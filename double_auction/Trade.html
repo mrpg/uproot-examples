@@ -1,0 +1,113 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+
+{% block head %}
+
+<style>
+.offerbox {
+    height: 100px;
+}
+</style>
+
+{% endblock head %}
+
+
+{% block main %}
+
+<h3>Info</h3>
+
+{% if player.buyer %}
+
+<p>You are a <b>buyer</b>.</p>
+<p><i>Your valuation</i> is <b>${{ player.cost_or_value | to(2) }}</b>.</p>
+<p>If you trade, your profit is your valuation minus the price of the accepted offer. Mathematically, Profit = Valuation &minus; Price.</p>
+
+{% else %}
+
+<p>You are a <b>seller</b>.</p>
+<p><i>Your cost</i> is <b>${{ player.cost_or_value | to(2) }}</b>.</p>
+<p>If you trade, your profit is the price of the accepted offer minus your cost. Mathematically, Profit = Price &minus; Cost.</p>
+
+{% endif %}
+
+<p>If you don't trade, your profit is $0.</p>
+
+
+<div id="not-traded">
+    <h3 class="mt-4">Make offer</h3>
+
+    <p class="no-offer">You do not have a current offer.</p>
+
+    <p class="has-offer">Your current offer is $<span id="current-offer"></span>.</p>
+
+    <div class="mt-3">
+        <div class="w-25 mb-3 input-group">
+            <span class="input-group-text">$</span>
+            <input id="amount" type="number" class="form-control" step="0.01" min="0" placeholder="0.00">
+        </div>
+
+        <button class="btn btn-uproot" type="button" onclick="makeOffer(true)">Submit new offer</button>
+        <button class="has-offer btn btn-outline-uproot" type="button" onclick="makeOffer(false)">Cancel current offer</button>
+    </div>
+</div>
+
+<div id="traded">
+    <h3 class="mt-4">You have traded</h3>
+
+    <p>You cannot make new offers in this trading period.</p>
+    <p>Your profit in this trading period is <b>$<span id="profit"></span></b>.</p>
+</div>
+
+
+<h3 class="mt-4">Current market offers</h3>
+
+{% if player.buyer %}
+
+<p>Click any offer under <b>Asks</b> to trade at the stated price.</p>
+
+{% else %}
+
+<p>Click any offer under <b>Bids</b> to trade at the stated price.</p>
+
+{% endif %}
+
+<div class="row">
+    <div class="col-6">
+        <h4>Asks</h4>
+
+        <div id="asks" class="offerbox border p-2 overflow-auto"></div>
+    </div>
+
+    <div class="col-6">
+        <h4>Bids</h4>
+
+        <div id="bids" class="offerbox border p-2 overflow-auto"></div>
+    </div>
+</div>
+
+
+<h3 class="mt-4">Latest transactions</h3>
+
+<div id="txs" class="offerbox border p-2 overflow-auto"></div>
+
+{% endblock main %}
+
+
+{% block late %}
+
+<script>
+    let buyer = {{ player.buyer | tojson }};
+    let traded = {{ player.trade is not none | tojson }};
+    let profit = {{ player.profit | tojson }};
+    let offerAmount = uproot.vars.offer_amount;
+    let market = {
+        asks: [],
+        bids: [],
+        txs: [],
+    };
+</script>
+
+<script src="{{ appstatic('trade.js') }}"></script>
+
+{% endblock late %}
