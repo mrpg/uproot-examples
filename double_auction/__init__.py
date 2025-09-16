@@ -326,13 +326,25 @@ class Trade(Page):
 
         # Update proposer
         proposer = offer.pid()
+        proposer.offer = None
         proposer.trade = tx_id
         proposer.profit = calculate_profit(proposer, offer.price)
         send_to(proposer, [True, proposer.profit], "OfferAccepted")
 
         # Update acceptor
+        player.offer = None
         player.trade = tx_id
         player.profit = calculate_profit(player, offer.price)
+
+        # Cancel any outstanding offer by acceptor
+        create_offer_entry(
+            player.session,
+            player,
+            uuid(),
+            player.round,
+            player.buyer,
+            None,  # Null price cancels
+        )
 
         # Record transaction
         mod.add_entry(
