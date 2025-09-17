@@ -18,16 +18,14 @@ def new_session(session):
     session.chat = chat.create(session)
 
 
-def new_player(player):
-    chat.add_player(
-        player.session.chat,
-        player,
-        pseudonym=f"Player {player.id}",
-    )  # pseudonym is optional
-
-
 class ChatHere(Page):
-    pass
+    @classmethod
+    async def before_once(page, player):
+        chat.add_player(
+            player.session.chat,
+            player,
+            pseudonym=f"Player {player.id}",
+        )  # pseudonym is optional
 
 
 page_order = [
