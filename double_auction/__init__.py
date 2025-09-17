@@ -28,7 +28,7 @@ from itertools import cycle
 from random import randint
 from typing import Any, Dict, List, Optional, Tuple
 
-import uproot.model as mod
+import uproot.models as mod
 from uproot.fields import *
 from uproot.smithereens import *
 
