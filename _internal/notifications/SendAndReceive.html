@@ -1,0 +1,61 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Test <code>notify</code>
+{% endblock title %}
+
+
+{% block main %}
+
+<p>In the <code>page_order</code>, this is page <b>{{ player.show_page }}</b>.</p>
+<p>This player has id <b>{{ player.id }}</b>.</p>
+
+<h2 class="mt-5">Send notification</h2>
+
+<div class="col justify-content-center">
+    <div class="mb-3 w-50">
+        <label for="data" class="form-label"><code>data</code></label>
+        <input type="text" class="form-control" id="data" name="data" value="Test from page {{ player.show_page }}, player {{ player.id }}">
+        <div class="form-text">Enter your data here.</div>
+    </div>
+
+    <div class="mb-3 w-50">
+        <label for="where" class="form-label"><code>where</code></label>
+        <input type="text" class="form-control" id="where" name="where">
+        <div class="form-text">Destination. Leave empty (=here), enter <code>...</code> (=anywhere) or an integer.</div>
+    </div>
+
+    <button type="button" class="btn btn-uproot" onclick="send()">Submit</button>
+</div>
+
+<h2 class="mt-5">Received notifications</h2>
+
+<ol id="notifications" class="mb-5">
+</ol>
+
+{% endblock main %}
+
+
+{% block late %}
+
+<script>
+    function send() {
+        const data = I("data").value;
+        const where_raw = I("where").value;
+        const where_ = (where_raw.length == 0) ? null : where_raw;
+
+        uproot.invoke("notify_", data, where_);
+    }
+
+    uproot.onCustomEvent("Notified", event => {
+        const data = event.detail.data;
+        const newEl = document.createElement("li");
+
+        newEl.classList.add("font-monospace");
+        newEl.textContent = JSON.stringify(data);
+
+        I("notifications").appendChild(newEl);
+    });
+</script>
+
+{% endblock late %}
