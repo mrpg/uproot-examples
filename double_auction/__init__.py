@@ -138,14 +138,16 @@ def calculate_profit(
 
 
 def broadcast_market_update(
+    sender,
     session,
     round: int,
 ):
     """Send updated market state to all participants"""
-    send_to(
+    notify(
+        sender,
         players(session),
         market_data(session.offers, session.txs, round),
-        "OffersAndTxs",
+        event="OffersAndTxs",
     )
 
 
@@ -279,7 +281,7 @@ class Trade(Page):
         )
         player.offer = offer_id
 
-        broadcast_market_update(player.session, player.round)
+        broadcast_market_update(player, player.session, player.round)
         return amount
 
     @live
@@ -329,7 +331,7 @@ class Trade(Page):
         proposer.offer = None
         proposer.trade = tx_id
         proposer.profit = calculate_profit(proposer, offer.price)
-        send_to(proposer, [True, proposer.profit], "OfferAccepted")
+        notify(player, proposer, [True, proposer.profit], event="OfferAccepted")
 
         # Update acceptor
         player.offer = None
@@ -357,7 +359,7 @@ class Trade(Page):
             price=offer.price,
         )
 
-        broadcast_market_update(player.session, player.round)
+        broadcast_market_update(player, player.session, player.round)
         return player.profit
 
 

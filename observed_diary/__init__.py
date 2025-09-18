@@ -30,7 +30,8 @@ class GroupPlease(GroupCreatingWait):
 class Watch(Page):
     @live
     async def typed(page, player, s: str):
-        send_to(
+        notify(
+            player,
             others_in_group(player),
             s,
         )

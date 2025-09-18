@@ -39,7 +39,8 @@ class Draw(Page):
 
     @live
     async def stroke(page, player, points: list[dict], lineWidth: int, **kwargs):
-        send_to(
+        notify(
+            player,
             others_in_session(player),
             [
                 dict(
@@ -48,7 +49,7 @@ class Draw(Page):
                     lineWidth=lineWidth,
                 ),
             ],
-            "Strokes",
+            event="Strokes",
         )
 
 

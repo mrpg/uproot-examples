@@ -20,7 +20,7 @@ class Ping(Page):
         if direct:
             return jstime
         else:
-            send_to(player, jstime)
+            notify(player, player, jstime)
 
 
 page_order = [
