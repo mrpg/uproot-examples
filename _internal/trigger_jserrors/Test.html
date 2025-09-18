@@ -1,0 +1,59 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Test jserrors
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Click a button to fire a specific kind of error that the script listens for.</p>
+
+<div>
+    <button type="button" class="btn btn-danger m-3" onclick="triggerGlobalError()">Throw synchronous error (window.onerror)</button>
+    <button type="button" class="btn btn-danger m-3" onclick="triggerErrorEvent()">Dispatch <code>error</code> event (window.addEventListener('error'))</button>
+    <button type="button" class="btn btn-danger m-3" onclick="triggerUnhandledRejection()">Unhandled Promise rejection (window.addEventListener('unhandledrejection'))</button>
+</div>
+
+<div class="note">
+    <p><strong>Notes:</strong></p>
+    <ul>
+        <li>This page intentionally throws errors for testing.</li>
+        <li>Make sure <code>jserrors.js</code> is loaded and configured in your environment (e.g., any globals it expects like <code>uproot</code>).</li>
+    </ul>
+</div>
+
+<script>
+    // 1) Global error via a thrown exception (handled by window.onerror)
+    function triggerGlobalError() {
+        // Use a timeout so it occurs outside the click handler
+        setTimeout(function () {
+            throw new Error("Test: synchronous global error (window.onerror)");
+        }, 0);
+    }
+
+    // 2) Explicit ErrorEvent dispatch (handled by window.addEventListener('error'))
+    function triggerErrorEvent() {
+        const err = new Error("Test: manually dispatched ErrorEvent (window 'error')");
+        const ev = new ErrorEvent("error", {
+            message: err.message,
+            filename: location.href,
+            lineno: 1,
+            colno: 1,
+            error: err,
+            bubbles: false,   // typical ErrorEvent does not bubble
+            cancelable: true
+        });
+        window.dispatchEvent(ev);
+    }
+
+    // 3) Unhandled rejection (handled by window.addEventListener('unhandledrejection'))
+    function triggerUnhandledRejection() {
+        setTimeout(function () {
+            Promise.reject(new Error("Test: unhandled promise rejection"));
+        }, 0);
+    }
+</script>
+
+{% endblock main %}
