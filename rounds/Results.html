@@ -15,7 +15,7 @@ Results
         </tr>
     </thead>
     <tbody>
-        {% for round, in_that_round in along(player, "round") %}
+        {% for round, in_that_round in player.along("round") %}
         <tr>
             <td>{{ round }}</td>
             <td>{{ in_that_round.number }}</td>
