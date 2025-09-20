@@ -1,7 +1,7 @@
 # dictator\_game
 
-Load this config using
+Load this app using
 
 ```python
-load_config(uproot_server, config="my_config", apps=["dictator_game"])
+load_config(uproot_server, config="dictator_game", apps=["dictator_game"])
 ```

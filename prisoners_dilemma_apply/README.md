@@ -1,9 +1,9 @@
 # prisoners\_dilemma\_apply
 
-Load this config using
+Load this app using
 
 ```python
-load_config(uproot_server, config="my_config", apps=["prisoners_dilemma"])
+load_config(uproot_server, config="prisoners_dilemma", apps=["prisoners_dilemma"])
 ```
 
 *Note*: This app, in contrast to `prisoners\_dilemma`, uses `players(group).apply` to set payoffs. (This is slightly more advanced.)

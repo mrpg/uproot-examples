@@ -1,7 +1,7 @@
 # rounds
 
-Load this config using
+Load this app using
 
 ```python
-load_config(uproot_server, config="my_config", apps=["rounds"])
+load_config(uproot_server, config="rounds", apps=["rounds"])
 ```

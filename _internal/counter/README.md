@@ -1,7 +1,7 @@
 # counter
 
-Load this config using
+Load this app using
 
 ```python
-load_config(uproot_server, config="my_config", apps=["counter"])
+load_config(uproot_server, config="counter", apps=["counter"])
 ```

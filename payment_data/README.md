@@ -1,9 +1,9 @@
 # payment\_data
 
-Load this config using
+Load this app using
 
 ```python
-load_config(uproot_server, config="my_config", apps=["payment_data"])
+load_config(uproot_server, config="payment_data", apps=["payment_data"])
 ```
 
 **Note**: If you wish to use an `IBANField` as in this example, you must install `schwifty` like so:

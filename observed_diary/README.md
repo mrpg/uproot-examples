@@ -1,7 +1,7 @@
 # observed\_diary
 
-Load this config using
+Load this app using
 
 ```python
-load_config(uproot_server, config="my_config", apps=["observed_diary"])
+load_config(uproot_server, config="observed_diary", apps=["observed_diary"])
 ```

@@ -1,7 +1,7 @@
 # drawing\_board
 
-Load this config using
+Load this app using
 
 ```python
-load_config(uproot_server, config="my_config", apps=["drawing_board"])
+load_config(uproot_server, config="drawing_board", apps=["drawing_board"])
 ```

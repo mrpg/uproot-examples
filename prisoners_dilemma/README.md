@@ -1,7 +1,7 @@
 # prisoners\_dilemma
 
-Load this config using
+Load this app using
 
 ```python
-load_config(uproot_server, config="my_config", apps=["prisoners_dilemma"])
+load_config(uproot_server, config="prisoners_dilemma", apps=["prisoners_dilemma"])
 ```

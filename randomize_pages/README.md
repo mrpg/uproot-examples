@@ -1,7 +1,7 @@
 # randomize\_pages
 
-Load this config using
+Load this app using
 
 ```python
-load_config(uproot_server, config="my_config", apps=["randomize_pages"])
+load_config(uproot_server, config="randomize_pages", apps=["randomize_pages"])
 ```

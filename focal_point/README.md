@@ -1,7 +1,7 @@
 # focal\_point
 
-Load this config using
+Load this app using
 
 ```python
-load_config(uproot_server, config="my_config", apps=["focal_point"])
+load_config(uproot_server, config="focal_point", apps=["focal_point"])
 ```
