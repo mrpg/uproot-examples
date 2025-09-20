@@ -27,6 +27,7 @@ from enum import Enum
 from itertools import cycle
 from random import randint
 from typing import Any, Dict, List, Optional, Tuple
+from uuid import UUID
 
 import uproot.models as mod
 from uproot.fields import *
@@ -41,14 +42,12 @@ class Offer(metaclass=mod.Entry):
     Represents a market offer (bid or ask)
 
     Attributes:
-        id: Unique offer identifier
         pid: Player who created the offer
         round: Trading round number
         buy: True for bid, False for ask
         price: Offer price (None indicates cancellation)
     """
 
-    id: str
     pid: t.PlayerIdentifier
     round: int
     buy: bool
@@ -60,16 +59,12 @@ class Transaction(metaclass=mod.Entry):
     Represents an executed trade
 
     Attributes:
-        id: Unique transaction identifier
         round: Trading round number
-        offer_id: ID of the accepted offer
         acceptor: Player who accepted the offer
         price: Execution price
     """
 
-    id: str
     round: int
-    offer_id: str
     acceptor: t.PlayerIdentifier
     price: float
 
@@ -154,17 +149,15 @@ def broadcast_market_update(
 def create_offer_entry(
     session,
     player,
-    offer_id: str,
     round: int,
     is_buy: bool,
     price: Optional[float],
-):
+) -> Offer:
     """Helper to create and store an offer"""
-    mod.add_entry(
+    return mod.add_entry(
         session.offers,
         player,
         Offer,
-        id=offer_id,
         round=round,
         buy=is_buy,
         price=price,
@@ -173,8 +166,8 @@ def create_offer_entry(
 
 def validate_offer(
     offers_model,
-    offer_id: str,
     round: int,
+    offer_id: UUID,
 ) -> Optional[Offer]:
     """
     Validate that an offer exists and is active
@@ -237,8 +230,8 @@ class Trade(Page):
         else:
             offer = validate_offer(
                 player.session.offers,
-                player.offer,
                 player.round,
+                player.offer,
             )
 
             if offer is None:
@@ -270,22 +263,19 @@ class Trade(Page):
         if amount is not None and amount < 0:
             raise ValueError(f"Bad amount: {amount}")
 
-        offer_id = uuid()
-        create_offer_entry(
+        player.offer = create_offer_entry(
             player.session,
             player,
-            offer_id,
             player.round,
             player.buyer,
             amount,
-        )
-        player.offer = offer_id
+        ).id
 
         broadcast_market_update(player, player.session, player.round)
         return amount
 
     @live
-    async def accept_offer(page, player, offer_id: str):
+    async def accept_offer(page, player, offer_id: UUID):
         """
         Accept an existing market offer, executing a trade
 
@@ -305,59 +295,54 @@ class Trade(Page):
             raise ValueError(f"Player {player} already traded.")
 
         # Validate and retrieve the target offer
-        offer = validate_offer(player.session.offers, offer_id, player.round)
+        offer = validate_offer(
+            player.session.offers,
+            player.round,
+            offer_id,
+        )
+
+        if not offer or offer.id != offer_id:
+            raise ValueError("Offer no longer valid")
 
         if offer.buy == player.buyer:
             raise ValueError("Buyer cannot sell, seller cannot buy")
-
-        if not offer:
-            raise ValueError("Offer no longer valid")
 
         # Cancel proposer's offer to prevent double-trading
         create_offer_entry(
             player.session,
             offer.pid,
-            uuid(),
             player.round,
             not player.buyer,  # Opposite side (double auction mechanics)
             None,  # Null price cancels
         )
 
-        # Execute trade
-        tx_id = uuid()
-
         # Update proposer
         proposer = offer.pid()
         proposer.offer = None
-        proposer.trade = tx_id
         proposer.profit = calculate_profit(proposer, offer.price)
         notify(player, proposer, [True, proposer.profit], event="OfferAccepted")
 
         # Update acceptor
         player.offer = None
-        player.trade = tx_id
         player.profit = calculate_profit(player, offer.price)
 
         # Cancel any outstanding offer by acceptor
         create_offer_entry(
             player.session,
             player,
-            uuid(),
             player.round,
             player.buyer,
             None,  # Null price cancels
         )
 
         # Record transaction
-        mod.add_entry(
+        proposer.trade = player.trade = mod.add_entry(
             player.session.txs,
             player,
             Transaction,
-            id=tx_id,
             round=player.round,
-            offer_id=offer.id,
             price=offer.price,
-        )
+        ).id
 
         broadcast_market_update(player, player.session, player.round)
         return player.profit
