@@ -4,11 +4,16 @@ The folders in this repository contain [uproot](https://uproot.science/) example
 
 *Note*: Normal users of uproot (those who are not working on the uproot core) can skip the folder `_internal`. That folder contains example apps intended for testing and benchmarking backend features.
 
+## Running all examples
+
+**NEW**: This repository is now also an uproot *project*. That means: you can clone it and run `uproot run` to enjoy these examples *all at once* in the comfort of your home.
+
 ## Overview
 
 | App                           | Description                                 | Difficulty |
 |-------------------------------|---------------------------------------------|------------|
 | chat                          | Chat                                        | Easy       |
+| dictator\_game                | Standard dictator game                      | Easy       |
 | double\_auction               | Double auction (like Smith, 1962)           | Advanced   |
 | drawing\_board                | Session-level drawing board                 | Medium     |
 | dropouts                      | Handling dropouts                           | Easy       |
@@ -20,7 +25,6 @@ The folders in this repository contain [uproot](https://uproot.science/) example
 | prisoners\_dilemma\_repeated  | Repeated prisoner's dilemma (history table) | Easy       |
 | randomize\_pages              | Randomizing pages                           | Easy       |
 | randomize\_pages\_allow\_back | Randomizing pages and allow going back      | Easy       |
-| recommended\_fields           | Using rich fields                           | Easy       |
 | rounds                        | Using rounds (history table)                | Easy       |
 | upload                        | Uploading files                             | Easy       |
 
