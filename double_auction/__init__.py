@@ -48,7 +48,7 @@ class Offer(metaclass=mod.Entry):
         price: Offer price (None indicates cancellation)
     """
 
-    pid: t.PlayerIdentifier
+    pid: PlayerIdentifier
     round: int
     buy: bool
     price: Optional[float]  # None signifies offer withdrawal/invalidation
@@ -65,7 +65,7 @@ class Transaction(metaclass=mod.Entry):
     """
 
     round: int
-    acceptor: t.PlayerIdentifier
+    acceptor: PlayerIdentifier
     price: float
 
 
