@@ -1,0 +1,18 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+{% if player.dictator %}
+<p>You gave {{ player.give }}.</p>
+{% else %}
+<p>You received {{ player.payoff }}.</p>
+{% endif %}
+
+<p>Your payoff is <b>{{ player.payoff }}</b>.</p>
+
+{% endblock main %}
