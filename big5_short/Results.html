@@ -1,0 +1,41 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Your results
+{% endblock title %}
+
+
+{% block main %}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Big 5 Factor</th>
+            <th scope="col">Score (scale: 1–5)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Openness</td>
+            <td>{{ player.Openness | to(1) }}</td>
+        </tr>
+        <tr>
+            <td>Extraversion</td>
+            <td>{{ player.Extraversion | to(1) }}</td>
+        </tr>
+        <tr>
+            <td>Agreeableness</td>
+            <td>{{ player.Agreeableness | to(1) }}</td>
+        </tr>
+        <tr>
+            <td>Conscientiousness</td>
+            <td>{{ player.Conscientiousness | to(1) }}</td>
+        </tr>
+        <tr>
+            <td>Neuroticism</td>
+            <td>{{ player.Neuroticism | to(1) }}</td>
+        </tr>
+    </tbody>
+</table>
+
+{% endblock main %}
