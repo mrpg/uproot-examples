@@ -4,7 +4,6 @@
 import uproot.deployment as upd
 from uproot.cli import cli
 from uproot.server import load_config, uproot_server
-from uproot.rooms import room
 
 upd.project_metadata(created="1970-01-01", uproot="*.*.*")
 
