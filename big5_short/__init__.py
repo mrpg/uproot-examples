@@ -33,17 +33,17 @@ class C:
     # fmt: off
     ITEMS = {
         1: ("Am the life of the party.", "Extraversion", +1),
-        2: ("Sympathize with others' feelings.", "Agreeableness", +1),
+        2: ("Sympathize with others’ feelings.", "Agreeableness", +1),
         3: ("Get chores done right away.", "Conscientiousness", +1),
         4: ("Have frequent mood swings.", "Neuroticism", +1),
         5: ("Have a vivid imagination.", "Openness", +1),
-        6: ("Don't talk a lot.", "Extraversion", -1),
-        7: ("Am not interested in other people's problems.", "Agreeableness", -1),
+        6: ("Don’t talk a lot.", "Extraversion", -1),
+        7: ("Am not interested in other people’s problems.", "Agreeableness", -1),
         8: ("Often forget to put things back in their proper place.", "Conscientiousness", -1),
         9: ("Am relaxed most of the time.", "Neuroticism", -1),
         10: ("Am not interested in abstract ideas.", "Openness", -1),
         11: ("Talk to a lot of different people at parties.", "Extraversion", +1),
-        12: ("Feel others' emotions.", "Agreeableness", +1),
+        12: ("Feel others’ emotions.", "Agreeableness", +1),
         13: ("Like order.", "Conscientiousness", +1),
         14: ("Get upset easily.", "Neuroticism", +1),
         15: ("Have no difficulty understanding abstract ideas.", "Openness", +1),  # <- CHANGED!
