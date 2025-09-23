@@ -12,6 +12,7 @@ The folders in this repository contain [uproot](https://uproot.science/) example
 
 | App                           | Description                                 | Difficulty |
 |-------------------------------|---------------------------------------------|------------|
+| big5\_short                   | Short Big 5 questionnaire with scoring      | Medium     |
 | chat                          | Chat                                        | Easy       |
 | dictator\_game                | Standard dictator game                      | Easy       |
 | double\_auction               | Double auction (like Smith, 1962)           | Advanced   |
