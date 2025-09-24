@@ -7,8 +7,6 @@ Chat here
 
 {% block main %}
 
-{% with chat=session.chat %}
-{% include "Chat.html" %}
-{% endwith %}
+{{ chat(session.chat) }}
 
 {% endblock main %}
