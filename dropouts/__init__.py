@@ -21,7 +21,7 @@ def new_player(player):
 
 async def handle_dropout(player):
     player.dropout = True
-    await move_to_end(player)
+    move_to_end(player)
 
     print(f"New dropout: {player}")
 
