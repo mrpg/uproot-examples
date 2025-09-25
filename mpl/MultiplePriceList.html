@@ -1,0 +1,60 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Multiple price list
+{% endblock title %}
+
+
+{% block head %}
+
+<style>
+    .mpl th, .mpl td {
+        vertical-align: middle;
+    }
+    input[type=radio] {
+        width: 1.5em;
+        height: 1.5em;
+    }
+</style>
+
+{% endblock head %}
+
+
+{% block main %}
+
+{{ errors() }}
+
+<table class="mb-5 mpl mx-auto table table-hover">
+    <thead>
+        <tr>
+            <th scope="col" class="text-end" style="width: 40%;">Option&nbsp;A</th>
+            <th scope="col" class="text-center" style="width: 20%;">Your&nbsp;choice</th>
+            <th scope="col" class="text-start" style="width: 40%;">Option&nbsp;B</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i, (option_a, option_b) in enumerate(zip(options_a, options_b)) %}
+
+        <tr>
+            <td class="text-end">
+                {{ option_a }}
+            </td>
+
+            <td class="text-center">
+                <input class="form-check-input mx-2" type="radio" name="choseA{{ i }}" id="choseA{{ i }}A" value="True" required>
+                <input class="form-check-input mx-2" type="radio" name="choseA{{ i }}" id="choseA{{ i }}B" value="False" required>
+
+                <label class="form-check-label visually-hidden" for="choseA{{ i }}A">Choose Option A</label>
+                <label class="form-check-label visually-hidden" for="choseA{{ i }}B">Choose Option B</label>
+            </td>
+
+            <td class="text-start">
+                {{ option_b }}
+            </td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+</table>   
+
+{% endblock main %}

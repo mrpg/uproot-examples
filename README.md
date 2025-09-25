@@ -19,6 +19,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | drawing\_board                | Session-level drawing board                 | Medium     |
 | dropouts                      | Handling dropouts                           | Easy       |
 | focal\_point                  | Focal point game (like Schelling, 1957)     | Easy       |
+| mpl                           | Multiple price list                         | Medium     |
 | observed\_diary               | Observed diary/surveillance game            | Medium     |
 | payment\_data                 | Collecting payment data                     | Easy       |
 | prisoners\_dilemma            | Standard prisoner's dilemma                 | Easy       |
