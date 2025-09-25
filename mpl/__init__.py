@@ -31,7 +31,7 @@ class MultiplePriceList(Page):
             "$40 tomorrow",
         ],
     }
-    fields = {f"choseA{i}": RadioField() for i in range(5)}
+    fields = {f"choseA{i}": RadioField() for i, _ in enumerate(context["options_a"])}
 
 
 page_order = [
