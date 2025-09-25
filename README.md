@@ -6,7 +6,7 @@ The folders in this repository contain [uproot](https://uproot.science/) example
 
 ## Running all examples
 
-**NEW**: This repository is now also an uproot *project*. That means: you can clone it and run `uproot run` to enjoy these examples *all at once* in the comfort of your home.
+This repository is also an uproot *project*. That means: you can clone it and run `uproot run` to enjoy these examples *all at once* in the comfort of your home.
 
 ## Overview
 
