@@ -20,7 +20,10 @@ class GroupPlease(GroupCreatingWait):
 
 class Dilemma(Page):
     fields = dict(
-        cooperate=BooleanField(label="Do you wish to cooperate?"),
+        cooperate=RadioField(
+            label="Do you wish to cooperate?",
+            choices=[(True, "Yes"), (False, "No")],
+        ),
     )
 
 
