@@ -11,12 +11,14 @@ upd.project_metadata(created="1970-01-01", uproot="*.*.*")
 # Examples are available at https://github.com/mrpg/uproot-examples
 
 # fmt: off
+load_config(uproot_server, config="big5_short", apps=["big5_short"])
 load_config(uproot_server, config="chat", apps=["chat"])
 load_config(uproot_server, config="dictator_game", apps=["dictator_game"])
 load_config(uproot_server, config="double_auction", apps=["double_auction"])
 load_config(uproot_server, config="drawing_board", apps=["drawing_board"])
 load_config(uproot_server, config="dropouts", apps=["dropouts"])
 load_config(uproot_server, config="focal_point", apps=["focal_point"])
+load_config(uproot_server, config="mpl", apps=["mpl"])
 load_config(uproot_server, config="observed_diary", apps=["observed_diary"])
 load_config(uproot_server, config="payment_data", apps=["payment_data"])
 load_config(uproot_server, config="prisoners_dilemma", apps=["prisoners_dilemma"])
