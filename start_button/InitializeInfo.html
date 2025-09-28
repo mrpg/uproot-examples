@@ -1,0 +1,41 @@
+<style>
+    #uproot-main {
+        text-align: center;
+    }
+
+    .start-button {
+        margin-top: 20%;
+        font-size: 4rem;
+        padding: 2rem 4rem;
+        border-radius: 2rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.2rem;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        border: none;
+        animation: pulse 2s ease-in-out infinite;
+        transition: all 0.3s ease;
+    }
+
+    .start-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+    }
+</style>
+
+<script>
+    stopHere = true;
+</script>
+
+<button class="btn btn-uproot start-button" type="submit">Start</button>
