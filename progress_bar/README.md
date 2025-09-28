@@ -11,7 +11,7 @@ Copy `ProjectBody.html` to an **app** (rename it to `Progress.html`) and, within
 ```jinja
 {% block main %}
 
-{% include "rounds/ProjectBody.html" %}
+{% include "rounds/Progress.html" %}
 
 …
 
