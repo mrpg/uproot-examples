@@ -1,14 +1,14 @@
 # uproot examples
 
-The folders in this repository contain [uproot](https://uproot.science/) example apps.
+The folders in this repository contain [uproot](https://uproot.science/) examples.
 
 *Note*: Normal users of uproot (those who are not working on the uproot core) can skip the folder `_internal`. That folder contains example apps intended for testing and benchmarking backend features.
 
 ## Running all examples
 
-This repository is also an uproot *project*. That means: you can clone it and run `uproot run` to enjoy these examples *all at once* in the comfort of your home.
+This repository is also an uproot *project*. That means: you can clone it and run `uproot run` to enjoy these example apps *all at once* from the comfort of your home.
 
-## Overview
+## Apps
 
 | App                           | Description                                 | Difficulty |
 |-------------------------------|---------------------------------------------|------------|
@@ -29,6 +29,12 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | randomize\_pages\_allow\_back | Randomizing pages and allow going back      | Easy       |
 | rounds                        | Using rounds (history table)                | Easy       |
 | upload                        | Uploading files                             | Easy       |
+
+## Other examples
+
+| Directory                     | Description                                 |
+|-------------------------------|---------------------------------------------|
+| progress\_bar                 | Automatic progress bar                      |
 
 ## License
 
