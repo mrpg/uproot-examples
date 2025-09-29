@@ -2,7 +2,7 @@
 
 ## Using a global progress bar
 
-Copy `ProjectBody.html` into your **project's** `_static` folder. This will globally include the progress bar in all your configs.
+Copy `ProjectBody.html` into your **project's** main folder. This will globally include the progress bar in all your configs.
 
 ## Using a page-specific progress bar
 
