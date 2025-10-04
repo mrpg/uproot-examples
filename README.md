@@ -12,6 +12,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 
 | App                           | Description                                 | Difficulty |
 |-------------------------------|---------------------------------------------|------------|
+| barrier                       | Force players to stay on a page             | Easy       |
 | big5\_short                   | Short Big 5 questionnaire with scoring      | Medium     |
 | chat                          | Chat                                        | Easy       |
 | dictator\_game                | Standard dictator game                      | Easy       |

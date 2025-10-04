@@ -11,6 +11,7 @@ upd.project_metadata(created="1970-01-01", uproot="*.*.*")
 # Examples are available at https://github.com/mrpg/uproot-examples
 
 # fmt: off
+load_config(uproot_server, config="barrier", apps=["barrier"])
 load_config(uproot_server, config="big5_short", apps=["big5_short"])
 load_config(uproot_server, config="chat", apps=["chat"])
 load_config(uproot_server, config="dictator_game", apps=["dictator_game"])
