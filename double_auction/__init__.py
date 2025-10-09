@@ -26,6 +26,7 @@ from dataclasses import dataclass
 from enum import Enum
 from itertools import cycle
 from random import randint
+from time import time
 from typing import Any, Dict, List, Optional, Tuple
 from uuid import UUID
 
@@ -35,6 +36,7 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Double auction"
 LANDING_PAGE = True
+DURATION = 25 * 60
 
 
 class Offer(metaclass=mod.Entry):
@@ -198,6 +200,14 @@ def validate_offer(
     return target_offer
 
 
+class ResetRoundDuration(SynchronizingWait):
+    synchronize = "session"
+
+    @classmethod
+    def all_here(page, session):
+        session.trade_until = None
+
+
 class Trade(Page):
     """
     Trading interface page where participants submit and accept offers
@@ -207,7 +217,12 @@ class Trade(Page):
     a continuous double auction with immediate execution.
     """
 
-    timeout = 25 * 60
+    @classmethod
+    def timeout(page, player):
+        if player.session.trade_until is None:
+            player.session.trade_until = time() + DURATION
+
+        return player.session.trade_until - time()
 
     @classmethod
     def before_once(page, player):
@@ -350,6 +365,7 @@ class Trade(Page):
 
 page_order = [
     Rounds(
+        ResetRoundDuration,
         Trade,
         n=1,
     )
