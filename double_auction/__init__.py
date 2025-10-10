@@ -205,7 +205,7 @@ class ResetRoundDuration(SynchronizingWait):
 
     @classmethod
     def all_here(page, session):
-        session.trade_until = None
+        session.trade_until = time() + DURATION
 
 
 class Trade(Page):
@@ -219,9 +219,6 @@ class Trade(Page):
 
     @classmethod
     def timeout(page, player):
-        if player.session.trade_until is None:
-            player.session.trade_until = time() + DURATION
-
         return player.session.trade_until - time()
 
     @classmethod
