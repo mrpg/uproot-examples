@@ -1,11 +1,12 @@
-{% set _local_progress = max(round(100 * (player.show_page / len(player.page_order))), 0) %}
-
-<div class="progress fixed-top rounded-0" style="height: 8px;">
-    <div
-        class="progress-bar"
-        role="progressbar"
-        style="width: {{ _local_progress }}%"
-        aria-valuenow="{{ _local_progress }}"
-        aria-valuemin="0"
-        aria-valuemax="100"></div>
-</div>
+{% if player is not none %}
+    {% set _local_progress = max(round(100 * (player.show_page / len(player.page_order))), 0) %}
+    <div class="progress fixed-top rounded-0" style="height: 8px;">
+        <div
+            class="progress-bar"
+            role="progressbar"
+            style="width: {{ _local_progress }}%"
+            aria-valuenow="{{ _local_progress }}"
+            aria-valuemin="0"
+            aria-valuemax="100"></div>
+    </div>
+{% endif %}
