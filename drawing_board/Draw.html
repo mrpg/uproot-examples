@@ -28,6 +28,8 @@ Draw
     uproot.onCustomEvent("Strokes", (event) => {
         drawReceivedStrokes(event.detail.data);
     });
+
+    uproot.onReady(() => drawReceivedStrokes(uproot.vars.strokes));
 </script>
 
 {% endblock late %}
