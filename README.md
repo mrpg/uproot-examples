@@ -26,8 +26,9 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | prisoners\_dilemma            | Standard prisoner's dilemma                 | Easy       |
 | prisoners\_dilemma\_apply     | Standard prisoner's dilemma                 | Medium     |
 | prisoners\_dilemma\_repeated  | Repeated prisoner's dilemma (history table) | Easy       |
-| randomize\_pages              | Randomizing pages                           | Easy       |
-| randomize\_pages\_allow\_back | Randomizing pages and allow going back      | Easy       |
+| randomize\_apps               | Randomizing app order                       | Easy       |
+| randomize\_pages              | Randomizing page order                      | Easy       |
+| randomize\_pages\_allow\_back | Randomizing page order and allow going back | Easy       |
 | rounds                        | Using rounds (history table)                | Easy       |
 | upload                        | Uploading files                             | Easy       |
 
