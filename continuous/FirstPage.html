@@ -1,0 +1,18 @@
+{% extends "Base.html" %}
+
+{% block title %}
+View the state
+{% endblock title %}
+
+
+{% block main %}
+
+<p><b>Global State</b> = <span id="my_state">{{ player.session.my_state }}</span></p>
+
+<script>
+uproot.receive = (counter) => {
+    I("my_state").innerText = counter;
+};
+</script>
+
+{% endblock main %}
