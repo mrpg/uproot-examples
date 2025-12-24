@@ -67,6 +67,30 @@ class Results(Page):
         )
 
 
+def digest(session):
+    data = []
+
+    for gname in session.groups:
+        with session.group(gname) as group:
+            player1 = session.player(group.players[0])
+            player2 = session.player(group.players[1])
+            latest_round = max(player1.round, player2.round)
+            history = []
+
+            for round in range(1, latest_round + 1):
+                history.append(
+                    (
+                        round,
+                        player1.within(round=round).cooperate,
+                        player2.within(round=round).cooperate,
+                    ),
+                )
+
+            data.append((gname, latest_round, history))
+
+    return data
+
+
 page_order = [
     GroupPlease,
     Rounds(

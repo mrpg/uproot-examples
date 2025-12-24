@@ -25,7 +25,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | payment\_data                 | Collecting payment data                                       | Easy       |
 | prisoners\_dilemma            | Standard prisoner's dilemma                                   | Easy       |
 | prisoners\_dilemma\_apply     | Standard prisoner's dilemma                                   | Medium     |
-| prisoners\_dilemma\_repeated  | Repeated prisoner's dilemma (history table)                   | Easy       |
+| prisoners\_dilemma\_repeated  | Repeated prisoner's dilemma (history table and digest)        | Easy       |
 | randomize\_apps               | Randomizing app order                                         | Easy       |
 | randomize\_pages              | Randomizing page order                                        | Easy       |
 | randomize\_pages\_allow\_back | Randomizing page order and allow going back                   | Easy       |
