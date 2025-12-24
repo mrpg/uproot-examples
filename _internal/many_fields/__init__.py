@@ -11,7 +11,6 @@
 from uproot.fields import *
 from uproot.smithereens import *
 
-
 DESCRIPTION = "Insert many fields"
 LANDING_PAGE = False
 
