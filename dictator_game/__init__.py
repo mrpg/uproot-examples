@@ -36,8 +36,8 @@ class Dictate(Page):
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        dictator = players(group).find_one(_.dictator, True)
-        recipient = players(group).find_one(_.dictator, False)
+        dictator = players(group).find_one(dictator=True)
+        recipient = players(group).find_one(dictator=False)
 
         dictator.payoff = cu(10) - dictator.give
         recipient.payoff = dictator.give
