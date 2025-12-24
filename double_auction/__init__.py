@@ -35,7 +35,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Double auction"
-LANDING_PAGE = True
+LANDING_PAGE = False
 DURATION = 25 * 60
 
 
@@ -200,14 +200,6 @@ def validate_offer(
     return target_offer
 
 
-class ResetRoundDuration(SynchronizingWait):
-    synchronize = "session"
-
-    @classmethod
-    def all_here(page, session):
-        session.trade_until = time() + DURATION
-
-
 class Trade(Page):
     """
     Trading interface page where participants submit and accept offers
@@ -219,6 +211,9 @@ class Trade(Page):
 
     @classmethod
     def timeout(page, player):
+        if player.session.get("trade_until") is None:
+            player.session.trade_until = time() + DURATION
+
         return player.session.trade_until - time()
 
     @classmethod
@@ -362,7 +357,6 @@ class Trade(Page):
 
 page_order = [
     Rounds(
-        ResetRoundDuration,
         Trade,
         n=1,
     )
