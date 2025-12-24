@@ -72,8 +72,9 @@ def digest(session):
 
     for gname in session.groups:
         with session.group(gname) as group:
-            player1 = session.player(group.players[0])
-            player2 = session.player(group.players[1])
+            player1 = players(group).find_one(_.member_id, 0)
+            player2 = players(group).find_one(_.member_id, 1)
+
             latest_round = max(player1.round, player2.round)
             history = []
 
