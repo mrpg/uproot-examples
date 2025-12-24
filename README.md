@@ -10,27 +10,27 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 
 ## Apps
 
-| App                           | Description                                 | Difficulty |
-|-------------------------------|---------------------------------------------|------------|
-| barrier                       | Force players to stay on a page             | Easy       |
-| big5\_short                   | Short Big 5 questionnaire with scoring      | Medium     |
-| chat                          | Chat                                        | Easy       |
-| dictator\_game                | Standard dictator game                      | Easy       |
-| double\_auction               | Double auction (like Smith, 1962)           | Advanced   |
-| drawing\_board                | Session-level drawing board                 | Medium     |
-| dropouts                      | Handling dropouts                           | Easy       |
-| focal\_point                  | Focal point game (like Schelling, 1957)     | Easy       |
-| mpl                           | Multiple price list                         | Medium     |
-| observed\_diary               | Observed diary/surveillance game            | Medium     |
-| payment\_data                 | Collecting payment data                     | Easy       |
-| prisoners\_dilemma            | Standard prisoner's dilemma                 | Easy       |
-| prisoners\_dilemma\_apply     | Standard prisoner's dilemma                 | Medium     |
-| prisoners\_dilemma\_repeated  | Repeated prisoner's dilemma (history table) | Easy       |
-| randomize\_apps               | Randomizing app order                       | Easy       |
-| randomize\_pages              | Randomizing page order                      | Easy       |
-| randomize\_pages\_allow\_back | Randomizing page order and allow going back | Easy       |
-| rounds                        | Using rounds (history table)                | Easy       |
-| upload                        | Uploading files                             | Easy       |
+| App                           | Description                                                   | Difficulty |
+|-------------------------------|---------------------------------------------------------------|------------|
+| barrier                       | Force players to stay on a page                               | Easy       |
+| big5\_short                   | Short Big 5 questionnaire with scoring                        | Medium     |
+| chat                          | Chat                                                          | Easy       |
+| dictator\_game                | Standard dictator game                                        | Easy       |
+| double\_auction               | Double auction (like Smith, 1962)                             | Advanced   |
+| drawing\_board                | Session-level drawing board                                   | Medium     |
+| dropouts                      | Handling dropouts                                             | Easy       |
+| focal\_point                  | Focal point game (like Schelling, 1957)                       | Easy       |
+| mpl                           | Multiple price list                                           | Medium     |
+| observed\_diary               | Observed diary/surveillance game                              | Medium     |
+| payment\_data                 | Collecting payment data                                       | Easy       |
+| prisoners\_dilemma            | Standard prisoner's dilemma                                   | Easy       |
+| prisoners\_dilemma\_apply     | Standard prisoner's dilemma                                   | Medium     |
+| prisoners\_dilemma\_repeated  | Repeated prisoner's dilemma (history table)                   | Easy       |
+| randomize\_apps               | Randomizing app order                                         | Easy       |
+| randomize\_pages              | Randomizing page order                                        | Easy       |
+| randomize\_pages\_allow\_back | Randomizing page order and allow going back                   | Easy       |
+| rounds                        | Using rounds (history table)                                  | Easy       |
+| upload                        | Uploading files                                               | Easy       |
 
 ## Other examples
 
