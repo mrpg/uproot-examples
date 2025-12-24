@@ -15,10 +15,12 @@
     <tbody>
     {% for round, p1action, p2action in history %}
         <tr>
-            <th scope="row">{{ round }}{% if round == latest_round %}<sup>&dagger;</sup>{% endif %}</th>
+            <th scope="row">{{ round }}</th>
             <td>
                 {% if p1action %}
                 Cooperated
+                {% elif p1action is none %}
+                <span class="text-muted">N/A</span>
                 {% else %}
                 Did not cooperate
                 {% endif %}
@@ -26,6 +28,8 @@
             <td>
                 {% if p2action %}
                 Cooperated
+                {% elif p2action is none %}
+                <span class="text-muted">N/A</span>
                 {% else %}
                 Did not cooperate
                 {% endif %}

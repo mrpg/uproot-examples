@@ -82,8 +82,8 @@ def digest(session):
                 history.append(
                     (
                         round,
-                        player1.within(round=round).cooperate,
-                        player2.within(round=round).cooperate,
+                        player1.within(round=round).get("cooperate"),
+                        player2.within(round=round).get("cooperate"),
                     ),
                 )
 
