@@ -90,18 +90,28 @@ function makeOffer(newOffer) {
         amount = parseFloat(I("amount").value);
     }
 
+    const buttons = document.querySelectorAll("#not-traded button");
+    buttons.forEach(btn => btn.disabled = true);
+
     uproot.invoke("make_offer", amount).then((newAmount) => {
         offerAmount = newAmount;
         refreshDisplay();
-    }).catch();
+    }).catch().finally(() => {
+        buttons.forEach(btn => btn.disabled = false);
+    });
 }
 
 function acceptOffer(id) {
+    const badges = document.querySelectorAll('[role="button"]');
+    badges.forEach(badge => badge.style.pointerEvents = "none");
+
     uproot.invoke("accept_offer", id).then((profit_) => {
         traded = true;
         profit = profit_;
         refreshDisplay();
-    }).catch();
+    }).catch().finally(() => {
+        badges.forEach(badge => badge.style.pointerEvents = "");
+    });
 }
 
 uproot.onCustomEvent("OffersAndTxs", event => {
