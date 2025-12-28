@@ -34,7 +34,17 @@ function refreshDisplay() {
 
         if (buyer) {
             badge.onclick = () => acceptOffer(offer.id);
-            badge.role = "button";
+            badge.setAttribute("role", "button");
+            badge.setAttribute("tabindex", "0");
+            badge.setAttribute("aria-label", `Accept ask offer at price ${offer.price.toFixed(2)}`);
+            badge.onkeypress = (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    acceptOffer(offer.id);
+                }
+            };
+        } else {
+            badge.setAttribute("aria-label", `Ask price ${offer.price.toFixed(2)}`);
         }
 
         asksContainer.appendChild(badge);
@@ -47,7 +57,17 @@ function refreshDisplay() {
 
         if (!buyer) {
             badge.onclick = () => acceptOffer(offer.id);
-            badge.role = "button";
+            badge.setAttribute("role", "button");
+            badge.setAttribute("tabindex", "0");
+            badge.setAttribute("aria-label", `Accept bid offer at price ${offer.price.toFixed(2)}`);
+            badge.onkeypress = (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    acceptOffer(offer.id);
+                }
+            };
+        } else {
+            badge.setAttribute("aria-label", `Bid price ${offer.price.toFixed(2)}`);
         }
 
         bidsContainer.appendChild(badge);
@@ -57,6 +77,7 @@ function refreshDisplay() {
         const badge = document.createElement("span");
         badge.className = "badge bg-uproot me-1 mb-1";
         badge.textContent = tx.price.toFixed(2);
+        badge.setAttribute("aria-label", `Transaction completed at price ${tx.price.toFixed(2)}`);
 
         txsContainer.appendChild(badge);
     });
