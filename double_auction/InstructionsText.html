@@ -1,0 +1,31 @@
+<p>This is a <b>double auction market</b> where buyers and sellers can trade with each other. Trades occur when buyers and sellers agree on a price.</p>
+
+<h4>Your role</h4>
+
+{% if player.buyer %}
+<p>You are a <b>buyer</b>.</p>
+<p><i>Your valuation</i> is <b>${{ player.cost_or_value | to(2) }}</b>. This is the maximum value the good has to you.</p>
+<p>If you trade, your profit is your valuation minus the price of the accepted offer. Mathematically, <b>Profit = Valuation &minus; Price</b>.</p>
+{% else %}
+<p>You are a <b>seller</b>.</p>
+<p><i>Your cost</i> is <b>${{ player.cost_or_value | to(2) }}</b>. This is the minimum price you need to cover your costs.</p>
+<p>If you trade, your profit is the price of the accepted offer minus your cost. Mathematically, <b>Profit = Price &minus; Cost</b>.</p>
+{% endif %}
+
+<p>If you don't trade, your profit is $0.</p>
+
+<h4>How to trade</h4>
+
+<p><b>Making an offer:</b></p>
+<ul>
+    <li>{% if player.buyer %}As a buyer, you can make a <b>bid</b> - this is the price you are willing to pay.{% else %}As a seller, you can make an <b>ask</b> - this is the price you are willing to accept.{% endif %}</li>
+    <li>Enter your desired price and click "Submit new offer".</li>
+    <li>You can change or cancel your offer at any time before someone accepts it.</li>
+</ul>
+
+<p><b>Accepting an offer:</b></p>
+<ul>
+    <li>{% if player.buyer %}Look at the <b>Asks</b> section to see what sellers are willing to accept.{% else %}Look at the <b>Bids</b> section to see what buyers are willing to pay.{% endif %}</li>
+    <li>Click any offer to immediately trade at that price.</li>
+    <li>Once you trade, you cannot make any more offers this round.</li>
+</ul>

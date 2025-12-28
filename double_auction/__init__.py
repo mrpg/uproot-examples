@@ -200,6 +200,28 @@ def validate_offer(
     return target_offer
 
 
+class Instructions(Page):
+    """
+    Instructions page shown before trading begins
+
+    Explains the double auction mechanism, player roles, and how to trade.
+    """
+
+    @classmethod
+    def before_once(page, player):
+        """
+        Initialize player with role and private value/cost
+
+        Buyers (even IDs) receive values they're willing to pay
+        Sellers (odd IDs) receive costs they must cover
+        """
+        player.buyer = player.id % 2 == 0
+        player.cost_or_value = randint(1, 10)
+        player.offer = None  # Current offer ID
+        player.trade = None  # Executed trade ID
+        player.profit = None  # Realized profit/loss
+
+
 class Trade(Page):
     """
     Trading interface page where participants submit and accept offers
@@ -215,20 +237,6 @@ class Trade(Page):
             player.session.trade_until = time() + DURATION
 
         return player.session.trade_until - time()
-
-    @classmethod
-    def before_once(page, player):
-        """
-        Initialize player with role and private value/cost
-
-        Buyers (even IDs) receive values they're willing to pay
-        Sellers (odd IDs) receive costs they must cover
-        """
-        player.buyer = player.id % 2 == 0
-        player.cost_or_value = randint(1, 10)
-        player.offer = None  # Current offer ID
-        player.trade = None  # Executed trade ID
-        player.profit = None  # Realized profit/loss
 
     @classmethod
     async def jsvars(page, player):
@@ -356,8 +364,9 @@ class Trade(Page):
 
 
 page_order = [
+    Instructions,
     Rounds(
         Trade,
         n=1,
-    )
+    ),
 ]
