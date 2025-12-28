@@ -35,7 +35,7 @@ load_config(uproot_server, config="upload", apps=["upload"])
 
 # Create admin
 
-upd.ADMINS["admin"] = "123"
+upd.ADMINS["admin"] = ...
 
 # Set default language
 
