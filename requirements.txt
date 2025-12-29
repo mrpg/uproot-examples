@@ -1,1 +1,1 @@
-uproot-science>=0.0.1
+uproot-science @ git+https://github.com/mrpg/uproot.git@main

@@ -1,4 +1,5 @@
 build/
+.claude
 .coverage
 .coverage.*
 dist/
@@ -13,16 +14,15 @@ htmlcov/
 .idea/
 .ipynb_checkpoints/
 *.log
+*.mdb
 .mypy_cache
 .mypy_cache/
-*.mdb
 *.orig
 *.pyc
 __pycache__
 __pycache__/
 *.pyo
 .pytest_cache/
-.python-version
 .ropeproject/
 *.sqlite3*
 *.swo
