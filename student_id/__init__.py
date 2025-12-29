@@ -29,7 +29,7 @@ class EnterID(Page):
     @classmethod
     def validate(page, player, data):
         if data["student_id"] != data["student_id2"]:
-            return "Please try again."
+            return "Student IDs don’t match."
 
 
 class Verification(Page):
