@@ -25,7 +25,7 @@ class ChatHere(Page):
             player.session.chat,
             player,
             pseudonym=f"Player {player.id}",
-        )  # pseudonym is optional
+        )  # Pseudonym is optional
 
 
 page_order = [
