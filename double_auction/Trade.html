@@ -26,21 +26,22 @@
 
 
 <div id="not-traded" role="region" aria-label="Trading controls">
-    <h3 class="mt-4">{% if player.buyer %}Price you are willing to pay{% else %}Price you are willing to accept{% endif %}</h3>
+    <h3 class="mt-4">{% if player.buyer %}Your current bid price{% else %}Your current asking price{% endif %}</h3>
 
-    <p class="no-offer" aria-live="polite">You do not have a current offer.</p>
+    <p class="no-offer" aria-live="polite">{% if player.buyer %}You do not have a current bid.{% else %}You do not have a current ask.{% endif %}</p>
 
-    <p class="has-offer" aria-live="polite">Your current offer is <b>$<span id="current-offer"></span></b>.</p>
+    <p class="has-offer" aria-live="polite">{% if player.buyer %}Your current bid is{% else %}Your current ask is{% endif %} <b>$<span id="current-offer"></span></b>.</p>
 
     <div class="mt-3">
         <div class="w-25 mb-3 input-group">
             <label for="amount" class="visually-hidden">{% if player.buyer %}Bid price{% else %}Ask price{% endif %}</label>
             <span class="input-group-text">$</span>
-            <input id="amount" type="number" class="form-control" step="0.01" min="0" placeholder="0.00" aria-label="{% if player.buyer %}Price you are willing to pay{% else %}Price you are willing to accept{% endif %}">
+            <input id="amount" type="number" class="form-control" step="0.01" min="0" placeholder="0.00" aria-label="{% if player.buyer %}Bid price{% else %}Ask price{% endif %}">
         </div>
 
-        <button class="btn btn-uproot" type="button" onclick="makeOffer(true)" aria-label="Submit new {% if player.buyer %}bid{% else %}ask{% endif %} offer">Submit new offer</button>
-        <button class="has-offer btn btn-outline-uproot" type="button" onclick="makeOffer(false)" aria-label="Cancel your current offer">Cancel current offer</button>
+        <button class="no-offer btn btn-uproot" type="button" onclick="makeOffer(true)" aria-label="Submit new {% if player.buyer %}bid{% else %}ask{% endif %}">{% if player.buyer %}Submit new bid{% else %}Submit new ask{% endif %}</button>
+        <button class="has-offer btn btn-uproot" type="button" onclick="makeOffer(true)" aria-label="Replace current {% if player.buyer %}bid{% else %}ask{% endif %}">{% if player.buyer %}Replace current bid{% else %}Replace current ask{% endif %}</button>
+        <button class="has-offer btn btn-outline-uproot" type="button" onclick="makeOffer(false)" aria-label="Cancel current {% if player.buyer %}bid{% else %}ask{% endif %}">{% if player.buyer %}Cancel current bid{% else %}Cancel current ask{% endif %}</button>
     </div>
 </div>
 
@@ -56,13 +57,13 @@
 
 <div class="row">
     <div class="col-6">
-        <h4 id="asks-heading">Asks</h4>
+        <h4 id="asks-heading">Asks (offers to sell)</h4>
 
         <div id="asks" class="offerbox border p-2 overflow-auto" role="region" aria-labelledby="asks-heading" aria-live="polite" aria-atomic="false"></div>
     </div>
 
     <div class="col-6">
-        <h4 id="bids-heading">Bids</h4>
+        <h4 id="bids-heading">Bids (offers to buy)</h4>
 
         <div id="bids" class="offerbox border p-2 overflow-auto" role="region" aria-labelledby="bids-heading" aria-live="polite" aria-atomic="false"></div>
     </div>

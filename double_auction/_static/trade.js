@@ -36,7 +36,7 @@ function refreshDisplay() {
             badge.onclick = () => acceptOffer(offer.id);
             badge.setAttribute("role", "button");
             badge.setAttribute("tabindex", "0");
-            badge.setAttribute("aria-label", `Accept ask offer at price ${offer.price.toFixed(2)}`);
+            badge.setAttribute("aria-label", `Accept ask at price ${offer.price.toFixed(2)}`);
             badge.onkeypress = (e) => {
                 if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
@@ -59,7 +59,7 @@ function refreshDisplay() {
             badge.onclick = () => acceptOffer(offer.id);
             badge.setAttribute("role", "button");
             badge.setAttribute("tabindex", "0");
-            badge.setAttribute("aria-label", `Accept bid offer at price ${offer.price.toFixed(2)}`);
+            badge.setAttribute("aria-label", `Accept bid at price ${offer.price.toFixed(2)}`);
             badge.onkeypress = (e) => {
                 if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
