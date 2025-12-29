@@ -21,7 +21,15 @@ class C:
 
 
 class EnterID(Page):
-    fields = dict(student_id=StringField(label="Your Student ID"))
+    fields = dict(
+        student_id=StringField(label="Enter your Student ID:"),
+        student_id2=StringField(label="Enter your Student ID again:"),
+    )
+
+    @classmethod
+    def validate(page, player, data):
+        if data["student_id"] != data["student_id2"]:
+            return "Please try again."
 
 
 class Verification(Page):
