@@ -1,0 +1,31 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Please verify your data
+{% endblock title %}
+
+
+{% block main %}
+
+<table class="table table-hover table-sm w-50 mb-4">
+    <tbody>
+        <tr>
+            <th scope="row">Student ID</th>
+            <td class="font-monospace">{{ player.student_id }}</td>
+        </tr>
+        <tr>
+            <th scope="row"><i>Session</i></th>
+            <td class="font-monospace">{{ session.name }}</td>
+        </tr>
+        <tr>
+            <th scope="row"><i>Username</i></th>
+            <td class="font-monospace">{{ player.name }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>If your Student ID is correct, please click “Next.” Otherwise, click “Back.”</p>
+
+<p>You are free to take a screenshot of this page, in order to have a backup proof of participation.</p>
+
+{% endblock main %}
