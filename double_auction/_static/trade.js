@@ -129,4 +129,13 @@ uproot.onReady(() => {
         market = newMarket;
         refreshDisplay();
     });
+
+    // Prevent default form submission on Enter key in amount input
+    const amountInput = I("amount");
+    amountInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            makeOffer(true);
+        }
+    });
 });
