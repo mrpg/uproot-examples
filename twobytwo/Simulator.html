@@ -1,0 +1,83 @@
+<button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#simulatorModal">
+    Open simulator
+</button>
+
+<div class="modal fade" id="simulatorModal" tabindex="-1" role="dialog" aria-labelledby="simulatorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title fs-5" id="simulatorModalLabel">Simulator</span>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <fieldset class="row mb-3">
+                    <legend class="col-sm-4 col-form-label pt-0">You</legend>
+                    <div class="col-sm-8">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="simMe" id="simMeA" value="A" checked>
+                            <label class="form-check-label" for="simMeA">Action A</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="simMe" id="simMeB" value="B">
+                            <label class="form-check-label" for="simMeB">Action B</label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="row mb-3">
+                    <legend class="col-sm-4 col-form-label pt-0">Other participant</legend>
+                    <div class="col-sm-8">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="simOther" id="simOtherA" value="A" checked>
+                            <label class="form-check-label" for="simOtherA">Action A</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="simOther" id="simOtherB" value="B">
+                            <label class="form-check-label" for="simOtherB">Action B</label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col-6 text-center">
+                        <div class="text-muted small">Your earnings</div>
+                        <div class="fs-4 fw-bold" id="simMyPayoff">{{ payoffs.AA[0] }}</div>
+                    </div>
+
+                    <div class="col-6 text-center">
+                        <div class="text-muted small">Other’s earnings</div>
+                        <div class="fs-4 fw-bold" id="simOtherPayoff">{{ payoffs.AA[1] }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    uproot.onReady(() => {
+        const payoffs = {
+            AA: [{{ payoffs.AA[0] }}, {{ payoffs.AA[1] }}],
+            AB: [{{ payoffs.AB[0] }}, {{ payoffs.AB[1] }}],
+            BA: [{{ payoffs.BA[0] }}, {{ payoffs.BA[1] }}],
+            BB: [{{ payoffs.BB[0] }}, {{ payoffs.BB[1] }}]
+        };
+
+        function update() {
+            const me = document.querySelector('input[name="simMe"]:checked').value;
+            const other = document.querySelector('input[name="simOther"]:checked').value;
+            const cell = payoffs[me + other];
+            I("simMyPayoff").textContent = cell[0];
+            I("simOtherPayoff").textContent = cell[1];
+        }
+
+        document.querySelectorAll('input[name="simMe"], input[name="simOther"]').forEach(r => {
+            r.addEventListener("change", update);
+        });
+    });
+</script>

@@ -1,0 +1,42 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Instructions
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You are matched with another participant. Each of you will independently choose an action: either Action A or Action B.</p>
+
+<p>Your earnings depend on both your choice and the other participant’s choice, according to the following table:</p>
+
+<table class="table table-bordered w-auto">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Other: A</th>
+            <th>Other: B</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>You: A</th>
+            <td>{{ payoffs.AA[0] }}, {{ payoffs.AA[1] }}</td>
+            <td>{{ payoffs.AB[0] }}, {{ payoffs.AB[1] }}</td>
+        </tr>
+        <tr>
+            <th>You: B</th>
+            <td>{{ payoffs.BA[0] }}, {{ payoffs.BA[1] }}</td>
+            <td>{{ payoffs.BB[0] }}, {{ payoffs.BB[1] }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Each cell shows (<i>your earnings</i>, <i>the other’s earnings</i>).</p>
+
+<p>You may use the simulator to explore different outcomes.</p>
+
+{% include 'twobytwo/Simulator.html' %}
+
+{% endblock main %}

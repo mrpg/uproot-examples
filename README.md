@@ -31,6 +31,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | randomize\_pages\_allow\_back | Randomizing page order and allow going back                   | Easy       |
 | rounds                        | Using rounds (history table)                                  | Easy       |
 | student\_id                   | Have participants enter their Student ID                      | Easy       |
+| twobytwo                      | Generic 2×2 game with simulator                               | Medium     |
 | upload                        | Uploading files                                               | Easy       |
 
 ## Other examples
