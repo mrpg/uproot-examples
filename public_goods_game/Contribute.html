@@ -1,0 +1,16 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Contribute
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You have an endowment of <b>{{ endowment }}</b>. You are in a group with {{ group_size }} members.</p>
+<p>You can allocate any amount to the group account. The remainder stays in your private account.</p>
+<p>All contributions to the group account will be multiplied by {{ multiplier }} and divided equally among the {{ group_size }} group members.</p>
+
+{{ fields() }}
+
+{% endblock main %}

@@ -1,0 +1,14 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You contributed {{ player.contribution }} to the group account.</p>
+<p>The total contribution to the group account was {{ total }}.</p>
+<p>Your payoff is <b>{{ player.payoff }}</b>.</p>
+
+{% endblock main %}
