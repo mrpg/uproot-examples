@@ -1,0 +1,15 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Propose
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You have 10 currency units. You can offer some to the other player.</p>
+<p>If they accept, you both receive the split. If they reject, you both receive nothing.</p>
+
+{{ field(form.offer) }}
+
+{% endblock main %}

@@ -32,6 +32,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | rounds                        | Using rounds (history table)                                  | Easy       |
 | student\_id                   | Have participants enter their Student ID                      | Easy       |
 | twobytwo                      | Generic 2×2 game with simulator                               | Medium     |
+| ultimatum\_game               | Standard ultimatum game                                       | Easy       |
 | upload                        | Uploading files                                               | Easy       |
 
 ## Other examples

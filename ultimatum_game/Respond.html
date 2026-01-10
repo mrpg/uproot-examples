@@ -1,0 +1,16 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Respond
+{% endblock title %}
+
+
+{% block main %}
+
+<p>The other player offered you <b>{{ offer }}</b> out of 10.</p>
+<p>If you accept, you receive {{ offer }} and they keep the rest.</p>
+<p>If you reject, you both receive nothing.</p>
+
+{{ field(form.accept) }}
+
+{% endblock main %}

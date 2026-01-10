@@ -1,0 +1,20 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>The offer was <b>{{ offer }}</b>.</p>
+
+{% if accepted %}
+<p>The offer was <b>accepted</b>.</p>
+{% else %}
+<p>The offer was <b>rejected</b>.</p>
+{% endif %}
+
+<p>Your payoff is <b>{{ player.payoff }}</b>.</p>
+
+{% endblock main %}
