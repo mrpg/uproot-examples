@@ -21,17 +21,16 @@ class WaitForEveryone(SynchronizingWait):
         # Get all players and sort alphabetically by name
         all_players = sorted(players(session), key=lambda p: p.name)
 
-        # Split into two groups of roughly equal size
-        mid = len(all_players) // 2
-        group_a = all_players[:mid]
-        group_b = all_players[mid:]
+        if len(all_players) == 1:
+            # Only one player
+            create_group(session, all_players)
+        else:
+            # Split into two groups of roughly equal size
+            mid = len(all_players) // 2
+            group_a = all_players[:mid]
+            group_b = all_players[mid:]
 
-        # Create the groups using create_groups
-        if group_a and group_b:
             create_groups(session, [group_a, group_b])
-        elif group_a:
-            # Only one group if odd number with 1 player
-            create_groups(session, [group_a])
 
 
 class ShowGroup(Page):
@@ -41,6 +40,7 @@ class ShowGroup(Page):
             group_members = sorted(players(player.group), key=lambda p: p.name)
             group_name = player.group.name
         else:
+            # This should never happen
             group_members = []
             group_name = None
 
