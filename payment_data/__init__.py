@@ -34,12 +34,12 @@ class PaymentForm(Page):
 
     @classmethod
     async def handle_stealth_fields(page, player, iban: str):
-        # this method could write the stealth field to a separate file, or do whatever else
-        # however, since this is just an example, it just prints the IBAN:
+        # This method could write the stealth field to a separate file, or do whatever else.
+        # However, since this is just an example, it just prints the IBAN:
         print(f"New payment data: {player} (rating: {player.rating}) has IBAN '{iban}'")
 
-        # note: you cannot stop the player from proceeding - for that, you would have to
-        # build a custom WTForms validator
+        # Note: this function can stop the player from proceeding using the same return
+        # value as validate()
 
 
 page_order = [PaymentForm]
