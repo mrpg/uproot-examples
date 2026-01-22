@@ -1,0 +1,14 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Quiz
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Attempts so far: <b>{{ player.quiz_bad_attempts }}</b></p>
+
+{{ fields() }}
+
+{% endblock main %}

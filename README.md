@@ -27,6 +27,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | prisoners\_dilemma\_apply     | Standard prisoner's dilemma                                   | Medium     |
 | prisoners\_dilemma\_repeated  | Repeated prisoner's dilemma (history table and digest)        | Easy       |
 | public\_goods\_game           | Standard public goods game                                    | Easy       |
+| quiz                          | Quiz/comprehension check                                      | Easy       |
 | randomize\_apps               | Randomizing app order                                         | Easy       |
 | randomize\_pages              | Randomizing page order                                        | Easy       |
 | randomize\_pages\_allow\_back | Randomizing page order and allow going back                   | Easy       |
