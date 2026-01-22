@@ -73,7 +73,7 @@ class Quiz(Page):
                     (sha256(answer), answer)
                     for answer in shuffled(
                         answers,
-                        seed=player.name + f"q{i}",
+                        seed=hash(player.name + f"q{i}"),  # See README.md
                     )
                 ],
             )
