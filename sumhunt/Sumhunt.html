@@ -1,0 +1,109 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Please exert real effort
+{% endblock title %}
+
+
+{% block head %}
+
+<script>
+document.addEventListener("alpine:init", () => {
+    Alpine.store("matrix", {
+        data: null,
+        selected: new Set(),
+
+        toggle(n) {
+            if (this.selected.has(n)) {
+                this.selected.delete(n);
+            } else if (this.selected.size < C.TERMS) {
+                this.selected.add(n);
+            }
+        },
+
+        reset() {
+            this.selected = new Set();
+        },
+
+        get count() {
+            return this.selected.size;
+        }
+    });
+
+    uproot.onReady(() => {
+        uproot.invoke("get_matrix").then((data) => {
+            Alpine.store("matrix").data = data;
+        });
+    });
+});
+
+function propose() {
+    const store = Alpine.store("matrix");
+    const numbers = [...store.selected];
+
+    uproot.invoke("propose_solution", numbers).then((response) => {
+        if (response) {
+            store.reset();
+            uproot.invoke("get_matrix").then((data) => {
+                store.data = data;
+            });
+        } else {
+            alert("Your solution was not correct. Please try again.");
+        }
+    });
+}
+</script>
+
+<style>
+.cell, .cells {
+    border-color: var(--bs-uproot);
+    color: var(--bs-uproot);
+}
+.cell {
+    width: 64px;
+    height: 64px;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+    font-size: 1.25em;
+}
+</style>
+
+{% endblock head %}
+
+
+{% block main %}
+
+<p>Below, you can see a grid of {{ C.GRID[0] * C.GRID[1] }} numbers.</p>
+    
+<p>Your task: find the {{ C.TERMS }} numbers that add up to exactly {{ C.TARGET }}.</p>
+
+<p>Click on the {{ C.TERMS }} numbers, then click "Submit."</p>
+
+<div x-data="{ grid: C.GRID }" x-show="$store.matrix.data !== null">
+    <table class="table-bordered">
+        <tbody>
+            <template x-for="row in grid[0]">
+                <tr class="cells">
+                    <template x-for="col in grid[1]">
+                        <td
+                            class="cell"
+                            x-data="{ get n() { return $store.matrix.data?.[(row - 1) * grid[1] + (col - 1)] } }"
+                            :class="{ 'bg-uproot text-white': $store.matrix.selected.has(n) }"
+                            @click="$store.matrix.toggle(n)"
+                        >
+                            <span x-text="n ?? 0"></span>
+                        </td>
+                    </template>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-lg btn-uproot mt-4" :disabled="$store.matrix.count !== C.TERMS" @click="propose()">
+        Submit
+    </button>
+</div>
+
+{% endblock main %}
