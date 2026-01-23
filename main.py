@@ -34,6 +34,7 @@ load_config(uproot_server, config="randomize_pages_allow_back", apps=["randomize
 load_config(uproot_server, config="rounds", apps=["rounds"])
 load_config(uproot_server, config="student_id", apps=["student_id"])
 load_config(uproot_server, config="sumhunt", apps=["sumhunt"])
+load_config(uproot_server, config="timeout_multipage", apps=["timeout_multipage"])
 load_config(uproot_server, config="twobytwo", apps=["twobytwo"])
 load_config(uproot_server, config="ultimatum_game", apps=["ultimatum_game"])
 load_config(uproot_server, config="upload", apps=["upload"])

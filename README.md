@@ -34,6 +34,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | rounds                        | Using rounds (history table)                                  | Easy       |
 | student\_id                   | Have participants enter their Student ID                      | Easy       |
 | sumhunt                       | Real effort task about finding sums in matrices               | Medium     |
+| timeout\_multipage            | Timeout that spans multiple pages                             | Easy       |
 | twobytwo                      | Generic 2×2 game with simulator                               | Medium     |
 | ultimatum\_game               | Standard ultimatum game                                       | Easy       |
 | upload                        | Uploading files                                               | Easy       |

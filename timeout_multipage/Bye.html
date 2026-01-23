@@ -1,0 +1,16 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Bye
+{% endblock title %}
+
+
+{% block main %}
+
+{% if player.failed %}
+<p>You failed.</p>
+{% else %}
+<p>You did not fail.</p>
+{% endif %}
+
+{% endblock main %}
