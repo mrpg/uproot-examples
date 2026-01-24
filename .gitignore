@@ -29,6 +29,7 @@ __pycache__/
 *.swp
 Thumbs.db
 .tox/
+uv.lock
 .venv/
 venv/
 .vscode

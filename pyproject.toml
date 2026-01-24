@@ -1,0 +1,15 @@
+[project]
+name = "uproot-project"
+version = "0.1.0"
+description = "An uproot-based web application for behavioral science experiments"
+readme = "README.md"
+license = "0BSD"
+requires-python = ">=3.13"
+dependencies = [
+    "uproot-science @ git+https://github.com/mrpg/uproot.git@main",
+]
+
+[project.optional-dependencies]
+pg = [
+    "uproot-science[pg] @ git+https://github.com/mrpg/uproot.git@main",
+]
