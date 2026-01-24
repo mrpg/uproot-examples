@@ -6,7 +6,7 @@ The folders in this repository contain [uproot](https://uproot.science/) example
 
 ## Running all examples
 
-This repository is also an uproot *project*. That means: you can clone it and run `uproot run` to enjoy these example apps *all at once* from the comfort of your home.
+This repository is also an uproot *project*. That means: you can clone it and run `uv run uproot run` (or just `uproot run`, [depending on your setup](https://github.com/mrpg/uproot?tab=readme-ov-file#getting-started)) to enjoy these example apps *all at once* from the comfort of your home.
 
 ## Apps
 
