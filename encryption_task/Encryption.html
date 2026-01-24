@@ -1,0 +1,221 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Please encrypt
+{% endblock title %}
+
+
+{% block head %}
+
+<script>
+document.addEventListener("alpine:init", () => {
+    Alpine.store("task", {
+        table_letters_1: null,
+        table_digits_1: null,
+        table_letters_2: null,
+        table_digits_2: null,
+        puzzle: null,
+        answer: "",
+        loading: true,
+        feedback: null,
+
+        reset() {
+            this.answer = "";
+            this.feedback = null;
+        }
+    });
+
+    uproot.onReady(() => {
+        loadPuzzle();
+    });
+});
+
+function loadPuzzle() {
+    const store = Alpine.store("task");
+    store.loading = true;
+    store.feedback = null;
+
+    uproot.invoke("get_puzzle").then((data) => {
+        store.table_letters_1 = data.table_letters_1;
+        store.table_digits_1 = data.table_digits_1;
+        store.table_letters_2 = data.table_letters_2;
+        store.table_digits_2 = data.table_digits_2;
+        store.puzzle = data.puzzle;
+        store.answer = "";
+        store.loading = false;
+
+        // Focus the input
+        setTimeout(() => {
+            const input = document.querySelector('.answer-input');
+            if (input) input.focus();
+        }, 50);
+    });
+}
+
+function submitAnswer() {
+    const store = Alpine.store("task");
+    const answer = store.answer.trim();
+
+    if (answer.length !== C.WORD_LENGTH) {
+        return;
+    }
+
+    uproot.invoke("submit_answer", answer).then((response) => {
+        if (response.correct) {
+            store.feedback = { type: "success", message: "Correct!" };
+            store.reset();
+            loadPuzzle();
+        } else {
+            store.feedback = { type: "error", message: response.message || "Incorrect" };
+            store.answer = "";
+            // Re-focus input
+            setTimeout(() => {
+                const input = document.querySelector('.answer-input');
+                if (input) input.focus();
+            }, 50);
+        }
+    });
+}
+
+function handleKeydown(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        submitAnswer();
+    }
+}
+</script>
+
+<style>
+.encryption-table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-family: monospace;
+}
+.encryption-table td {
+    width: 42px;
+    height: 42px;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border: 2px solid var(--bs-uproot);
+}
+.encryption-table .letter-row td {
+    background-color: var(--bs-uproot);
+    color: white;
+}
+.encryption-table .digit-row td {
+    background-color: white;
+    color: var(--bs-uproot);
+}
+.encryption-table .separator td {
+    height: 12px;
+    border: none;
+    background: transparent;
+}
+.puzzle-display {
+    font-family: monospace;
+    font-size: 2.5rem;
+    letter-spacing: 0.75rem;
+    font-weight: bold;
+    color: var(--bs-uproot);
+}
+.answer-input {
+    font-family: monospace;
+    font-size: 1.8rem;
+    letter-spacing: 0.5rem;
+    text-align: center;
+    width: 220px;
+}
+.feedback-success {
+    color: #198754;
+    font-weight: bold;
+}
+.feedback-error {
+    color: #dc3545;
+    font-weight: bold;
+}
+</style>
+
+{% endblock head %}
+
+
+{% block main %}
+
+<div x-data x-show="!$store.task.loading">
+    <p class="lead">Use the encryption table to decode the letters into numbers.</p>
+
+    <h5 class="mt-4">Encryption table</h5>
+    <table class="encryption-table mb-4">
+        <tbody>
+            <!-- First row of letters (A-M equivalent) -->
+            <tr class="letter-row">
+                <template x-for="(letter, i) in ($store.task.table_letters_1 || '').split('')" :key="'l1'+i">
+                    <td x-text="letter"></td>
+                </template>
+            </tr>
+            <!-- First row of digits -->
+            <tr class="digit-row">
+                <template x-for="(digit, i) in ($store.task.table_digits_1 || '').split('')" :key="'d1'+i">
+                    <td x-text="digit"></td>
+                </template>
+            </tr>
+            <!-- Separator -->
+            <tr class="separator">
+                <td colspan="13"></td>
+            </tr>
+            <!-- Second row of letters (N-Z equivalent) -->
+            <tr class="letter-row">
+                <template x-for="(letter, i) in ($store.task.table_letters_2 || '').split('')" :key="'l2'+i">
+                    <td x-text="letter"></td>
+                </template>
+            </tr>
+            <!-- Second row of digits -->
+            <tr class="digit-row">
+                <template x-for="(digit, i) in ($store.task.table_digits_2 || '').split('')" :key="'d2'+i">
+                    <td x-text="digit"></td>
+                </template>
+            </tr>
+        </tbody>
+    </table>
+
+    <h5 class="mt-5">Decode this word:</h5>
+    <div class="puzzle-display mb-4" x-text="$store.task.puzzle"></div>
+
+    <div class="d-flex align-items-center justify-content-center gap-3">
+        <input
+            type="text"
+            class="form-control answer-input"
+            x-model="$store.task.answer"
+            @keydown="handleKeydown"
+            maxlength="{{ C.WORD_LENGTH }}"
+            placeholder="{{ '?' * C.WORD_LENGTH }}"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            autofocus
+        >
+        <button
+            type="button"
+            class="btn btn-lg btn-uproot"
+            @click="submitAnswer()"
+            :disabled="$store.task.answer.length !== C.WORD_LENGTH"
+        >
+            Submit
+        </button>
+    </div>
+
+    <p class="text-muted mt-3">Enter {{ C.WORD_LENGTH }} digits and press Enter or click Submit.</p>
+
+    <div class="mt-2" x-show="$store.task.feedback">
+        <span
+            :class="$store.task.feedback?.type === 'success' ? 'feedback-success' : 'feedback-error'"
+            x-text="$store.task.feedback?.message"
+        ></span>
+    </div>
+</div>
+
+<div x-data x-show="$store.task.loading" class="text-center">
+    <p>Loading…</p>
+</div>
+
+{% endblock main %}

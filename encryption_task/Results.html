@@ -1,0 +1,12 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You solved <strong>{{ player.solved }}</strong> puzzles in {{ C.DURATION }} seconds.</p>
+
+{% endblock main %}
