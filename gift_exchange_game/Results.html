@@ -12,9 +12,9 @@ Results
 <p>Effort cost: <b>{{ effort_cost }}</b></p>
 
 {% if player.employer %}
-<p>As employer, your payoff is: ({{ effort }} &times; 10) - {{ wage }} = <b>{{ player.payoff }}</b></p>
+<p>As employer, your payoff is: ({{ effort }} &times; 10) &minus; {{ wage }} = <b>{{ player.payoff }}</b></p>
 {% else %}
-<p>As worker, your payoff is: {{ wage }} - {{ effort_cost }} = <b>{{ player.payoff }}</b></p>
+<p>As worker, your payoff is: {{ wage }} &minus; {{ effort_cost }} = <b>{{ player.payoff }}</b></p>
 {% endif %}
 
 {% endblock main %}
