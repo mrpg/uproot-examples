@@ -1,0 +1,16 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Your effort: <b>{{ player.effort }}</b></p>
+<p>Other efforts: {% for other in others %}{{ other.effort }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+<p>Minimum effort in group: <b>{{ player.minimum }}</b></p>
+
+<p>Your payoff is <b>{{ player.payoff }}</b>.</p>
+
+{% endblock main %}

@@ -27,6 +27,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | grouping\_test†               | Custom group creation                                         | Easy       |
 | many\_fields†                 | Benchmark: insert many fields                                 | Easy       |
 | mpl                           | Multiple price list                                           | Medium     |
+| minimum\_effort\_game         | Minimum effort / weakest link game (Van Huyck et al., 1990)   | Easy       |
 | notifications†                | Test notifications between players                            | Easy       |
 | observed\_diary               | Observed diary/surveillance game                              | Medium     |
 | payment\_data                 | Collecting payment data                                       | Easy       |

@@ -1,0 +1,18 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Choose Effort
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You are in a group with {{ group_size }} players (including yourself).</p>
+<p>Each player chooses an effort level from 1 to 7.</p>
+<p>Your payoff depends on the <b>minimum</b> effort in your group and your own effort:</p>
+<p><b>Payoff = {{ a }} &times; (minimum effort) - {{ b }} &times; (your effort) + {{ c }}</b></p>
+<p>Higher group coordination leads to higher payoffs, but you risk a loss if others choose lower effort than you.</p>
+
+{{ fields() }}
+
+{% endblock main %}

@@ -28,6 +28,7 @@ load_config(uproot_server, config="gift_exchange_game", apps=["gift_exchange_gam
 load_config(uproot_server, config="grouping_test", apps=["grouping_test"])
 load_config(uproot_server, config="many_fields", apps=["many_fields"])
 load_config(uproot_server, config="mpl", apps=["mpl"])
+load_config(uproot_server, config="minimum_effort_game", apps=["minimum_effort_game"])
 load_config(uproot_server, config="notifications", apps=["notifications"])
 load_config(uproot_server, config="observed_diary", apps=["observed_diary"])
 load_config(uproot_server, config="payment_data", apps=["payment_data"])
