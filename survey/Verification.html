@@ -1,0 +1,29 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Please verify your data
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Is the following information correct? If not, please click “Back” and correct the data.</p>
+
+<table class="table mb-5">
+    <tbody>
+        <tr>
+            <th scope="row">{{ app.Survey.fields.age.kwargs.label }}</th>
+            <td class="w-50">{{ player.age }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{{ app.Survey.fields.econ.kwargs.label }}</th>
+            <td>{{ "Yes" if player.econ else "No" }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{{ app.Survey.fields.sport.kwargs.label }}</th>
+            <td>{{ player.sport if player.sport is not none else "N/A" }}</td>
+        </tr>
+    </tbody>
+</table>
+
+{% endblock main %}

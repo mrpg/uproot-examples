@@ -44,6 +44,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | rounds                        | Using rounds (history table)                                  | Easy       |
 | student\_id                   | Have participants enter their Student ID                      | Easy       |
 | sumhunt                       | Real effort task about finding sums in matrices               | Medium     |
+| survey                        | Survey with follow-up verification                            | Easy       |
 | timeout\_multipage            | Timeout that spans multiple pages                             | Easy       |
 | trigger\_jserrors†            | Test JavaScript error handling                                | Easy       |
 | twobytwo                      | Generic 2×2 game with simulator                               | Medium     |
