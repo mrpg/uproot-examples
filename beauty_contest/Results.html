@@ -1,0 +1,23 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Your guess: <b>{{ player.guess }}</b></p>
+<p>Other guesses: {% for other in others %}{{ other.guess }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+<p>Average: <b>{{ player.average }}</b></p>
+<p>Target ({{ p }} &times; average): <b>{{ player.target }}</b></p>
+
+{% if player.winner %}
+<p><b>You won!</b></p>
+{% else %}
+<p>You did not win.</p>
+{% endif %}
+
+<p>Your payoff is <b>{{ player.payoff }}</b>.</p>
+
+{% endblock main %}

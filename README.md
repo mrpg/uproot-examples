@@ -12,6 +12,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 |-------------------------------|---------------------------------------------------------------|------------|
 | barrier                       | Force players to stay on a page                               | Easy       |
 | big5\_short                   | Short Big 5 questionnaire with scoring                        | Medium     |
+| beauty\_contest               | Beauty contest / guessing game (Nagel, 1995)                  | Easy       |
 | chat                          | Chat                                                          | Easy       |
 | continuous                    | Do something in intervals (background tasks)                  | Medium     |
 | counter†                      | Counter with live updates                                     | Easy       |

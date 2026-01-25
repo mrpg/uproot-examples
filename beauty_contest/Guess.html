@@ -1,0 +1,17 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Guess
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You are in a group with {{ group_size }} players (including yourself).</p>
+<p>Each player guesses a number between 0 and 100.</p>
+<p>The winner is the player whose guess is closest to <b>{{ p }}</b> times the average of all guesses.</p>
+<p>The winner receives <b>{{ prize }}</b>. If there is a tie, the prize is split equally.</p>
+
+{{ fields() }}
+
+{% endblock main %}

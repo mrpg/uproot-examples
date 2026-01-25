@@ -13,6 +13,7 @@ upd.project_metadata(created="1970-01-01", uproot="*.*.*")
 # fmt: off
 load_config(uproot_server, config="barrier", apps=["barrier"])
 load_config(uproot_server, config="big5_short", apps=["big5_short"])
+load_config(uproot_server, config="beauty_contest", apps=["beauty_contest"])
 load_config(uproot_server, config="chat", apps=["chat"])
 load_config(uproot_server, config="continuous", apps=["continuous"])
 load_config(uproot_server, config="counter", apps=["counter"])
