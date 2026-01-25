@@ -15,7 +15,7 @@ Counter
 
 <div class="mb-3">
     <button type="button" class="btn btn btn-primary" onclick="increment()">Increment</button>
-    <button type="button" class="btn btn btn-danger" onclick="reset()">Reset</button>
+    <button type="button" class="btn btn btn-danger" onclick="reset_()">Reset</button>
 </div>
 
 <script>
@@ -27,7 +27,7 @@ Counter
         });
     }
 
-    function reset() {
+    function reset_() {
         uproot.invoke("reset").then(() => {
             counter.textContent = 0;
         });
