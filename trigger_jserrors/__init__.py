@@ -9,20 +9,14 @@
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
 from uproot.smithereens import *
-from uproot.types import Page
 
-DESCRIPTION = "Ping the server (a simple WebSocket benchmark)"
+DESCRIPTION = "Test jserrors.js"
 
 
-class Ping(Page):
-    @live
-    async def ping(page, player, jstime: int, direct: bool):
-        if direct:
-            return jstime
-        else:
-            notify(player, player, jstime)
+class Test(Page):
+    pass
 
 
 page_order = [
-    Ping,
+    Test,
 ]

@@ -2,8 +2,6 @@
 
 The folders in this repository contain [uproot](https://uproot.science/) examples.
 
-*Note*: Normal users of uproot (those who are not working on the uproot core) can skip the folder `_internal`. That folder contains example apps intended for testing and benchmarking backend features.
-
 ## Running all examples
 
 This repository is also an uproot *project*. That means: you can clone it and run `uv run uproot run` (or just `uproot run`, [depending on your setup](https://github.com/mrpg/uproot?tab=readme-ov-file#getting-started)) to enjoy these example apps *all at once* from the comfort of your home.
@@ -15,15 +13,22 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | barrier                       | Force players to stay on a page                               | Easy       |
 | big5\_short                   | Short Big 5 questionnaire with scoring                        | Medium     |
 | chat                          | Chat                                                          | Easy       |
+| continuous                    | Do something in intervals (background tasks)                  | Medium     |
+| counter†                      | Counter with live updates                                     | Easy       |
+| counter\_alpine†              | Counter with live updates (Alpine.js)                         | Easy       |
 | dictator\_game                | Standard dictator game                                        | Easy       |
 | double\_auction               | Double auction (like Smith, 1962)                             | Advanced   |
 | drawing\_board                | Session-level drawing board                                   | Medium     |
 | dropouts                      | Handling dropouts                                             | Easy       |
 | encryption\_task              | Encryption task (Erkal et al., 2011)                          | Medium     |
 | focal\_point                  | Focal point game (like Schelling, 1957)                       | Easy       |
+| grouping\_test†               | Custom group creation                                         | Easy       |
+| many\_fields†                 | Benchmark: insert many fields                                 | Easy       |
 | mpl                           | Multiple price list                                           | Medium     |
+| notifications†                | Test notifications between players                            | Easy       |
 | observed\_diary               | Observed diary/surveillance game                              | Medium     |
 | payment\_data                 | Collecting payment data                                       | Easy       |
+| ping†                         | WebSocket round-trip time benchmark                           | Easy       |
 | prisoners\_dilemma            | Standard prisoner's dilemma                                   | Easy       |
 | prisoners\_dilemma\_apply     | Standard prisoner's dilemma                                   | Medium     |
 | prisoners\_dilemma\_repeated  | Repeated prisoner's dilemma (history table and digest)        | Easy       |
@@ -32,13 +37,17 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | randomize\_apps               | Randomizing app order                                         | Easy       |
 | randomize\_pages              | Randomizing page order                                        | Easy       |
 | randomize\_pages\_allow\_back | Randomizing page order and allow going back                   | Easy       |
+| read\_settings†               | Read session settings                                         | Easy       |
 | rounds                        | Using rounds (history table)                                  | Easy       |
 | student\_id                   | Have participants enter their Student ID                      | Easy       |
 | sumhunt                       | Real effort task about finding sums in matrices               | Medium     |
 | timeout\_multipage            | Timeout that spans multiple pages                             | Easy       |
+| trigger\_jserrors†            | Test JavaScript error handling                                | Easy       |
 | twobytwo                      | Generic 2×2 game with simulator                               | Medium     |
 | ultimatum\_game               | Standard ultimatum game                                       | Easy       |
 | upload                        | Uploading files                                               | Easy       |
+
+†Apps primarily for internal testing and benchmarking, but useful as simple examples of individual uproot features.
 
 ## Other examples
 

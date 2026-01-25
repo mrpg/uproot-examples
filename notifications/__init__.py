@@ -9,7 +9,6 @@
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
 from uproot.smithereens import *
-from uproot.types import Page
 
 DESCRIPTION = "Test smithereens.notify"
 

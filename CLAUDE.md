@@ -10,7 +10,7 @@ This repository contains example apps for [uproot](https://uproot.science/), a f
 
 1. Read `README.md` in the repository root - it lists all apps with brief descriptions and difficulty ratings
 2. Browse app directories - each folder is a self-contained experiment
-3. Skip the `_internal/` folder - those are for testing uproot itself
+3. Apps marked with † are primarily for internal testing and benchmarking, but useful as simple examples of individual uproot features
 
 ### Step 2: Study the Example Apps
 
