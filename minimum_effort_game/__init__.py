@@ -50,8 +50,7 @@ class Sync(SynchronizingWait):
 class Results(Page):
     @classmethod
     def context(page, player):
-        others = [p for p in players(player.group) if p != player]
-        return dict(others=others)
+        return dict(others=others_in_group(player))
 
 
 page_order = [

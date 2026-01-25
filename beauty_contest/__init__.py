@@ -57,9 +57,8 @@ class Sync(SynchronizingWait):
 class Results(Page):
     @classmethod
     def context(page, player):
-        others = [p for p in players(player.group) if p != player]
         return dict(
-            others=others,
+            others=others_in_group(player),
             p=P,
         )
 
