@@ -1,0 +1,20 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Wage offered: <b>{{ wage }}</b></p>
+<p>Effort chosen: <b>{{ effort }}</b></p>
+<p>Effort cost: <b>{{ effort_cost }}</b></p>
+
+{% if player.employer %}
+<p>As employer, your payoff is: ({{ effort }} &times; 10) - {{ wage }} = <b>{{ player.payoff }}</b></p>
+{% else %}
+<p>As worker, your payoff is: {{ wage }} - {{ effort_cost }} = <b>{{ player.payoff }}</b></p>
+{% endif %}
+
+{% endblock main %}

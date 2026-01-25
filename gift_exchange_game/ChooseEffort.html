@@ -1,0 +1,18 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Choose Effort
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You are the <b>worker</b>.</p>
+<p>The employer offered you a wage of <b>{{ wage }}</b>.</p>
+<p>Choose an effort level between {{ min_effort }} and {{ max_effort }}.</p>
+<p>Your effort has a cost of <b>{{ cost_multiplier }} &times; effort</b>.</p>
+<p>Your payoff will be: <b>wage - cost</b></p>
+
+{{ fields() }}
+
+{% endblock main %}

@@ -23,6 +23,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | dropouts                      | Handling dropouts                                             | Easy       |
 | encryption\_task              | Encryption task (Erkal et al., 2011)                          | Medium     |
 | focal\_point                  | Focal point game (like Schelling, 1957)                       | Easy       |
+| gift\_exchange\_game          | Gift exchange game (Fehr et al., 1993)                        | Easy       |
 | grouping\_test†               | Custom group creation                                         | Easy       |
 | many\_fields†                 | Benchmark: insert many fields                                 | Easy       |
 | mpl                           | Multiple price list                                           | Medium     |

@@ -1,0 +1,17 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Set Wage
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You are the <b>employer</b>.</p>
+<p>You offer a wage between {{ min_wage }} and {{ max_wage }} to the worker.</p>
+<p>After observing your wage, the worker will choose an effort level.</p>
+<p>Your payoff will be: <b>(effort &times; 10) - wage</b></p>
+
+{{ fields() }}
+
+{% endblock main %}
