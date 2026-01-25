@@ -9,17 +9,13 @@ Counter
 
 <div class="mb-3">
     <b id="counter">
-        {% if hasattr(player, "counter") %}
         {{ player.counter }}
-        {% else %}
-        ???
-        {% endif %}
     </b>
 </div>
 
 <div class="mb-3">
     <button type="button" class="btn btn btn-primary" onclick="increment()">Increment</button>
-    <button type="button" class="btn btn btn-danger" onclick="delete_()">Delete</button>
+    <button type="button" class="btn btn btn-danger" onclick="reset()">Reset</button>
 </div>
 
 <script>
@@ -31,9 +27,9 @@ Counter
         });
     }
 
-    function delete_() {
-        uproot.invoke("delete").then((newValue) => {
-            counter.textContent = "???";
+    function reset() {
+        uproot.invoke("reset").then(() => {
+            counter.textContent = 0;
         });
     }
 </script>

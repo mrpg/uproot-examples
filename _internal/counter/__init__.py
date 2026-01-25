@@ -9,9 +9,8 @@
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
 from uproot.smithereens import *
-from uproot.types import Page
 
-DESCRIPTION = "Count up"
+DESCRIPTION = "Counter"
 
 
 def new_player(player):
@@ -21,17 +20,12 @@ def new_player(player):
 class Counter(Page):
     @live
     async def increment(page, player):
-        if hasattr(player, "counter"):
-            player.counter += 1
-        else:
-            player.counter = 0
-
+        player.counter += 1
         return player.counter
 
     @live
-    async def delete(page, player):
-        if hasattr(player, "counter"):
-            del player.counter
+    async def reset(page, player):
+        player.counter = 0
 
 
 page_order = [
