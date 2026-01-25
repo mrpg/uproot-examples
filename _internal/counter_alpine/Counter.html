@@ -1,0 +1,40 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Counter
+{% endblock title %}
+
+
+{% block main %}
+
+<div x-data="counter()">
+    <div class="mb-3">
+        <b x-text="value"></b>
+    </div>
+
+    <div class="mb-3">
+        <button type="button" class="btn btn-primary" @click="increment">Increment</button>
+        <button type="button" class="btn btn-danger" @click="reset">Reset</button>
+    </div>
+</div>
+
+<script>
+    function counter() {
+        return {
+            value: 0,
+            init() {
+                uproot.onReady(() => {
+                    uproot.invoke("get").then((v) => this.value = v);
+                });
+            },
+            increment() {
+                uproot.invoke("increment").then((v) => this.value = v);
+            },
+            reset() {
+                uproot.invoke("reset").then(() => this.value = 0);
+            }
+        };
+    }
+</script>
+
+{% endblock main %}
