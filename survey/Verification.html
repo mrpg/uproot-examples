@@ -12,15 +12,15 @@ Please check your data
 <table class="table mb-5">
     <tbody>
         <tr>
-            <th scope="row">{{ app.Survey.fields.age.kwargs.label }}</th>
+            <th scope="row">{{ app.LABELS.age }}</th>
             <td class="w-50">{{ player.age }}</td>
         </tr>
         <tr>
-            <th scope="row">{{ app.Survey.fields.econ.kwargs.label }}</th>
+            <th scope="row">{{ app.LABELS.econ }}</th>
             <td>{{ "Yes" if player.econ else "No" }}</td>
         </tr>
         <tr>
-            <th scope="row">{{ app.Survey.fields.sport.kwargs.label }}</th>
+            <th scope="row">{{ app.LABELS.sport }}</th>
             <td>{{ player.sport if player.sport is not none else "N/A" }}</td>
         </tr>
     </tbody>

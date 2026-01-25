@@ -14,35 +14,46 @@ from uproot.smithereens import *
 DESCRIPTION = "Survey with follow-up verification"
 LANDING_PAGE = False
 
+LABELS = dict(
+    age="What is your current age in years?",
+    econ="Have you ever taken a class in economics at the university level?",
+    sport="What is your favorite sport?",
+)
+
 
 class C:
     pass
 
 
 class Survey(Page):
-    fields = dict(
-        age=IntegerField(
-            label="What is your current age in years?",
-            description="Full years only, please.",
-            min=0,
-            max=120,
-        ),
-        econ=RadioField(
-            label="Have you ever taken a class in economics at the university level?",
-            choices=[(True, "Yes"), (False, "No")],
-        ),
-        sport=RadioField(
-            label="What is your favorite sport?",
-            description="This field is optional.",
-            choices=[
-                "Soccer",
-                "American football",
-                "Baseball",
-                "Basketball",
-            ],
-            optional=True,
-        ),
-    )
+    @classmethod
+    async def fields(page, player):
+        return dict(
+            age=IntegerField(
+                label=LABELS["age"],
+                description="Full years only, please.",
+                default=player.get("age"),
+                min=0,
+                max=120,
+            ),
+            econ=RadioField(
+                label=LABELS["econ"],
+                choices=[(True, "Yes"), (False, "No")],
+                default=player.get("econ"),
+            ),
+            sport=RadioField(
+                label=LABELS["sport"],
+                description="This field is optional.",
+                choices=[
+                    "Soccer",
+                    "American football",
+                    "Baseball",
+                    "Basketball",
+                ],
+                default=player.get("sport"),
+                optional=True,
+            ),
+        )
 
 
 class Verification(Page):
