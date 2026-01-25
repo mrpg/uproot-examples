@@ -1,0 +1,16 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Send
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You have an endowment of <b>{{ endowment }}</b>.</p>
+<p>You can send any amount to the other player. Whatever you send will be <b>tripled</b> (multiplied by {{ multiplier }}).</p>
+<p>The other player will then decide how much to return to you.</p>
+
+{{ fields() }}
+
+{% endblock main %}

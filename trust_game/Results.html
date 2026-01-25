@@ -1,0 +1,20 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+{% if player.trustor %}
+<p>You sent <b>{{ sent }}</b>, which was tripled to {{ tripled }}.</p>
+<p>The other player returned <b>{{ returned }}</b> to you.</p>
+{% else %}
+<p>The other player sent {{ sent }}, which was tripled to <b>{{ tripled }}</b>.</p>
+<p>You returned <b>{{ returned }}</b>.</p>
+{% endif %}
+
+<p>Your payoff is <b>{{ player.payoff }}</b>.</p>
+
+{% endblock main %}

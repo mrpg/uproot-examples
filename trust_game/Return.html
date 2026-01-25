@@ -1,0 +1,16 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Return
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You have an endowment of <b>{{ endowment }}</b>.</p>
+<p>The other player sent you an amount that was tripled to <b>{{ received }}</b>.</p>
+<p>You can return any amount between 0 and {{ received }} to the other player.</p>
+
+{{ fields() }}
+
+{% endblock main %}

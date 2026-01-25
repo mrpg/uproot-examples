@@ -47,6 +47,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | timeout\_multipage            | Timeout that spans multiple pages                             | Easy       |
 | trigger\_jserrors†            | Test JavaScript error handling                                | Easy       |
 | twobytwo                      | Generic 2×2 game with simulator                               | Medium     |
+| trust\_game                   | Trust game (Berg et al., 1995)                                | Easy       |
 | ultimatum\_game               | Standard ultimatum game                                       | Easy       |
 | upload                        | Uploading files                                               | Easy       |
 
