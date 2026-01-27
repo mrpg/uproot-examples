@@ -15,7 +15,7 @@ DESCRIPTION = "Survey with follow-up verification"
 LANDING_PAGE = False
 
 LABELS = dict(
-    age="What is your current age in years?",
+    age="What is your current age?",
     econ="Have you ever taken a class in economics at the university level?",
     sport="What is your favorite sport?",
 )
@@ -33,6 +33,8 @@ class Survey(Page):
                 label=LABELS["age"],
                 description="Full years only, please.",
                 default=player.get("age"),
+                addon_end="years",
+                class_wrapper="col-12 col-md-3",  # Scale down on desktop
                 min=0,
                 max=120,
             ),
