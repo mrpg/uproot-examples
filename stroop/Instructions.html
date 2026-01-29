@@ -1,0 +1,33 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Stroop Task Instructions
+{% endblock title %}
+
+
+{% block main %}
+
+<h3>Instructions</h3>
+
+<p>In this task, you will see color words (like RED, BLUE, GREEN, YELLOW) displayed in different ink colors.</p>
+
+<p><strong>Your task:</strong> Identify the <em>ink color</em> of the word, <strong>not</strong> the word itself.</p>
+
+<h4>Examples</h4>
+
+<div class="mb-4">
+    <p>
+        <span style="color: red; font-size: 1.5em; font-weight: bold;">RED</span>
+        &rarr; Correct answer: <strong>red</strong> (word and color match)
+    </p>
+    <p>
+        <span style="color: blue; font-size: 1.5em; font-weight: bold;">RED</span>
+        &rarr; Correct answer: <strong>blue</strong> (ignore the word, focus on the ink color)
+    </p>
+</div>
+
+<p>Respond as <strong>quickly</strong> and <strong>accurately</strong> as possible.</p>
+
+<p>Click the button matching the ink color you see.</p>
+
+{% endblock main %}
