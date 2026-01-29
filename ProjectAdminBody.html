@@ -1,0 +1,14 @@
+{% if deployment.PUBLIC_DEMO and deployment.ORIGIN == "https://demo.uproot.science" %}
+
+<script>
+    const headsUp = document.createElement("div");
+    I("uproot-main").prepend(headsUp);
+
+    headsUp.classList = "alert alert-secondary mb-5";
+    headsUp.innerHTML = `<b>Heads up</b>: This is a public demo of <a href="https://uproot.science/">uproot</a>,
+        an open source framework for research in the social sciences. Due to the public nature of this site, its
+    content cannot be perfectly controlled. Please <a href="https://uproot.science/legal/">report</a> any
+    objectionable material so that it may be removed. Thank you for understanding.`;
+</script>
+
+{% endif %}
