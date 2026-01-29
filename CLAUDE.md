@@ -4,25 +4,31 @@ This repository contains example apps for [uproot](https://uproot.science/), a f
 
 ## Before Writing Any Code
 
-**Always explore existing examples first.** This repository contains 30+ apps covering most common experimental paradigms. The best way to build a new experiment is to find a similar one and adapt it.
+**Always explore existing examples first.** This repository contains 40+ apps covering most common experimental paradigms. The best way to build a new experiment is to find a similar one and adapt it.
 
-### Step 1: Find Relevant Examples
+### Step 1: Get the Full Picture
 
-1. Read `README.md` in the repository root - it lists all apps with brief descriptions and difficulty ratings
-2. Browse app directories - each folder is a self-contained experiment
-3. Apps marked with † are primarily for internal testing and benchmarking, but useful as simple examples of individual uproot features
+Before looking for specific patterns, understand what examples are available:
 
-### Step 2: Study the Example Apps
+1. **Read `README.md`** - Contains a complete table of all apps with descriptions and difficulty ratings
+2. **Scan `main.py`** - Shows all apps that are loaded; gives you the full list of available examples
+
+This overview is essential. Don't skip to specific examples without first knowing what's available—you might miss a better starting point.
+
+### Step 2: Study Relevant Examples
+
+Once you've identified promising examples from the README table:
+
+1. **Read the `__init__.py`** of each relevant app completely
+2. **Read the HTML templates** to see how data is displayed
+3. **Compare 2-3 similar apps** to understand alternative approaches
 
 Each app has the same structure:
 - `__init__.py` - All Python logic (pages, fields, callbacks)
 - `*.html` files - Jinja2 templates matching page class names
 - `README.md` - Loading instructions (sometimes additional context)
 
-**To understand a pattern, read the `__init__.py` of at least 2-3 apps that use it.** Look for:
-- Simple examples first (difficulty: Easy)
-- Then medium complexity for more features
-- Advanced examples for real-time or complex interactions
+Apps marked with † are primarily for internal testing and benchmarking, but useful as simple examples of individual uproot features.
 
 ### Step 3: Check the Documentation
 
@@ -35,65 +41,19 @@ Key documentation sections:
 - `docs/advanced/` - Rounds, timeouts, dropouts, uploads
 - `docs/reference/` - Field types, page methods, CLI
 
-## How to Find Specific Patterns
+## Finding Patterns
 
-### "How do I create groups/pairs?"
-Look at: `dictator_game`, `prisoners_dilemma`, `ultimatum_game`
-Search for: `GroupCreatingWait`, `group_size`
+When looking for how to implement something specific, use grep/search across the codebase rather than relying on a predetermined list. Common search terms:
 
-### "How do I synchronize players?"
-Look at: `dictator_game`, `public_goods_game`
-Search for: `SynchronizingWait`, `all_here`
-
-### "How do I repeat pages/rounds?"
-Look at: `prisoners_dilemma_repeated`, `rounds`, `big5_short`
-Search for: `Rounds(`, `player.round`
-
-### "How do I collect form data?"
-Look at: `dictator_game` (simple), `quiz` (dynamic), `mpl` (complex)
-Search for: `fields = dict(`, field type names like `RadioField`, `DecimalField`
-
-### "How do I handle real-time interactions?"
-Look at: `double_auction` (advanced), `chat`, `drawing_board`, `observed_diary`
-Search for: `@live`, `notify(`, `uproot.invoke`
-
-### "How do I handle sensitive data?"
-Look at: `payment_data`, `quiz`
-Search for: `stealth_fields`, `handle_stealth_fields`
-
-### "How do I randomize pages or apps?"
-Look at: `randomize_pages`, `randomize_pages_allow_back`, `randomize_apps`
-Search for: `Random(`, `shuffled`
-
-### "How do I handle timeouts?"
-Look at: `timeout_multipage`, `double_auction`, `sumhunt`
-Search for: `timeout(`, `timeout_reached`, `DURATION`
-
-### "How do I store complex data?"
-Look at: `double_auction`
-Search for: `mod.Entry`, `mod.create_model`, `mod.add_entry`
-
-### "How do I show results/history?"
-Look at: `prisoners_dilemma_repeated`, `rounds`
-Search for: `digest(`, `player.within(`
-
-## Recommended Exploration Order
-
-For a new experiment type:
-
-1. **Find the closest example** in the README table
-2. **Read its `__init__.py` completely** - understand the page flow
-3. **Read its HTML templates** - see how data is displayed
-4. **Check cross-references** - similar apps may show alternative approaches
-5. **Consult docs** at https://uproot.science/ for detailed explanations
-
-## Key Files to Understand
-
-- `main.py` - Shows how apps are loaded with `load_config()`
-- `dictator_game/__init__.py` - Canonical example of a 2-player game
-- `quiz/__init__.py` - Dynamic fields and stealth field validation
-- `double_auction/__init__.py` - Complex real-time interactions
-- `prisoners_dilemma_repeated/__init__.py` - Rounds and history access
+- Groups: `GroupCreatingWait`, `group_size`
+- Synchronization: `SynchronizingWait`, `all_here`
+- Rounds: `Rounds(`, `player.round`, `digest(`
+- Forms: `fields = dict(`, field type names like `RadioField`, `DecimalField`
+- Real-time: `@live`, `notify(`, `uproot.invoke`
+- Sensitive data: `stealth_fields`, `handle_stealth_fields`
+- Randomization: `Random(`, `shuffled`
+- Timeouts: `timeout(`, `timeout_reached`
+- Custom models: `mod.Entry`, `mod.create_model`
 
 ## When Building New Apps
 
@@ -102,25 +62,37 @@ For a new experiment type:
 3. **Define `DESCRIPTION` and `page_order`** - these are required
 4. **Create matching HTML templates** for each page class
 5. **Add to `main.py`** with `load_config()` to test
+6. **Add to `README.md`** in the Apps table with description and difficulty
+
+### Frontend Libraries
+
+uproot includes **Bootstrap 5 CSS and JS** on every page, as well as **Alpine.js**. These are available out of the box—no need to add script tags or imports.
+
+When writing HTML templates, always follow Bootstrap best practices for layout and components (e.g., use the grid system, proper form classes, responsive utilities).
+
+Put repeating parts in separate HTML files, and include them with `{{ include "ACTUAL_APP_NAME/SEPARATE_TEMPLATE_FILE.html" }}`.
 
 ## Exploring the Framework Source
 
-When documentation and examples aren't enough—for understanding internal behavior, available imports, or advanced features—clone the uproot source:
+**Clone the uproot source code—this is invaluable.** When documentation and examples aren't enough, the source is the definitive reference:
 
 ```bash
 git clone https://github.com/mrpg/uproot /tmp/uproot
 ```
 
-Useful for:
-- Finding all available imports from `uproot.fields` or `uproot.smithereens`
-- Understanding how page lifecycle methods are called
-- Discovering undocumented features or helper functions
-- Debugging unexpected behavior
+The most important files for most users (find them by name):
+- **`smithereens.py`** - Core utilities (`players()`, `notify()`, `other_in_group()`, etc.). This is where the key helper functions live.
+- **`fields.py`** - All field type definitions. Essential for understanding what field types are available and how they work.
+- **`uproot.js`** - Client-side JavaScript API for real-time features, form handling, and WebSocket communication.
 
-Key source locations to explore:
-- `uproot/fields.py` - All field type definitions
-- `uproot/smithereens.py` - Core utilities (`players()`, `notify()`, `other_in_group()`, etc.)
+Also useful:
 - `uproot/types.py` - Page base classes and decorators
+
+Reading the source helps with:
+- Finding all available imports and their signatures
+- Understanding how page lifecycle methods are called
+- Discovering features not fully covered in documentation
+- Debugging unexpected behavior
 
 ## Running the Examples
 
