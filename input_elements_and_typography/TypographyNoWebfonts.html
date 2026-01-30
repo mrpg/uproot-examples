@@ -1,0 +1,132 @@
+{% set nowebfonts = True %}
+
+
+{% extends "Base.html" %}
+
+
+{% block title %}
+
+Default fonts and font weights in uproot if no webfonts are loaded
+
+{% endblock title %}
+
+
+{% block main %}
+
+<div class="card card-body font-sans-serif mb-4">
+    <h3 class="border-bottom fw-600 mb-3 pb-3">Default font (sans-serif)</h3>
+    <p>This is the default sans-serif font.</p>
+    <p class="text-primary bg-primary bg-opacity-10 border-bottom border-primary border-top pb-3 px-4 pt-2">
+        {% for d in range(1, 7) %}
+        <span class="display-{{ d }}">Sans-serif {% if loop.last %}{% else %}/ {% endif %}</span>
+        {% endfor %}
+    </p>
+    <h5>Disambiguation test</h5>
+    <p>0 O <i>O</i>, 1 l I \ | / <i>\ | / I l 1</i>, <i>i</i> <i>j</i>, rn m, <i>&epsilon;</i> <i>&varepsilon;</i>, <i>&theta;</i> <i>&vartheta;</i> <i>&Theta;</i>, <i>&phi;</i> <i>&varphi;</i> <i>&psi;</i>, <i>&omega;</i> <i>&varpi;</i>, – &minus;</p>
+    <p>Latin vs. Greek characters: <i>a</i> <i>&alpha;</i>, <i>d</i> <i>&delta;</i>, <i>e</i> <i>&epsilon;</i>, <i>i</i> <i>&iota;</i>, <i>k</i> <i>&kappa;</i>, <i>n</i> <i>&eta;</i>, <i>o</i> <i>&sigma;</i>, <i>p</i> <i>&rho;</i>, <i>q</i> <i>&varrho;</i>, <i>ß</i> <i>&beta;</i>, <i>u</i> <i>&upsilon;</i>, <i>v</i> <i>&nu;</i>, <i>w</i> <i>&omega;</i>, <i>x</i> <i>&chi;</i>, <i>y</i> <i>&gamma;</i>, <i>A</i> <i>&Delta;</i> <i>&Lambda;</i>, <i>O</i> <i>&Theta;</i> <i>&Omega;</i>, <i>T</i> <i>&Gamma;</i>, <i>Y</i></i> <i>&Upsilon;</i> <i>&upsih;</i>.</p>
+    <h5>Font weights</h5>
+    <div class="pb-3 row">
+        <div class="col">
+            {% for w in range(100, 1000, 100) %}
+                <p class="fw-{{ w }} mb-0" dir="ltr">Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!</p>
+            {% endfor %}
+        </div>
+        <div class="col fst-italic">
+            {% for w in range(100, 1000, 100) %}
+                <p class="fw-{{ w }} mb-0">Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="card card-body font-serif mb-4">
+    <h3 class="border-bottom fw-600 mb-3 pb-3">Serif font</h3>
+    <p>This is the default serif font.</p>
+    <p class="text-danger bg-danger bg-opacity-10 border-bottom border-danger border-top pb-3 px-4 pt-2">
+        {% for d in range(1, 7) %}
+        <span class="display-{{ d }}">Serif {% if loop.last %}{% else %}/ {% endif %}</span>
+        {% endfor %}
+    </p>
+    <h5>Disambiguation test</h5>
+    <p>0 O <i>O</i>, 1 l I \ | / <i>\ | / I l 1</i>, <i>i</i> <i>j</i>, rn m, <i>&epsilon;</i> <i>&varepsilon;</i>, <i>&theta;</i> <i>&vartheta;</i> <i>&Theta;</i>, <i>&phi;</i> <i>&varphi;</i> <i>&psi;</i>, <i>&omega;</i> <i>&varpi;</i>, – &minus;</p>
+    <p>Latin vs. Greek characters: <i>a</i> <i>&alpha;</i>, <i>d</i> <i>&delta;</i>, <i>e</i> <i>&epsilon;</i>, <i>i</i> <i>&iota;</i>, <i>k</i> <i>&kappa;</i>, <i>n</i> <i>&eta;</i>, <i>o</i> <i>&sigma;</i>, <i>p</i> <i>&rho;</i>, <i>q</i> <i>&varrho;</i>, <i>ß</i> <i>&beta;</i>, <i>u</i> <i>&upsilon;</i>, <i>v</i> <i>&nu;</i>, <i>w</i> <i>&omega;</i>, <i>x</i> <i>&chi;</i>, <i>y</i> <i>&gamma;</i>, <i>A</i> <i>&Delta;</i> <i>&Lambda;</i>, <i>O</i> <i>&Theta;</i> <i>&Omega;</i>, <i>T</i> <i>&Gamma;</i>, <i>Y</i></i> <i>&Upsilon;</i> <i>&upsih;</i>.</p>
+    <h5>Font weights</h5>
+    <div class="pb-3 row">
+        <div class="col">
+            {% for w in [100, 200, 300, 400, 450, 500, 600, 700] %}
+                <p class="fw-{{ w }} mb-0">Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!</p>
+            {% endfor %}
+        </div>
+        <div class="col fst-italic">
+            {% for w in [100, 200, 300, 400, 450, 500, 600, 700] %}
+                <p class="fw-{{ w }} mb-0">Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!</p>
+            {% endfor %}
+        </div>
+    </div>
+    <h5>Mathematics</h5>
+    <p>This is the default font used for mathematical formulas (MathML):</p>
+    <math class="font-math" display="block">
+        <mrow>
+            <mi>x</mi>
+            <mo>=</mo>
+            <mfrac>
+                <mrow>
+                    <mo>−</mo><mi>b</mi>
+                    <mo>±</mo>
+                    <msqrt>
+                        <mrow>
+                            <msup><mi>b</mi><mn>2</mn></msup>
+                            <mo>−</mo>
+                            <mn>4</mn><mi>a</mi><mi>c</mi>
+                        </mrow>
+                    </msqrt>
+                </mrow>
+                <mrow><mn>2</mn><mi>a</mi></mrow>
+            </mfrac>
+        </mrow>
+    </math>
+    <math class="font-math" display="block">
+        <mrow>
+            <msubsup>
+                <mo>∫</mo>
+                <mrow><mo>−</mo><mo>∞</mo></mrow>
+                <mo>∞</mo>
+            </msubsup>
+            <msup>
+                <mi mathvariant="normal">e</mi>
+                <mrow><mo>−</mo><msup><mi>x</mi><mn>2</mn></msup></mrow>
+            </msup>
+            <mi mathvariant="normal">d</mi><mi>x</mi>
+            <mo>=</mo>
+            <msqrt><mi mathvariant="normal">π</mi></msqrt>
+        </mrow>
+    </math>
+</div>
+
+<div class="card card-body font-monospace">
+    <h3 class="border-bottom fw-600 mb-3 pb-3">Monospace font</h3>
+    <p>This is the default monospace (“typewriter”) font.</p>
+    <p class="border-bottom border-top pb-3 px-4 pt-2" style="background-color: rgb(from var(--bs-code-color) r g b / 0.1); border-color: var(--bs-code-color) !important; color: var(--bs-code-color);">
+        {% for d in range(1, 7) %}
+        <span class="display-{{ d }}">Monospace {% if loop.last %}{% else %}/ {% endif %}</span>
+        {% endfor %}
+    </p>
+    <h5>Disambiguation test</h5>
+    <p>0 O <i>O</i>, 1 l I \ | / <i>\ | / I l 1</i>, <i>i</i> <i>j</i>, rn m, <i>&epsilon;</i> <i>&varepsilon;</i>, <i>&theta;</i> <i>&vartheta;</i> <i>&Theta;</i>, <i>&phi;</i> <i>&varphi;</i> <i>&psi;</i>, <i>&omega;</i> <i>&varpi;</i>, – &minus;</p>
+    <p>Latin vs. Greek characters: <i>a</i> <i>&alpha;</i>, <i>d</i> <i>&delta;</i>, <i>e</i> <i>&epsilon;</i>, <i>i</i> <i>&iota;</i>, <i>k</i> <i>&kappa;</i>, <i>n</i> <i>&eta;</i>, <i>o</i> <i>&sigma;</i>, <i>p</i> <i>&rho;</i>, <i>q</i> <i>&varrho;</i>, <i>ß</i> <i>&beta;</i>, <i>u</i> <i>&upsilon;</i>, <i>v</i> <i>&nu;</i>, <i>w</i> <i>&omega;</i>, <i>x</i> <i>&chi;</i>, <i>y</i> <i>&gamma;</i>, <i>A</i> <i>&Delta;</i> <i>&Lambda;</i>, <i>O</i> <i>&Theta;</i> <i>&Omega;</i>, <i>T</i> <i>&Gamma;</i>, <i>Y</i></i> <i>&Upsilon;</i> <i>&upsih;</i>.</p>
+    <h5>Font weights</h5>
+    <div class="pb-3 row">
+        <div class="col">
+            {% for w in range(200, 800, 100) %}
+                <p class="fw-{{ w }} mb-0">Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!</p>
+            {% endfor %}
+        </div>
+        <div class="col fst-italic">
+            {% for w in range(200, 800, 100) %}
+                <p class="fw-{{ w }} mb-0">Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock main %}

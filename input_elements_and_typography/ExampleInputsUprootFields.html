@@ -1,0 +1,20 @@
+{% extends "Base.html" %}
+
+
+{% block title %}
+
+Input fields based on fields provided by uproot
+
+{% endblock title %}
+
+
+{% block main %}
+
+{{ fields() }}
+
+<p class="fw-bold">Example of a “Likert matrix”:</p>
+
+{{ likert_matrix(form.likert_field_2, form.likert_field_3, form.likert_field_4, form.likert_field_5) }}
+
+
+{% endblock main %}
