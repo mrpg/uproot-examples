@@ -13,11 +13,11 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | barrier                       | Force players to stay on a page                               | Easy       |
 | big5\_short                   | Short Big 5 questionnaire with scoring                        | Medium     |
 | beauty\_contest               | Beauty contest / guessing game (Nagel, 1995)                  | Easy       |
-| bounded\_choice†              | Examples for the BoundedChoiceField                           | Easy       |
+| bounded\_choice               | Examples for the BoundedChoiceField                           | Easy       |
 | chat                          | Chat                                                          | Easy       |
 | continuous                    | Do something in intervals (background tasks)                  | Medium     |
-| counter†                      | Counter with live updates                                     | Easy       |
-| counter\_alpine†              | Counter with live updates (Alpine.js)                         | Easy       |
+| counter                       | Counter with live updates                                     | Easy       |
+| counter\_alpine               | Counter with live updates (Alpine.js)                         | Easy       |
 | dictator\_game                | Standard dictator game                                        | Easy       |
 | double\_auction               | Double auction (like Smith, 1962)                             | Advanced   |
 | drawing\_board                | Session-level drawing board                                   | Medium     |
@@ -26,7 +26,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | encryption\_task              | Encryption task (Erkal et al., 2011)                          | Medium     |
 | focal\_point                  | Focal point game (like Schelling, 1957)                       | Easy       |
 | gift\_exchange\_game          | Gift exchange game (Fehr et al., 1993)                        | Easy       |
-| grouping\_test†               | Custom group creation                                         | Easy       |
+| grouping\_test                | Custom group creation                                         | Easy       |
 | many\_fields†                 | Benchmark: insert many fields                                 | Easy       |
 | mpl                           | Multiple price list                                           | Medium     |
 | minimum\_effort\_game         | Minimum effort / weakest link game (Van Huyck et al., 1990)   | Easy       |
@@ -45,7 +45,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | randomize\_pages\_allow\_back | Randomizing page order and allow going back                   | Easy       |
 | read\_settings†               | Read session settings                                         | Easy       |
 | rounds                        | Using rounds (history table)                                  | Easy       |
-| rounds\_nested†               | Using nested rounds                                           | Easy       |
+| rounds\_nested                | Using nested rounds                                           | Easy       |
 | stroop                        | Stroop task                                                   | Advanced   |
 | student\_id                   | Have participants enter their Student ID                      | Easy       |
 | sumhunt                       | Real effort task about finding sums in matrices               | Medium     |
