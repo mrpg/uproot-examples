@@ -1,0 +1,168 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Please transcribe
+{% endblock title %}
+
+
+{% block head %}
+
+<script>
+document.addEventListener("alpine:init", () => {
+    Alpine.store("task", {
+        answer: "",
+        feedback: null,
+        loading: false
+    });
+});
+
+function handleKeydown(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        event.stopPropagation();
+        submitAnswer();
+        return false;
+    }
+}
+
+function handleInput(event) {
+    // Force uppercase and filter to only A-Z
+    const store = Alpine.store("task");
+    store.answer = event.target.value
+        .toUpperCase()
+        .replace(/[^A-Z]/g, "")
+        .slice(0, C.WORD_LENGTH);
+}
+
+function submitAnswer() {
+    const store = Alpine.store("task");
+    const answer = store.answer.trim().toUpperCase();
+
+    if (answer.length !== C.WORD_LENGTH) {
+        return;
+    }
+
+    store.loading = true;
+
+    uproot.invoke("submit_answer", answer).then((response) => {
+        store.loading = false;
+        if (response.correct) {
+            store.feedback = { type: "success", message: "Correct!" };
+            store.answer = "";
+            window.setInterval(() => Alpine.store("task").feedback = null, 1000);
+
+            reloadAudio().then(playAudio);
+        } else {
+            store.feedback = { type: "error", message: response.message || "Incorrect" };
+            store.answer = "";
+            Alpine.nextTick(() => {
+                const input = document.querySelector('.answer-input');
+                if (input) input.focus();
+            });
+        }
+    }).catch((err) => {
+        store.loading = false;
+        store.feedback = { type: "error", message: "Submission failed. Please try again." };
+    });
+}
+</script>
+
+<style>
+.answer-input {
+    font-family: monospace;
+    font-size: 1.8rem;
+    letter-spacing: 0.5rem;
+    text-align: center;
+    text-transform: uppercase;
+    width: 200px;
+}
+.feedback-success {
+    color: var(--bs-success);
+    font-weight: bold;
+}
+.feedback-error {
+    color: var(--bs-danger);
+    font-weight: bold;
+}
+</style>
+
+{% endblock head %}
+
+{% block main %}
+
+<div id="audio-container" class="text-center"></div>
+
+{% include "nato_alphabet/Letters.html" %}
+
+<div class="d-flex align-items-center justify-content-center gap-3">
+    <input
+        type="text"
+        class="form-control answer-input"
+        x-model="$store.task.answer"
+        @input="handleInput"
+        @keydown="handleKeydown"
+        maxlength="{{ C.WORD_LENGTH }}"
+        placeholder="{{ '?' * C.WORD_LENGTH }}"
+        autocomplete="off"
+        autocapitalize="characters"
+        spellcheck="false"
+        autofocus
+    >
+    <button
+        type="button"
+        class="btn btn-lg btn-uproot"
+        @click="submitAnswer()"
+        :disabled="$store.task.answer.length !== C.WORD_LENGTH || $store.task.loading"
+    >Submit</button>
+</div>
+
+<div class="text-center mb-5">
+    <p class="text-muted mt-3">Enter {{ C.WORD_LENGTH }} uppercase letters (A-Z) and press Enter or click “Submit.”</p>
+
+    <button type="button" class="btn btn-secondary btn-sm" onclick="uproot.submit()">
+        Exit task
+    </button>
+
+    <div class="mt-2" x-show="$store.task.feedback">
+        <span
+            :class="$store.task.feedback?.type === 'success' ? 'feedback-success' : 'feedback-error'"
+            x-text="$store.task.feedback?.message"
+        ></span>
+    </div>
+</div>
+
+{% endblock main %}
+
+
+{% block late %}
+
+<script>
+    function reloadAudio() {
+        return uproot.invoke("get_audio").then((dataUri) => {
+            const container = I("audio-container");
+            container.innerHTML = "";
+
+            const audio = document.createElement("audio");
+            audio.controls = true;
+            audio.controlsList = "noplaybackrate";
+
+            const source = document.createElement("source");
+            source.type = "audio/wav";
+            source.src = dataUri;
+
+            audio.appendChild(source);
+            container.appendChild(audio);
+        });
+    }
+
+    function playAudio() {
+        return I("audio-container").children[0].play();
+    }
+
+    uproot.onReady(() => {
+        uproot.invoke("ensure_word").then(reloadAudio);
+    });
+</script>
+
+{% endblock late %}

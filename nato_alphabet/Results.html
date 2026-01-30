@@ -1,0 +1,12 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You correctly transcribed <strong>{{ player.solved }}</strong> word{% if player.solved != 1 %}s{% endif %}.</p>
+
+{% endblock main %}
