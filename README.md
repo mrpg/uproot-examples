@@ -22,6 +22,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | double\_auction               | Double auction (like Smith, 1962)                             | Advanced   |
 | drawing\_board                | Session-level drawing board                                   | Medium     |
 | dropouts                      | Handling dropouts                                             | Easy       |
+| embed\_static                 | Embedding a static file                                       | Easy       |
 | encryption\_task              | Encryption task (Erkal et al., 2011)                          | Medium     |
 | focal\_point                  | Focal point game (like Schelling, 1957)                       | Easy       |
 | gift\_exchange\_game          | Gift exchange game (Fehr et al., 1993)                        | Easy       |
