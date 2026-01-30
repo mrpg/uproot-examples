@@ -69,7 +69,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 
 ## License
 
-These examples are licensed under the **0BSD License** (Zero-Clause BSD).
+Everything in this repository is licensed under the **0BSD License** (Zero-Clause BSD).
 
 ### For users and developers
 
