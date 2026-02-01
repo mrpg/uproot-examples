@@ -11,7 +11,6 @@
 import wtforms
 from uproot.fields import *
 from uproot.smithereens import *
-from uproot.types import Page
 
 DESCRIPTION = "Showcasing uproot input elements and typography features"
 LANDING_PAGE = False
