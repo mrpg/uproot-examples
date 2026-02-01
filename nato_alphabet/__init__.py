@@ -35,10 +35,13 @@ class C:
 
 def new_session(session):
     try:
+        import audioop
+
         import pydub
     except ImportError:
-        print("Please install pydub.", sys.stderr)
-        raise
+        raise RuntimeError(
+            "This app requires 'pydub' and 'audioop-lts'. Install via pip/uv."
+        )
 
 
 def new_player(player):
