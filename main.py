@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ./uproot_license.txt
+import os
+
 import uproot.deployment as upd
 from uproot.cli import cli
 from uproot.server import load_config, uproot_server
@@ -65,6 +67,11 @@ load_config(uproot_server, config="upload", apps=["upload"])
 # Create admin
 
 upd.ADMINS["admin"] = ...
+
+# Set API key
+
+if api_key := os.getenv("UPROOT_API_KEY"):
+    upd.API_KEYS.add(api_key)
 
 # Set default language
 
