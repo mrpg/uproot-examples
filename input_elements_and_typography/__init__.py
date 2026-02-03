@@ -207,7 +207,7 @@ class ExampleInputsUprootFields(Page):
                 render_kw={
                     "style": "flex: unset !important; width: fit-content !important;"
                 },
-                widget=wtforms.widgets.NumberInput(step=C.PRECISION),
+                step=C.PRECISION,
             ),
             "decimal_range_field": DecimalRangeField(
                 default=3.45,
@@ -219,7 +219,7 @@ class ExampleInputsUprootFields(Page):
                 min=0,
                 places=2,
                 render_kw={"class": "w-50"},
-                widget=wtforms.widgets.RangeInput(step=C.PRECISION),
+                step=C.PRECISION,
             ),
             "decimal_range_field_no_anchoring": DecimalRangeField(
                 anchoring=False,
@@ -232,7 +232,7 @@ class ExampleInputsUprootFields(Page):
                 min=0,
                 places=2,
                 render_kw={"class": "w-50"},
-                widget=wtforms.widgets.RangeInput(step=C.PRECISION),
+                step=C.PRECISION,
             ),
             "email_field_top_complete": EmailField(
                 description="Description for the <code class='text-black-50'>EmailField</code> with both main (top) and floating label.",
