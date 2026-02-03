@@ -1,0 +1,23 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You claimed <b>{{ player.claim }}</b>.</p>
+<p>The other traveler claimed <b>{{ other.claim }}</b>.</p>
+
+{% if player.claim < other.claim %}
+<p>Your claim was lower, so you receive {{ player.claim }} + {{ bonus }} bonus.</p>
+{% elif player.claim > other.claim %}
+<p>Your claim was higher, so you receive {{ other.claim }} &minus; {{ bonus }} penalty.</p>
+{% else %}
+<p>Both claims were equal, so you both receive {{ player.claim }}.</p>
+{% endif %}
+
+<p>Your payoff is <b>{{ player.payoff }}</b>.</p>
+
+{% endblock main %}

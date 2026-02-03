@@ -1,0 +1,22 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Traveler's Dilemma
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You and another traveler have each lost identical items. The airline has asked you both to independently claim a value between <b>{{ min_claim }}</b> and <b>{{ max_claim }}</b>.</p>
+
+<p>The airline will pay both of you the <b>lower</b> of the two claims. However:</p>
+
+<ul>
+    <li>If your claim is <b>lower</b>, you receive a bonus of <b>+{{ bonus }}</b></li>
+    <li>If your claim is <b>higher</b>, you receive a penalty of <b>&minus;{{ bonus }}</b></li>
+    <li>If both claims are <b>equal</b>, you both receive that amount with no adjustment</li>
+</ul>
+
+{{ fields() }}
+
+{% endblock main %}
