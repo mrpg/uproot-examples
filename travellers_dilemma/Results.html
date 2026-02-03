@@ -11,9 +11,9 @@ Results
 <p>The other traveller claimed <b>{{ other.claim }}</b>.</p>
 
 {% if player.claim < other.claim %}
-<p>Your claim was lower, so you receive {{ player.claim }} + {{ bonus }} bonus.</p>
+<p>Your claim was lower, so you receive {{ player.claim }} + {{ C.BONUS }} bonus.</p>
 {% elif player.claim > other.claim %}
-<p>Your claim was higher, so you receive {{ other.claim }} &minus; {{ bonus }} penalty.</p>
+<p>Your claim was higher, so you receive {{ other.claim }} &minus; {{ C.BONUS }} penalty.</p>
 {% else %}
 <p>Both claims were equal, so you both receive {{ player.claim }}.</p>
 {% endif %}

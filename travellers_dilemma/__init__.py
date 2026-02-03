@@ -11,12 +11,13 @@
 from uproot.fields import *
 from uproot.smithereens import *
 
-DESCRIPTION = "Traveller's dilemma (Basu, 1994)"
+DESCRIPTION = "Traveller’s dilemma (Basu, 1994)"
 
-# Game parameters
-MIN_CLAIM = 2
-MAX_CLAIM = 100
-BONUS = 2  # Reward for lower claim / penalty for higher claim
+
+class C:
+    MIN_CLAIM = 2
+    MAX_CLAIM = 100
+    BONUS = 2  # Reward for lower claim / penalty for higher claim
 
 
 class GroupPlease(GroupCreatingWait):
@@ -26,19 +27,11 @@ class GroupPlease(GroupCreatingWait):
 class Claim(Page):
     fields = dict(
         claim=IntegerField(
-            label=f"Enter your claim ({MIN_CLAIM}-{MAX_CLAIM}):",
-            min=MIN_CLAIM,
-            max=MAX_CLAIM,
+            label=f"Enter your claim (between {C.MIN_CLAIM} and {C.MAX_CLAIM}):",
+            min=C.MIN_CLAIM,
+            max=C.MAX_CLAIM,
         ),
     )
-
-    @classmethod
-    def context(page, player):
-        return dict(
-            min_claim=MIN_CLAIM,
-            max_claim=MAX_CLAIM,
-            bonus=BONUS,
-        )
 
 
 class Sync(SynchronizingWait):
@@ -47,11 +40,11 @@ class Sync(SynchronizingWait):
         player1, player2 = players(group)
 
         if player1.claim < player2.claim:
-            player1.payoff = player1.claim + BONUS
-            player2.payoff = player1.claim - BONUS
+            player1.payoff = player1.claim + C.BONUS
+            player2.payoff = player1.claim - C.BONUS
         elif player2.claim < player1.claim:
-            player2.payoff = player2.claim + BONUS
-            player1.payoff = player2.claim - BONUS
+            player2.payoff = player2.claim + C.BONUS
+            player1.payoff = player2.claim - C.BONUS
         else:
             # Equal claims: both get their claim amount
             player1.payoff = player1.claim
@@ -63,7 +56,6 @@ class Results(Page):
     def context(page, player):
         return dict(
             other=other_in_group(player),
-            bonus=BONUS,
         )
 
 
