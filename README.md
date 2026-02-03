@@ -52,7 +52,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | sumhunt                          | Real effort task about finding sums in matrices               | Medium     |
 | survey                           | Survey with follow-up verification                            | Easy       |
 | timeout\_multipage               | Timeout that spans multiple pages                             | Easy       |
-| travellers\_dilemma              | Traveler's dilemma (Basu, 1994)                               | Easy       |
+| travellers\_dilemma              | Traveller's dilemma (Basu, 1994)                               | Easy       |
 | treatments\_balanced             | Treatment assignment (more balanced/cycling)                  | Easy       |
 | treatments                       | Treatment assignment (basic)                                  | Easy       |
 | trigger\_jserrorsâ�                | Test JavaScript error handling                                | Easy       |

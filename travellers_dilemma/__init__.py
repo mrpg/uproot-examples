@@ -11,7 +11,7 @@
 from uproot.fields import *
 from uproot.smithereens import *
 
-DESCRIPTION = "Traveler's dilemma (Basu, 1994)"
+DESCRIPTION = "Traveller's dilemma (Basu, 1994)"
 
 # Game parameters
 MIN_CLAIM = 2
