@@ -24,7 +24,7 @@ Once you've identified promising examples from the README table:
 3. **Compare 2-3 similar apps** to understand alternative approaches
 
 Each app has the same structure:
-- `__init__.py` - All Python logic (pages, fields, callbacks)
+- `__init__.py` - All Python logic (constants, pages, fields, callbacks)
 - `*.html` files - Jinja2 templates matching page class names
 - `README.md` - Loading instructions (sometimes additional context)
 
@@ -53,13 +53,14 @@ When looking for how to implement something specific, use grep/search across the
 - Sensitive data: `stealth_fields`, `handle_stealth_fields`
 - Randomization: `Random(`, `shuffled`
 - Timeouts: `timeout(`, `timeout_reached`
+- Constants/parameters: `C`
 - Custom models: `mod.Entry`, `mod.create_model`
 
 ## When Building New Apps
 
 1. **Copy an existing similar app** as your starting point
-2. **Preserve the license header** at the top of `__init__.py`
-3. **Define `DESCRIPTION` and `page_order`** - these are required
+2. **Preserve the legally required license header** at the top of `__init__.py`
+3. **Define `DESCRIPTION` and `page_order`**
 4. **Create matching HTML templates** for each page class
 5. **Add to `main.py`** with `load_config()` to test
 6. **Add to `README.md`** in the Apps table with description and difficulty
@@ -74,16 +75,16 @@ Put repeating parts in separate HTML files, and include them with `{{ include "A
 
 ## Exploring the Framework Source
 
-**Clone the uproot source code—this is invaluable.** When documentation and examples aren't enough, the source is the definitive reference:
+**You may clone the uproot source code if necessary or useful.** When documentation and examples aren't enough, the source is the definitive reference:
 
 ```bash
 git clone https://github.com/mrpg/uproot /tmp/uproot
 ```
 
 The most important files for most users (find them by name):
-- **`smithereens.py`** - Core utilities (`players()`, `notify()`, `other_in_group()`, etc.). This is where the key helper functions live.
-- **`fields.py`** - All field type definitions. Essential for understanding what field types are available and how they work.
-- **`uproot.js`** - Client-side JavaScript API for real-time features, form handling, and WebSocket communication.
+- `smithereens.py` - Core utilities (`players()`, `notify()`, `other_in_group()`, etc.). This is where the key helper functions live.
+- `fields.py` - All field type definitions. Essential for understanding what field types are available and how they work.
+- `uproot.js` - Client-side JavaScript API for real-time features, form handling, and WebSocket communication.
 
 Also useful:
 - `uproot/types.py` - Page base classes and decorators
@@ -101,3 +102,7 @@ uv run uproot run  # or "uproot run" in a classic venv
 ```
 
 This starts all loaded apps. Access the admin interface to create sessions and test.
+
+## Best practices
+
+If installed, run `black`, `isort`, `ruff` on any new apps. Issues with star imports may be safely ignored.
