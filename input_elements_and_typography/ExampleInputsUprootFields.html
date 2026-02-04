@@ -1,6 +1,23 @@
 {% extends "Base.html" %}
 
 
+{% block head %}
+
+<script>
+    decimal_range_field_no_anchoring2Formatter = (value) => {
+        // Functions like these allow you to format values shown about and from sliders.
+
+        if (value < 0) {
+            return `−₮${(-value).toFixed(2)}`;
+        }
+        else {
+            return `₮${value.toFixed(2)}`;
+        }
+    };
+</script>
+
+{% endblock head %}
+
 {% block title %}
 
 Input fields based on fields provided by uproot

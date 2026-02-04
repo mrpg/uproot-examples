@@ -231,7 +231,18 @@ class ExampleInputsUprootFields(Page):
                 max=C.BUDGET,
                 min=0,
                 places=2,
-                render_kw={"class": "w-50"},
+                step=C.PRECISION,
+            ),
+            "decimal_range_field_no_anchoring2": DecimalRangeField(
+                anchoring=False,
+                default=3.45,
+                description="Description for the <code class='text-black-50'>DecimalRangeField</code> with <code class='text-black-50'>anchoring=False</code> and a custom formatter.",
+                label=safe(
+                    "How much would you like to give? <code class='ms-3 text-black-50'>DecimalRangeField</code>"
+                ),
+                max=C.BUDGET,
+                min=-C.BUDGET,
+                places=2,
                 step=C.PRECISION,
             ),
             "email_field_top_complete": EmailField(
