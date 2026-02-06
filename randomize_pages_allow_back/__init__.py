@@ -43,8 +43,10 @@ page_order = [
     Hello,
     Random(
         A,
-        B,
-        C,
+        Bracket(
+            B,
+            C,
+        ),
         D,
         E,
     ),

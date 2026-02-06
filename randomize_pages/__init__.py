@@ -38,8 +38,10 @@ class E(Page):
 page_order = [
     Random(
         A,
-        B,
-        C,
+        Bracket(
+            B,
+            C,
+        ),
         D,
         E,
     ),
