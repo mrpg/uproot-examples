@@ -52,7 +52,7 @@ def get_all_strokes(strokes_model):
         List of stroke dictionaries with points, color, and lineWidth
     """
     strokes = []
-    for entry in mod.filter_entries(strokes_model, Stroke):
+    for _, _, entry in mod.filter_entries(strokes_model, Stroke):
         strokes.append(
             {
                 "points": entry.points,

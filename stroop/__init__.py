@@ -140,7 +140,7 @@ class Stroop(Page):
         """Get current trial state (called on page load)."""
         # Count completed trials from model
         completed_count = 0
-        for entry in mod.filter_entries(player.session.trials, Trial):
+        for _, _, entry in mod.filter_entries(player.session.trials, Trial):
             if entry.pid() == player:
                 completed_count += 1
 
@@ -178,7 +178,7 @@ class Stroop(Page):
 
         # Check if this trial was already submitted (prevent duplicates on reload)
         existing = None
-        for entry in mod.filter_entries(
+        for _, _, entry in mod.filter_entries(
             player.session.trials, Trial, trial_number=trial_number
         ):
             if entry.pid() == player:
@@ -220,7 +220,7 @@ class Results(Page):
         """Calculate and pass results to the template."""
         trials = [
             entry
-            for entry in mod.filter_entries(player.session.trials, Trial)
+            for _, _, entry in mod.filter_entries(player.session.trials, Trial)
             if entry.pid() == player
         ]
 

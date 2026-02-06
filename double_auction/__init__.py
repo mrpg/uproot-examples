@@ -27,7 +27,7 @@ from enum import Enum
 from itertools import cycle
 from random import randint
 from time import time
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 from uuid import UUID
 
 import uproot.models as mod
@@ -81,7 +81,7 @@ def market_data(
     offers_model,
     txs_model,
     round: int,
-) -> Dict[str, List[Dict[str, Any]]]:
+) -> dict[str, list[dict[str, Any]]]:
     """
     Extract current market state: active bids, asks, and executed trades
 
@@ -98,8 +98,8 @@ def market_data(
     """
     # Map each player to their latest offer (last one wins)
     player_offers = {}
-    for entry in mod.filter_entries(offers_model, Offer, round=round):
-        player_offers[entry.pid] = (entry.id, entry.buy, entry.price)
+    for entry_id, _, entry in mod.filter_entries(offers_model, Offer, round=round):
+        player_offers[entry.pid] = (entry_id, entry.buy, entry.price)
 
     # Partition valid offers into market sides
     market_book = {"asks": [], "bids": []}
@@ -113,7 +113,9 @@ def market_data(
         market_book[side_key].append(offer_data)
 
     # Append executed transactions
-    market_book["txs"] = mod.filter_entries(txs_model, Transaction, round=round)
+    market_book["txs"] = [
+        entry for _, _, entry in mod.filter_entries(txs_model, Transaction, round=round)
+    ]
 
     return market_book
 
@@ -154,8 +156,8 @@ def create_offer_entry(
     round: int,
     is_buy: bool,
     price: Optional[float],
-) -> Offer:
-    """Helper to create and store an offer"""
+) -> UUID:
+    """Helper to create and store an offer, returns the entry UUID"""
     return mod.add_entry(
         session.offers,
         player,
@@ -170,11 +172,11 @@ def validate_offer(
     offers_model,
     round: int,
     offer_id: UUID,
-) -> Optional[Offer]:
+) -> Optional[tuple[UUID, Offer]]:
     """
     Validate that an offer exists and is active
 
-    Returns the offer if valid, None if invalid/cancelled
+    Returns (id, offer) tuple if valid, None if invalid/cancelled
     """
     candidates = mod.filter_entries(
         offers_model,
@@ -183,21 +185,24 @@ def validate_offer(
         round=round,
     )
 
-    if not candidates or candidates[0].price is None:
+    if not candidates:
         return None
 
-    target_offer = candidates[0]
-    latest_offer = None
+    target_id, _, target_offer = candidates[0]
+    if target_offer.price is None:
+        return None
+
+    latest_id = None
 
     # Verify this is the player's current active offer
-    for entry in mod.filter_entries(offers_model, Offer, round=round):
+    for entry_id, _, entry in mod.filter_entries(offers_model, Offer, round=round):
         if entry.pid == target_offer.pid:
-            latest_offer = entry
+            latest_id = entry_id
 
-    if latest_offer.id != target_offer.id:
+    if latest_id != target_id:
         return None  # Player has a newer offer
 
-    return target_offer
+    return (target_id, target_offer)
 
 
 class Instructions(Page):
@@ -243,15 +248,16 @@ class Trade(Page):
         if player.offer is None:
             return dict(offer_amount=None)
         else:
-            offer = validate_offer(
+            result = validate_offer(
                 player.session.offers,
                 player.round,
                 player.offer,
             )
 
-            if offer is None:
+            if result is None:
                 return dict(offer_amount=None)
             else:
+                _, offer = result
                 return dict(offer_amount=offer.price)
 
     @live
@@ -284,7 +290,7 @@ class Trade(Page):
             player.round,
             player.buyer,
             amount,
-        ).id
+        )
 
         broadcast_market_update(player, player.session, player.round)
         return amount
@@ -310,13 +316,17 @@ class Trade(Page):
             raise ValueError(f"Player {player} already traded.")
 
         # Validate and retrieve the target offer
-        offer = validate_offer(
+        result = validate_offer(
             player.session.offers,
             player.round,
             offer_id,
         )
 
-        if not offer or offer.id != offer_id:
+        if result is None:
+            raise ValueError("Offer no longer valid")
+
+        validated_id, offer = result
+        if validated_id != offer_id:
             raise ValueError("Offer no longer valid")
 
         if offer.buy == player.buyer:
@@ -357,7 +367,7 @@ class Trade(Page):
             Transaction,
             round=player.round,
             price=offer.price,
-        ).id
+        )
 
         broadcast_market_update(player, player.session, player.round)
         return player.profit
