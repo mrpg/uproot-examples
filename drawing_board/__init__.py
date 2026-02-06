@@ -10,7 +10,7 @@
 
 import colorsys
 import random
-from typing import Any, Dict, List
+from typing import Any
 
 import uproot.models as mod
 from uproot.smithereens import *
@@ -31,7 +31,7 @@ class Stroke(metaclass=mod.Entry):
     """
 
     pid: PlayerIdentifier
-    points: List[Dict[str, Any]]
+    points: list[dict[str, Any]]
     color: str
     lineWidth: int
 
