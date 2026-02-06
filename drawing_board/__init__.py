@@ -12,14 +12,14 @@ import colorsys
 import random
 from typing import Any
 
-import uproot.models as mod
+import uproot.models as um
 from uproot.smithereens import *
 from uproot.types import Page
 
 DESCRIPTION = "An interactive drawing board"
 
 
-class Stroke(metaclass=mod.Entry):
+class Stroke(metaclass=um.Entry):
     """
     Represents a drawing stroke on the board
 
@@ -38,7 +38,7 @@ class Stroke(metaclass=mod.Entry):
 
 def new_session(session):
     """Initialize session with strokes model"""
-    session.strokes = mod.create_model(session, tag="strokes")
+    session.strokes = um.create_model(session, tag="strokes")
 
 
 def get_all_strokes(strokes_model):
@@ -52,7 +52,7 @@ def get_all_strokes(strokes_model):
         List of stroke dictionaries with points, color, and lineWidth
     """
     strokes = []
-    for _, _, entry in mod.filter_entries(strokes_model, Stroke):
+    for _, _, entry in um.filter_entries(strokes_model, Stroke):
         strokes.append(
             {
                 "points": entry.points,
@@ -89,7 +89,7 @@ class Draw(Page):
     @live
     async def stroke(page, player, points: list[dict], lineWidth: int, **kwargs):
         # Save stroke to the model
-        mod.add_entry(
+        um.add_entry(
             player.session.strokes,
             player,
             Stroke,

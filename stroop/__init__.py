@@ -21,7 +21,7 @@ Time is measured on the client side to avoid network latency effects.
 
 from random import Random as Random_
 
-import uproot.models as mod
+import uproot.models as um
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -33,7 +33,7 @@ NUM_TRIALS = 12
 COLORS = ["red", "green", "blue", "yellow"]
 
 
-class Trial(metaclass=mod.Entry):
+class Trial(metaclass=um.Entry):
     """
     Represents a single Stroop trial measurement.
 
@@ -60,7 +60,7 @@ class Trial(metaclass=mod.Entry):
 
 def new_session(session):
     """Initialize session with trial data model."""
-    session.trials = mod.create_model(session, tag="trials")
+    session.trials = um.create_model(session, tag="trials")
 
 
 def new_player(player):
@@ -140,7 +140,7 @@ class Stroop(Page):
         """Get current trial state (called on page load)."""
         # Count completed trials from model
         completed_count = 0
-        for _, _, entry in mod.filter_entries(player.session.trials, Trial):
+        for _, _, entry in um.filter_entries(player.session.trials, Trial):
             if entry.pid() == player:
                 completed_count += 1
 
@@ -178,7 +178,7 @@ class Stroop(Page):
 
         # Check if this trial was already submitted (prevent duplicates on reload)
         existing = None
-        for _, _, entry in mod.filter_entries(
+        for _, _, entry in um.filter_entries(
             player.session.trials, Trial, trial_number=trial_number
         ):
             if entry.pid() == player:
@@ -193,7 +193,7 @@ class Stroop(Page):
         correct = response == trial_spec["ink_color"]
 
         # Store the trial data
-        mod.add_entry(
+        um.add_entry(
             player.session.trials,
             player,
             Trial,
@@ -220,7 +220,7 @@ class Results(Page):
         """Calculate and pass results to the template."""
         trials = [
             entry
-            for _, _, entry in mod.filter_entries(player.session.trials, Trial)
+            for _, _, entry in um.filter_entries(player.session.trials, Trial)
             if entry.pid() == player
         ]
 

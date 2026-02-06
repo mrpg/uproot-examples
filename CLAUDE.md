@@ -54,7 +54,7 @@ When looking for how to implement something specific, use grep/search across the
 - Randomization: `Random(`, `shuffled`
 - Timeouts: `timeout(`, `timeout_reached`
 - Constants/parameters: `C`
-- Custom models: `mod.Entry`, `mod.create_model`
+- Custom models: `um.Entry`, `um.create_model`
 
 ## When Building New Apps
 

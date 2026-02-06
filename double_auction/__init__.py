@@ -30,7 +30,7 @@ from time import time
 from typing import Any, Optional
 from uuid import UUID
 
-import uproot.models as mod
+import uproot.models as um
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -39,7 +39,7 @@ LANDING_PAGE = False
 DURATION = 25 * 60
 
 
-class Offer(metaclass=mod.Entry):
+class Offer(metaclass=um.Entry):
     """
     Represents a market offer (bid or ask)
 
@@ -56,7 +56,7 @@ class Offer(metaclass=mod.Entry):
     price: Optional[float]  # None signifies offer withdrawal/invalidation
 
 
-class Transaction(metaclass=mod.Entry):
+class Transaction(metaclass=um.Entry):
     """
     Represents an executed trade
 
@@ -73,8 +73,8 @@ class Transaction(metaclass=mod.Entry):
 
 def new_session(session):
     """Initialize session with offer book and transaction ledger models"""
-    session.offers = mod.create_model(session, tag="offers")
-    session.txs = mod.create_model(session, tag="transactions")
+    session.offers = um.create_model(session, tag="offers")
+    session.txs = um.create_model(session, tag="transactions")
 
 
 def market_data(
@@ -98,7 +98,7 @@ def market_data(
     """
     # Map each player to their latest offer (last one wins)
     player_offers = {}
-    for entry_id, _, entry in mod.filter_entries(offers_model, Offer, round=round):
+    for entry_id, _, entry in um.filter_entries(offers_model, Offer, round=round):
         player_offers[entry.pid] = (entry_id, entry.buy, entry.price)
 
     # Partition valid offers into market sides
@@ -114,7 +114,7 @@ def market_data(
 
     # Append executed transactions
     market_book["txs"] = [
-        entry for _, _, entry in mod.filter_entries(txs_model, Transaction, round=round)
+        entry for _, _, entry in um.filter_entries(txs_model, Transaction, round=round)
     ]
 
     return market_book
@@ -158,7 +158,7 @@ def create_offer_entry(
     price: Optional[float],
 ) -> UUID:
     """Helper to create and store an offer, returns the entry UUID"""
-    return mod.add_entry(
+    return um.add_entry(
         session.offers,
         player,
         Offer,
@@ -178,7 +178,7 @@ def validate_offer(
 
     Returns (id, offer) tuple if valid, None if invalid/cancelled
     """
-    candidates = mod.filter_entries(
+    candidates = um.filter_entries(
         offers_model,
         Offer,
         id=offer_id,
@@ -195,7 +195,7 @@ def validate_offer(
     latest_id = None
 
     # Verify this is the player's current active offer
-    for entry_id, _, entry in mod.filter_entries(offers_model, Offer, round=round):
+    for entry_id, _, entry in um.filter_entries(offers_model, Offer, round=round):
         if entry.pid == target_offer.pid:
             latest_id = entry_id
 
@@ -361,7 +361,7 @@ class Trade(Page):
         )
 
         # Record transaction
-        proposer.trade = player.trade = mod.add_entry(
+        proposer.trade = player.trade = um.add_entry(
             player.session.txs,
             player,
             Transaction,
