@@ -64,17 +64,17 @@ class ExampleInputsWTForms(Page):
                 validators=[wtforms.validators.NumberRange(min=0, max=C.BUDGET)],
                 widget=wtforms.widgets.NumberInput(step=C.PRECISION),
             ),
-            "decimal_range_field": wtforms.fields.DecimalRangeField(
-                default=3.45,
-                description=safe(
-                    "Description for the <code class='text-black-50'>wtforms.DecimalRangeField</code>."
-                ),
-                label=safe(
-                    "Which amount of money (in €) are you willing to contribute to the group project? <code class='ms-3 text-black-50'>wtforms.DecimalRangeField</code>"
-                ),
-                render_kw={"class": "w-50"},
-                validators=[wtforms.validators.NumberRange(min=0, max=C.BUDGET)],
-            ),
+            # "decimal_range_field": wtforms.fields.DecimalRangeField(
+            #     default=3.45,
+            #     description=safe(
+            #         "Description for the <code class='text-black-50'>wtforms.DecimalRangeField</code>."
+            #     ),
+            #     label=safe(
+            #         "Which amount of money (in €) are you willing to contribute to the group project? <code class='ms-3 text-black-50'>wtforms.DecimalRangeField</code>"
+            #     ),
+            #     render_kw={"class": "w-50"},
+            #     validators=[wtforms.validators.NumberRange(min=0, max=C.BUDGET)],
+            # ),
             "email_field": wtforms.EmailField(
                 description=safe(
                     "Description for the <code class='text-black-50'>wtforms.EmailField</code>."
@@ -210,16 +210,31 @@ class ExampleInputsUprootFields(Page):
                 step=C.PRECISION,
             ),
             "decimal_range_field": DecimalRangeField(
+                class_wrapper="w-75",
                 default=3.45,
-                description="Description for the <code class='text-black-50'>DecimalRangeField</code>.",
+                description="Description for the <code class='text-black-50'>DecimalRangeField</code> with <code class='text-black-50'>class_wrapper=\"w-75\"</code> and default labels left and right.",
                 label=safe(
                     "Which amount of money (in €) are you willing to contribute to the group project? <code class='ms-3 text-black-50'>DecimalRangeField</code>"
                 ),
                 max=C.BUDGET,
                 min=0,
                 places=2,
-                render_kw={"class": "w-50"},
                 step=C.PRECISION,
+            ),
+            "decimal_range_field_no_popover": DecimalRangeField(
+                class_wrapper="w-50",
+                default=5.0,
+                description="Description for the <code class='text-black-50'>DecimalRangeField</code> with <code class='text-black-50'>hide_popover=True</code> and empty labels.",
+                hide_popover=True,
+                label=safe(
+                    "Position the slider as close to the middle as you can. <code class='ms-3 text-black-50'>DecimalRangeField</code>"
+                ),
+                label_max="",
+                label_min="",
+                max=10,
+                min=0,
+                places=1,
+                step=0.1,
             ),
             "decimal_range_field_no_anchoring": DecimalRangeField(
                 anchoring=False,
@@ -228,6 +243,8 @@ class ExampleInputsUprootFields(Page):
                 label=safe(
                     "What is your willingness to pay? <code class='ms-3 text-black-50'>DecimalRangeField</code>"
                 ),
+                label_max=safe("<span class='text-success fw-semibold'>My entire<br>budget</span>"),
+                label_min=safe("<span class='text-danger fw-semibold'>Nothing<br>at all</span>"),
                 max=C.BUDGET,
                 min=0,
                 places=2,
@@ -238,7 +255,7 @@ class ExampleInputsUprootFields(Page):
                 default=3.45,
                 description="Description for the <code class='text-black-50'>DecimalRangeField</code> with <code class='text-black-50'>anchoring=False</code> and a custom formatter.",
                 label=safe(
-                    "How much would you like to give? <code class='ms-3 text-black-50'>DecimalRangeField</code>"
+                    "Which amount would you like to donate? <code class='ms-3 text-black-50'>DecimalRangeField</code>"
                 ),
                 max=C.BUDGET,
                 min=-C.BUDGET,
@@ -290,13 +307,14 @@ class ExampleInputsUprootFields(Page):
                 },
             ),
             "likert_field": LikertField(
-                description="Description for the <code class='text-black-50'>LikertField</code>.",
+                class_wrapper="border-primary card my-4 px-4 py-3 w-75",
+                description="Description for the <code class='text-black-50'>LikertField</code> with custom CSS classes set via <code class='text-black-50'>class_wrapper</code>.",
                 label=safe(
-                    "How much would you like serving as your group’s leader? <code class='ms-3 text-black-50'>LikertField</code>"
+                    "I like ice cream. <code class='ms-3 text-black-50'>LikertField</code>"
                 ),
-                label_max="Very much",
-                label_min="Not at all",
-                max=15,
+                label_max="Agree strongly",
+                label_min="Disagree strongly",
+                max=10,
                 min=-3,
                 render_kw={"class": "fw-bold text-body-tertiary"},
             ),
@@ -437,8 +455,8 @@ class TypographyNoWebfonts(Page):
 
 
 page_order = [
-    ExampleInputsUprootFields,
-    ExampleInputsWTForms,
     Typography,
     TypographyNoWebfonts,
+    ExampleInputsUprootFields,
+    ExampleInputsWTForms,
 ]

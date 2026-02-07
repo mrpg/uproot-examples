@@ -14,11 +14,11 @@ Default fonts and font weights in uproot if no webfonts are loaded
 {% block main %}
 
 <div class="card card-body font-sans-serif mb-4">
-    <h3 class="border-bottom fw-600 mb-3 pb-3">Default font (sans-serif)</h3>
-    <p>This is the default sans-serif font.</p>
+    <h2 class="border-bottom fw-600 mb-3 pb-3">Default font (sans-serif)</h2>
+    <p>This is the default (sans-serif) font used by your browser, as it is set by the <a class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://getbootstrap.com/">Bootstrap</a> CSS framework.</p>
     <p class="text-primary bg-primary bg-opacity-10 border-bottom border-primary border-top pb-3 px-4 pt-2">
         {% for d in range(1, 7) %}
-        <span class="display-{{ d }}">Sans-serif {% if loop.last %}{% else %}/ {% endif %}</span>
+        <span class="display-{{ d }}">{% if loop.first %}{% else %} / {% endif %}Sans-serif</span>
         {% endfor %}
     </p>
     <h5>Disambiguation test</h5>
@@ -40,11 +40,11 @@ Default fonts and font weights in uproot if no webfonts are loaded
 </div>
 
 <div class="card card-body font-serif mb-4">
-    <h3 class="border-bottom fw-600 mb-3 pb-3">Serif font</h3>
-    <p>This is the default serif font.</p>
+    <h2 class="border-bottom fw-600 mb-3 pb-3">Serif and math font</h2>
+    <p>This is the default serif font used by your browser.</p>
     <p class="text-danger bg-danger bg-opacity-10 border-bottom border-danger border-top pb-3 px-4 pt-2">
         {% for d in range(1, 7) %}
-        <span class="display-{{ d }}">Serif {% if loop.last %}{% else %}/ {% endif %}</span>
+        <span class="display-{{ d }}">{% if loop.first %}{% else %} / {% endif %}Serif</span>
         {% endfor %}
     </p>
     <h5>Disambiguation test</h5>
@@ -64,7 +64,7 @@ Default fonts and font weights in uproot if no webfonts are loaded
         </div>
     </div>
     <h5>Mathematics</h5>
-    <p>This is the default font used for mathematical formulas (MathML):</p>
+    <p>This is the default font used by your browserfor mathematical formulas (MathML):</p>
     <math class="font-math" display="block">
         <mrow>
             <mi>x</mi>
@@ -104,11 +104,11 @@ Default fonts and font weights in uproot if no webfonts are loaded
 </div>
 
 <div class="card card-body font-monospace">
-    <h3 class="border-bottom fw-600 mb-3 pb-3">Monospace font</h3>
-    <p>This is the default monospace (“typewriter”) font.</p>
+    <h2 class="border-bottom fw-600 mb-3 pb-3">Monospace font</h2>
+    <p>This is the default monospace (“typewriter”) font, as it is set by the <a class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://getbootstrap.com/">Bootstrap</a> CSS framework.</p>
     <p class="border-bottom border-top pb-3 px-4 pt-2" style="background-color: rgb(from var(--bs-code-color) r g b / 0.1); border-color: var(--bs-code-color) !important; color: var(--bs-code-color);">
         {% for d in range(1, 7) %}
-        <span class="display-{{ d }}">Monospace {% if loop.last %}{% else %}/ {% endif %}</span>
+        <span class="display-{{ d }}">{% if loop.first %}{% else %} / {% endif %}Monospace</span>
         {% endfor %}
     </p>
     <h5>Disambiguation test</h5>
