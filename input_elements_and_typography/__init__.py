@@ -64,17 +64,17 @@ class ExampleInputsWTForms(Page):
                 validators=[wtforms.validators.NumberRange(min=0, max=C.BUDGET)],
                 widget=wtforms.widgets.NumberInput(step=C.PRECISION),
             ),
-            # "decimal_range_field": wtforms.fields.DecimalRangeField(
-            #     default=3.45,
-            #     description=safe(
-            #         "Description for the <code class='text-black-50'>wtforms.DecimalRangeField</code>."
-            #     ),
-            #     label=safe(
-            #         "Which amount of money (in €) are you willing to contribute to the group project? <code class='ms-3 text-black-50'>wtforms.DecimalRangeField</code>"
-            #     ),
-            #     render_kw={"class": "w-50"},
-            #     validators=[wtforms.validators.NumberRange(min=0, max=C.BUDGET)],
-            # ),
+            "decimal_range_field": wtforms.fields.DecimalRangeField(
+                default=3.45,
+                description=safe(
+                    "Description for the <code class='text-black-50'>wtforms.DecimalRangeField</code>."
+                ),
+                label=safe(
+                    "Which amount of money (in €) are you willing to contribute to the group project? <code class='ms-3 text-black-50'>wtforms.DecimalRangeField</code>"
+                ),
+                render_kw={"class": "w-50"},
+                validators=[wtforms.validators.NumberRange(min=0, max=C.BUDGET)],
+            ),
             "email_field": wtforms.EmailField(
                 description=safe(
                     "Description for the <code class='text-black-50'>wtforms.EmailField</code>."
@@ -250,7 +250,7 @@ class ExampleInputsUprootFields(Page):
                 places=2,
                 step=C.PRECISION,
             ),
-            "decimal_range_field_no_anchoring2": DecimalRangeField(
+            "decimal_range_field_no_anchoring_custom_formatter": DecimalRangeField(
                 anchoring=False,
                 default=3.45,
                 description="Description for the <code class='text-black-50'>DecimalRangeField</code> with <code class='text-black-50'>anchoring=False</code> and a custom formatter.",
