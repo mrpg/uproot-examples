@@ -239,7 +239,7 @@ class ExampleInputsUprootFields(Page):
             "decimal_range_field_no_anchoring": DecimalRangeField(
                 anchoring=False,
                 default=3.45,
-                description="Description for the <code class='text-black-50'>DecimalRangeField</code> with <code class='text-black-50'>anchoring=False</code>.",
+                description="Description for the <code class='text-black-50'>DecimalRangeField</code> with <code class='text-black-50'>anchoring=False</code> and custom labels left and right.",
                 label=safe(
                     "What is your willingness to pay? <code class='ms-3 text-black-50'>DecimalRangeField</code>"
                 ),
