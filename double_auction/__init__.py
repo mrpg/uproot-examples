@@ -342,32 +342,32 @@ class Trade(Page):
         )
 
         # Update proposer
-        proposer = offer.pid()
-        proposer.offer = None
-        proposer.profit = calculate_profit(proposer, offer.price)
-        notify(player, proposer, [True, proposer.profit], event="OfferAccepted")
+        with Player(offer.pid.sname, offer.pid.uname) as proposer:
+            proposer.offer = None
+            proposer.profit = calculate_profit(proposer, offer.price)
+            notify(player, proposer, [True, proposer.profit], event="OfferAccepted")
 
-        # Update acceptor
-        player.offer = None
-        player.profit = calculate_profit(player, offer.price)
+            # Update acceptor
+            player.offer = None
+            player.profit = calculate_profit(player, offer.price)
 
-        # Cancel any outstanding offer by acceptor
-        create_offer_entry(
-            player.session,
-            player,
-            player.round,
-            player.buyer,
-            None,  # Null price cancels
-        )
+            # Cancel any outstanding offer by acceptor
+            create_offer_entry(
+                player.session,
+                player,
+                player.round,
+                player.buyer,
+                None,  # Null price cancels
+            )
 
-        # Record transaction
-        proposer.trade = player.trade = um.add_entry(
-            player.session.txs,
-            player,
-            Transaction,
-            round=player.round,
-            price=offer.price,
-        )
+            # Record transaction
+            proposer.trade = player.trade = um.add_entry(
+                player.session.txs,
+                player,
+                Transaction,
+                round=player.round,
+                price=offer.price,
+            )
 
         broadcast_market_update(player, player.session, player.round)
         return player.profit

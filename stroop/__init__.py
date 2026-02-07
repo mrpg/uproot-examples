@@ -140,9 +140,12 @@ class Stroop(Page):
         """Get current trial state (called on page load)."""
         # Count completed trials from model
         completed_count = 0
-        for _, _, entry in um.filter_entries(player.session.trials, Trial):
-            if entry.pid() == player:
-                completed_count += 1
+        for _, _, entry in um.filter_entries(
+            player.session.trials,
+            Trial,
+            pid=player.pid,
+        ):
+            completed_count += 1
 
         # Sync player.current_trial
         player.current_trial = completed_count
@@ -179,11 +182,14 @@ class Stroop(Page):
         # Check if this trial was already submitted (prevent duplicates on reload)
         existing = None
         for _, _, entry in um.filter_entries(
-            player.session.trials, Trial, trial_number=trial_number
+            player.session.trials,
+            Trial,
+            pid=player.pid,
+            trial_number=trial_number,
         ):
-            if entry.pid() == player:
-                existing = entry
-                break
+            existing = entry
+            break
+
         if existing:
             # Trial already recorded, return existing result
             done = trial_number >= NUM_TRIALS
@@ -220,8 +226,11 @@ class Results(Page):
         """Calculate and pass results to the template."""
         trials = [
             entry
-            for _, _, entry in um.filter_entries(player.session.trials, Trial)
-            if entry.pid() == player
+            for _, _, entry in um.filter_entries(
+                player.session.trials,
+                Trial,
+                pid=player.pid,
+            )
         ]
 
         if not trials:
