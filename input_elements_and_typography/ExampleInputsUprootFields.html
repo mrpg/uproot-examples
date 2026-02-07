@@ -4,9 +4,6 @@
 {% block head %}
 
 <script>
-    decimal_range_fieldFormatter = (value) => {
-        return `−₮${(-value).toFixed(2)}`;
-    };
     decimal_range_field_no_anchoring_custom_formatterFormatter = (value) => {
         // Functions like these allow you to format values shown about and from sliders.
         if (value < 0) {
