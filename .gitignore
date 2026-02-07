@@ -36,3 +36,4 @@ venv/
 .vscode
 .vscode/
 *.whl
+uproot
