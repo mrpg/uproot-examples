@@ -18,7 +18,7 @@ Default fonts and font weights in uproot if no webfonts are loaded
     <p>This is the default (sans-serif) font used by your browser, as it is set by the <a class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://getbootstrap.com/">Bootstrap</a> CSS framework.</p>
     <p class="text-primary bg-primary bg-opacity-10 border-bottom border-primary border-top pb-3 px-4 pt-2">
         {% for d in range(1, 7) %}
-        <span class="display-{{ d }}">{% if loop.first %}{% else %} / {% endif %}Sans-serif</span>
+        <span class="display-{{ d }}">{% if not loop.first %} / {% endif %}Sans-serif</span>
         {% endfor %}
     </p>
     <h5>Disambiguation test</h5>
@@ -44,7 +44,7 @@ Default fonts and font weights in uproot if no webfonts are loaded
     <p>This is the default serif font used by your browser.</p>
     <p class="text-danger bg-danger bg-opacity-10 border-bottom border-danger border-top pb-3 px-4 pt-2">
         {% for d in range(1, 7) %}
-        <span class="display-{{ d }}">{% if loop.first %}{% else %} / {% endif %}Serif</span>
+        <span class="display-{{ d }}">{% if not loop.first %} / {% endif %}Serif</span>
         {% endfor %}
     </p>
     <h5>Disambiguation test</h5>
@@ -108,7 +108,7 @@ Default fonts and font weights in uproot if no webfonts are loaded
     <p>This is the default monospace (“typewriter”) font, as it is set by the <a class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://getbootstrap.com/">Bootstrap</a> CSS framework.</p>
     <p class="border-bottom border-top pb-3 px-4 pt-2" style="background-color: rgb(from var(--bs-code-color) r g b / 0.1); border-color: var(--bs-code-color) !important; color: var(--bs-code-color);">
         {% for d in range(1, 7) %}
-        <span class="display-{{ d }}">{% if loop.first %}{% else %} / {% endif %}Monospace</span>
+        <span class="display-{{ d }}">{% if not loop.first %} / {% endif %}Monospace</span>
         {% endfor %}
     </p>
     <h5>Disambiguation test</h5>

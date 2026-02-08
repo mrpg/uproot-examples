@@ -15,7 +15,7 @@ Default fonts and font weights in uproot
     <p>The default font used by uproot is <a class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://d.rsms.me/inter-website/v3/" target="_blank">Inter (v3.19)</a>. Inter is a sans-serif font distributed under the <a class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://raw.githubusercontent.com/rsms/inter/v3.19/LICENSE.txt">SIL Open Font License 1.1</a>. It comes in nine different font weights. In addition to the Latin alphabet, Inter covers the Cyrillic and Greek alphabet.</p>
     <p class="text-primary bg-primary bg-opacity-10 border-bottom border-primary border-top pb-3 px-4 pt-2">
         {% for d in range(1, 7) %}
-        <span class="display-{{ d }}">{% if loop.first %}{% else %} / {% endif %}Inter</span>
+        <span class="display-{{ d }}">{% if not loop.first %} / {% endif %}Inter</span>
         {% endfor %}
     </p>
     <h5>Disambiguation test</h5>
@@ -41,7 +41,7 @@ Default fonts and font weights in uproot
     <p>The default serif font used by uproot is <a class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://www.ibm.com/plex/specs/" target="_blank">IBM Plex Serif</a>. IBM Plex Serif is distributed under the <a class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://raw.githubusercontent.com/IBM/plex/refs/heads/master/LICENSE.txt">SIL Open Font License 1.1</a>. It comes in eight different font weights. In addition to the Latin alphabet, IBM Plex Serif covers the Cyrillic and Greek alphabet.</p>
     <p class="text-danger bg-danger bg-opacity-10 border-bottom border-danger border-top pb-3 px-4 pt-2">
         {% for d in range(1, 7) %}
-        <span class="display-{{ d }}">{% if loop.first %}{% else %} / {% endif %}IBM Plex Serif</span>
+        <span class="display-{{ d }}">{% if not loop.first %} / {% endif %}IBM Plex Serif</span>
         {% endfor %}
     </p>
     <h5>Disambiguation test</h5>
@@ -105,7 +105,7 @@ Default fonts and font weights in uproot
     <p>The default monospace (“typewriter”) font used by uproot is <a class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://github.com/microsoft/cascadia-code/" target="_blank">Cascadia Mono</a>. Cascadia Mono is distributed under the <a class="link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://raw.githubusercontent.com/microsoft/cascadia-code/refs/heads/main/LICENSE">SIL Open Font License 1.1</a>. It comes in six different font weights. In addition to the Latin alphabet, Cascadia Mono covers the Arabic, Cyrillic, Greek, and Hebrew alphabet.</p>
     <p class="border-bottom border-top pb-3 px-4 pt-2" style="background-color: rgb(from var(--bs-code-color) r g b / 0.1); border-color: var(--bs-code-color) !important; color: var(--bs-code-color);">
         {% for d in range(1, 7) %}
-        <span class="display-{{ d }}">{% if loop.first %}{% else %} / {% endif %}Cascadia Mono</span>
+        <span class="display-{{ d }}">{% if not loop.first %} / {% endif %}Cascadia Mono</span>
         {% endfor %}
     </p>
     <h5>Disambiguation test</h5>
