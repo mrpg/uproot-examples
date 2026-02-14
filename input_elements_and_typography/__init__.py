@@ -243,8 +243,12 @@ class ExampleInputsUprootFields(Page):
                 label=safe(
                     "What is your willingness to pay? <code class='ms-3 text-black-50'>DecimalRangeField</code>"
                 ),
-                label_max=safe("<span class='text-success fw-semibold'>My entire<br>budget</span>"),
-                label_min=safe("<span class='text-danger fw-semibold'>Nothing<br>at all</span>"),
+                label_max=safe(
+                    "<span class='text-success fw-semibold'>My entire<br>budget</span>"
+                ),
+                label_min=safe(
+                    "<span class='text-danger fw-semibold'>Nothing<br>at all</span>"
+                ),
                 max=C.BUDGET,
                 min=0,
                 places=2,
