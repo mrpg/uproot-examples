@@ -12,7 +12,9 @@
 from uproot.fields import *
 from uproot.smithereens import *
 
-DESCRIPTION = "Showcase the default fonts used by uproot if web fonts are loaded or not."
+DESCRIPTION = (
+    "Showcase the default fonts used by uproot if web fonts are loaded or not."
+)
 LANDING_PAGE = False
 
 
