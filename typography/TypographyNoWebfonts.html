@@ -62,7 +62,7 @@ Default fonts and font weights in uproot if no web fonts are loaded
 
 <div class="card card-body font-serif mb-4">
     <h2 class="border-bottom fw-600 mb-3 pb-3">Serif and math font</h2>
-    <p>This is the default serif font used by your browser.</p>
+    <p>This is the default serif font used by your browser if no web fonts are used (which helps reduce load times). uproot’s CSS is adapted from the <a class="link-danger link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover" href="https://getbootstrap.com/" target="_blank">Bootstrap</a> CSS framework.</p>
     <p class="text-danger bg-danger bg-opacity-10 border-bottom border-danger border-top pb-4 pt-3 px-4">
         {% for d in range(1, 7) %}<span class="display-{{ d }}">{% if not loop.first %} / {% endif %}Serif</span>{% endfor %}
         <!-- Loop in single line to prevent unwanted whitespace -->

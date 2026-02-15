@@ -8,12 +8,14 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
+
 import wtforms
 from uproot.fields import *
 from uproot.smithereens import *
 
-DESCRIPTION = "Showcasing uproot input elements and typography features"
+DESCRIPTION = "Showcase the input elements provided by uproot, based on WTForms, and customizations via WTForms."
 LANDING_PAGE = False
+
 
 # CONSTANTS
 
@@ -26,150 +28,6 @@ class C:
 
 
 # PAGES
-
-
-class ExampleInputsWTForms(Page):
-    """Examples of input fields provided by WTForms."""
-
-    @classmethod
-    def fields(page, player):
-        return {
-            "boolean_field": wtforms.BooleanField(
-                description=safe(
-                    "Description for the <code class='text-black-50'>wtforms.BooleanField</code>."
-                ),
-                label=safe(
-                    "Select the checkbox if you agree to participate in this study. <code class='ms-3 text-black-50'>wtforms.BooleanField</code>"
-                ),
-            ),
-            "date_field": wtforms.DateField(
-                description=safe(
-                    "Description for the <code class='text-black-50'>wtforms.DateField</code>."
-                ),
-                label=safe(
-                    "Specify the date at which you would like to participate in Part 2 of this study. <code class='ms-3 text-black-50'>wtforms.DateField</code>"
-                ),
-                render_kw={"class": "w-auto"},
-            ),
-            "decimal_field": wtforms.DecimalField(
-                default=1.23,
-                description=safe(
-                    "Description for the <code class='text-black-50'>wtforms.DecimalField</code>."
-                ),
-                label=safe(
-                    "Which amount of money (in €) are you willing to contribute to the group project? <code class='ms-3 text-black-50'>wtforms.DecimalField</code>"
-                ),
-                places=2,
-                render_kw={"class": "w-auto"},
-                validators=[wtforms.validators.NumberRange(min=0, max=C.BUDGET)],
-                widget=wtforms.widgets.NumberInput(step=C.PRECISION),
-            ),
-            "decimal_range_field": wtforms.fields.DecimalRangeField(
-                default=3.45,
-                description=safe(
-                    "Description for the <code class='text-black-50'>wtforms.DecimalRangeField</code>."
-                ),
-                label=safe(
-                    "Which amount of money (in €) are you willing to contribute to the group project? <code class='ms-3 text-black-50'>wtforms.DecimalRangeField</code>"
-                ),
-                render_kw={"class": "w-50"},
-                validators=[wtforms.validators.NumberRange(min=0, max=C.BUDGET)],
-            ),
-            "email_field": wtforms.EmailField(
-                description=safe(
-                    "Description for the <code class='text-black-50'>wtforms.EmailField</code>."
-                ),
-                label=safe(
-                    "Enter your e-mail address here to be informed as soon as your payoff has been transferred to your bank account. <code class='ms-3 text-black-50'>wtforms.EmailField</code>"
-                ),
-                render_kw={"class": "w-75"},
-                # validators=[wtforms.validators.Email()],  # This requires email_validator to be installed
-            ),
-            "file_field": wtforms.FileField(
-                description=safe(
-                    "Description for the <code class='text-black-50'>wtforms.FileField</code>."
-                ),
-                label=safe(
-                    "Select the file that you wish to upload to the server. <code class='ms-3 text-black-50'>wtforms.FileField</code>"
-                ),
-                render_kw={"class": "w-50"},
-            ),
-            "integer_field": wtforms.IntegerField(
-                default=4,
-                description=safe(
-                    "Description for the <code class='text-black-50'>wtforms.IntegerField</code>."
-                ),
-                label=safe(
-                    "How would you rate this hotel (in ★🌟)? <code class='ms-3 text-black-50'>wtforms.IntegerField</code>"
-                ),
-                render_kw={"class": "w-auto"},
-                validators=[wtforms.validators.NumberRange(min=0, max=5)],
-            ),
-            "radio_field": wtforms.RadioField(
-                choices=[(1, "Yes"), (0, "No")],
-                default=0,
-                description=safe(
-                    "Description for the <code class='text-black-50'>wtforms.RadioField</code>."
-                ),
-                label=safe(
-                    "Would you be willing to serve as your group’s leader? <code class='ms-3 text-black-50'>wtforms.RadioField</code>"
-                ),
-            ),
-            "radio_field_inline": wtforms.RadioField(
-                choices=[(1, "Yes"), (0, "No"), (0.5, "Maybe")],
-                default=0,
-                description=safe(
-                    "Description for the <code class='text-black-50'>wtforms.RadioField</code>."
-                ),
-                label=safe(
-                    "Would you be willing to serve as your group’s leader? <span class='text-body-tertiary'><code class='ms-3 text-black-50'>wtforms.RadioField</code> with <code class='text-black-50'>class='form-check-inline'</code></span>"
-                ),
-                render_kw={"class": "form-check-inline"},
-            ),
-            "select_field": wtforms.SelectField(
-                choices=[
-                    (0, "Please select an option"),
-                    (1, "Bayer Leverkusen"),
-                    (2, "VfB Stuttgart"),
-                    (3, "Bayern München"),
-                    (4, "RB Leipzig"),
-                    (5, "BVB 09 Dortmund"),
-                ],
-                default=0,
-                description=safe(
-                    "Description for the <code class='text-black-50'>wtforms.SelectField</code>."
-                ),
-                label=safe(
-                    "Which of the following soccer teams would you like to win the German championship? <code class='ms-3 text-black-50'>wtforms.SelectField</code>"
-                ),
-                render_kw={"class": "w-auto"},
-            ),
-            "string_field": wtforms.StringField(
-                description=safe(
-                    "Description for the <code class='text-black-50'>wtforms.StringField</code>."
-                ),
-                label=safe(
-                    "Please state your primary field of study. <code class='ms-3 text-black-50'>wtforms.StringField</code>"
-                ),
-                render_kw={"placeholder": "Insert primary field of study here."},
-            ),
-            "text_area_field": wtforms.TextAreaField(
-                description=safe(
-                    "Description for the <code class='text-black-50'>wtforms.TextAreaField</code>."
-                ),
-                label=safe(
-                    "Please state your primary field of study. <code class='ms-3 text-black-50'>wtforms.TextAreaField</code>"
-                ),
-                # render_kw={"placeholder": "Insert primary field of study here."},
-            ),
-            "text_area_field_only_floating_label": wtforms.TextAreaField(
-                description=safe(
-                    "Description for the <code class='text-black-50'>wtforms.TextAreaField</code>."
-                ),
-                label="",
-                render_kw={"placeholder": "Insert primary field of study here."},
-            ),
-        }
 
 
 class ExampleInputsUprootFields(Page):
@@ -443,24 +301,154 @@ class ExampleInputsUprootFields(Page):
         }
 
 
-class Typography(Page):
-    """Showcase the default fonts used by uproot if webfonts are loaded"""
+class ExampleInputsWTForms(Page):
+    """Examples of input fields provided by WTForms."""
 
-    pass
-
-
-class TypographyNoWebfonts(Page):
-    """Showcase the default fonts used by uproot if no webfonts are used"""
-
-    pass
+    @classmethod
+    def fields(page, player):
+        return {
+            "boolean_field": wtforms.BooleanField(
+                description=safe(
+                    "Description for the <code class='text-black-50'>wtforms.BooleanField</code>."
+                ),
+                label=safe(
+                    "Select the checkbox if you agree to participate in this study. <code class='ms-3 text-black-50'>wtforms.BooleanField</code>"
+                ),
+            ),
+            "date_field": wtforms.DateField(
+                description=safe(
+                    "Description for the <code class='text-black-50'>wtforms.DateField</code>."
+                ),
+                label=safe(
+                    "Specify the date at which you would like to participate in Part 2 of this study. <code class='ms-3 text-black-50'>wtforms.DateField</code>"
+                ),
+                render_kw={"class": "w-auto"},
+            ),
+            "decimal_field": wtforms.DecimalField(
+                default=1.23,
+                description=safe(
+                    "Description for the <code class='text-black-50'>wtforms.DecimalField</code>."
+                ),
+                label=safe(
+                    "Which amount of money (in €) are you willing to contribute to the group project? <code class='ms-3 text-black-50'>wtforms.DecimalField</code>"
+                ),
+                places=2,
+                render_kw={"class": "w-auto"},
+                validators=[wtforms.validators.NumberRange(min=0, max=C.BUDGET)],
+                widget=wtforms.widgets.NumberInput(step=C.PRECISION),
+            ),
+            "decimal_range_field": wtforms.fields.DecimalRangeField(
+                default=3.45,
+                description=safe(
+                    "Description for the <code class='text-black-50'>wtforms.DecimalRangeField</code>."
+                ),
+                label=safe(
+                    "Which amount of money (in €) are you willing to contribute to the group project? <code class='ms-3 text-black-50'>wtforms.DecimalRangeField</code>"
+                ),
+                render_kw={"class": "w-50"},
+                validators=[wtforms.validators.NumberRange(min=0, max=C.BUDGET)],
+            ),
+            "email_field": wtforms.EmailField(
+                description=safe(
+                    "Description for the <code class='text-black-50'>wtforms.EmailField</code>."
+                ),
+                label=safe(
+                    "Enter your e-mail address here to be informed as soon as your payoff has been transferred to your bank account. <code class='ms-3 text-black-50'>wtforms.EmailField</code>"
+                ),
+                render_kw={"class": "w-75"},
+                # validators=[wtforms.validators.Email()],  # This requires email_validator to be installed
+            ),
+            "file_field": wtforms.FileField(
+                description=safe(
+                    "Description for the <code class='text-black-50'>wtforms.FileField</code>."
+                ),
+                label=safe(
+                    "Select the file that you wish to upload to the server. <code class='ms-3 text-black-50'>wtforms.FileField</code>"
+                ),
+                render_kw={"class": "w-50"},
+            ),
+            "integer_field": wtforms.IntegerField(
+                default=4,
+                description=safe(
+                    "Description for the <code class='text-black-50'>wtforms.IntegerField</code>."
+                ),
+                label=safe(
+                    "How would you rate this hotel (in ★🌟)? <code class='ms-3 text-black-50'>wtforms.IntegerField</code>"
+                ),
+                render_kw={"class": "w-auto"},
+                validators=[wtforms.validators.NumberRange(min=0, max=5)],
+            ),
+            "radio_field": wtforms.RadioField(
+                choices=[(1, "Yes"), (0, "No")],
+                default=0,
+                description=safe(
+                    "Description for the <code class='text-black-50'>wtforms.RadioField</code>."
+                ),
+                label=safe(
+                    "Would you be willing to serve as your group’s leader? <code class='ms-3 text-black-50'>wtforms.RadioField</code>"
+                ),
+            ),
+            "radio_field_inline": wtforms.RadioField(
+                choices=[(1, "Yes"), (0, "No"), (0.5, "Maybe")],
+                default=0,
+                description=safe(
+                    "Description for the <code class='text-black-50'>wtforms.RadioField</code>."
+                ),
+                label=safe(
+                    "Would you be willing to serve as your group’s leader? <span class='text-body-tertiary'><code class='ms-3 text-black-50'>wtforms.RadioField</code> with <code class='text-black-50'>class='form-check-inline'</code></span>"
+                ),
+                render_kw={"class": "form-check-inline"},
+            ),
+            "select_field": wtforms.SelectField(
+                choices=[
+                    (0, "Please select an option"),
+                    (1, "Bayer Leverkusen"),
+                    (2, "VfB Stuttgart"),
+                    (3, "Bayern München"),
+                    (4, "RB Leipzig"),
+                    (5, "BVB 09 Dortmund"),
+                ],
+                default=0,
+                description=safe(
+                    "Description for the <code class='text-black-50'>wtforms.SelectField</code>."
+                ),
+                label=safe(
+                    "Which of the following soccer teams would you like to win the German championship? <code class='ms-3 text-black-50'>wtforms.SelectField</code>"
+                ),
+                render_kw={"class": "w-auto"},
+            ),
+            "string_field": wtforms.StringField(
+                description=safe(
+                    "Description for the <code class='text-black-50'>wtforms.StringField</code>."
+                ),
+                label=safe(
+                    "Please state your primary field of study. <code class='ms-3 text-black-50'>wtforms.StringField</code>"
+                ),
+                render_kw={"placeholder": "Insert primary field of study here."},
+            ),
+            "text_area_field": wtforms.TextAreaField(
+                description=safe(
+                    "Description for the <code class='text-black-50'>wtforms.TextAreaField</code>."
+                ),
+                label=safe(
+                    "Please state your primary field of study. <code class='ms-3 text-black-50'>wtforms.TextAreaField</code>"
+                ),
+                # render_kw={"placeholder": "Insert primary field of study here."},
+            ),
+            "text_area_field_only_floating_label": wtforms.TextAreaField(
+                description=safe(
+                    "Description for the <code class='text-black-50'>wtforms.TextAreaField</code>."
+                ),
+                label="",
+                render_kw={"placeholder": "Insert primary field of study here."},
+            ),
+        }
 
 
 # PAGE ORDER
 
 
 page_order = [
-    Typography,
-    TypographyNoWebfonts,
     ExampleInputsUprootFields,
     ExampleInputsWTForms,
 ]
