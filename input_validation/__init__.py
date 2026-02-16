@@ -31,6 +31,36 @@ class C:
 class InputValidationBasic(Page):
     """
     Example of how to validate an input field before allowing the participant to proceed to the next page.
+
+    NOTE: The "code_to_proceed" field below could also be set up as a stealth field. Stealth fields
+    are not recorded in the database at all -- they are processed exclusively via the
+    handle_stealth_fields() method. This is useful for fields that serve a purely functional purpose
+    (like a password gate) and whose values you do not want to persist.
+
+    To convert this page to use stealth fields, you would:
+
+    1. Add a class attribute listing the stealth field names:
+
+           stealth_fields = ["code_to_proceed"]
+
+       IMPORTANT: The field must still be defined in fields() as well! The stealth_fields attribute
+       only controls whether the field's value is stored in the database. The field definition in
+       fields() is still required so that uproot knows how to render and validate the form input.
+
+    2. Replace the validate() method with handle_stealth_fields(), which receives the stealth field
+       values as its arguments:
+
+           @classmethod
+           def handle_stealth_fields(page, player, code_to_proceed):
+               if code_to_proceed != C.CODE:
+                   return "The code you entered is incorrect. Please try again."
+
+       Returning a string from handle_stealth_fields() shows an error and prevents the participant
+       from advancing, just like validate(). Returning None (the default) lets them proceed.
+
+    The validate() method and stealth fields can coexist on the same page: use stealth_fields for
+    data you do not want stored (e.g. passwords, comprehension checks) and regular fields + validate()
+    for data you do want stored. See the "quiz" example app for a full stealth fields demonstration.
     """
 
     @classmethod
