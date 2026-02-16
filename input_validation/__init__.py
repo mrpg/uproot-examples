@@ -21,7 +21,7 @@ LANDING_PAGE = False
 
 class C:
     """Constants"""
-    
+
     CODE = "R2-D2"
 
 
@@ -37,7 +37,9 @@ class InputValidationBasic(Page):
     def fields(page, player):
         return {
             "code_to_proceed": StringField(
-                description=safe(f"Hint: The code to proceed is <b class='font-monospace'>{C.CODE}</b>."),
+                description=safe(
+                    f"Hint: The code to proceed is <b class='font-monospace'>{C.CODE}</b>."
+                ),
                 label=safe(
                     "Please enter the code provided to you by the experimenter to proceed to the next page."
                 ),
@@ -70,18 +72,24 @@ class InputValidationAdvanced(Page):
                 label=safe(
                     "Which share of your budget would you like to invest in the <em>safe</em> asset?"
                 ),
-                max = 100,
-                min = 0,
-                render_kw={"class": "flex-grow-0 text-end", "style": "width: max-content !important;"},
+                max=100,
+                min=0,
+                render_kw={
+                    "class": "flex-grow-0 text-end",
+                    "style": "width: max-content !important;",
+                },
             ),
             "share_risky_asset": IntegerField(
                 addon_end="%",
                 label=safe(
                     "Which share of your budget would you like to invest in the <em>risky</em> asset?"
                 ),
-                max = 100,
-                min = 0,
-                render_kw={"class": "flex-grow-0 text-end", "style": "width: max-content !important;"},
+                max=100,
+                min=0,
+                render_kw={
+                    "class": "flex-grow-0 text-end",
+                    "style": "width: max-content !important;",
+                },
             ),
         }
 
