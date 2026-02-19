@@ -9,6 +9,8 @@
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
 
+from cProfile import label
+
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -30,62 +32,76 @@ class C:
 
 class InputValidationBasic(Page):
     """
-    Example of how to validate an input field before allowing the participant to proceed to the next page.
+    Example of how to validate input fields before allowing the participant to proceed to the next page.
 
-    NOTE: The "code_to_proceed" field below could also be set up as a stealth field. Stealth fields
-    are not recorded in the database at all -- they are processed exclusively via the
-    handle_stealth_fields() method. This is useful for fields that serve a purely functional purpose
-    (like a password gate) and whose values you do not want to persist.
-
-    To convert this page to use stealth fields, you would:
-
-    1. Add a class attribute listing the stealth field names:
-
-           stealth_fields = ["code_to_proceed"]
-
-       IMPORTANT: The field must still be defined in fields() as well! The stealth_fields attribute
-       only controls whether the field's value is stored in the database. The field definition in
-       fields() is still required so that uproot knows how to render and validate the form input.
-
-    2. Replace the validate() method with handle_stealth_fields(), which receives the stealth field
-       values as its arguments:
-
-           @classmethod
-           def handle_stealth_fields(page, player, code_to_proceed):
-               if code_to_proceed != C.CODE:
-                   return "The code you entered is incorrect. Please try again."
-
-       Returning a string from handle_stealth_fields() shows an error and prevents the participant
-       from advancing, just like validate(). Returning None (the default) lets them proceed.
-
-    The validate() method and stealth fields can coexist on the same page: use stealth_fields for
-    data you do not want stored (e.g. passwords, comprehension checks) and regular fields + validate()
-    for data you do want stored. See the "quiz" example app for a full stealth fields demonstration.
+    This is useful for cases in which you want to ensure that participants enter a particular value or values that are consistent with each other before they can proceed.
     """
 
     @classmethod
     def fields(page, player):
         return {
-            "code_to_proceed": StringField(
-                description=safe(
-                    f"Hint: The code to proceed is <b class='font-monospace'>{C.CODE}</b>."
-                ),
+            "share_min": IntegerField(
+                addon_end="%",
                 label=safe(
-                    "Please enter the code provided to you by the experimenter to proceed to the next page."
+                    "What is the <em>minimum</em> share of your budget that would like to invest in the group project?"
+                ),
+                max=100,
+                min=0,
+                render_kw={
+                    "class": "flex-grow-0 text-end",
+                    "style": "width: max-content !important;",
+                },
+            ),
+            "share_max": IntegerField(
+                addon_end="%",
+                label=safe(
+                    "What is the <em>maximum</em> share of your budget that would like to invest in the group project?"
+                ),
+                max=100,
+                min=0,
+                render_kw={
+                    "class": "flex-grow-0 text-end",
+                    "style": "width: max-content !important;",
+                },
+            ),
+        }
+
+    @classmethod
+    def validate(page, player, data):
+        if data.get("share_min") > data.get("share_max"):
+            return "The maximum share must be at least as large as the minimum share."
+
+
+class InputValidationStealthField(Page):
+
+    """
+    Example of how to validate an input field that is not stored in the database (a “stealth field”) before allowing the participant to proceed to the next page.
+    
+    This is useful if your input validation amounts to allowing a particular value only (like in a password gate or in many comprehension checks) so that there is no need to store the input in the database.
+    """
+
+    stealth_fields = ["code_to_proceed"]
+
+    @classmethod
+    def fields(page, player):
+        return {
+            "code_to_proceed": StringField(
+                label=safe(
+                    f"Please enter the code provided to you by the experimenter to proceed to the next page. <span class='fw-normal ms-2 text-body-tertiary'>(The code is <span class='font-monospace'>{C.CODE}</span>.)</span>"
                 ),
                 render_kw={"autofocus": True, "class": "font-monospace w-auto"},
             ),
         }
 
     @classmethod
-    def validate(page, player, data):
-        if data.get("code_to_proceed") != C.CODE:
+    def handle_stealth_fields(page, player, code_to_proceed):
+        if code_to_proceed != C.CODE:
             return "The code you entered is incorrect. Please try again."
 
 
 class InputValidationAdvanced(Page):
     """
-    Example of how to validate multiple input fields before allowing the participant to proceed to the next page.
+    Example of how to validate multiple input fields and provide custom error messages before allowing the participant to proceed to the next page.
     """
 
     @classmethod
@@ -135,6 +151,49 @@ class InputValidationAdvanced(Page):
                     f"The sum of the two shares must equal 100%. You have to set this share to {100 - data.get('share_safe_asset')}% if you choose to invest {data.get('share_safe_asset')}% of your budget in the <em>safe</em> asset."
                 ),
             ]
+        
+
+class InputValidationBootstrapClasses(Page):
+    """
+    Example of how to validate multiple input fields and provide custom error messages with formatting based on Bootstrap classes only.
+    """
+
+    stealth_fields = ["conversion_rate", "group_size"]
+
+    @classmethod
+    def fields(page, player):
+        return {
+            "group_size": RadioField(
+                choices=[1, 2, 3, 4, 5],
+                label=safe(
+                    "What is the group size in this study? <span class='fw-normal ms-2 text-body-tertiary'>(The correct answer is <span class='font-monospace'>1</span>.)</span>"
+                ),
+                layout="horizontal",
+            ),
+            "conversion_rate": DecimalField(
+                addon_end="€/ECU",
+                label=safe(
+                    "What is the conversion rate between real money (€) and experimental currency units (ECU) in this study? <span class='fw-normal ms-2 text-body-tertiary'>(The correct answer is <span class='font-monospace'>1.95583</span>.)</span>"
+                ),
+                step=0.00001,
+                render_kw={
+                    "class": "flex-grow-0 text-end",
+                    "style": "width: max-content !important;",
+                },
+            ),
+        }
+
+    @classmethod
+    def validate(page, player, data):
+        invalid_inputs = []
+        if data.get("group_size") != 1:
+            invalid_inputs += ["group_size"]
+        if not (data.get("conversion_rate") > 1.955829 and data.get("conversion_rate") < 1.955831):
+            invalid_inputs += ["conversion_rate"]
+        if len(invalid_inputs) > 0:
+            return invalid_inputs
+        else:
+            return None
 
 
 # PAGE ORDER
@@ -142,5 +201,7 @@ class InputValidationAdvanced(Page):
 
 page_order = [
     InputValidationBasic,
+    InputValidationStealthField,
     InputValidationAdvanced,
+    InputValidationBootstrapClasses,
 ]
