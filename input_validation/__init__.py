@@ -9,8 +9,6 @@
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
 
-from cProfile import label
-
 from uproot.fields import *
 from uproot.smithereens import *
 
