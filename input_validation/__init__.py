@@ -71,10 +71,9 @@ class InputValidationBasic(Page):
 
 
 class InputValidationStealthField(Page):
-
     """
     Example of how to validate an input field that is not stored in the database (a “stealth field”) before allowing the participant to proceed to the next page.
-    
+
     This is useful if your input validation amounts to allowing a particular value only (like in a password gate or in many comprehension checks) so that there is no need to store the input in the database.
     """
 
@@ -149,7 +148,7 @@ class InputValidationAdvanced(Page):
                     f"The sum of the two shares must equal 100%. You have to set this share to {100 - data.get('share_safe_asset')}% if you choose to invest {data.get('share_safe_asset')}% of your budget in the <em>safe</em> asset."
                 ),
             ]
-        
+
 
 class InputValidationBootstrapClasses(Page):
     """
@@ -186,7 +185,10 @@ class InputValidationBootstrapClasses(Page):
         invalid_inputs = []
         if data.get("group_size") != 1:
             invalid_inputs += ["group_size"]
-        if not (data.get("conversion_rate") > 1.955829 and data.get("conversion_rate") < 1.955831):
+        if not (
+            data.get("conversion_rate") > 1.955829
+            and data.get("conversion_rate") < 1.955831
+        ):
             invalid_inputs += ["conversion_rate"]
         if len(invalid_inputs) > 0:
             return invalid_inputs
