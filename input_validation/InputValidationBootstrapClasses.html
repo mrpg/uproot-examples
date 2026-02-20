@@ -1,0 +1,74 @@
+{% extends "Base.html" %}
+
+
+{% block head %}
+
+<style>
+  .uproot-main-error {
+    display: none;
+  }
+  .mt-n3 {
+    margin-top: -1rem !important;
+  }
+</style>
+
+{% endblock head %}
+
+
+
+{% block title %}
+
+Input validation and feedback using
+<a class="link-offset-1 link-underline link-underline-opacity-10 link-underline-opacity-100-hover" href="https://getbootstrap.com/docs/5.3/forms/validation/#server-side" target="_blank">Boostrap classes</a>
+only
+
+{% endblock title %}
+
+
+{% block main %}
+
+<p class="text-primary">You can use this approach if you are fine with informing your particpants in detail about where their input is invalid.</p>
+
+<div>
+    {{ field(form.group_size) }}
+    {% if _uproot_errors and "group_size" in _uproot_errors %}
+    <p class="invalid-feedback d-block font-sans-serif mt-n3">This answer is incorrect. Please take another look at the instructions and try again.</p>
+    <script>
+        {% for options in form.group_size.choices %}
+        document.getElementById("group_size-{{ loop.index0 }}").classList.add("is-invalid");
+        document.getElementById("group_size-{{ loop.index0 }}").classList.add("border-danger");
+        {% endfor %}
+    </script>
+    {% endif %}
+    {% if _uproot_errors and "group_size" not in _uproot_errors %}
+    <p class="valid-feedback d-block font-sans-serif mt-n3">This answer is correct.</p>
+    <script>
+        {% for options in form.group_size.choices %}
+        document.getElementById("group_size-{{ loop.index0 }}").classList.add("is-valid");
+        document.getElementById("group_size-{{ loop.index0 }}").classList.add("border-success");
+        {% endfor %}
+    </script>
+    {% endif %}
+</div>
+
+<div>
+    {{ field(form.conversion_rate) }}
+    {% if _uproot_errors and "conversion_rate" in _uproot_errors %}
+    <p class="invalid-feedback d-block font-sans-serif mt-n3">This answer is incorrect. Please take another look at the instructions and try again.</p>
+    <script>
+       document.getElementById("conversion_rate").classList.add("is-invalid");
+       document.getElementById("conversion_rate").nextElementSibling.classList.add("border-danger");
+    </script>
+    {% endif %}
+    {% if _uproot_errors and "conversion_rate" not in _uproot_errors %}
+    <p class="valid-feedback d-block font-sans-serif mt-n3">This answer is correct.</p>
+    <script>
+       document.getElementById("conversion_rate").classList.add("is-valid");
+       document.getElementById("conversion_rate").nextElementSibling.classList.add("border-success");
+    </script>
+    {% endif %}
+</div>
+
+<p class="text-primary">To test the validation and feedback mechanism, enter incorrect values.</p>
+
+{% endblock main %}

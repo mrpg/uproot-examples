@@ -15,6 +15,9 @@
   .uproot-main-error {
     display: none;
   }
+  .mt-n3 {
+    margin-top: -1rem !important;
+  }
 </style>
 
 {% endblock head %}
@@ -33,14 +36,14 @@ Input validation and feedback with bells and whistles
 <div {% if _uproot_errors and _uproot_errors != [] %}class="bg-danger-subtle border-5 border-danger border-start pb-1 ps-4 pt-1 uproot-error"{% endif %}>
     {{ field(form.share_safe_asset) }}
     {% if _uproot_errors and _uproot_errors != [] %}
-    <p class="invalid-feedback d-block font-sans-serif mt-0">{{ _uproot_errors[0] | default("") }}</p>
+    <p class="invalid-feedback d-block font-sans-serif mt-n3">{{ _uproot_errors[0] | default("") }}</p>
     {% endif %}
 </div>
 
 <div {% if _uproot_errors and _uproot_errors != [] %}class="bg-danger-subtle border-5 border-danger border-start pb-1 ps-4 pt-1 uproot-error"{% endif %}>
     {{ field(form.share_risky_asset) }}
     {% if _uproot_errors and _uproot_errors != [] %}
-    <p class="invalid-feedback d-block font-sans-serif mt-0">{{ _uproot_errors[1] | default("") }}</p>
+    <p class="invalid-feedback d-block font-sans-serif mt-n3">{{ _uproot_errors[1] | default("") }}</p>
     {% endif %}
 </div>
 

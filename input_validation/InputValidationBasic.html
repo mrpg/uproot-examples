@@ -3,7 +3,7 @@
 
 {% block title %}
 
-Basic input field validation
+Basic input validation
 
 {% endblock title %}
 
@@ -11,5 +11,7 @@ Basic input field validation
 {% block main %}
 
 {{ fields() }}
+
+<p class="text-primary">To test the validation and feedback mechanism, enter a minimum value that exceeds the maximum value.</p>
 
 {% endblock main %}

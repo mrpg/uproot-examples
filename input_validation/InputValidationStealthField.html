@@ -1,0 +1,19 @@
+{% extends "Base.html" %}
+
+
+{% block title %}
+
+Basic input validation with a “stealth field”
+
+{% endblock title %}
+
+
+{% block main %}
+
+<p class="text-body-tertiary">A “stealth field” is a field that is not stored in the database.</p>
+
+{{ fields() }}
+
+<p class="text-primary">To test the validation and feedback mechanism, enter an incorrect code.</p>
+
+{% endblock main %}
