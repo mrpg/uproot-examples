@@ -81,7 +81,7 @@ class Quiz(Page):
         }
 
     @classmethod
-    async def handle_stealth_fields(page, player, **responses):
+    async def handle_stealth_fields(page, player, data):
         # This method was written in a highly verbose style so that
         # you can add custom logic by adapting the algorithm.
 
@@ -93,7 +93,7 @@ class Quiz(Page):
             # Iterate through each question in QUIZ
             correct = sha256(answers[0])  # Internal representation of correct answer
 
-            if responses[f"q{i}"] != correct:
+            if data[f"q{i}"] != correct:
                 # This response was not correct
                 mistakes += 1  # Add 1 to local mistakes counter
 

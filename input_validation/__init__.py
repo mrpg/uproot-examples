@@ -91,8 +91,8 @@ class InputValidationStealthField(Page):
         }
 
     @classmethod
-    def handle_stealth_fields(page, player, code_to_proceed):
-        if code_to_proceed != C.CODE:
+    def handle_stealth_fields(page, player, data):
+        if data.get("code_to_proceed") != C.CODE:
             return "The code you entered is incorrect. Please try again."
 
 

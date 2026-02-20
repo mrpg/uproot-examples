@@ -33,10 +33,12 @@ class PaymentForm(Page):
     stealth_fields = ["iban"]
 
     @classmethod
-    async def handle_stealth_fields(page, player, iban: str):
+    async def handle_stealth_fields(page, player, data):
         # This method could write the stealth field to a separate file, or do whatever else.
         # However, since this is just an example, it just prints the IBAN:
-        print(f"New payment data: {player} (rating: {player.rating}) has IBAN '{iban}'")
+        print(
+            f"New payment data: {player} (rating: {player.rating}) has IBAN '{data.get('iban')}'"
+        )
 
         # Note: this function can stop the player from proceeding using the same return
         # value as validate()
