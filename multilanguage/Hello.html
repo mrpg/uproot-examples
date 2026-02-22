@@ -1,0 +1,27 @@
+{% extends "Base.html" %}
+
+
+{% block title %}
+{% translate %}
+Welcome to today’s experiment
+{% endtranslate %}
+{% endblock %}
+
+{% block head %}
+{# Handling RTL #}
+{% if player.language == "he" %}
+<script>
+    document.documentElement.dir = "rtl";
+</script>
+{% endif %}
+{% endblock head %}
+
+{% block main %}
+
+<p>
+    {% translate %}
+    Hello world.
+    {% endtranslate %}
+</p>
+
+{% endblock main %}

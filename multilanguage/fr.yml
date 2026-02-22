@@ -1,0 +1,11 @@
+? 'Welcome to today’s experiment'
+: 'Bienvenue à l’expérience d’aujourd’hui'
+
+? 'Hello world.'
+: 'Bonjour le monde.'
+
+? 'Back'
+: 'Retour'
+
+? 'Next'
+: 'Suivant'

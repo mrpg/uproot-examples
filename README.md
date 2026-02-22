@@ -31,6 +31,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | many\_fields†                    | Benchmark: insert many fields                                 | Easy       |
 | minimum\_effort\_game            | Minimum effort / weakest link game (Van Huyck et al., 1990)   | Easy       |
 | mpl                              | Multiple price list                                           | Medium     |
+| multilanguage                    | App with language switcher                                    | Easy       |
 | nato\_alphabet                   | NATO phonetic alphabet real effort task (Gibson, 2025)        | Advanced   |
 | notifications†                   | Test notifications between players                            | Easy       |
 | observed\_diary                  | Observed diary/surveillance game                              | Medium     |

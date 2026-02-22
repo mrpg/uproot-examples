@@ -1,0 +1,11 @@
+? 'Welcome to today’s experiment'
+: 'ברוכים הבאים לניסוי של היום'
+
+? 'Hello world.'
+: 'שלום עולם.'
+
+? 'Back'
+: 'חזרה'
+
+? 'Next'
+: 'הבא'

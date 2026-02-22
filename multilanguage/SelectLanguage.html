@@ -1,0 +1,13 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+
+{% block main %}
+
+{{ fields() }}
+
+<button type="submit" id="uproot-button-next" class="btn btn-uproot">
+    &rarr;
+</button>
+
+{% endblock main %}

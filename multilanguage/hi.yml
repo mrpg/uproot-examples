@@ -1,0 +1,11 @@
+? 'Welcome to today’s experiment'
+: 'आज के प्रयोग में आपका स्वागत है'
+
+? 'Hello world.'
+: 'नमस्ते दुनिया।'
+
+? 'Back'
+: 'पीछे'
+
+? 'Next'
+: 'आगे'

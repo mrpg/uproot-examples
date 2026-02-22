@@ -1,0 +1,11 @@
+? 'Welcome to today’s experiment'
+: '本日の実験へようこそ'
+
+? 'Hello world.'
+: 'こんにちは世界。'
+
+? 'Back'
+: '戻る'
+
+? 'Next'
+: '次へ'
