@@ -14,6 +14,26 @@ from uproot.smithereens import *
 DESCRIPTION = "Prisoner's dilemma"
 
 
+class C:
+    PAYOFF_MATRIX = {
+        (True, True): 10,
+        (True, False): 0,
+        (False, True): 15,
+        (False, False): 3,
+    }
+
+
+class Context:
+    def other(player):
+        return other_in_group(player)
+
+    def payoff(player):
+        return C.PAYOFF_MATRIX[
+            player.cooperate,
+            other_in_group(player).cooperate,
+        ]
+
+
 class GroupPlease(GroupCreatingWait):
     group_size = 2
 
@@ -27,33 +47,12 @@ class Dilemma(Page):
     )
 
 
-def set_payoff(player):
-    other = other_in_group(player)
-
-    match player.cooperate, other.cooperate:
-        case True, True:
-            player.payoff = 10
-        case True, False:
-            player.payoff = 0
-        case False, True:
-            player.payoff = 15
-        case False, False:
-            player.payoff = 3
-
-
 class Sync(SynchronizingWait):
-    @classmethod
-    def all_here(page, group):
-        for player in players(group):
-            set_payoff(player)
+    pass
 
 
 class Results(Page):
-    @classmethod
-    def context(page, player):
-        return dict(
-            other=other_in_group(player),
-        )
+    pass
 
 
 page_order = [
