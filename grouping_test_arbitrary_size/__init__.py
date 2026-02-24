@@ -195,7 +195,11 @@ page_order = [
     WaitForEveryone,
     TimedOutBeforeGrouping,
     NoGroupAssigned,
-    Rounds(ShowGroup, KeepGroupInSync, n=3),
+    Rounds(
+        ShowGroup,
+        KeepGroupInSync,
+        n=3,
+    ),
     TimedOutGroupPhase,
     AllGood,
 ]
