@@ -1,0 +1,40 @@
+{% extends "Base.html" %}
+
+
+{% block head %}
+
+<style>
+    body {
+        background-color: rgba(var(--bs-success-rgb), 0.05);
+    }
+    #uproot-title {
+        color: var(--bs-success);
+    }
+</style>
+
+{% endblock head %}
+
+
+{% block title %}
+
+Assigned group memberships
+
+{% endblock title %}
+
+
+{% block main %}
+
+<p class="fs-3 fw-light">You are a member of group <strong class="font-monospace fw-semibold">{{ group_name }}</strong></p>
+<p class="fs-3 fw-light">This is <strong class="fw-semibold">round {{ player.round }}</strong>.</p>
+<p>Group size: {{ C.GROUP_SIZE }}.</p>
+<p>Number of groups created: <strong>{{ num_groups }}</strong>.</p>
+<p>Members of your group (sorted alphabetically):</p>
+<ul>
+    {% for p in group_members %}
+        <li><span class="font-monospace">{{ p.name }}</span>{% if p.name == player.name %} (you){% endif %}</li>
+    {% endfor %}
+</ul>
+
+{{ fields() }}
+
+{% endblock main %}

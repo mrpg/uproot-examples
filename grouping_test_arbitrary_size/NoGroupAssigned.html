@@ -1,0 +1,34 @@
+{% extends "Base.html" %}
+
+{% set buttons = False %}
+
+
+{% block title %}
+
+No group assigned
+
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You are <strong class="font-monospace">{{ player.name }}</strong>.</p>
+
+<style>
+    body {
+        background-color: var(--bs-gray-200);
+    }
+    #uproot-title {
+        color: var(--bs-gray-600);
+    }
+</style>
+
+<p>You have not been grouped. This means that this study is over for you.</p>
+
+<div class="d-flex justify-content-end my-3">
+    <button type="submit" id="uproot-button-next" class="btn btn-secondary">
+        End
+    </button>
+</div>
+
+{% endblock main %}
