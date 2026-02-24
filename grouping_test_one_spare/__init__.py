@@ -30,7 +30,6 @@ class WaitForEveryone(SynchronizingWait):
     def all_here(page, session):
         # Get all players and sort alphabetically by name
         all_players = sorted(players(session), key=lambda p: p.name)
-
         if len(all_players) == 1:
             # Only one player
             create_group(session, all_players)
@@ -41,8 +40,7 @@ class WaitForEveryone(SynchronizingWait):
             if len(all_players) % 2 == 0:
                 group_b = all_players[mid:]
             else:
-                group_b = all_players[mid:len(all_players) - 1]
-
+                group_b = all_players[mid : len(all_players) - 1]
             create_groups(session, [group_a, group_b])
 
 
@@ -57,7 +55,6 @@ class ShowGroup(Page):
             # This should never happen
             group_members = []
             group_name = None
-
         return dict(
             group_name=group_name,
             group_members=group_members,
