@@ -1,0 +1,25 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Group assignment
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You are <strong>{{ player.name }}</strong>.</p>
+
+{% if group_name %}
+<p>Your group: <strong>{{ group_name }}</strong></p>
+
+<p>Members of your group (sorted alphabetically):</p>
+<ul>
+{% for p in group_members %}
+    <li>{{ p.name }}{% if p.name == player.name %} (you){% endif %}</li>
+{% endfor %}
+</ul>
+{% else %}
+<p>You are not in a group.</p>
+{% endif %}
+
+{% endblock main %}
