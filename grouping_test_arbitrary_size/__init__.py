@@ -21,7 +21,6 @@ DESCRIPTION = """Wait for session, then create groups of identical size C.GROUP_
 
 
 class C:
-
     GROUP_SIZE = 3
 
 
@@ -39,7 +38,6 @@ def new_player(player):
 
 
 class PageWithTimeout(Page):
-
     @classmethod
     def timeout(page, player):
         return 60
@@ -64,7 +62,6 @@ class PageWithTimeout(Page):
 
 
 class WaitForEveryone(SynchronizingWait):
-
     synchronize = "session"
 
     @classmethod
@@ -73,8 +70,7 @@ class WaitForEveryone(SynchronizingWait):
 
     @classmethod
     def all_here(page, session):
-        # Get all players and sort alphabetically by name
-        # all_players = sorted(players(session), key=lambda p: p.name)
+        # Get all players who haven't timed out, and sort alphabetically by name
         players_not_timed_out = [p for p in players(session) if not p.timed_out]
         all_players = sorted(players_not_timed_out, key=lambda p: p.name)
 
@@ -93,7 +89,6 @@ class WaitForEveryone(SynchronizingWait):
 
 
 class TimedOutBeforeGrouping(Page):
-
     @classmethod
     def show(page, player):
         return player.timed_out
@@ -104,7 +99,6 @@ class TimedOutBeforeGrouping(Page):
 
 
 class NoGroupAssigned(Page):
-
     @classmethod
     def show(page, player):
         return not player.grouped
@@ -115,7 +109,6 @@ class NoGroupAssigned(Page):
 
 
 class ShowGroup(Page):
-
     @classmethod
     def show(page, player):
         return player.grouped and not player.timed_out and not player.group.dropped_out
@@ -135,7 +128,10 @@ class ShowGroup(Page):
         if player.group:
             group_members = sorted(players(player.group), key=lambda p: p.name)
             group_name = player.group.name
-            num_groups = len(players(player.session)) // C.GROUP_SIZE
+            num_groups = (
+                len([p for p in players(player.session) if not p.timed_out])
+                // C.GROUP_SIZE
+            )
         else:
             # Set values for the surplus participants
             group_members = []
@@ -163,14 +159,12 @@ class ShowGroup(Page):
 
 
 class KeepGroupInSync(SynchronizingWait):
-
     @classmethod
     def show(page, player):
         return player.grouped
 
 
 class TimedOutGroupPhase(Page):
-
     @classmethod
     def show(page, player):
         return player.grouped and (player.timed_out or player.group.dropped_out)
@@ -181,7 +175,6 @@ class TimedOutGroupPhase(Page):
 
 
 class AllGood(Page):
-
     @classmethod
     def show(page, player):
         return player.grouped and not player.timed_out and not player.group.dropped_out

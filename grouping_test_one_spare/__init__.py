@@ -16,14 +16,12 @@ DESCRIPTION = """Wait for session, then create two groups of identical size and 
 
 
 class PageWithTimeout(Page):
-
     @classmethod
     def timeout(page, player):
         return 20
 
 
 class WaitForEveryone(SynchronizingWait):
-
     synchronize = "session"
 
     @classmethod
@@ -45,14 +43,13 @@ class WaitForEveryone(SynchronizingWait):
 
 
 class ShowGroup(Page):
-
     @classmethod
     def context(page, player):
         if player.group:
             group_members = sorted(players(player.group), key=lambda p: p.name)
             group_name = player.group.name
         else:
-            # This should never happen
+            # Surplus participant (not grouped)
             group_members = []
             group_name = None
         return dict(
