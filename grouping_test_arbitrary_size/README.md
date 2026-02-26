@@ -1,4 +1,4 @@
-# grouping_test_arbitrary_size
+# grouping\_test\_arbitrary\_size
 
 Demonstrates grouping with a configurable group size, timeout-based dropout handling, and multi-round group interactions.
 

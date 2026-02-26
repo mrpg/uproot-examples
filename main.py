@@ -32,6 +32,7 @@ load_config(uproot_server, config="gift_exchange_game", apps=["gift_exchange_gam
 load_config(uproot_server, config="grouping_test", apps=["grouping_test"])
 load_config(uproot_server, config="grouping_test_arbitrary_size", apps=["grouping_test_arbitrary_size"])
 load_config(uproot_server, config="grouping_test_one_spare", apps=["grouping_test_one_spare"])
+load_config(uproot_server, config="grouping_via_GroupCreatingWait_and_move_to_page", apps=["grouping_via_GroupCreatingWait_and_move_to_page"])
 load_config(uproot_server, config="input_elements", apps=["input_elements"])
 load_config(uproot_server, config="input_validation", apps=["input_validation"])
 load_config(uproot_server, config="many_fields", apps=["many_fields"])
