@@ -49,7 +49,7 @@ class PageWithTimeLimit(Page):
     @classmethod
     def timeout_reached(page, player):
         player.timed_out_before_grouping = True
-        # move_to_page(player, AllGood)  # Strangely, this forwards the player to the page *after* AllGood, i.e., DropoutInfo
+        move_to_page(player, DropoutInfo)
 
     @classmethod
     def fields(page, player):
@@ -61,44 +61,28 @@ class PageWithTimeLimit(Page):
     def validate(page, player, data):
         if data.get("refuse"):
             player.withdrew_consent = True
-            # move_to_page(player, AllGood)  # Strangely, this forwards the player to the page *after* AllGood, i.e., DropoutInfo
-        return (
-            None  # Do not return an error message so participants proceed in any case
-        )
-
-    @classmethod
-    def after_once(page, player):
-        if player.withdrew_consent or player.timed_out_before_grouping:
-            move_to_page(player, DropoutInfo)  # This works!
+            move_to_page(player, DropoutInfo)
 
 
 class WaitForEveryone(SynchronizingWait):
-    """Wait for everyone who has not withdrawn consent or timed out"""
+    """Wait for everyone, so group formation is independent of participants’ speed of progress"""
 
     synchronize = "session"
 
-    @classmethod
-    def show(page, player):
-        return not player.withdrew_consent and not player.timed_out_before_grouping
-
 
 class CreateGroups(GroupCreatingWait):
-    """Wait for everyone to have provided consent and have read the instructions before group formation"""
+    """Create groups for everyone who has not withdrawn consent and who has not timed out"""
 
     group_size = C.GROUP_SIZE
 
     @classmethod
-    def show(page, player):
-        return not player.timed_out_before_grouping and not player.withdrew_consent
-
-    @classmethod
     def timeout(page, player):
-        return 10
+        return 120  # Make sure this is long enough – in particular, if not using WaitForEveryone!
 
     @classmethod
     def timeout_reached(page, player):
         player.could_not_be_grouped = True
-        # move_to_page(player, AllGood)  # Strangely, this forwards the player to the page *after* AllGood, i.e., DropoutInfo
+        move_to_page(player, DropoutInfo)
 
     @classmethod
     def after_grouping(page, group):
@@ -121,7 +105,6 @@ class ShowGroup(Page):
     def timeout_reached(page, player):
         player.timed_out = True
         player.group.dropped_out = True
-        # move_to_page(player, AllGood)  # Strangely, this forwards the player to the page *after* AllGood, i.e., DropoutInfo
 
     @classmethod
     def context(page, player):
@@ -153,9 +136,6 @@ class ShowGroup(Page):
         if data.get("abort"):
             player.timed_out = True
             player.group.dropped_out = True
-        return (
-            None  # Do not return an error message so participants proceed in any case
-        )
 
     @classmethod
     def after_once(page, player):
@@ -169,35 +149,19 @@ class ShowGroup(Page):
 class KeepGroupInSync(SynchronizingWait):
     """Let all players in a group proceed to the next round simultaneously"""
 
-    # @classmethod
-    # def show(page, player):
-    #    return not player.group.dropped_out
-
-    @classmethod
-    def all_here(page, group):
-        if group.dropped_out:
-            for player in players(group):
-                with player as p:
-                    move_to_page(p, DropoutInfo)
+    pass
 
 
 class AllGood(Page):
     """Page shown after group phase has finished without any issues"""
 
-    pass
+    @classmethod
+    def after_once(page, player):
+        move_to_end(player)
 
 
 class DropoutInfo(Page):
     """Page shown to participants who dropped out for various reasons"""
-
-    @classmethod
-    def show(page, player):
-        return (
-            player.withdrew_consent
-            or player.timed_out_before_grouping
-            or player.could_not_be_grouped
-            or (player.group and player.group.dropped_out)
-        )
 
     @classmethod
     def after_once(page, player):
@@ -209,7 +173,7 @@ class DropoutInfo(Page):
 
 page_order = [
     PageWithTimeLimit,
-    WaitForEveryone,
+    #WaitForEveryone,  # Use if you want group formation to be independent of participants’ speed of progress
     CreateGroups,
     Rounds(
         ShowGroup,
