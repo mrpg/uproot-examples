@@ -6,6 +6,8 @@ Participants first see a page with a timeout. Those who time out (or voluntarily
 
 To test, run with a number of participants that is not a multiple of `C.GROUP_SIZE` (default: 3).
 
+For the purpose of illustration only, this app uses conditions via show for displaying the correct pages rather than forwarding participants via move_to_page (which usually produces cleaner code).
+
 Load this app using
 
 ```python

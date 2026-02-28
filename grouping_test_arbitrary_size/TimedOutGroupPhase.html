@@ -6,9 +6,9 @@
 {% block title %}
 
 {% if player.timed_out %}
-  <span class="text-danger">Time limit violated by you during the group phase</span>
+<span class="text-danger">Time limit violated by you during the group phase</span>
 {% else %}
-  <span class="text-warning">Time limit violated by a fellow group member</span>
+<span class="text-warning">Time limit violated by a fellow group member</span>
 {% endif %}
 
 {% endblock title %}
@@ -17,37 +17,37 @@
 {% block main %}
 
 {% if player.timed_out %}
-  <style>
-      body {
-          background-color: rgba(var(--bs-danger-rgb), 0.075);
-      }
-      #uproot-title {
-          color: var(--bs-danger);
-      }
-  </style>
-  <p>You have violated the time limit on a previous page and can therefore no longer participate in this study.</p>
-  <p>Unfortunately, this entails that the entire group to which you belonged will also drop out of the study, and their responses cannot be included in the analysis.</p>
-  <div class="d-flex justify-content-end my-3">
-      <button type="submit" id="uproot-button-next" class="btn btn-danger">
-          End
-      </button>
-  </div>
+<style>
+    body {
+        background-color: rgba(var(--bs-danger-rgb), 0.075);
+    }
+    #uproot-title {
+        color: var(--bs-danger);
+    }
+</style>
+<p>You have violated the time limit on a previous page and can therefore no longer participate in this study.</p>
+<p>Unfortunately, this entails that the entire group to which you belonged will also drop out of the study, and their responses cannot be included in the analysis.</p>
+<div class="d-flex justify-content-end my-3">
+    <button type="submit" id="uproot-button-next" class="btn btn-danger">
+        End
+    </button>
+</div>
 {% else %}
-  <style>
-      body {
-          background-color: rgba(var(--bs-warning-rgb), 0.15);
-      }
-      #uproot-title {
-          color: var(--bs-warning);
-      }
-  </style>
-  <p>The time limit was violated by a fellow group member.</p>
-  <p>Unfortunately, this entails that the entire group—to which also you belonged—will also drop out of the study, and the group members’ responses cannot be included in the analysis.</p>
-  <div class="d-flex justify-content-end my-3">
-      <button type="submit" id="uproot-button-next" class="btn btn-warning">
-          End
-      </button>
-  </div>
+<style>
+    body {
+        background-color: rgba(var(--bs-warning-rgb), 0.15);
+    }
+    #uproot-title {
+        color: var(--bs-warning);
+    }
+</style>
+<p>The time limit was violated by a fellow group member.</p>
+<p>Unfortunately, this entails that the entire group—to which also you belonged—will also drop out of the study, and the group members’ responses cannot be included in the analysis.</p>
+<div class="d-flex justify-content-end my-3">
+    <button type="submit" id="uproot-button-next" class="btn btn-warning">
+        End
+    </button>
+</div>
 {% endif %}
 
 {% endblock main %}

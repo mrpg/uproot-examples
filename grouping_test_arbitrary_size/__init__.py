@@ -14,7 +14,10 @@ from uproot.smithereens import *
 
 DESCRIPTION = """Wait for session, then create groups of identical size C.GROUP_SIZE and
     notify surplus participants that they could not be grouped. Hence, to test this app,
-    run it with a number of participants that is not a multiple of C.GROUP_SIZE."""
+    run it with a number of participants that is not a multiple of C.GROUP_SIZE.
+    For the purpose of illustration only, this app uses conditions via show for displaying
+    the correct pages rather than forwarding participants via move_to_page (which usually
+    produces cleaner code)."""
 
 
 # CONSTANTS
@@ -32,6 +35,7 @@ def new_player(player):
 
     player.grouped = False
     player.timed_out = False
+    player.withdrew_consent = False
 
 
 # PAGES
@@ -56,6 +60,7 @@ class PageWithTimeout(Page):
     def validate(page, player, data):
         if data.get("abort"):
             player.timed_out = True
+            player.withdrew_consent = True
         return (
             None  # Do not return an error message so participants proceed in any case
         )

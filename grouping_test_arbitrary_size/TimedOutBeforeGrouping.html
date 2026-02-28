@@ -5,19 +5,31 @@
 
 {% block title %}
 
-<span class="text-danger">Time limit violated before grouping</span>
+{% if player.withdrew_consent %}
+<span class="text-primary">Consent withdrawn</span>
+{% else %}
+<span class="text-info">Time limit violated before grouping</span>
+{% endif %}
 
 {% endblock title %}
 
 
 {% block main %}
 
-<p>You have violated the time limit on a previous page and can therefore no longer participate in this study.</p>
-
+{% if player.withdrew_consent %}
+<p>You withdrew your consent to participate in this study.</p>
 <div class="d-flex justify-content-end my-3">
-    <button type="submit" id="uproot-button-next" class="btn btn-danger">
+    <button type="submit" id="uproot-button-next" class="btn btn-primary">
         End
     </button>
 </div>
+{% else %}
+<p>You have violated the time limit on a previous page and can therefore no longer participate in this study.</p>
+<div class="d-flex justify-content-end my-3">
+    <button type="submit" id="uproot-button-next" class="btn btn-info">
+        End
+    </button>
+</div>
+{% endif %}
 
 {% endblock main %}

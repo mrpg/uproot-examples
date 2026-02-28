@@ -31,7 +31,7 @@ Assigned group memberships
 <p>Members of your group (sorted alphabetically):</p>
 <ul>
     {% for p in group_members %}
-        <li><span class="font-monospace">{{ p.name }}</span>{% if p.name == player.name %} (you){% endif %}</li>
+    <li><span class="font-monospace">{{ p.name }}</span>{% if p.name == player.name %} (you){% endif %}</li>
     {% endfor %}
 </ul>
 
