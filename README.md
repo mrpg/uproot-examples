@@ -66,7 +66,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `ultimatum_game`                                  | Standard ultimatum game                                         | Easy       |
 | `upload`                                          | Uploading files                                                 | Easy       |
 
-† Apps primarily for internal testing and benchmarking, but useful as simple examples of individual uproot features.
+† Apps primarily for internal testing and benchmarking, but useful as simple examples of individual uproot features.
 
 ## Other examples
 
