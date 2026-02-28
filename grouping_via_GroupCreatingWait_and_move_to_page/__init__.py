@@ -173,7 +173,7 @@ class DropoutInfo(Page):
 
 page_order = [
     PageWithTimeLimit,
-    #WaitForEveryone,  # Use if you want group formation to be independent of participants’ speed of progress
+    # WaitForEveryone,  # Use if you want group formation to be independent of participants’ speed of progress
     CreateGroups,
     Rounds(
         ShowGroup,
