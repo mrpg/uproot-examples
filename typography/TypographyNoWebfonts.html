@@ -49,14 +49,14 @@ Default fonts and font weights in uproot if no web fonts are loaded
         <i>a</i> <i>&alpha;</i>, <i>d</i> <i>&delta;</i>, <i>e</i> <i>&epsilon;</i>, <i>i</i> <i>&iota;</i>, <i>k</i> <i>&kappa;</i>, <i>n</i> <i>&eta;</i>, <i>o</i> <i>&sigma;</i>, <i>p</i> <i>&rho;</i>, <i>q</i> <i>&varrho;</i>, <i>ß</i> <i>&beta;</i>, <i>u</i> <i>&upsilon;</i>, <i>v</i> <i>&nu;</i>, <i>w</i> <i>&omega;</i>, <i>x</i> <i>&chi;</i>, <i>y</i> <i>&gamma;</i>, <i>A</i> <i>&Delta;</i> <i>&Lambda;</i>, <i>O</i> <i>&Theta;</i> <i>&Omega;</i>, <i>T</i> <i>&Gamma;</i>, <i>Y</i></i> <i>&Upsilon;</i> <i>&upsih;</i>.</p>
     <h5>Font weights</h5>
     {% for w in range(100, 1000, 100) %}
-        <div class="row">
-            <div class="col-12 col-xl-6 fw-{{ w }}" dir="ltr">
-                Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
-            </div>
-            <div class="col-12 col-xl-6 fst-italic fw-{{ w }}" dir="ltr">
-                Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
-            </div>
+    <div class="row">
+        <div class="col-12 col-xl-6 fw-{{ w }}" dir="ltr">
+            Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
         </div>
+        <div class="col-12 col-xl-6 fst-italic fw-{{ w }}" dir="ltr">
+            Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
+        </div>
+    </div>
     {% endfor %}
 </div>
 
@@ -74,14 +74,14 @@ Default fonts and font weights in uproot if no web fonts are loaded
         <i>a</i> <i>&alpha;</i>, <i>d</i> <i>&delta;</i>, <i>e</i> <i>&epsilon;</i>, <i>i</i> <i>&iota;</i>, <i>k</i> <i>&kappa;</i>, <i>n</i> <i>&eta;</i>, <i>o</i> <i>&sigma;</i>, <i>p</i> <i>&rho;</i>, <i>q</i> <i>&varrho;</i>, <i>ß</i> <i>&beta;</i>, <i>u</i> <i>&upsilon;</i>, <i>v</i> <i>&nu;</i>, <i>w</i> <i>&omega;</i>, <i>x</i> <i>&chi;</i>, <i>y</i> <i>&gamma;</i>, <i>A</i> <i>&Delta;</i> <i>&Lambda;</i>, <i>O</i> <i>&Theta;</i> <i>&Omega;</i>, <i>T</i> <i>&Gamma;</i>, <i>Y</i></i> <i>&Upsilon;</i> <i>&upsih;</i>.</p>
     <h5>Font weights</h5>
     {% for w in [100, 200, 300, 400, 450, 500, 600, 700] %}
-        <div class="fw-{{ w }} row">
-            <div class="col-12 col-xl-6" dir="ltr">
-                Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
-            </div>
-            <div class="col-12 col-xl-6 fst-italic" dir="ltr">
-                Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
-            </div>
+    <div class="fw-{{ w }} row">
+        <div class="col-12 col-xl-6" dir="ltr">
+            Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
         </div>
+        <div class="col-12 col-xl-6 fst-italic" dir="ltr">
+            Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
+        </div>
+    </div>
     {% endfor %}
     <h5 class="mt-3">Mathematics</h5>
     <p>This is the default font used by your browser for mathematical formulas (MathML):</p>
@@ -137,14 +137,26 @@ Default fonts and font weights in uproot if no web fonts are loaded
         <i>a</i> <i>&alpha;</i>, <i>d</i> <i>&delta;</i>, <i>e</i> <i>&epsilon;</i>, <i>i</i> <i>&iota;</i>, <i>k</i> <i>&kappa;</i>, <i>n</i> <i>&eta;</i>, <i>o</i> <i>&sigma;</i>, <i>p</i> <i>&rho;</i>, <i>q</i> <i>&varrho;</i>, <i>ß</i> <i>&beta;</i>, <i>u</i> <i>&upsilon;</i>, <i>v</i> <i>&nu;</i>, <i>w</i> <i>&omega;</i>, <i>x</i> <i>&chi;</i>, <i>y</i> <i>&gamma;</i>, <i>A</i> <i>&Delta;</i> <i>&Lambda;</i>, <i>O</i> <i>&Theta;</i> <i>&Omega;</i>, <i>T</i> <i>&Gamma;</i>, <i>Y</i></i> <i>&Upsilon;</i> <i>&upsih;</i>.</p>
     <h5>Font weights</h5>
     {% for w in [300, 350, 375, 450, 600, 700] %}
-        <div class="row" style="font-weight: {{ w }};">
-            <div class="col-12 col-xl-6" dir="ltr">
-                Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
-            </div>
-            <div class="col-12 col-xl-6 fst-italic" dir="ltr">
-                Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
-            </div>
+    <div class="row" style="font-weight: {{ w }};">
+        <div class="col-12 col-xl-6" dir="ltr">
+            Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
         </div>
+        <div class="col-12 col-xl-6 fst-italic" dir="ltr">
+            Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
+        </div>
+    </div>
+    {% endfor %}
+    <h5 class="mt-3">Special ligatures</h5>
+    <p>Cascadia Code (but not Cascacdia Mono) offers ligatures for producing arrows and mathematical symbols:</p>
+    {% for w in [300, 350, 375, 450, 600, 700] %}
+        <div class="fw-{{ w }} row">
+        <div class="col-12 col-xl-6">
+            <- -> <-> &nbsp; <-- --> <--> &nbsp; <=> &nbsp; <== ==> <==> &nbsp; << <= != >= >>
+        </div>
+        <div class="col-12 col-xl-6 fst-italic">
+            <- -> <-> &nbsp; <-- --> <--> &nbsp; <=> &nbsp; <== ==> <==> &nbsp; << <= != >= >>
+        </div>
+    </div>
     {% endfor %}
 </div>
 
