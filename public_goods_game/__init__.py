@@ -13,8 +13,21 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Public goods game"
 
-ENDOWMENT = cu("10")
-MPCR = cu("0.5")  # Marginal Per Capita Return
+
+class C:
+    ENDOWMENT = cu("10")
+    MPCR = cu("0.5")  # Marginal Per Capita Return
+
+
+class Context:
+    def group_size(player):
+        return GroupPlease.group_size
+
+    def multiplier(player):
+        return C.MPCR * GroupPlease.group_size
+
+    def total(player):
+        return sum(p.contribution for p in players(player.group))
 
 
 class GroupPlease(GroupCreatingWait):
@@ -26,20 +39,9 @@ class Contribute(Page):
         contribution=DecimalField(
             label="How much do you contribute to the group account?",
             min=0,
-            max=ENDOWMENT,
+            max=C.ENDOWMENT,
         ),
     )
-
-    @classmethod
-    def templatevars(page, player):
-        group_size = GroupPlease.group_size
-        multiplier = MPCR * group_size
-
-        return dict(
-            endowment=ENDOWMENT,
-            group_size=group_size,
-            multiplier=multiplier,
-        )
 
 
 class Sync(SynchronizingWait):
@@ -48,15 +50,11 @@ class Sync(SynchronizingWait):
         total = sum(p.contribution for p in players(group))
 
         for player in players(group):
-            player.payoff = ENDOWMENT - player.contribution + MPCR * total
+            player.payoff = C.ENDOWMENT - player.contribution + C.MPCR * total
 
 
 class Results(Page):
-    @classmethod
-    def templatevars(page, player):
-        total = sum(p.contribution for p in players(player.group))
-
-        return dict(total=total)
+    pass
 
 
 page_order = [

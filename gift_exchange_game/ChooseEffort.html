@@ -8,9 +8,9 @@ Choose Effort
 {% block main %}
 
 <p>You are the <b>worker</b>.</p>
-<p>The employer offered you a wage of <b>{{ wage }}</b>.</p>
-<p>Choose an effort level between {{ min_effort }} and {{ max_effort }}.</p>
-<p>Your effort has a cost of <b>{{ cost_multiplier }} &times; effort</b>.</p>
+<p>The employer offered you a wage of <b>{{ player.context.wage() }}</b>.</p>
+<p>Choose an effort level between {{ C.MIN_EFFORT }} and {{ C.MAX_EFFORT }}.</p>
+<p>Your effort has a cost of <b>{{ C.EFFORT_COST_MULTIPLIER }} &times; effort</b>.</p>
 <p>Your payoff will be: <b>wage &minus; cost</b></p>
 
 {{ fields() }}

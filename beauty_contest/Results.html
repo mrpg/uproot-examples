@@ -8,9 +8,9 @@ Results
 {% block main %}
 
 <p>Your guess: <b>{{ player.guess }}</b></p>
-<p>Other guesses: {% for other in others %}{{ other.guess }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+<p>Other guesses: {% for other in player.context.others() %}{{ other.guess }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
 <p>Average: <b>{{ player.average }}</b></p>
-<p>Target ({{ p }} &times; average): <b>{{ player.target }}</b></p>
+<p>Target ({{ player.context.p() }} &times; average): <b>{{ player.target }}</b></p>
 
 {% if player.winner %}
 <p><b>You won!</b></p>

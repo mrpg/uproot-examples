@@ -43,12 +43,12 @@
                 <div class="row">
                     <div class="col-6 text-center">
                         <div class="text-muted small">Your earnings</div>
-                        <div class="fs-4 fw-bold" id="simMyPayoff">{{ payoffs.AA[0] }}</div>
+                        <div class="fs-4 fw-bold" id="simMyPayoff">{{ C.AA[0] }}</div>
                     </div>
 
                     <div class="col-6 text-center">
                         <div class="text-muted small">Other’s earnings</div>
-                        <div class="fs-4 fw-bold" id="simOtherPayoff">{{ payoffs.AA[1] }}</div>
+                        <div class="fs-4 fw-bold" id="simOtherPayoff">{{ C.AA[1] }}</div>
                     </div>
                 </div>
             </div>
@@ -62,10 +62,10 @@
 <script>
     uproot.onReady(() => {
         const payoffs = {
-            AA: [{{ payoffs.AA[0] }}, {{ payoffs.AA[1] }}],
-            AB: [{{ payoffs.AB[0] }}, {{ payoffs.AB[1] }}],
-            BA: [{{ payoffs.BA[0] }}, {{ payoffs.BA[1] }}],
-            BB: [{{ payoffs.BB[0] }}, {{ payoffs.BB[1] }}]
+            AA: [{{ C.AA[0] }}, {{ C.AA[1] }}],
+            AB: [{{ C.AB[0] }}, {{ C.AB[1] }}],
+            BA: [{{ C.BA[0] }}, {{ C.BA[1] }}],
+            BB: [{{ C.BB[0] }}, {{ C.BB[1] }}]
         };
 
         function update() {

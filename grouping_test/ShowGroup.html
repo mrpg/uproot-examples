@@ -9,12 +9,12 @@ Group assignment
 
 <p>You are <strong>{{ player.name }}</strong>.</p>
 
-{% if group_name %}
-<p>Your group: <strong>{{ group_name }}</strong></p>
+{% if player.context.group_name() %}
+<p>Your group: <strong>{{ player.context.group_name() }}</strong></p>
 
 <p>Members of your group (sorted alphabetically):</p>
 <ul>
-{% for p in group_members %}
+{% for p in player.context.group_members() %}
     <li>{{ p.name }}{% if p.name == player.name %} (you){% endif %}</li>
 {% endfor %}
 </ul>

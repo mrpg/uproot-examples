@@ -18,6 +18,15 @@ class C:
     ROUNDS = 3
 
 
+class Context:
+    def other(player):
+        return other_in_group(player)
+
+    def rounds_so_far(player):
+        # TODO: Build up history table in here
+        return range(1, player.round)
+
+
 class GroupPlease(GroupCreatingWait):
     group_size = 2
 
@@ -29,13 +38,6 @@ class Dilemma(Page):
             choices=[(True, "Yes"), (False, "No")],
         ),
     )
-
-    @classmethod
-    def templatevars(page, player):
-        return dict(
-            other=other_in_group(player),
-            rounds_so_far=range(1, player.round),
-        )
 
 
 def set_payoff(player):
@@ -60,11 +62,7 @@ class Sync(SynchronizingWait):
 
 
 class Results(Page):
-    @classmethod
-    def templatevars(page, player):
-        return dict(
-            other=other_in_group(player),
-        )
+    pass
 
 
 def digest(session):

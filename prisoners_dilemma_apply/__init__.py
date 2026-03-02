@@ -14,6 +14,11 @@ from uproot.smithereens import *
 DESCRIPTION = "Prisoner's dilemma (using apply)"
 
 
+class Context:
+    def other(player):
+        return other_in_group(player)
+
+
 class GroupPlease(GroupCreatingWait):
     group_size = 2
 
@@ -48,11 +53,7 @@ class Sync(SynchronizingWait):
 
 
 class Results(Page):
-    @classmethod
-    def templatevars(page, player):
-        return dict(
-            other=other_in_group(player),
-        )
+    pass
 
 
 page_order = [

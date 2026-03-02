@@ -8,7 +8,7 @@ Results
 {% block main %}
 
 <p>You contributed {{ player.contribution }} to the group account.</p>
-<p>The total contribution to the group account was {{ total }}.</p>
+<p>The total contribution to the group account was {{ player.context.total() }}.</p>
 <p>Your payoff is <b>{{ player.payoff }}</b>.</p>
 
 {% endblock main %}

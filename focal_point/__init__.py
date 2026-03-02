@@ -18,6 +18,11 @@ def new_player(player):
     player.payoff = 0  # initialize this field on player entry
 
 
+class Context:
+    def other(player):
+        return other_in_group(player)
+
+
 class GroupPlease(GroupCreatingWait):
     group_size = 2
 
@@ -42,11 +47,7 @@ class Sync(SynchronizingWait):
 
 
 class Results(Page):
-    @classmethod
-    def templatevars(page, player):
-        return dict(
-            other=other_in_group(player),
-        )
+    pass
 
 
 page_order = [

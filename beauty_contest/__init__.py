@@ -14,7 +14,21 @@ from uproot.smithereens import *
 DESCRIPTION = "Beauty contest / guessing game (Nagel, 1995)"
 
 P = cu("0.67")  # Fraction of average (2/3)
-PRIZE = cu("10")
+
+
+class C:
+    PRIZE = cu("10")
+
+
+class Context:
+    def p(player):
+        return P
+
+    def group_size(player):
+        return GroupPlease.group_size
+
+    def others(player):
+        return others_in_group(player)
 
 
 class GroupPlease(GroupCreatingWait):
@@ -29,10 +43,6 @@ class Guess(Page):
             max=100,
         ),
     )
-
-    @classmethod
-    def templatevars(page, player):
-        return dict(p=P, group_size=GroupPlease.group_size, prize=PRIZE)
 
 
 class Sync(SynchronizingWait):
@@ -51,16 +61,11 @@ class Sync(SynchronizingWait):
             player.target = target
             player.average = average
             player.winner = player in winners
-            player.payoff = PRIZE / len(winners) if player.winner else cu(0)
+            player.payoff = C.PRIZE / len(winners) if player.winner else cu(0)
 
 
 class Results(Page):
-    @classmethod
-    def templatevars(page, player):
-        return dict(
-            others=others_in_group(player),
-            p=P,
-        )
+    pass
 
 
 page_order = [

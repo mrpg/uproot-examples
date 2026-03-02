@@ -13,8 +13,24 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Trust game (Berg et al., 1995)"
 
-ENDOWMENT = cu("10")
-MULTIPLIER = 3
+
+class C:
+    ENDOWMENT = cu("10")
+    MULTIPLIER = 3
+
+
+class Context:
+    def received(player):
+        return players(player.group).find_one(trustor=True).sent * C.MULTIPLIER
+
+    def sent(player):
+        return players(player.group).find_one(trustor=True).sent
+
+    def times_n(player):
+        return players(player.group).find_one(trustor=True).sent * C.MULTIPLIER
+
+    def returned(player):
+        return players(player.group).find_one(trustor=False).returned
 
 
 class GroupPlease(GroupCreatingWait):
@@ -31,17 +47,13 @@ class Send(Page):
         sent=DecimalField(
             label="How much do you send to the other player?",
             min=0,
-            max=ENDOWMENT,
+            max=C.ENDOWMENT,
         ),
     )
 
     @classmethod
     def show(page, player):
         return player.trustor
-
-    @classmethod
-    def templatevars(page, player):
-        return dict(endowment=ENDOWMENT, multiplier=MULTIPLIER)
 
 
 class WaitForSend(SynchronizingWait):
@@ -54,15 +66,9 @@ class Return(Page):
         return not player.trustor
 
     @classmethod
-    def templatevars(page, player):
-        trustor = players(player.group).find_one(trustor=True)
-        received = trustor.sent * MULTIPLIER
-        return dict(received=received, endowment=ENDOWMENT)
-
-    @classmethod
     def fields(page, player):
         trustor = players(player.group).find_one(trustor=True)
-        received = trustor.sent * MULTIPLIER
+        received = trustor.sent * C.MULTIPLIER
         return dict(
             returned=DecimalField(
                 label="How much do you return to the other player?",
@@ -78,22 +84,14 @@ class Sync(SynchronizingWait):
         trustor = players(group).find_one(trustor=True)
         trustee = players(group).find_one(trustor=False)
 
-        received = trustor.sent * MULTIPLIER
+        received = trustor.sent * C.MULTIPLIER
 
-        trustor.payoff = ENDOWMENT - trustor.sent + trustee.returned
-        trustee.payoff = ENDOWMENT + received - trustee.returned
+        trustor.payoff = C.ENDOWMENT - trustor.sent + trustee.returned
+        trustee.payoff = C.ENDOWMENT + received - trustee.returned
 
 
 class Results(Page):
-    @classmethod
-    def templatevars(page, player):
-        trustor = players(player.group).find_one(trustor=True)
-        trustee = players(player.group).find_one(trustor=False)
-        return dict(
-            sent=trustor.sent,
-            tripled=trustor.sent * MULTIPLIER,
-            returned=trustee.returned,
-        )
+    pass
 
 
 page_order = [

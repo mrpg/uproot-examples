@@ -56,6 +56,12 @@ class C:
     # fmt: on
 
 
+class Context:
+    def itemtext(player):
+        itemhere = player.itemorder[str(player.round)]
+        return f"I {C.ITEMS[itemhere][0].lower()}"
+
+
 class RandomlyOrderItems(NoshowPage):  # Note: NoshowPage hides a page
     @classmethod
     def after_always_once(page, player):
@@ -73,13 +79,6 @@ class RandomlyOrderItems(NoshowPage):  # Note: NoshowPage hides a page
 
 
 class Response(Page):
-    @classmethod
-    def templatevars(page, player):
-        itemhere = player.itemorder[str(player.round)]
-        itemtext = f"I {C.ITEMS[itemhere][0].lower()}"
-
-        return {"itemtext": itemtext}
-
     @classmethod
     def fields(page, player):
         itemhere = player.itemorder[str(player.round)]

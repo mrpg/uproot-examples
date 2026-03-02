@@ -13,6 +13,20 @@ from uproot.smithereens import *
 DESCRIPTION = "Wait for session, then create two alphabetically-sorted groups"
 
 
+class Context:
+    def group_name(player):
+        if player.group:
+            return player.group.name
+
+        return None
+
+    def group_members(player):
+        if player.group:
+            return sorted(players(player.group), key=lambda p: p.name)
+
+        return []
+
+
 class WaitForEveryone(SynchronizingWait):
     synchronize = "session"
 
@@ -34,20 +48,7 @@ class WaitForEveryone(SynchronizingWait):
 
 
 class ShowGroup(Page):
-    @classmethod
-    def templatevars(page, player):
-        if player.group:
-            group_members = sorted(players(player.group), key=lambda p: p.name)
-            group_name = player.group.name
-        else:
-            # This should never happen
-            group_members = []
-            group_name = None
-
-        return dict(
-            group_name=group_name,
-            group_members=group_members,
-        )
+    pass
 
 
 page_order = [

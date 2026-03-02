@@ -20,6 +20,11 @@ class C:
     BONUS = 2  # Reward for lower claim / penalty for higher claim
 
 
+class Context:
+    def other(player):
+        return other_in_group(player)
+
+
 class GroupPlease(GroupCreatingWait):
     group_size = 2
 
@@ -52,11 +57,7 @@ class Sync(SynchronizingWait):
 
 
 class Results(Page):
-    @classmethod
-    def templatevars(page, player):
-        return dict(
-            other=other_in_group(player),
-        )
+    pass
 
 
 page_order = [

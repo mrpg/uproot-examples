@@ -14,6 +14,14 @@ from uproot.smithereens import *
 DESCRIPTION = "Ultimatum game"
 
 
+class Context:
+    def offer(player):
+        return players(player.group).find_one(proposer=True).offer
+
+    def accepted(player):
+        return players(player.group).find_one(proposer=False).accept
+
+
 class GroupPlease(GroupCreatingWait):
     group_size = 2
 
@@ -53,11 +61,6 @@ class Respond(Page):
     def show(page, player):
         return not player.proposer
 
-    @classmethod
-    def templatevars(page, player):
-        proposer = players(player.group).find_one(proposer=True)
-        return dict(offer=proposer.offer)
-
 
 class Sync(SynchronizingWait):
     @classmethod
@@ -74,14 +77,7 @@ class Sync(SynchronizingWait):
 
 
 class Results(Page):
-    @classmethod
-    def templatevars(page, player):
-        proposer = players(player.group).find_one(proposer=True)
-        responder = players(player.group).find_one(proposer=False)
-        return dict(
-            offer=proposer.offer,
-            accepted=responder.accept,
-        )
+    pass
 
 
 page_order = [
