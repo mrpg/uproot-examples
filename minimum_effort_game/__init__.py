@@ -32,7 +32,7 @@ class ChooseEffort(Page):
     )
 
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         return dict(a=A, b=B, c=C, group_size=GroupPlease.group_size)
 
 
@@ -49,7 +49,7 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         return dict(others=others_in_group(player))
 
 

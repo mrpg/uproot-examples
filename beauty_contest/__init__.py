@@ -31,7 +31,7 @@ class Guess(Page):
     )
 
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         return dict(p=P, group_size=GroupPlease.group_size, prize=PRIZE)
 
 
@@ -56,7 +56,7 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         return dict(
             others=others_in_group(player),
             p=P,

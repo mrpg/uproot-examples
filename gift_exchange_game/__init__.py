@@ -44,7 +44,7 @@ class SetWage(Page):
         return player.employer
 
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         return dict(min_wage=MIN_WAGE, max_wage=MAX_WAGE)
 
 
@@ -67,7 +67,7 @@ class ChooseEffort(Page):
         return not player.employer
 
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         employer = players(player.group).find_one(employer=True)
         return dict(
             wage=employer.wage,
@@ -94,7 +94,7 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         employer = players(player.group).find_one(employer=True)
         worker = players(player.group).find_one(employer=False)
         effort_cost = EFFORT_COST_MULTIPLIER * worker.effort

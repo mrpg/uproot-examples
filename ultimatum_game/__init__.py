@@ -54,7 +54,7 @@ class Respond(Page):
         return not player.proposer
 
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         proposer = players(player.group).find_one(proposer=True)
         return dict(offer=proposer.offer)
 
@@ -75,7 +75,7 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         proposer = players(player.group).find_one(proposer=True)
         responder = players(player.group).find_one(proposer=False)
         return dict(

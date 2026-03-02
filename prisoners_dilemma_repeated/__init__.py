@@ -31,7 +31,7 @@ class Dilemma(Page):
     )
 
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         return dict(
             other=other_in_group(player),
             rounds_so_far=range(1, player.round),
@@ -61,7 +61,7 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         return dict(
             other=other_in_group(player),
         )

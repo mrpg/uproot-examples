@@ -31,7 +31,7 @@ class Contribute(Page):
     )
 
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         group_size = GroupPlease.group_size
         multiplier = MPCR * group_size
 
@@ -53,7 +53,7 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         total = sum(p.contribution for p in players(player.group))
 
         return dict(total=total)

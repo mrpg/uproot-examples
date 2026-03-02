@@ -40,7 +40,7 @@ class Send(Page):
         return player.trustor
 
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         return dict(endowment=ENDOWMENT, multiplier=MULTIPLIER)
 
 
@@ -54,7 +54,7 @@ class Return(Page):
         return not player.trustor
 
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         trustor = players(player.group).find_one(trustor=True)
         received = trustor.sent * MULTIPLIER
         return dict(received=received, endowment=ENDOWMENT)
@@ -86,7 +86,7 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         trustor = players(player.group).find_one(trustor=True)
         trustee = players(player.group).find_one(trustor=False)
         return dict(

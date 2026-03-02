@@ -74,7 +74,7 @@ class RandomlyOrderItems(NoshowPage):  # Note: NoshowPage hides a page
 
 class Response(Page):
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         itemhere = player.itemorder[str(player.round)]
         itemtext = f"I {C.ITEMS[itemhere][0].lower()}"
 

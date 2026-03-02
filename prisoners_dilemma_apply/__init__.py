@@ -49,7 +49,7 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         return dict(
             other=other_in_group(player),
         )

@@ -35,7 +35,7 @@ class WaitForEveryone(SynchronizingWait):
 
 class ShowGroup(Page):
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         if player.group:
             group_members = sorted(players(player.group), key=lambda p: p.name)
             group_name = player.group.name
