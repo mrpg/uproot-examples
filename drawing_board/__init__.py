@@ -101,7 +101,7 @@ class Draw(Page):
         # Broadcast to other players
         notify(
             player,
-            others_in_session(player),
+            player.others_in_session,
             [
                 dict(
                     points=points,

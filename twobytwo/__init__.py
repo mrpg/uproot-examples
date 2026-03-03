@@ -56,7 +56,7 @@ class Decision(Page):
 
 
 def set_payoff(player):
-    other = other_in_group(player)
+    other = player.other_in_group
     cell = getattr(C, player.choice + other.choice)
     player.payoff = cell[0]
     other.payoff = cell[1]
@@ -72,7 +72,7 @@ class Sync(SynchronizingWait):
 class Results(Page):
     @classmethod
     def context(page, player):
-        return dict(other=other_in_group(player))
+        return dict(other=player.other_in_group)
 
 
 page_order = [

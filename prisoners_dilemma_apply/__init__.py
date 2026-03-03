@@ -30,7 +30,7 @@ class Dilemma(Page):
 class Sync(SynchronizingWait):
     @classmethod
     def set_payoff(page, player):
-        other = other_in_group(player)
+        other = player.other_in_group
 
         match player.cooperate, other.cooperate:
             case True, True:
@@ -51,7 +51,7 @@ class Results(Page):
     @classmethod
     def context(page, player):
         return dict(
-            other=other_in_group(player),
+            other=player.other_in_group,
         )
 
 

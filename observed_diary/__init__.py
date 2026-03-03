@@ -32,7 +32,7 @@ class Watch(Page):
     async def typed(page, player, s: str):
         notify(
             player,
-            others_in_group(player),
+            player.others_in_group,
             s,
         )
 
