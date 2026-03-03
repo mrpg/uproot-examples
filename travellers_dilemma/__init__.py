@@ -55,7 +55,7 @@ class Results(Page):
     @classmethod
     def context(page, player):
         return dict(
-            other=other_in_group(player),
+            other=player.other_in_group,
         )
 
 
