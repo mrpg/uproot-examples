@@ -123,7 +123,7 @@ class ShowGroup(Page):
         player.group.dropped_out = True
 
     @classmethod
-    def context(page, player):
+    def templatevars(page, player):
         num_groups = 0
         if player.group:
             group_members = sorted(players(player.group), key=lambda p: p.name)
