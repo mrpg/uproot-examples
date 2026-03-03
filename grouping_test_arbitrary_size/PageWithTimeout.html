@@ -1,0 +1,23 @@
+{% extends "Base.html" %}
+
+
+{% block title %}
+
+Page with a timeout before grouping
+
+{% endblock title %}
+
+
+{% block main %}
+
+<p class="fs-5 fw-semibold">The group size for this demo app is {{ C.GROUP_SIZE }}.</p>
+
+<p>This page is a placeholder for a page that is shown before grouping is performed. This could be, for instance, a consent form or a page with instructions that are the same for all groups.</p>
+
+<p>Click the button to proceed.</p>
+
+<p>If you fail to press the button within the time limit, you will not be able to be grouped. This is to prevent participants from waiting indefinitely in the case that a fellow participant drops out.</p>
+
+{{ fields() }}
+
+{% endblock main %}

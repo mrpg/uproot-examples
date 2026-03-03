@@ -25,7 +25,7 @@ class C:
 
 class Context:
     def other(player):
-        return other_in_group(player)
+        return player.other_in_group
 
     def payoff(player):
         return C.PAYOFF_MATRIX[

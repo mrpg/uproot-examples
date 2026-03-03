@@ -20,7 +20,7 @@ def new_player(player):
 
 class Context:
     def other(player):
-        return other_in_group(player)
+        return player.other_in_group
 
 
 class GroupPlease(GroupCreatingWait):
@@ -36,7 +36,7 @@ class Claim(Page):
 class Sync(SynchronizingWait):
     @classmethod
     def set_payoff(page, player):
-        other = other_in_group(player)
+        other = player.other_in_group
 
         if player.claim + other.claim <= 100:
             player.payoff = player.claim

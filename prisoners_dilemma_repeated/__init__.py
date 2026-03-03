@@ -20,7 +20,7 @@ class C:
 
 class Context:
     def other(player):
-        return other_in_group(player)
+        return player.other_in_group
 
     def rounds_so_far(player):
         # TODO: Build up history table in here
@@ -41,7 +41,7 @@ class Dilemma(Page):
 
 
 def set_payoff(player):
-    other = other_in_group(player)
+    other = player.other_in_group
 
     match player.cooperate, other.cooperate:
         case True, True:

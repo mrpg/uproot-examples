@@ -34,7 +34,7 @@ class C:
 
 class Context:
     def other(player):
-        return other_in_group(player)
+        return player.other_in_group
 
 
 class GroupPlease(GroupCreatingWait):
@@ -55,7 +55,7 @@ class Decision(Page):
 
 
 def set_payoff(player):
-    other = other_in_group(player)
+    other = player.other_in_group
     cell = getattr(C, player.choice + other.choice)
     player.payoff = cell[0]
     other.payoff = cell[1]

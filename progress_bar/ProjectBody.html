@@ -1,4 +1,4 @@
-{% if player is not none %}
+{% if player is not none and len(player.page_order) > 0 %}
     {% set _local_progress = max(round(100 * (player.show_page / len(player.page_order))), 0) %}
     <div class="progress fixed-top rounded-0" style="height: 8px;">
         <div
