@@ -37,9 +37,7 @@ class GroupPlease(GroupCreatingWait):
 
 
 class Instructions(Page):
-    @classmethod
-    def context(page, player):
-        return dict(payoffs=C)
+    pass
 
 
 class Decision(Page):
@@ -50,13 +48,9 @@ class Decision(Page):
         ),
     )
 
-    @classmethod
-    def context(page, player):
-        return dict(payoffs=C)
-
 
 def set_payoff(player):
-    other = other_in_group(player)
+    other = player.other_in_group
     cell = getattr(C, player.choice + other.choice)
     player.payoff = cell[0]
     other.payoff = cell[1]
@@ -65,14 +59,12 @@ def set_payoff(player):
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        player = players(group)[0]
+        player = group.players[0]
         set_payoff(player)
 
 
 class Results(Page):
-    @classmethod
-    def context(page, player):
-        return dict(other=other_in_group(player))
+    pass
 
 
 page_order = [

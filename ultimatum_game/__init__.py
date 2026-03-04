@@ -14,12 +14,22 @@ from uproot.smithereens import *
 DESCRIPTION = "Ultimatum game"
 
 
+class Context(PlayerContext):
+    @property
+    def offer(self):
+        return self.player.group.players.find_one(proposer=True).offer
+
+    @property
+    def accepted(self):
+        return self.player.group.players.find_one(proposer=False).accept
+
+
 class GroupPlease(GroupCreatingWait):
     group_size = 2
 
     @classmethod
     def after_grouping(page, group):
-        for player, is_proposer in zip(players(group), [True, False]):
+        for player, is_proposer in zip(group.players, [True, False]):
             player.proposer = is_proposer
 
 
@@ -53,17 +63,12 @@ class Respond(Page):
     def show(page, player):
         return not player.proposer
 
-    @classmethod
-    def context(page, player):
-        proposer = players(player.group).find_one(proposer=True)
-        return dict(offer=proposer.offer)
-
 
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        proposer = players(group).find_one(proposer=True)
-        responder = players(group).find_one(proposer=False)
+        proposer = group.players.find_one(proposer=True)
+        responder = group.players.find_one(proposer=False)
 
         if responder.accept:
             proposer.payoff = cu(10) - proposer.offer
@@ -74,14 +79,7 @@ class Sync(SynchronizingWait):
 
 
 class Results(Page):
-    @classmethod
-    def context(page, player):
-        proposer = players(player.group).find_one(proposer=True)
-        responder = players(player.group).find_one(proposer=False)
-        return dict(
-            offer=proposer.offer,
-            accepted=responder.accept,
-        )
+    pass
 
 
 page_order = [

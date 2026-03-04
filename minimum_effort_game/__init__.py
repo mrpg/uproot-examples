@@ -13,14 +13,17 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Minimum effort / weakest link game (Van Huyck et al., 1990)"
 
-# Payoff = a * min(efforts) - b * own_effort + c
-A = cu("2")  # Benefit from minimum effort
-B = cu("1")  # Cost of own effort
-C = cu("6")  # Fixed component
+
+class C:
+    # Payoff = a * min(efforts) - b * own_effort + c
+    A = cu("2")  # Benefit from minimum effort
+    B = cu("1")  # Cost of own effort
+    C = cu("6")  # Fixed component
+    GROUP_SIZE = 3
 
 
 class GroupPlease(GroupCreatingWait):
-    group_size = 3
+    group_size = C.GROUP_SIZE
 
 
 class ChooseEffort(Page):
@@ -31,26 +34,20 @@ class ChooseEffort(Page):
         ),
     )
 
-    @classmethod
-    def context(page, player):
-        return dict(a=A, b=B, c=C, group_size=GroupPlease.group_size)
-
 
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        efforts = [p.effort for p in players(group)]
+        efforts = [p.effort for p in group.players]
         minimum = min(efforts)
 
-        for player in players(group):
+        for player in group.players:
             player.minimum = minimum
-            player.payoff = A * minimum - B * player.effort + C
+            player.payoff = C.A * minimum - C.B * player.effort + C.C
 
 
 class Results(Page):
-    @classmethod
-    def context(page, player):
-        return dict(others=others_in_group(player))
+    pass
 
 
 page_order = [

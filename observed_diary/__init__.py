@@ -23,7 +23,7 @@ class GroupPlease(GroupCreatingWait):
 
     @classmethod
     def after_grouping(page, group):
-        for player, watched in zip(players(group), page.watch_values):
+        for player, watched in zip(group.players, page.watch_values):
             player.watched = watched
 
 
@@ -32,7 +32,7 @@ class Watch(Page):
     async def typed(page, player, s: str):
         notify(
             player,
-            others_in_group(player),
+            player.others_in_group,
             s,
         )
 

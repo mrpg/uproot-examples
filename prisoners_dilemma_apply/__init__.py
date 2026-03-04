@@ -30,7 +30,7 @@ class Dilemma(Page):
 class Sync(SynchronizingWait):
     @classmethod
     def set_payoff(page, player):
-        other = other_in_group(player)
+        other = player.other_in_group
 
         match player.cooperate, other.cooperate:
             case True, True:
@@ -44,15 +44,11 @@ class Sync(SynchronizingWait):
 
     @classmethod
     def all_here(page, group):
-        players(group).apply(page.set_payoff)
+        group.players.apply(page.set_payoff)
 
 
 class Results(Page):
-    @classmethod
-    def context(page, player):
-        return dict(
-            other=other_in_group(player),
-        )
+    pass
 
 
 page_order = [

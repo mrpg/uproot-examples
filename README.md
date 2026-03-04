@@ -1,6 +1,6 @@
 # uproot examples
 
-The folders in this repository contain [uproot](https://uproot.science/) examples.
+This repository contains [uproot](https://uproot.science/) examples. [Run this uproot project in your browser.](https://demo.uproot.science/)
 
 ## Running all examples
 

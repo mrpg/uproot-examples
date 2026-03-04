@@ -7,14 +7,14 @@ Results
 
 {% block main %}
 
-<p>Wage offered: <b>{{ wage }}</b></p>
-<p>Effort chosen: <b>{{ effort }}</b></p>
-<p>Effort cost: <b>{{ effort_cost }}</b></p>
+<p>Wage offered: <b>{{ player.context.wage }}</b></p>
+<p>Effort chosen: <b>{{ player.context.effort }}</b></p>
+<p>Effort cost: <b>{{ player.context.effort_cost }}</b></p>
 
 {% if player.employer %}
-<p>As employer, your payoff is: ({{ effort }} &times; 10) &minus; {{ wage }} = <b>{{ player.payoff }}</b></p>
+<p>As employer, your payoff is: ({{ player.context.effort }} &times; 10) &minus; {{ player.context.wage }} = <b>{{ player.payoff }}</b></p>
 {% else %}
-<p>As worker, your payoff is: {{ wage }} &minus; {{ effort_cost }} = <b>{{ player.payoff }}</b></p>
+<p>As worker, your payoff is: {{ player.context.wage }} &minus; {{ player.context.effort_cost }} = <b>{{ player.payoff }}</b></p>
 {% endif %}
 
 {% endblock main %}

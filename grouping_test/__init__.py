@@ -19,7 +19,7 @@ class WaitForEveryone(SynchronizingWait):
     @classmethod
     def all_here(page, session):
         # Get all players and sort alphabetically by name
-        all_players = sorted(players(session), key=lambda p: p.name)
+        all_players = sorted(session.players, key=lambda p: p.name)
 
         if len(all_players) == 1:
             # Only one player
@@ -34,20 +34,7 @@ class WaitForEveryone(SynchronizingWait):
 
 
 class ShowGroup(Page):
-    @classmethod
-    def context(page, player):
-        if player.group:
-            group_members = sorted(players(player.group), key=lambda p: p.name)
-            group_name = player.group.name
-        else:
-            # This should never happen
-            group_members = []
-            group_name = None
-
-        return dict(
-            group_name=group_name,
-            group_members=group_members,
-        )
+    pass
 
 
 page_order = [

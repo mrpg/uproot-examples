@@ -13,12 +13,15 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Beauty contest / guessing game (Nagel, 1995)"
 
-P = cu("0.67")  # Fraction of average (2/3)
-PRIZE = cu("10")
+
+class C:
+    P = cu("0.67")  # Fraction of average (2/3)
+    GROUP_SIZE = 3
+    PRIZE = cu("10")
 
 
 class GroupPlease(GroupCreatingWait):
-    group_size = 3
+    group_size = C.GROUP_SIZE
 
 
 class Guess(Page):
@@ -30,37 +33,28 @@ class Guess(Page):
         ),
     )
 
-    @classmethod
-    def context(page, player):
-        return dict(p=P, group_size=GroupPlease.group_size, prize=PRIZE)
-
 
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        guesses = [p.guess for p in players(group)]
+        guesses = [p.guess for p in group.players]
         average = sum(guesses) / len(guesses)
-        target = P * average
+        target = C.P * average
 
         # Find winner(s) - closest to target
-        distances = [(p, abs(p.guess - target)) for p in players(group)]
+        distances = [(p, abs(p.guess - target)) for p in group.players]
         min_distance = min(d for _, d in distances)
         winners = [p for p, d in distances if d == min_distance]
 
-        for player in players(group):
+        for player in group.players:
             player.target = target
             player.average = average
             player.winner = player in winners
-            player.payoff = PRIZE / len(winners) if player.winner else cu(0)
+            player.payoff = C.PRIZE / len(winners) if player.winner else cu(0)
 
 
 class Results(Page):
-    @classmethod
-    def context(page, player):
-        return dict(
-            others=others_in_group(player),
-            p=P,
-        )
+    pass
 
 
 page_order = [

@@ -6,4 +6,4 @@ Load this app using
 load_config(uproot_server, config="prisoners_dilemma_apply", apps=["prisoners_dilemma_apply"])
 ```
 
-*Note*: This app, in contrast to `prisoners\_dilemma`, uses `players(group).apply` to set payoffs. (This is slightly more advanced.)
+*Note*: This app, in contrast to `prisoners\_dilemma`, uses `group.players.apply` to set payoffs. (This is slightly more advanced.)

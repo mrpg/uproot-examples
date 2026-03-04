@@ -26,14 +26,14 @@ class AssignTreatment(NoshowPage):
     @classmethod
     def after_always_once(page, player):
         # Note: You can refine the group to which the count is applied by filtering.
-        # For example, instead of players(player.session).apply(...), just do
-        # players(player.session).filter(_.contribution > 10).apply(...), or
-        # players(player.session).filter(_.dropout == False).apply(...). Needless to
+        # For example, instead of player.session.players.apply(...), just do
+        # player.session.players.filter(_.contribution > 10).apply(...), or
+        # player.session.players.filter(_.dropout == False).apply(...). Needless to
         # say, these examples require the existence of `contribution` and `dropout`
         # fields, respectively. See the examples "dropouts" and "public_goods_game".
 
         counts = Counter(
-            players(player.session).apply(
+            player.session.players.apply(
                 lambda p: p.get("treatment"),
             ),
         )

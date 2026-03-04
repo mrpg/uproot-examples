@@ -19,7 +19,7 @@ class GroupPlease(GroupCreatingWait):
 
     @classmethod
     def after_grouping(page, group):
-        for player, is_dictator in zip(players(group), [True, False]):
+        for player, is_dictator in zip(group.players, [True, False]):
             player.dictator = is_dictator
 
 
@@ -36,8 +36,8 @@ class Dictate(Page):
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        dictator = players(group).find_one(dictator=True)
-        recipient = players(group).find_one(dictator=False)
+        dictator = group.players.find_one(dictator=True)
+        recipient = group.players.find_one(dictator=False)
 
         dictator.payoff = cu(10) - dictator.give
         recipient.payoff = dictator.give
