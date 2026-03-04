@@ -14,12 +14,14 @@ from uproot.smithereens import *
 DESCRIPTION = "Ultimatum game"
 
 
-class Context:
-    def offer(player):
-        return players(player.group).find_one(proposer=True).offer
+class Context(PlayerContext):
+    @property
+    def offer(self):
+        return players(self.player.group).find_one(proposer=True).offer
 
-    def accepted(player):
-        return players(player.group).find_one(proposer=False).accept
+    @property
+    def accepted(self):
+        return players(self.player.group).find_one(proposer=False).accept
 
 
 class GroupPlease(GroupCreatingWait):

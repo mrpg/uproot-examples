@@ -8,8 +8,8 @@ Return
 {% block main %}
 
 <p>You have an endowment of <b>{{ C.ENDOWMENT }}</b>.</p>
-<p>The other player sent you an amount that was multiplied to <b>{{ player.context.received() }}</b>.</p>
-<p>You can return any amount between 0 and {{ player.context.received() }} to the other player.</p>
+<p>The other player sent you an amount that was multiplied to <b>{{ player.context.received }}</b>.</p>
+<p>You can return any amount between 0 and {{ player.context.received }} to the other player.</p>
 
 {{ fields() }}
 

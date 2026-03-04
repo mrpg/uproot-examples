@@ -20,15 +20,18 @@ class C:
     PRIZE = cu("10")
 
 
-class Context:
-    def p(player):
+class Context(PlayerContext):
+    @property
+    def p(self):
         return P
 
-    def group_size(player):
+    @property
+    def group_size(self):
         return GroupPlease.group_size
 
-    def others(player):
-        return others_in_group(player)
+    @property
+    def others(self):
+        return self.player.others_in_group
 
 
 class GroupPlease(GroupCreatingWait):

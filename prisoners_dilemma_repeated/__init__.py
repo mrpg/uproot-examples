@@ -18,13 +18,15 @@ class C:
     ROUNDS = 3
 
 
-class Context:
-    def other(player):
-        return player.other_in_group
+class Context(PlayerContext):
+    @property
+    def other(self):
+        return self.player.other_in_group
 
-    def rounds_so_far(player):
+    @property
+    def rounds_so_far(self):
         # TODO: Build up history table in here
-        return range(1, player.round)
+        return range(1, self.player.round)
 
 
 class GroupPlease(GroupCreatingWait):

@@ -18,9 +18,10 @@ def new_player(player):
     player.payoff = 0  # initialize this field on player entry
 
 
-class Context:
-    def other(player):
-        return player.other_in_group
+class Context(PlayerContext):
+    @property
+    def other(self):
+        return self.player.other_in_group
 
 
 class GroupPlease(GroupCreatingWait):

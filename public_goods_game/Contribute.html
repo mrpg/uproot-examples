@@ -7,9 +7,9 @@ Contribute
 
 {% block main %}
 
-<p>You have an endowment of <b>{{ C.ENDOWMENT }}</b>. You are in a group with {{ player.context.group_size() }} members.</p>
+<p>You have an endowment of <b>{{ C.ENDOWMENT }}</b>. You are in a group with {{ player.context.group_size }} members.</p>
 <p>You can allocate any amount to the group account. The remainder stays in your private account.</p>
-<p>All contributions to the group account will be multiplied by {{ player.context.multiplier() }} and divided equally among the {{ player.context.group_size() }} group members.</p>
+<p>All contributions to the group account will be multiplied by {{ player.context.multiplier }} and divided equally among the {{ player.context.group_size }} group members.</p>
 
 {{ fields() }}
 

@@ -56,9 +56,10 @@ class C:
     # fmt: on
 
 
-class Context:
-    def itemtext(player):
-        itemhere = player.itemorder[str(player.round)]
+class Context(PlayerContext):
+    @property
+    def itemtext(self):
+        itemhere = self.player.itemorder[str(self.player.round)]
         return f"I {C.ITEMS[itemhere][0].lower()}"
 
 

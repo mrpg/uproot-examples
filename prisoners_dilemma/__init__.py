@@ -23,14 +23,16 @@ class C:
     }
 
 
-class Context:
-    def other(player):
-        return player.other_in_group
+class Context(PlayerContext):
+    @property
+    def other(self):
+        return self.player.other_in_group
 
-    def payoff(player):
+    @property
+    def payoff(self):
         return C.PAYOFF_MATRIX[
-            player.cooperate,
-            other_in_group(player).cooperate,
+            self.player.cooperate,
+            self.player.other_in_group.cooperate,
         ]
 
 

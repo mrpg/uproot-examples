@@ -14,9 +14,10 @@ from uproot.smithereens import *
 DESCRIPTION = "Prisoner's dilemma (using apply)"
 
 
-class Context:
-    def other(player):
-        return player.other_in_group
+class Context(PlayerContext):
+    @property
+    def other(self):
+        return self.player.other_in_group
 
 
 class GroupPlease(GroupCreatingWait):

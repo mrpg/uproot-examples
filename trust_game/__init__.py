@@ -19,18 +19,22 @@ class C:
     MULTIPLIER = 3
 
 
-class Context:
-    def received(player):
-        return players(player.group).find_one(trustor=True).sent * C.MULTIPLIER
+class Context(PlayerContext):
+    @property
+    def received(self):
+        return players(self.player.group).find_one(trustor=True).sent * C.MULTIPLIER
 
-    def sent(player):
-        return players(player.group).find_one(trustor=True).sent
+    @property
+    def sent(self):
+        return players(self.player.group).find_one(trustor=True).sent
 
-    def times_n(player):
-        return players(player.group).find_one(trustor=True).sent * C.MULTIPLIER
+    @property
+    def times_n(self):
+        return players(self.player.group).find_one(trustor=True).sent * C.MULTIPLIER
 
-    def returned(player):
-        return players(player.group).find_one(trustor=False).returned
+    @property
+    def returned(self):
+        return players(self.player.group).find_one(trustor=False).returned
 
 
 class GroupPlease(GroupCreatingWait):

@@ -32,9 +32,10 @@ class C:
     BB = (3, 3)  # Both choose B
 
 
-class Context:
-    def other(player):
-        return player.other_in_group
+class Context(PlayerContext):
+    @property
+    def other(self):
+        return self.player.other_in_group
 
 
 class GroupPlease(GroupCreatingWait):

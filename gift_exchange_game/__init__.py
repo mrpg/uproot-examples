@@ -22,17 +22,20 @@ class C:
     EFFORT_COST_MULTIPLIER = cu("5")  # Cost = multiplier * effort
 
 
-class Context:
-    def wage(player):
-        return players(player.group).find_one(employer=True).wage
+class Context(PlayerContext):
+    @property
+    def wage(self):
+        return players(self.player.group).find_one(employer=True).wage
 
-    def effort(player):
-        return players(player.group).find_one(employer=False).effort
+    @property
+    def effort(self):
+        return players(self.player.group).find_one(employer=False).effort
 
-    def effort_cost(player):
+    @property
+    def effort_cost(self):
         return (
             C.EFFORT_COST_MULTIPLIER
-            * players(player.group).find_one(employer=False).effort
+            * players(self.player.group).find_one(employer=False).effort
         )
 
 

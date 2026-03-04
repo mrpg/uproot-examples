@@ -9,12 +9,12 @@ Results
 
 <p>You claimed <b>${{ player.claim | to(2) }}</b>.</p>
 
-<p>Your partner claimed <b>${{ player.context.other().claim | to(2) }}</b>.</p>
+<p>Your partner claimed <b>${{ player.context.other.claim | to(2) }}</b>.</p>
 
 <p>
-    The sum of claims is ${{ (player.claim + player.context.other().claim) | to(2) }}.
+    The sum of claims is ${{ (player.claim + player.context.other.claim) | to(2) }}.
 
-    {% if player.claim + player.context.other().claim <= 100 %}
+    {% if player.claim + player.context.other.claim <= 100 %}
     This is $100 or less.
     {% else %}
     This is more than $100.

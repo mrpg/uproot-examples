@@ -22,7 +22,7 @@ Dilemma (round {{ player.round }} of {{ C.ROUNDS }})
         </tr>
     </thead>
     <tbody>
-        {% for round in player.context.rounds_so_far() %}
+        {% for round in player.context.rounds_so_far %}
         <tr>
             <th scope="row">{{ round }}</th>
             <td>
@@ -33,7 +33,7 @@ Dilemma (round {{ player.round }} of {{ C.ROUNDS }})
                 {% endif %}
             </td>
             <td>
-                {% if player.context.other().within(round=round).cooperate %}
+                {% if player.context.other.within(round=round).cooperate %}
                 Cooperated
                 {% else %}
                 Did not cooperate

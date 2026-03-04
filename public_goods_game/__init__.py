@@ -19,15 +19,18 @@ class C:
     MPCR = cu("0.5")  # Marginal Per Capita Return
 
 
-class Context:
-    def group_size(player):
+class Context(PlayerContext):
+    @property
+    def group_size(self):
         return GroupPlease.group_size
 
-    def multiplier(player):
+    @property
+    def multiplier(self):
         return C.MPCR * GroupPlease.group_size
 
-    def total(player):
-        return sum(p.contribution for p in players(player.group))
+    @property
+    def total(self):
+        return sum(p.contribution for p in players(self.player.group))
 
 
 class GroupPlease(GroupCreatingWait):

@@ -7,9 +7,9 @@ Results
 
 {% block main %}
 
-<p>The offer was <b>{{ player.context.offer() }}</b>.</p>
+<p>The offer was <b>{{ player.context.offer }}</b>.</p>
 
-{% if player.context.accepted() %}
+{% if player.context.accepted %}
 <p>The offer was <b>accepted</b>.</p>
 {% else %}
 <p>The offer was <b>rejected</b>.</p>
