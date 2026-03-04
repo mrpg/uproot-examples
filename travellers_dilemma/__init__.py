@@ -20,12 +20,6 @@ class C:
     BONUS = 2  # Reward for lower claim / penalty for higher claim
 
 
-class Context(PlayerContext):
-    @property
-    def other(self):
-        return self.player.other_in_group
-
-
 class GroupPlease(GroupCreatingWait):
     group_size = 2
 

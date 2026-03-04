@@ -25,10 +25,6 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def other(self):
-        return self.player.other_in_group
-
-    @property
     def payoff(self):
         return C.PAYOFF_MATRIX[
             self.player.cooperate,

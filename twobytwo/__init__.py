@@ -32,12 +32,6 @@ class C:
     BB = (3, 3)  # Both choose B
 
 
-class Context(PlayerContext):
-    @property
-    def other(self):
-        return self.player.other_in_group
-
-
 class GroupPlease(GroupCreatingWait):
     group_size = 2
 

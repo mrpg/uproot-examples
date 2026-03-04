@@ -26,10 +26,6 @@ class Context(PlayerContext):
     def group_size(self):
         return GroupPlease.group_size
 
-    @property
-    def others(self):
-        return self.player.others_in_group
-
 
 class GroupPlease(GroupCreatingWait):
     group_size = 3

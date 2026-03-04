@@ -8,12 +8,12 @@ Results
 {% block main %}
 
 <p>You claimed <b>{{ player.claim }}</b>.</p>
-<p>The other traveller claimed <b>{{ player.context.other.claim }}</b>.</p>
+<p>The other traveller claimed <b>{{ player.other_in_group.claim }}</b>.</p>
 
-{% if player.claim < player.context.other.claim %}
+{% if player.claim < player.other_in_group.claim %}
 <p>Your claim was lower, so you receive {{ player.claim }} + {{ C.BONUS }} bonus.</p>
-{% elif player.claim > player.context.other.claim %}
-<p>Your claim was higher, so you receive {{ player.context.other.claim }} &minus; {{ C.BONUS }} penalty.</p>
+{% elif player.claim > player.other_in_group.claim %}
+<p>Your claim was higher, so you receive {{ player.other_in_group.claim }} &minus; {{ C.BONUS }} penalty.</p>
 {% else %}
 <p>Both claims were equal, so you both receive {{ player.claim }}.</p>
 {% endif %}

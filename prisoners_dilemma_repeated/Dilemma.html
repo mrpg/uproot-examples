@@ -33,7 +33,7 @@ Dilemma (round {{ player.round }} of {{ C.ROUNDS }})
                 {% endif %}
             </td>
             <td>
-                {% if player.context.other.within(round=round).cooperate %}
+                {% if player.other_in_group.within(round=round).cooperate %}
                 Cooperated
                 {% else %}
                 Did not cooperate

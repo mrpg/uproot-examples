@@ -20,10 +20,6 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def other(self):
-        return self.player.other_in_group
-
-    @property
     def rounds_so_far(self):
         # TODO: Build up history table in here
         return range(1, self.player.round)

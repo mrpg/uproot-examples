@@ -8,7 +8,7 @@ Results
 {% block main %}
 
 <p>Your guess: <b>{{ player.guess }}</b></p>
-<p>Other guesses: {% for other in player.context.others %}{{ other.guess }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+<p>Other guesses: {% for other in player.others_in_group %}{{ other.guess }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
 <p>Average: <b>{{ player.average }}</b></p>
 <p>Target ({{ player.context.p }} &times; average): <b>{{ player.target }}</b></p>
 
