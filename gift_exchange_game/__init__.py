@@ -25,17 +25,17 @@ class C:
 class Context(PlayerContext):
     @property
     def wage(self):
-        return players(self.player.group).find_one(employer=True).wage
+        return self.player.group.players.find_one(employer=True).wage
 
     @property
     def effort(self):
-        return players(self.player.group).find_one(employer=False).effort
+        return self.player.group.players.find_one(employer=False).effort
 
     @property
     def effort_cost(self):
         return (
             C.EFFORT_COST_MULTIPLIER
-            * players(self.player.group).find_one(employer=False).effort
+            * self.player.group.players.find_one(employer=False).effort
         )
 
 
@@ -44,7 +44,7 @@ class GroupPlease(GroupCreatingWait):
 
     @classmethod
     def after_grouping(page, group):
-        for player, is_employer in zip(players(group), [True, False]):
+        for player, is_employer in zip(group.players, [True, False]):
             player.employer = is_employer
 
 
@@ -84,8 +84,8 @@ class ChooseEffort(Page):
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        employer = players(group).find_one(employer=True)
-        worker = players(group).find_one(employer=False)
+        employer = group.players.find_one(employer=True)
+        worker = group.players.find_one(employer=False)
 
         effort_cost = C.EFFORT_COST_MULTIPLIER * worker.effort
 

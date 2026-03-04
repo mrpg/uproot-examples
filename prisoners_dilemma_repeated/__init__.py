@@ -59,7 +59,7 @@ def set_payoff(player):
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        for player in players(group):
+        for player in group.players:
             set_payoff(player)
 
 
@@ -72,8 +72,8 @@ def digest(session):
 
     for gname in session.groups:
         with session.group(gname) as group:
-            player1 = players(group).find_one(member_id=0)
-            player2 = players(group).find_one(member_id=1)
+            player1 = group.players.find_one(member_id=0)
+            player2 = group.players.find_one(member_id=1)
 
             latest_round = max(player1.round, player2.round)
             history = []

@@ -47,10 +47,10 @@ class ChooseEffort(Page):
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        efforts = [p.effort for p in players(group)]
+        efforts = [p.effort for p in group.players]
         minimum = min(efforts)
 
-        for player in players(group):
+        for player in group.players:
             player.minimum = minimum
             player.payoff = C.A * minimum - C.B * player.effort + C.C
 

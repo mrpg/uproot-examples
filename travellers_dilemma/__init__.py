@@ -43,7 +43,7 @@ class Claim(Page):
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        player1, player2 = players(group)
+        player1, player2 = group.players
 
         if player1.claim < player2.claim:
             player1.payoff = player1.claim + C.BONUS

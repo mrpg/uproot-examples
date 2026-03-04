@@ -51,16 +51,16 @@ class Guess(Page):
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        guesses = [p.guess for p in players(group)]
+        guesses = [p.guess for p in group.players]
         average = sum(guesses) / len(guesses)
         target = P * average
 
         # Find winner(s) - closest to target
-        distances = [(p, abs(p.guess - target)) for p in players(group)]
+        distances = [(p, abs(p.guess - target)) for p in group.players]
         min_distance = min(d for _, d in distances)
         winners = [p for p, d in distances if d == min_distance]
 
-        for player in players(group):
+        for player in group.players:
             player.target = target
             player.average = average
             player.winner = player in winners

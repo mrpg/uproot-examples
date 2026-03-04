@@ -17,11 +17,11 @@ DESCRIPTION = "Ultimatum game"
 class Context(PlayerContext):
     @property
     def offer(self):
-        return players(self.player.group).find_one(proposer=True).offer
+        return self.player.group.players.find_one(proposer=True).offer
 
     @property
     def accepted(self):
-        return players(self.player.group).find_one(proposer=False).accept
+        return self.player.group.players.find_one(proposer=False).accept
 
 
 class GroupPlease(GroupCreatingWait):
@@ -29,7 +29,7 @@ class GroupPlease(GroupCreatingWait):
 
     @classmethod
     def after_grouping(page, group):
-        for player, is_proposer in zip(players(group), [True, False]):
+        for player, is_proposer in zip(group.players, [True, False]):
             player.proposer = is_proposer
 
 
@@ -67,8 +67,8 @@ class Respond(Page):
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        proposer = players(group).find_one(proposer=True)
-        responder = players(group).find_one(proposer=False)
+        proposer = group.players.find_one(proposer=True)
+        responder = group.players.find_one(proposer=False)
 
         if responder.accept:
             proposer.payoff = cu(10) - proposer.offer

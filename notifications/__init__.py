@@ -27,7 +27,7 @@ class SendAndReceive(Page):
 
         notify(
             player,
-            players(player.session),
+            player.session.players,
             data,
             event="Notified",
             where=where,

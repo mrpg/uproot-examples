@@ -30,7 +30,7 @@ class Context(PlayerContext):
 
     @property
     def total(self):
-        return sum(p.contribution for p in players(self.player.group))
+        return sum(p.contribution for p in self.player.group.players)
 
 
 class GroupPlease(GroupCreatingWait):
@@ -50,9 +50,9 @@ class Contribute(Page):
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        total = sum(p.contribution for p in players(group))
+        total = sum(p.contribution for p in group.players)
 
-        for player in players(group):
+        for player in group.players:
             player.payoff = C.ENDOWMENT - player.contribution + C.MPCR * total
 
 

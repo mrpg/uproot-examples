@@ -144,7 +144,7 @@ def broadcast_market_update(
     """Send updated market state to all participants"""
     notify(
         sender,
-        players(session),
+        session.players,
         market_data(session.offers, session.txs, round),
         event="OffersAndTxs",
     )

@@ -22,19 +22,19 @@ class C:
 class Context(PlayerContext):
     @property
     def received(self):
-        return players(self.player.group).find_one(trustor=True).sent * C.MULTIPLIER
+        return self.player.group.players.find_one(trustor=True).sent * C.MULTIPLIER
 
     @property
     def sent(self):
-        return players(self.player.group).find_one(trustor=True).sent
+        return self.player.group.players.find_one(trustor=True).sent
 
     @property
     def times_n(self):
-        return players(self.player.group).find_one(trustor=True).sent * C.MULTIPLIER
+        return self.player.group.players.find_one(trustor=True).sent * C.MULTIPLIER
 
     @property
     def returned(self):
-        return players(self.player.group).find_one(trustor=False).returned
+        return self.player.group.players.find_one(trustor=False).returned
 
 
 class GroupPlease(GroupCreatingWait):
@@ -42,7 +42,7 @@ class GroupPlease(GroupCreatingWait):
 
     @classmethod
     def after_grouping(page, group):
-        for player, is_trustor in zip(players(group), [True, False]):
+        for player, is_trustor in zip(group.players, [True, False]):
             player.trustor = is_trustor
 
 
@@ -71,7 +71,7 @@ class Return(Page):
 
     @classmethod
     def fields(page, player):
-        trustor = players(player.group).find_one(trustor=True)
+        trustor = player.group.players.find_one(trustor=True)
         received = trustor.sent * C.MULTIPLIER
         return dict(
             returned=DecimalField(
@@ -85,8 +85,8 @@ class Return(Page):
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        trustor = players(group).find_one(trustor=True)
-        trustee = players(group).find_one(trustor=False)
+        trustor = group.players.find_one(trustor=True)
+        trustee = group.players.find_one(trustor=False)
 
         received = trustor.sent * C.MULTIPLIER
 

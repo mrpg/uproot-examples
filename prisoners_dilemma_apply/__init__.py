@@ -50,7 +50,7 @@ class Sync(SynchronizingWait):
 
     @classmethod
     def all_here(page, group):
-        players(group).apply(page.set_payoff)
+        group.players.apply(page.set_payoff)
 
 
 class Results(Page):

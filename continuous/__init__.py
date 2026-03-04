@@ -18,22 +18,22 @@ DESCRIPTION = "Do something in intervals"
 LANDING_PAGE = False
 
 
-async def increment_state(sname):
+async def increment_state(session):
     while True:
-        with Session(sname) as session:
+        with session:
             session.my_state += 1
 
-            send_to(players(session), data=session.my_state)
+            send_to(session.players, data=session.my_state)
 
         await asyncio.sleep(1)
 
 
 async def restart():
     with Admin() as admin:
-        for sname in admin.sessions:
-            with Session(sname) as session:
+        for session in admin.sessions:
+            with session:
                 if session.get("my_state") is not None:
-                    asyncio.create_task(increment_state(sname))
+                    asyncio.create_task(increment_state(session))
 
 
 class C:
@@ -45,7 +45,7 @@ class EnsureBackgroundTask(NoshowPage):
     async def after_always_once(page, player):
         if player.session.get("my_state") is None:
             player.session.my_state = 0
-            asyncio.create_task(increment_state(player.session.name))
+            asyncio.create_task(increment_state(player.session))
 
 
 class FirstPage(Page):

@@ -71,7 +71,7 @@ class WaitForEveryone(SynchronizingWait):
     @classmethod
     def all_here(page, session):
         # Get all players who haven't timed out, and sort alphabetically by name
-        players_not_timed_out = [p for p in players(session) if not p.timed_out]
+        players_not_timed_out = [p for p in session.players if not p.timed_out]
         all_players = sorted(players_not_timed_out, key=lambda p: p.name)
 
         # Split into groups of size C.GROUP_SIZE
@@ -82,7 +82,7 @@ class WaitForEveryone(SynchronizingWait):
             )
         ]
         create_groups(session, groups)
-        players_grouped = [p for p in players(session) if p.group]
+        players_grouped = [p for p in session.players if p.group]
         for p in players_grouped:
             p.grouped = True
             p.group.dropped_out = False
@@ -126,10 +126,10 @@ class ShowGroup(Page):
     def templatevars(page, player):
         num_groups = 0
         if player.group:
-            group_members = sorted(players(player.group), key=lambda p: p.name)
+            group_members = sorted(player.group.players, key=lambda p: p.name)
             group_name = player.group.name
             num_groups = (
-                len([p for p in players(player.session) if not p.timed_out])
+                len([p for p in player.session.players if not p.timed_out])
                 // C.GROUP_SIZE
             )
         else:

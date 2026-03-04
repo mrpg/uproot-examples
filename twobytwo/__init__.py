@@ -65,7 +65,7 @@ def set_payoff(player):
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group):
-        player = players(group)[0]
+        player = group.players[0]
         set_payoff(player)
 
 

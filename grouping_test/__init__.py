@@ -24,7 +24,7 @@ class Context(PlayerContext):
     @property
     def group_members(self):
         if self.player.group:
-            return sorted(players(self.player.group), key=lambda p: p.name)
+            return sorted(self.player.group.players, key=lambda p: p.name)
 
         return []
 
@@ -35,7 +35,7 @@ class WaitForEveryone(SynchronizingWait):
     @classmethod
     def all_here(page, session):
         # Get all players and sort alphabetically by name
-        all_players = sorted(players(session), key=lambda p: p.name)
+        all_players = sorted(session.players, key=lambda p: p.name)
 
         if len(all_players) == 1:
             # Only one player
