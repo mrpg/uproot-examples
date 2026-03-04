@@ -12,7 +12,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 |---------------------------------------------------|-----------------------------------------------------------------|------------|
 | `barrier`                                         | Force players to stay on a page                                 | Easy       |
 | `beauty_contest`                                  | Beauty contest / guessing game (Nagel, 1995)                    | Easy       |
-| `big5_short`                                      | Short Big 5 questionnaire with scoring                          | Medium     |
+| `big5`                                      | Short Big 5 questionnaire with scoring                          | Medium     |
 | `bounded_choice`                                  | Examples for the BoundedChoiceField                             | Easy       |
 | `chat`                                            | Chat                                                            | Easy       |
 | `continuous`                                      | Do something in intervals (background tasks)                    | Medium     |
