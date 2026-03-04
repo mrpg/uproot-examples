@@ -114,8 +114,7 @@ class ShowGroup(Page):
                 [
                     p
                     for p in players(player.session)
-                    if not player.withdrew_consent
-                    and not player.timed_out_before_grouping
+                    if not p.withdrew_consent and not p.timed_out_before_grouping
                 ]
             )
             // C.GROUP_SIZE

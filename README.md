@@ -29,7 +29,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `grouping_test`                                   | Custom group creation                                           | Easy       |
 | `grouping_test_arbitrary_size`                    | Grouping with configurable size, timeouts, and dropout handling | Medium     |
 | `grouping_test_one_spare`                         | Two equal groups with one surplus participant                   | Easy       |
-| `grouping_via_GroupCreatingWait_and_move_to_page` | Grouping with configurable size, timeouts, and dropout handling | Medium     |
+| `grouping_via_GroupCreatingWait_and_move_to_page` | Like `grouping_test_arbitrary_size`, but using `move_to_page`   | Medium     |
 | `input_elements`                                  | Showcasing the input elements provided by uproot                | Easy       |
 | `many_fields`†                                    | Benchmark: insert many fields                                   | Easy       |
 | `minimum_effort_game`                             | Minimum effort / weakest link game (Van Huyck et al., 1990)     | Easy       |
