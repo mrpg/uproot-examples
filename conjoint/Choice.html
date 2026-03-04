@@ -1,0 +1,341 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Study abroad: Choose your destination
+{% endblock title %}
+
+
+{% block head %}
+
+<style>
+    :root {
+        --accent: #4f46e5;
+        --accent-light: #e0e7ff;
+        --success: #16a34a;
+        --muted: #64748b;
+    }
+
+    .conjoint-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .conjoint-header h4 {
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: .25rem;
+    }
+
+    .conjoint-header p {
+        color: var(--muted);
+        font-size: .95rem;
+    }
+
+    /* Progress */
+    .progress-wrap {
+        max-width: 480px;
+        margin: 0 auto 2rem;
+    }
+
+    .progress-label {
+        font-size: .8rem;
+        color: var(--muted);
+        text-align: center;
+        margin-bottom: .35rem;
+        font-weight: 600;
+        letter-spacing: .03em;
+    }
+
+    .progress {
+        height: 8px;
+        border-radius: 999px;
+        background: #e2e8f0;
+    }
+
+    .progress-bar {
+        background: var(--accent);
+        border-radius: 999px;
+        transition: width .5s ease;
+    }
+
+    /* Cards */
+    .pair-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        max-width: 820px;
+        margin: 0 auto;
+    }
+
+    .profile-card {
+        background: #fff;
+        border: 2px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 1.75rem 1.5rem;
+        cursor: pointer;
+        transition: all .2s ease;
+        position: relative;
+    }
+
+    .profile-card:hover {
+        border-color: var(--accent);
+        box-shadow: 0 4px 24px rgba(79, 70, 229, .12);
+        transform: translateY(-2px);
+    }
+
+    .profile-card.selected {
+        border-color: var(--accent);
+        background: var(--accent-light);
+        box-shadow: 0 4px 24px rgba(79, 70, 229, .18);
+    }
+
+    .profile-card .card-label {
+        display: inline-block;
+        font-size: .7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        color: var(--muted);
+        background: #f1f5f9;
+        padding: .2rem .65rem;
+        border-radius: 999px;
+        margin-bottom: 1.25rem;
+    }
+
+    .attr-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .attr-list li {
+        display: flex;
+        align-items: center;
+        padding: .55rem 0;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: .92rem;
+        color: #334155;
+    }
+
+    .attr-list li:last-child {
+        border-bottom: none;
+    }
+
+    .attr-icon {
+        width: 28px;
+        text-align: center;
+        margin-right: .65rem;
+        font-size: 1.05rem;
+        flex-shrink: 0;
+    }
+
+    .attr-name {
+        flex: 1;
+        font-weight: 500;
+    }
+
+    .attr-value {
+        font-weight: 600;
+        text-align: right;
+    }
+
+    .attr-value .badge-yes {
+        color: var(--success);
+    }
+
+    .attr-value .badge-no {
+        color: #dc2626;
+    }
+
+    /* Choose hint */
+    .choose-hint {
+        text-align: center;
+        margin-top: 1.75rem;
+        color: var(--muted);
+        font-size: .85rem;
+    }
+
+    /* Done state */
+    .done-container {
+        text-align: center;
+        padding: 3rem 1rem;
+        max-width: 480px;
+        margin: 0 auto;
+    }
+
+    .done-container .done-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .done-container h4 {
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    .done-container p {
+        color: var(--muted);
+        margin-bottom: 1.5rem;
+    }
+
+    /* Fade transition */
+    .fade-cards {
+        opacity: 1;
+        transition: opacity .25s ease;
+    }
+
+    .fade-cards.fading {
+        opacity: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+        .pair-container {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+    }
+</style>
+
+{% endblock head %}
+
+
+{% block main %}
+
+<div id="app">
+    <!-- Progress -->
+    <div class="progress-wrap">
+        <div class="progress-label" id="progress-label">Loading...</div>
+        <div class="progress">
+            <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <!-- Instruction -->
+    <div class="conjoint-header">
+        <h4>Which destination do you prefer?</h4>
+        <p>Compare the two study abroad options below and click the one you'd choose.</p>
+    </div>
+
+    <!-- Profile cards -->
+    <div class="fade-cards" id="cards-area">
+        <div class="pair-container">
+            <div class="profile-card" id="card-left" onclick="choose(0)">
+                <span class="card-label">Option A</span>
+                <ul class="attr-list" id="attrs-left"></ul>
+            </div>
+            <div class="profile-card" id="card-right" onclick="choose(1)">
+                <span class="card-label">Option B</span>
+                <ul class="attr-list" id="attrs-right"></ul>
+            </div>
+        </div>
+        <div class="choose-hint">Click a card to select your preferred destination</div>
+    </div>
+
+    <!-- Done state (hidden) -->
+    <div class="done-container" id="done-area" style="display:none">
+        <div class="done-icon">&#10003;</div>
+        <h4>All done!</h4>
+        <p>Thank you for completing all comparisons.</p>
+        <button class="btn btn-primary btn-lg" onclick="uproot.submit()">Continue</button>
+    </div>
+</div>
+
+<script>
+    const ATTR_META = {
+        has_beaches:    {icon: "&#9748;",                name: "Beach access"},
+        english:        {icon: "&#127468;&#127463;",     name: "English spoken"},
+        accommodation:  {icon: "&#127968;",              name: "Accommodation included"},
+        partying:       {icon: "&#127878;",              name: "Nightlife & social scene"},
+        sunny:          {icon: "&#9728;",                name: "Sunny weather"},
+        grading:        {icon: "&#128218;",              name: "Grading difficulty"},
+        costs:          {icon: "&#128176;",              name: "Living costs"},
+    };
+
+    const GRADING_LABELS = {1: "Easy", 2: "Moderate", 3: "Strict"};
+    const COST_LABELS = {"-1": "Below average", "0": "Average", "1": "Above average"};
+
+    let busy = false;
+
+    function formatValue(key, val) {
+        if (key === "grading") return GRADING_LABELS[val] || val;
+        if (key === "costs") return COST_LABELS[String(val)] || val;
+        if (val === true) return '<span class="badge-yes">&#10003; Yes</span>';
+        return '<span class="badge-no">&#10007; No</span>';
+    }
+
+    function renderAttrs(containerId, profile) {
+        let html = "";
+        for (const [key, meta] of Object.entries(ATTR_META)) {
+            html += '<li>'
+                + '<span class="attr-icon">' + meta.icon + '</span>'
+                + '<span class="attr-name">' + meta.name + '</span>'
+                + '<span class="attr-value">' + formatValue(key, profile[key]) + '</span>'
+                + '</li>';
+        }
+        document.getElementById(containerId).innerHTML = html;
+    }
+
+    function updateProgress(current, total) {
+        const pct = ((current - 1) / total) * 100;
+        document.getElementById("progress-bar").style.width = pct + "%";
+        document.getElementById("progress-label").textContent =
+            "Comparison " + current + " of " + total;
+    }
+
+    function showPair(msg) {
+        renderAttrs("attrs-left", msg.left);
+        renderAttrs("attrs-right", msg.right);
+        updateProgress(msg.current, msg.total);
+
+        document.getElementById("card-left").classList.remove("selected");
+        document.getElementById("card-right").classList.remove("selected");
+
+        const area = document.getElementById("cards-area");
+        area.classList.add("fading");
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                area.classList.remove("fading");
+            });
+        });
+    }
+
+    function showDone() {
+        document.getElementById("cards-area").style.display = "none";
+        document.getElementById("done-area").style.display = "block";
+        document.getElementById("progress-bar").style.width = "100%";
+        document.getElementById("progress-label").textContent = "Complete!";
+    }
+
+    function choose(side) {
+        if (busy) return;
+        busy = true;
+
+        const cardId = side === 0 ? "card-left" : "card-right";
+        document.getElementById(cardId).classList.add("selected");
+
+        setTimeout(function () {
+            uproot.invoke("submit_choice", side).then(function (msg) {
+                busy = false;
+                if (msg.type === "done") {
+                    showDone();
+                } else if (msg.type === "pair") {
+                    showPair(msg);
+                }
+            });
+        }, 350);
+    }
+
+    uproot.onReady(function () {
+        uproot.invoke("get_pair").then(function (msg) {
+            if (msg.type === "done") {
+                showDone();
+            } else if (msg.type === "pair") {
+                showPair(msg);
+            }
+        });
+    });
+</script>
+
+{% endblock main %}
