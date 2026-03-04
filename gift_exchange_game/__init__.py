@@ -13,12 +13,30 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Gift exchange game (Fehr et al., 1993)"
 
-# Parameters
-MIN_WAGE = cu("1")
-MAX_WAGE = cu("10")
-MIN_EFFORT = cu("0.1")
-MAX_EFFORT = cu("1")
-EFFORT_COST_MULTIPLIER = cu("5")  # Cost = multiplier * effort
+
+class C:
+    MIN_WAGE = cu("1")
+    MAX_WAGE = cu("10")
+    MIN_EFFORT = cu("0.1")
+    MAX_EFFORT = cu("1")
+    EFFORT_COST_MULTIPLIER = cu("5")  # Cost = multiplier * effort
+
+
+class Context(PlayerContext):
+    @property
+    def wage(self):
+        return players(self.player.group).find_one(employer=True).wage
+
+    @property
+    def effort(self):
+        return players(self.player.group).find_one(employer=False).effort
+
+    @property
+    def effort_cost(self):
+        return (
+            C.EFFORT_COST_MULTIPLIER
+            * players(self.player.group).find_one(employer=False).effort
+        )
 
 
 class GroupPlease(GroupCreatingWait):
@@ -34,18 +52,14 @@ class SetWage(Page):
     fields = dict(
         wage=DecimalField(
             label="What wage do you offer?",
-            min=MIN_WAGE,
-            max=MAX_WAGE,
+            min=C.MIN_WAGE,
+            max=C.MAX_WAGE,
         ),
     )
 
     @classmethod
     def show(page, player):
         return player.employer
-
-    @classmethod
-    def context(page, player):
-        return dict(min_wage=MIN_WAGE, max_wage=MAX_WAGE)
 
 
 class WaitForWage(SynchronizingWait):
@@ -56,8 +70,8 @@ class ChooseEffort(Page):
     fields = dict(
         effort=DecimalField(
             label="What effort level do you choose?",
-            min=MIN_EFFORT,
-            max=MAX_EFFORT,
+            min=C.MIN_EFFORT,
+            max=C.MAX_EFFORT,
             step=cu("0.1"),
         ),
     )
@@ -66,16 +80,6 @@ class ChooseEffort(Page):
     def show(page, player):
         return not player.employer
 
-    @classmethod
-    def context(page, player):
-        employer = players(player.group).find_one(employer=True)
-        return dict(
-            wage=employer.wage,
-            min_effort=MIN_EFFORT,
-            max_effort=MAX_EFFORT,
-            cost_multiplier=EFFORT_COST_MULTIPLIER,
-        )
-
 
 class Sync(SynchronizingWait):
     @classmethod
@@ -83,7 +87,7 @@ class Sync(SynchronizingWait):
         employer = players(group).find_one(employer=True)
         worker = players(group).find_one(employer=False)
 
-        effort_cost = EFFORT_COST_MULTIPLIER * worker.effort
+        effort_cost = C.EFFORT_COST_MULTIPLIER * worker.effort
 
         # Employer payoff: effort * 10 - wage
         employer.payoff = worker.effort * 10 - employer.wage
@@ -93,16 +97,7 @@ class Sync(SynchronizingWait):
 
 
 class Results(Page):
-    @classmethod
-    def context(page, player):
-        employer = players(player.group).find_one(employer=True)
-        worker = players(player.group).find_one(employer=False)
-        effort_cost = EFFORT_COST_MULTIPLIER * worker.effort
-        return dict(
-            wage=employer.wage,
-            effort=worker.effort,
-            effort_cost=effort_cost,
-        )
+    pass
 
 
 page_order = [

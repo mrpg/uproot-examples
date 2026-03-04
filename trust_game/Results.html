@@ -8,11 +8,11 @@ Results
 {% block main %}
 
 {% if player.trustor %}
-<p>You sent <b>{{ sent }}</b>, which was tripled to {{ tripled }}.</p>
-<p>The other player returned <b>{{ returned }}</b> to you.</p>
+<p>You sent <b>{{ player.context.sent }}</b>, which was multiplied to {{ player.context.times_n }}.</p>
+<p>The other player returned <b>{{ player.context.returned }}</b> to you.</p>
 {% else %}
-<p>The other player sent {{ sent }}, which was tripled to <b>{{ tripled }}</b>.</p>
-<p>You returned <b>{{ returned }}</b>.</p>
+<p>The other player sent {{ player.context.sent }}, which was multiplied to <b>{{ player.context.times_n }}</b>.</p>
+<p>You returned <b>{{ player.context.returned }}</b>.</p>
 {% endif %}
 
 <p>Your payoff is <b>{{ player.payoff }}</b>.</p>

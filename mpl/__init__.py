@@ -15,7 +15,7 @@ DESCRIPTION = "Multiple price list"
 
 
 class MultiplePriceList(Page):
-    context = {
+    templatevars = {
         "options_a": [
             "$0 today",
             "$10 today",
@@ -31,7 +31,9 @@ class MultiplePriceList(Page):
             "$40 tomorrow",
         ],
     }
-    fields = {f"choseA{i}": RadioField() for i, _ in enumerate(context["options_a"])}
+    fields = {
+        f"choseA{i}": RadioField() for i, _ in enumerate(templatevars["options_a"])
+    }
 
 
 page_order = [

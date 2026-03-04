@@ -7,8 +7,8 @@ Send
 
 {% block main %}
 
-<p>You have an endowment of <b>{{ endowment }}</b>.</p>
-<p>You can send any amount to the other player. Whatever you send will be <b>tripled</b> (multiplied by {{ multiplier }}).</p>
+<p>You have an endowment of <b>{{ C.ENDOWMENT }}</b>.</p>
+<p>You can send any amount to the other player. Whatever you send will be multiplied by {{ C.MULTIPLIER }}. That amount will be given to the other player.</p>
 <p>The other player will then decide how much to return to you.</p>
 
 {{ fields() }}

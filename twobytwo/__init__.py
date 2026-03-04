@@ -32,14 +32,18 @@ class C:
     BB = (3, 3)  # Both choose B
 
 
+class Context(PlayerContext):
+    @property
+    def other(self):
+        return self.player.other_in_group
+
+
 class GroupPlease(GroupCreatingWait):
     group_size = 2
 
 
 class Instructions(Page):
-    @classmethod
-    def context(page, player):
-        return dict(payoffs=C)
+    pass
 
 
 class Decision(Page):
@@ -49,10 +53,6 @@ class Decision(Page):
             choices=[("A", "Action A"), ("B", "Action B")],
         ),
     )
-
-    @classmethod
-    def context(page, player):
-        return dict(payoffs=C)
 
 
 def set_payoff(player):
@@ -70,9 +70,7 @@ class Sync(SynchronizingWait):
 
 
 class Results(Page):
-    @classmethod
-    def context(page, player):
-        return dict(other=player.other_in_group)
+    pass
 
 
 page_order = [
