@@ -5,7 +5,13 @@
 
 {% block title %}
 
-{% if player.timed_out %}
+{% if player.withdrew_consent %}
+<span class="text-primary">Consent withdrawn</span>
+{% elif player.timed_out_before_grouping %}
+<span class="text-info">Time limit violated before grouping</span>
+{% elif player.could_not_be_grouped %}
+<span class="text-secondary">Not assigned to any group</span>
+{% elif player.timed_out %}
 <span class="text-danger">Time limit violated by you during the group phase</span>
 {% else %}
 <span class="text-warning">Time limit violated by a fellow group member</span>
@@ -16,7 +22,29 @@
 
 {% block main %}
 
-{% if player.timed_out %}
+{% if player.withdrew_consent %}
+<p>You withdrew your consent to participate in this study.</p>
+<div class="d-flex justify-content-end my-3">
+    <button type="submit" id="uproot-button-next" class="btn btn-primary">
+        End
+    </button>
+</div>
+{% elif player.timed_out_before_grouping %}
+<p>You have violated the time limit on a previous page and can therefore no longer participate in this study.</p>
+<div class="d-flex justify-content-end my-3">
+    <button type="submit" id="uproot-button-next" class="btn btn-info">
+        End
+    </button>
+</div>
+{% elif player.could_not_be_grouped %}
+<p>The number of participants in this study is not a multiple of the group size, {{ C.GROUP_SIZE }}.</p>
+<p>For this reason, some participants could not be assigned to groups, and you are one of them.</p>
+<div class="d-flex justify-content-end my-3">
+    <button type="submit" id="uproot-button-next" class="btn btn-secondary">
+        End
+    </button>
+</div>
+{% elif player.timed_out %}
 <style>
     body {
         background-color: rgba(var(--bs-danger-rgb), 0.075);

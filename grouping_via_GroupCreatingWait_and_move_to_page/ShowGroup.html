@@ -17,14 +17,14 @@
 
 {% block title %}
 
-Assigned group memberships
+Page in group phase
 
 {% endblock title %}
 
 
 {% block main %}
 
-<p class="fs-3 fw-light">You are a member of group <strong class="font-monospace fw-semibold">{{ group_name }}</strong></p>
+<p class="fs-3 fw-light">You are a member of group <strong class="font-monospace fw-semibold">{{ player.group.name }}</strong></p>
 <p class="fs-3 fw-light">This is <strong class="fw-semibold">round {{ player.round }}</strong>.</p>
 <p>Group size: {{ C.GROUP_SIZE }}.</p>
 <p>Number of groups created: <strong>{{ num_groups }}</strong>.</p>

@@ -8,70 +8,72 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 
 ## Apps
 
-| App                              | Description                                                     | Difficulty |
-|----------------------------------|-----------------------------------------------------------------|------------|
-| barrier                          | Force players to stay on a page                                 | Easy       |
-| beauty\_contest                  | Beauty contest / guessing game (Nagel, 1995)                    | Easy       |
-| big5\_short                      | Short Big 5 questionnaire with scoring                          | Medium     |
-| bounded\_choice                  | Examples for the BoundedChoiceField                             | Easy       |
-| chat                             | Chat                                                            | Easy       |
-| continuous                       | Do something in intervals (background tasks)                    | Medium     |
-| counter\_alpine                  | Counter with live updates (Alpine.js)                           | Easy       |
-| counter                          | Counter with live updates                                       | Easy       |
-| dictator\_game                   | Standard dictator game                                          | Easy       |
-| double\_auction                  | Double auction (like Smith, 1962)                               | Advanced   |
-| drawing\_board                   | Session-level drawing board                                     | Medium     |
-| dropouts                         | Handling dropouts                                               | Easy       |
-| embed\_static                    | Embedding a static file                                         | Easy       |
-| encryption\_task                 | Encryption task (Erkal et al., 2011)                            | Medium     |
-| focal\_point                     | Focal point game (like Schelling, 1957)                         | Easy       |
-| gift\_exchange\_game             | Gift exchange game (Fehr et al., 1993)                          | Easy       |
-| grouping\_test                   | Custom group creation                                           | Easy       |
-| grouping\_test\_arbitrary\_size  | Grouping with configurable size, timeouts, and dropout handling | Medium     |
-| grouping\_test\_one\_spare       | Two equal groups with one surplus participant                   | Easy       |
-| input\_elements\_and\_typography | Showcasing uproot input elements and typography features        | Easy       |
-| many\_fields†                    | Benchmark: insert many fields                                   | Easy       |
-| minimum\_effort\_game            | Minimum effort / weakest link game (Van Huyck et al., 1990)     | Easy       |
-| mpl                              | Multiple price list                                             | Medium     |
-| multilanguage                    | App with language switcher                                      | Easy       |
-| nato\_alphabet                   | NATO phonetic alphabet real effort task (Gibson, 2025)          | Advanced   |
-| notifications†                   | Test notifications between players                              | Easy       |
-| observed\_diary                  | Observed diary/surveillance game                                | Medium     |
-| payment\_data                    | Collecting payment data                                         | Easy       |
-| ping†                            | WebSocket round-trip time benchmark                             | Easy       |
-| prisoners\_dilemma\_apply        | Standard prisoner's dilemma                                     | Medium     |
-| prisoners\_dilemma\_repeated     | Repeated prisoner's dilemma (history table and digest)          | Easy       |
-| prisoners\_dilemma               | Standard prisoner's dilemma                                     | Easy       |
-| public\_goods\_game              | Standard public goods game                                      | Easy       |
-| quiz                             | Quiz/comprehension check                                        | Easy       |
-| randomize\_apps                  | Randomizing app order                                           | Easy       |
-| randomize\_pages\_allow\_back    | Randomizing page order and allow going back                     | Easy       |
-| randomize\_pages                 | Randomizing page order                                          | Easy       |
-| read\_settings†                  | Read session settings                                           | Easy       |
-| rounds\_nested                   | Using nested rounds                                             | Easy       |
-| rounds                           | Using rounds (history table)                                    | Easy       |
-| stroop                           | Stroop task                                                     | Advanced   |
-| student\_id                      | Have participants enter their Student ID                        | Easy       |
-| sumhunt                          | Real effort task about finding sums in matrices                 | Medium     |
-| survey                           | Survey with follow-up verification                              | Easy       |
-| timeout\_multipage               | Timeout that spans multiple pages                               | Easy       |
-| travellers\_dilemma              | Traveller's dilemma (Basu, 1994)                                | Easy       |
-| treatments\_balanced             | Treatment assignment (more balanced/cycling)                    | Easy       |
-| treatments                       | Treatment assignment (basic)                                    | Easy       |
-| trigger\_jserrors†               | Test JavaScript error handling                                  | Easy       |
-| trust\_game                      | Trust game (Berg et al., 1995)                                  | Easy       |
-| twobytwo                         | Generic 2×2 game with simulator                                 | Medium     |
-| ultimatum\_game                  | Standard ultimatum game                                         | Easy       |
-| upload                           | Uploading files                                                 | Easy       |
+| App                                               | Description                                                     | Difficulty |
+|---------------------------------------------------|-----------------------------------------------------------------|------------|
+| `barrier`                                         | Force players to stay on a page                                 | Easy       |
+| `beauty_contest`                                  | Beauty contest / guessing game (Nagel, 1995)                    | Easy       |
+| `big5_short`                                      | Short Big 5 questionnaire with scoring                          | Medium     |
+| `bounded_choice`                                  | Examples for the BoundedChoiceField                             | Easy       |
+| `chat`                                            | Chat                                                            | Easy       |
+| `continuous`                                      | Do something in intervals (background tasks)                    | Medium     |
+| `counter_alpine`                                  | Counter with live updates (Alpine.js)                           | Easy       |
+| `counter`                                         | Counter with live updates                                       | Easy       |
+| `dictator_game`                                   | Standard dictator game                                          | Easy       |
+| `double_auction`                                  | Double auction (like Smith, 1962)                               | Advanced   |
+| `drawing_board`                                   | Session-level drawing board                                     | Medium     |
+| `dropouts`                                        | Handling dropouts                                               | Easy       |
+| `embed_static`                                    | Embedding a static file                                         | Easy       |
+| `encryption_task`                                 | Encryption task (Erkal et al., 2011)                            | Medium     |
+| `focal_point`                                     | Focal point game (like Schelling, 1957)                         | Easy       |
+| `gift_exchange_game`                              | Gift exchange game (Fehr et al., 1993)                          | Easy       |
+| `grouping_test`                                   | Custom group creation                                           | Easy       |
+| `grouping_test_arbitrary_size`                    | Grouping with configurable size, timeouts, and dropout handling | Medium     |
+| `grouping_test_one_spare`                         | Two equal groups with one surplus participant                   | Easy       |
+| `grouping_via_GroupCreatingWait_and_move_to_page` | Grouping with configurable size, timeouts, and dropout handling | Medium     |
+| `input_elements`                                  | Showcasing the input elements provided by uproot                | Easy       |
+| `many_fields`†                                    | Benchmark: insert many fields                                   | Easy       |
+| `minimum_effort_game`                             | Minimum effort / weakest link game (Van Huyck et al., 1990)     | Easy       |
+| `mpl`                                             | Multiple price list                                             | Medium     |
+| `multilanguage`                                   | App with language switcher                                      | Easy       |
+| `nato_alphabet`                                   | NATO phonetic alphabet real effort task (Gibson, 2025)          | Advanced   |
+| `notifications`†                                  | Test notifications between players                              | Easy       |
+| `observed_diary`                                  | Observed diary/surveillance game                                | Medium     |
+| `payment_data`                                    | Collecting payment data                                         | Easy       |
+| `ping`†                                           | WebSocket round-trip time benchmark                             | Easy       |
+| `prisoners_dilemma_apply`                         | Standard prisoner's dilemma                                     | Medium     |
+| `prisoners_dilemma_repeated`                      | Repeated prisoner's dilemma (history table and digest)          | Easy       |
+| `prisoners_dilemma`                               | Standard prisoner's dilemma                                     | Easy       |
+| `public_goods_game`                               | Standard public goods game                                      | Easy       |
+| `quiz`                                            | Quiz/comprehension check                                        | Easy       |
+| `randomize_apps`                                  | Randomizing app order                                           | Easy       |
+| `randomize_pages_allow_back`                      | Randomizing page order and allow going back                     | Easy       |
+| `randomize_pages`                                 | Randomizing page order                                          | Easy       |
+| `read_settings`†                                  | Read session settings                                           | Easy       |
+| `rounds_nested`                                   | Using nested rounds                                             | Easy       |
+| `rounds`                                          | Using rounds (history table)                                    | Easy       |
+| `stroop`                                          | Stroop task                                                     | Advanced   |
+| `student_id`                                      | Have participants enter their Student ID                        | Easy       |
+| `sumhunt`                                         | Real effort task about finding sums in matrices                 | Medium     |
+| `survey`                                          | Survey with follow-up verification                              | Easy       |
+| `timeout_multipage`                               | Timeout that spans multiple pages                               | Easy       |
+| `travellers_dilemma`                              | Traveller's dilemma (Basu, 1994)                                | Easy       |
+| `treatments_balanced`                             | Treatment assignment (more balanced/cycling)                    | Easy       |
+| `treatments`                                      | Treatment assignment (basic)                                    | Easy       |
+| `trigger_jserrors`†                               | Test JavaScript error handling                                  | Easy       |
+| `trust_game`                                      | Trust game (Berg et al., 1995)                                  | Easy       |
+| `twobytwo`                                        | Generic 2×2 game with simulator                                 | Medium     |
+| `typography`                                      | Showcasing the default fonts used by uproot                     | Easy       |
+| `ultimatum_game`                                  | Standard ultimatum game                                         | Easy       |
+| `upload`                                          | Uploading files                                                 | Easy       |
 
-†Apps primarily for internal testing and benchmarking, but useful as simple examples of individual uproot features.
+† Apps primarily for internal testing and benchmarking, but useful as simple examples of individual uproot features.
 
 ## Other examples
 
-| Directory                     | Description                                 |
-|-------------------------------|---------------------------------------------|
-| progress\_bar                 | Automatic progress bar                      |
-| start\_button                 | Start button                                |
+| Directory      | Description            |
+|----------------|------------------------|
+| `progress_bar` | Automatic progress bar |
+| `start_button` | Start button           |
 
 ## License
 
