@@ -21,15 +21,11 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def received(self):
-        return self.player.group.players.find_one(trustor=True).sent * C.MULTIPLIER
-
-    @property
     def sent(self):
         return self.player.group.players.find_one(trustor=True).sent
 
     @property
-    def times_n(self):
+    def received(self):
         return self.player.group.players.find_one(trustor=True).sent * C.MULTIPLIER
 
     @property

@@ -19,16 +19,11 @@ class C:
     A = cu("2")  # Benefit from minimum effort
     B = cu("1")  # Cost of own effort
     C = cu("6")  # Fixed component
-
-
-class Context(PlayerContext):
-    @property
-    def group_size(self):
-        return GroupPlease.group_size
+    GROUP_SIZE = 3
 
 
 class GroupPlease(GroupCreatingWait):
-    group_size = 3
+    group_size = C.GROUP_SIZE
 
 
 class ChooseEffort(Page):

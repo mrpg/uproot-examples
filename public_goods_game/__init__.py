@@ -17,24 +17,18 @@ DESCRIPTION = "Public goods game"
 class C:
     ENDOWMENT = cu("10")
     MPCR = cu("0.5")  # Marginal Per Capita Return
+    GROUP_SIZE = 3
+    MULTIPLIER = MPCR * GROUP_SIZE
 
 
 class Context(PlayerContext):
-    @property
-    def group_size(self):
-        return GroupPlease.group_size
-
-    @property
-    def multiplier(self):
-        return C.MPCR * GroupPlease.group_size
-
     @property
     def total(self):
         return sum(p.contribution for p in self.player.group.players)
 
 
 class GroupPlease(GroupCreatingWait):
-    group_size = 3
+    group_size = C.GROUP_SIZE
 
 
 class Contribute(Page):

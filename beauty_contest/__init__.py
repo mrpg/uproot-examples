@@ -13,25 +13,15 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Beauty contest / guessing game (Nagel, 1995)"
 
-P = cu("0.67")  # Fraction of average (2/3)
-
 
 class C:
+    P = cu("0.67")  # Fraction of average (2/3)
+    GROUP_SIZE = 3
     PRIZE = cu("10")
 
 
-class Context(PlayerContext):
-    @property
-    def p(self):
-        return P
-
-    @property
-    def group_size(self):
-        return GroupPlease.group_size
-
-
 class GroupPlease(GroupCreatingWait):
-    group_size = 3
+    group_size = C.GROUP_SIZE
 
 
 class Guess(Page):
@@ -49,7 +39,7 @@ class Sync(SynchronizingWait):
     def all_here(page, group):
         guesses = [p.guess for p in group.players]
         average = sum(guesses) / len(guesses)
-        target = P * average
+        target = C.P * average
 
         # Find winner(s) - closest to target
         distances = [(p, abs(p.guess - target)) for p in group.players]

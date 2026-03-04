@@ -18,13 +18,6 @@ class C:
     ROUNDS = 3
 
 
-class Context(PlayerContext):
-    @property
-    def rounds_so_far(self):
-        # TODO: Build up history table in here
-        return range(1, self.player.round)
-
-
 class GroupPlease(GroupCreatingWait):
     group_size = 2
 
