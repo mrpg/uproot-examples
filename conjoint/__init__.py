@@ -71,7 +71,6 @@ class Preference(metaclass=um.Entry):
 
 
 def new_session(session):
-    session.n_pairs = session.settings.get("n_pairs", C.DEFAULT_N_PAIR)
     session.profiles = um.create_model(session, tag="profiles")
     session.preferences = um.create_model(session, tag="preferences")
 
@@ -95,12 +94,20 @@ def generate_profile():
 class Choice(Page):
     @classmethod
     def may_proceed(page, player):
-        return player.current_pair >= player.session.n_pairs
+        return player.current_pair >= player.session.settings.get(
+            "n_pairs",
+            C.DEFAULT_N_PAIR,
+        )
 
     @classmethod
     def before_once(page, player):
         """Generate all profile pairs for this player."""
-        for pair_id in range(player.session.n_pairs):
+        for pair_id in range(
+            player.session.settings.get(
+                "n_pairs",
+                C.DEFAULT_N_PAIR,
+            )
+        ):
             for side in (0, 1):
                 attrs = generate_profile()
                 um.add_entry(
@@ -116,7 +123,10 @@ class Choice(Page):
     async def get_pair(page, player):
         """Get the current pair of profiles, or signal done."""
         pair_id = player.current_pair
-        if pair_id >= player.session.n_pairs:
+        if pair_id >= player.session.settings.get(
+            "n_pairs",
+            C.DEFAULT_N_PAIR,
+        ):
             return {"type": "done"}
 
         left = None
@@ -137,7 +147,10 @@ class Choice(Page):
             "left": profile_dict(left),
             "right": profile_dict(right),
             "current": pair_id + 1,
-            "total": player.session.n_pairs,
+            "total": player.session.settings.get(
+                "n_pairs",
+                C.DEFAULT_N_PAIR,
+            ),
         }
 
     @live
@@ -147,7 +160,10 @@ class Choice(Page):
             return {"type": "error"}
 
         pair_id = player.current_pair
-        if pair_id >= player.session.n_pairs:
+        if pair_id >= player.session.settings.get(
+            "n_pairs",
+            C.DEFAULT_N_PAIR,
+        ):
             return {"type": "done"}
 
         # Check for duplicate submission
@@ -171,7 +187,10 @@ class Choice(Page):
         player.current_pair = pair_id + 1
 
         # Return next pair or done
-        if player.current_pair >= player.session.n_pairs:
+        if player.current_pair >= player.session.settings.get(
+            "n_pairs",
+            C.DEFAULT_N_PAIR,
+        ):
             return {"type": "done"}
 
         left = None
@@ -195,7 +214,10 @@ class Choice(Page):
             "left": profile_dict(left),
             "right": profile_dict(right),
             "current": player.current_pair + 1,
-            "total": player.session.n_pairs,
+            "total": player.session.settings.get(
+                "n_pairs",
+                C.DEFAULT_N_PAIR,
+            ),
         }
 
 
