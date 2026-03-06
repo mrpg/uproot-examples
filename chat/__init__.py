@@ -17,6 +17,18 @@ DESCRIPTION = "A session-level chat"
 def new_session(session):
     session.chat = chat.create(session)
 
+    # Optionally, you can register a callback that fires whenever a message
+    # is sent in this chat. This is not required for the chat to work — it is
+    # just a way to react to messages in your experiment code (e.g., for
+    # logging, triggering game logic, etc.).
+    chat.on_message(session.chat, on_chat_message)
+
+
+# This is just an example of how on_message could be used; it is by no means
+# mandatory or necessary for a working chat. You can safely remove it.
+def on_chat_message(chat, player, message):
+    print(f"Chat message from {player.name}: {message}")
+
 
 class ChatHere(Page):
     @classmethod
