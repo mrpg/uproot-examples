@@ -51,6 +51,7 @@ async def _respond(chat_mid):
 
     response_text = response.content[0].text
     msg_id = chat.add_message(chat_mid, "Claude", response_text)
+
     await chat.notify(chat_mid, msg_id, "Claude", None, response_text)
 
 
