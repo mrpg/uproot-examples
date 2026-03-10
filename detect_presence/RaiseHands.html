@@ -1,0 +1,37 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Please indicate your presence
+{% endblock title %}
+
+
+{% block main %}
+
+<div x-data="{
+    present: {{ player.present | tojson }},
+    loading: false,
+    toggle() {
+        this.loading = true;
+        uproot.invoke('set_presence', !this.present).then((v) => {
+            this.present = v;
+            this.loading = false;
+        });
+    }
+}">
+    <div class="d-flex flex-column my-4">
+        <p class="mb-3">Are you here? Just flip the switch to let us know.</p>
+
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="presenceToggle"
+                   :checked="present" :disabled="loading" @click="toggle()">
+
+            <label class="form-check-label" for="presenceToggle">
+                <span x-show="present" class="text-success fw-bold">I’m here!</span>
+                <span x-show="!present" class="text-muted">Not yet</span>
+            </label>
+        </div>
+    </div>
+</div>
+
+{% endblock main %}

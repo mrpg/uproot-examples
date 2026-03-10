@@ -1,0 +1,18 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>The following {{ len(player.context.present) }} players indicated their presence:</p>
+
+<ul>
+    {% for p in player.context.present %}
+    <li>{{ p.name }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock main %}

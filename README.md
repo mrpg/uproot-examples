@@ -12,13 +12,14 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 |---------------------------------------------------|-----------------------------------------------------------------|------------|
 | `barrier`                                         | Force players to stay on a page                                 | Easy       |
 | `beauty_contest`                                  | Beauty contest / guessing game (Nagel, 1995)                    | Easy       |
-| `big5`                                      | Short Big 5 questionnaire with scoring                          | Medium     |
+| `big5`                                            | Short Big 5 questionnaire with scoring                          | Medium     |
 | `bounded_choice`                                  | Examples for the BoundedChoiceField                             | Easy       |
 | `chat`                                            | Chat                                                            | Easy       |
 | `chat_with_claude`                                | Chat with Claude                                                | Medium     |
 | `continuous`                                      | Do something in intervals (background tasks)                    | Medium     |
 | `counter_alpine`                                  | Counter with live updates (Alpine.js)                           | Easy       |
 | `counter`                                         | Counter with live updates                                       | Easy       |
+| `detect_presence`                                 | Detect players’ actual presence (in classroom experiments)      | Medium     |
 | `dictator_game`                                   | Standard dictator game                                          | Easy       |
 | `double_auction`                                  | Double auction (like Smith, 1962)                               | Advanced   |
 | `drawing_board`                                   | Session-level drawing board                                     | Medium     |
