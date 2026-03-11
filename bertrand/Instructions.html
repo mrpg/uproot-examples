@@ -1,0 +1,37 @@
+{% extends "Base.html" %}
+
+{% block title %}Instructions{% endblock %}
+
+{% block main %}
+
+<p>You are matched with another participant. You will each independently and <strong>simultaneously</strong> choose a price to set (between 0 and {{ C.MAX_PRICE }}).</p>
+
+<p>The <strong>demand</strong> at a given price is:</p>
+
+<p class="fw-semibold">Q &nbsp;=&nbsp; 100 &minus; P</p>
+
+<table class="table table-bordered table-sm w-auto mb-3">
+    <thead class="table-light">
+        <tr>
+            <th>Price (P)</th>
+            <th>Demand (Q = 100 &minus; P)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>$0</td><td>100 units</td></tr>
+        <tr><td>$25</td><td>75 units</td></tr>
+        <tr><td>$50</td><td>50 units</td></tr>
+        <tr><td>$75</td><td>25 units</td></tr>
+        <tr><td>$100</td><td>0 units</td></tr>
+    </tbody>
+</table>
+
+<p>The participant who sets the <strong>lower price</strong> captures all demand. If both set the same price, demand is split equally. There are no production costs.</p>
+
+<p>Your <strong>earnings ($)</strong> = your price ($) &times; your demand (units).</p>
+
+<p>You may use the simulator to explore different scenarios before making your decision.</p>
+
+{% include 'bertrand/Simulator.html' %}
+
+{% endblock %}

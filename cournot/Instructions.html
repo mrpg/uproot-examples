@@ -1,0 +1,35 @@
+{% extends "Base.html" %}
+
+{% block title %}Instructions{% endblock %}
+
+{% block main %}
+
+<p>You are matched with another participant. You will each independently and <strong>simultaneously</strong> choose how many units to produce (between 0 and {{ C.MAX_UNITS }}).</p>
+
+<p>The <strong>market price</strong> is determined by the total number of units both of you produce together:</p>
+
+<p class="fw-semibold">P &nbsp;=&nbsp; 100 &minus; Q<sub>total</sub></p>
+
+<table class="table table-bordered table-sm w-auto mb-3">
+    <thead class="table-light">
+        <tr>
+            <th>Total units (Q<sub>total</sub>)</th>
+            <th>Price (P)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>0</td><td>$100</td></tr>
+        <tr><td>25</td><td>$75</td></tr>
+        <tr><td>50</td><td>$50</td></tr>
+        <tr><td>75</td><td>$25</td></tr>
+        <tr><td>100</td><td>$0</td></tr>
+    </tbody>
+</table>
+
+<p>Your <strong>earnings ($)</strong> = Price ($) &times; your units. There are no production costs.</p>
+
+<p>You may use the simulator to explore different scenarios before making your decision.</p>
+
+{% include 'cournot/Simulator.html' %}
+
+{% endblock %}

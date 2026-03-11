@@ -11,6 +11,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | App                                               | Description                                                     | Difficulty |
 |---------------------------------------------------|-----------------------------------------------------------------|------------|
 | `barrier`                                         | Force players to stay on a page                                 | Easy       |
+| `bertrand`                                        | Bertrand price competition (2 players, simultaneous)            | Easy       |
 | `beauty_contest`                                  | Beauty contest / guessing game (Nagel, 1995)                    | Easy       |
 | `big5`                                            | Short Big 5 questionnaire with scoring                          | Medium     |
 | `bounded_choice`                                  | Examples for the BoundedChoiceField                             | Easy       |
@@ -19,6 +20,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `continuous`                                      | Do something in intervals (background tasks)                    | Medium     |
 | `counter_alpine`                                  | Counter with live updates (Alpine.js)                           | Easy       |
 | `counter`                                         | Counter with live updates                                       | Easy       |
+| `cournot`                                         | Cournot quantity competition (2 players, simultaneous)          | Easy       |
 | `detect_presence`                                 | Detect players’ actual presence (in classroom experiments)      | Medium     |
 | `dictator_game`                                   | Standard dictator game                                          | Easy       |
 | `double_auction`                                  | Double auction (like Smith, 1962)                               | Advanced   |
@@ -47,12 +49,12 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `prisoners_dilemma`                               | Standard prisoner's dilemma                                     | Easy       |
 | `public_goods_game`                               | Standard public goods game                                      | Easy       |
 | `quiz`                                            | Quiz/comprehension check                                        | Easy       |
-| `randomize_apps`                                  | Randomizing app order                                           | Easy       |
 | `randomize_pages_allow_back`                      | Randomizing page order and allow going back                     | Easy       |
 | `randomize_pages`                                 | Randomizing page order                                          | Easy       |
 | `read_settings`†                                  | Read session settings                                           | Easy       |
 | `rounds_nested`                                   | Using nested rounds                                             | Easy       |
 | `rounds`                                          | Using rounds (history table)                                    | Easy       |
+| `stackelberg`                                     | Stackelberg quantity competition (2 players, sequential)        | Easy       |
 | `stroop`                                          | Stroop task                                                     | Advanced   |
 | `student_id`                                      | Have participants enter their Student ID                        | Easy       |
 | `sumhunt`                                         | Real effort task about finding sums in matrices                 | Medium     |
@@ -72,10 +74,11 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 
 ## Other examples
 
-| Directory      | Description            |
-|----------------|------------------------|
-| `progress_bar` | Automatic progress bar |
-| `start_button` | Start button           |
+| Directory        | Description            |
+|------------------|------------------------|
+| `progress_bar`   | Automatic progress bar |
+| `randomize_apps` | Randomizing app order  |
+| `start_button`   | Start button           |
 
 ## License
 

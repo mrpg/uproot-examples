@@ -1,0 +1,13 @@
+{% extends "Base.html" %}
+
+{% block title %}Decision{% endblock %}
+
+{% block main %}
+
+<p class="mb-1"><strong>Demand (units):</strong> Q = 100 &minus; P &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Earnings ($):</strong> P &times; your demand &nbsp;&nbsp;|&nbsp;&nbsp; Lower price captures all demand.</p>
+
+<p class="mb-3">{% include 'bertrand/Simulator.html' %}</p>
+
+{{ fields() }}
+
+{% endblock %}

@@ -1,0 +1,48 @@
+<button class="btn btn-outline-secondary btn-sm mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#simCollapse">
+    Try the simulator
+</button>
+
+<div class="collapse mt-2" id="simCollapse">
+    <div class="card card-body" x-data="{
+        me: '', other: '',
+        get ready() { return this.me !== '' && this.other !== '' },
+        get total() { return this.ready ? Number(this.me) + Number(this.other) : null },
+        get price() { return this.ready ? Math.max(0, 100 - this.total) : null },
+        get myEarnings() { return this.ready ? this.price * Number(this.me) : null },
+        get otherEarnings() { return this.ready ? this.price * Number(this.other) : null }
+    }">
+        <div class="row g-2 align-items-center mb-3">
+            <div class="col-auto">
+                <label class="col-form-label fw-semibold">Your units</label>
+            </div>
+            <div class="col-auto">
+                <input class="form-control" type="number" x-model="me" min="0" max="100" style="width: 6rem;">
+            </div>
+            <div class="col-auto ms-3">
+                <label class="col-form-label fw-semibold">Other’s units</label>
+            </div>
+            <div class="col-auto">
+                <input class="form-control" type="number" x-model="other" min="0" max="100" style="width: 6rem;">
+            </div>
+        </div>
+        <hr class="my-2">
+        <div class="row text-center">
+            <div class="col">
+                <div class="text-muted small">Total units</div>
+                <div class="fs-5 fw-bold" x-text="ready ? total : '—'"></div>
+            </div>
+            <div class="col">
+                <div class="text-muted small">Price</div>
+                <div class="fs-5 fw-bold" x-text="ready ? '$' + price : '—'"></div>
+            </div>
+            <div class="col">
+                <div class="text-muted small">Your earnings</div>
+                <div class="fs-5 fw-bold text-success" x-text="ready ? '$' + myEarnings : '—'"></div>
+            </div>
+            <div class="col">
+                <div class="text-muted small">Other’s earnings</div>
+                <div class="fs-5 fw-bold" x-text="ready ? '$' + otherEarnings : '—'"></div>
+            </div>
+        </div>
+    </div>
+</div>

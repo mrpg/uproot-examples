@@ -1,0 +1,15 @@
+{% extends "Base.html" %}
+
+{% block title %}Your Decision{% endblock %}
+
+{% block main %}
+
+<p class="mb-1"><strong>Price ($):</strong> P = 100 &minus; Q<sub>total</sub> &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Earnings ($):</strong> P &times; your units</p>
+
+<p>You are the <strong>first mover</strong>. The other participant will see your choice before deciding.</p>
+
+<p class="mb-3">{% include 'stackelberg/Simulator.html' %}</p>
+
+{{ fields() }}
+
+{% endblock %}

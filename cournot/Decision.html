@@ -1,0 +1,13 @@
+{% extends "Base.html" %}
+
+{% block title %}Decision{% endblock %}
+
+{% block main %}
+
+<p class="mb-1"><strong>Price ($):</strong> P = 100 &minus; Q<sub>total</sub> &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Earnings ($):</strong> P &times; your units</p>
+
+<p class="mb-3">{% include 'cournot/Simulator.html' %}</p>
+
+{{ fields() }}
+
+{% endblock %}

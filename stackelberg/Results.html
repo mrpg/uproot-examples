@@ -1,0 +1,19 @@
+{% extends "Base.html" %}
+
+{% block title %}Results{% endblock %}
+
+{% block main %}
+
+<p>You were the <strong>{% if player.first_mover %}first mover{% else %}second mover{% endif %}</strong>.</p>
+
+<table class="table table-bordered w-auto">
+    <tbody>
+        <tr><th>First mover’s units</th><td>{{ player.context.leader_units }}</td></tr>
+        <tr><th>Second mover’s units</th><td>{{ player.context.follower_units }}</td></tr>
+        <tr><th>Total units</th><td>{{ player.context.total_units }}</td></tr>
+        <tr><th>Market price</th><td>${{ player.context.price }}</td></tr>
+        <tr class="table-success"><th>Your earnings</th><td><strong>${{ player.payoff }}</strong></td></tr>
+    </tbody>
+</table>
+
+{% endblock %}

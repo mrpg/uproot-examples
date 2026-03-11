@@ -1,0 +1,17 @@
+{% extends "Base.html" %}
+
+{% block title %}Results{% endblock %}
+
+{% block main %}
+
+<table class="table table-bordered w-auto">
+    <tbody>
+        <tr><th>Your units</th><td>{{ player.units }}</td></tr>
+        <tr><th>Other’s units</th><td>{{ player.context.other_units }}</td></tr>
+        <tr><th>Total units</th><td>{{ player.context.total_units }}</td></tr>
+        <tr><th>Market price</th><td>${{ player.context.price }}</td></tr>
+        <tr class="table-success"><th>Your earnings</th><td><strong>${{ player.payoff }}</strong></td></tr>
+    </tbody>
+</table>
+
+{% endblock %}
