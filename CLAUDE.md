@@ -34,12 +34,17 @@ Apps marked with † are primarily for internal testing and benchmarking, but us
 
 Full documentation is available at:
 - https://uproot.science/ (web docs)
+- https://github.com/mrpg/uproot-docs (source — **you are free to clone this and search through the Markdown files directly**)
 
-Key documentation sections:
-- `docs/building/` - Pages, forms, data storage
-- `docs/multiplayer/` - Groups, synchronization, real-time features
-- `docs/advanced/` - Rounds, timeouts, dropouts, uploads
-- `docs/reference/` - Field types, page methods, CLI
+```bash
+git clone https://github.com/mrpg/uproot-docs /tmp/uproot-docs
+```
+
+Key documentation sections (under `docs/`):
+- `building/` - Pages, forms, data storage
+- `multiplayer/` - Groups, synchronization, real-time features
+- `advanced/` - Rounds, timeouts, dropouts, uploads
+- `reference/` - Field types, page methods, CLI
 
 ## Finding Patterns
 
