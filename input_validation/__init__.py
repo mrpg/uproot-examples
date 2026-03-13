@@ -140,14 +140,14 @@ class InputValidationAdvanced(Page):
     def validate(page, player, data):
         if data.get("share_safe_asset") + data.get("share_risky_asset") != 100:
             player.input_errors += 1
-            return [
-                safe(
+            return {
+                "share_safe_asset": safe(
                     f"The sum of the two shares must equal 100%. You have to set this share to {100 - data.get('share_risky_asset')}% if you choose to invest {data.get('share_risky_asset')}% of your budget in the <em>risky</em> asset."
                 ),
-                safe(
+                "share_risky_asset": safe(
                     f"The sum of the two shares must equal 100%. You have to set this share to {100 - data.get('share_safe_asset')}% if you choose to invest {data.get('share_safe_asset')}% of your budget in the <em>safe</em> asset."
                 ),
-            ]
+            }
 
 
 class InputValidationBootstrapClasses(Page):
@@ -182,18 +182,19 @@ class InputValidationBootstrapClasses(Page):
 
     @classmethod
     def validate(page, player, data):
-        invalid_inputs = []
+        errors = {}
         if data.get("group_size") != 1:
-            invalid_inputs += ["group_size"]
+            errors["group_size"] = (
+                "This answer is incorrect. Please take another look at the instructions and try again."
+            )
         if not (
             data.get("conversion_rate") > 1.955829
             and data.get("conversion_rate") < 1.955831
         ):
-            invalid_inputs += ["conversion_rate"]
-        if len(invalid_inputs) > 0:
-            return invalid_inputs
-        else:
-            return None
+            errors["conversion_rate"] = (
+                "This answer is incorrect. Please take another look at the instructions and try again."
+            )
+        return errors or None
 
 
 # PAGE ORDER

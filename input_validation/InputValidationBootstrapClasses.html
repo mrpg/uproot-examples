@@ -31,8 +31,8 @@ only
 
 <div>
     {{ field(form.group_size) }}
-    {% if _uproot_errors and "group_size" in _uproot_errors %}
-    <p class="invalid-feedback d-block font-sans-serif mt-n3">This answer is incorrect. Please take another look at the instructions and try again.</p>
+    {% if _uproot_field_errors.group_size %}
+    <p class="invalid-feedback d-block font-sans-serif mt-n3">{{ _uproot_field_errors.group_size[0] }}</p>
     <script>
         {% for options in form.group_size.choices %}
         document.getElementById("group_size-{{ loop.index0 }}").classList.add("is-invalid");
@@ -40,7 +40,7 @@ only
         {% endfor %}
     </script>
     {% endif %}
-    {% if _uproot_errors and "group_size" not in _uproot_errors %}
+    {% if _uproot_field_errors and "group_size" not in _uproot_field_errors %}
     <p class="valid-feedback d-block font-sans-serif mt-n3">This answer is correct.</p>
     <script>
         {% for options in form.group_size.choices %}
@@ -53,14 +53,14 @@ only
 
 <div>
     {{ field(form.conversion_rate) }}
-    {% if _uproot_errors and "conversion_rate" in _uproot_errors %}
-    <p class="invalid-feedback d-block font-sans-serif mt-n3">This answer is incorrect. Please take another look at the instructions and try again.</p>
+    {% if _uproot_field_errors.conversion_rate %}
+    <p class="invalid-feedback d-block font-sans-serif mt-n3">{{ _uproot_field_errors.conversion_rate[0] }}</p>
     <script>
        document.getElementById("conversion_rate").classList.add("is-invalid");
        document.getElementById("conversion_rate").nextElementSibling.classList.add("border-danger");
     </script>
     {% endif %}
-    {% if _uproot_errors and "conversion_rate" not in _uproot_errors %}
+    {% if _uproot_field_errors and "conversion_rate" not in _uproot_field_errors %}
     <p class="valid-feedback d-block font-sans-serif mt-n3">This answer is correct.</p>
     <script>
        document.getElementById("conversion_rate").classList.add("is-valid");
