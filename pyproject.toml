@@ -9,6 +9,9 @@ dependencies = [
     "uproot-science @ git+https://github.com/mrpg/uproot.git@main",
 ]
 
+[tool.black]
+target-version = ["py313"]
+
 [project.optional-dependencies]
 pg = [
     "uproot-science[pg] @ git+https://github.com/mrpg/uproot.git@main",
