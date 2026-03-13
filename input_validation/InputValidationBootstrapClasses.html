@@ -31,7 +31,7 @@ only
 
 <div>
     {{ field(form.group_size) }}
-    {% if _uproot_field_errors.group_size %}
+    {% if "group_size" in _uproot_field_errors %}
     <p class="invalid-feedback d-block font-sans-serif mt-n3">{{ _uproot_field_errors.group_size[0] }}</p>
     <script>
         {% for options in form.group_size.choices %}
@@ -53,7 +53,7 @@ only
 
 <div>
     {{ field(form.conversion_rate) }}
-    {% if _uproot_field_errors.conversion_rate %}
+    {% if "conversion_rate" in _uproot_field_errors %}
     <p class="invalid-feedback d-block font-sans-serif mt-n3">{{ _uproot_field_errors.conversion_rate[0] }}</p>
     <script>
        document.getElementById("conversion_rate").classList.add("is-invalid");

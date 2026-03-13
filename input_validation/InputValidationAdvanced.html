@@ -30,16 +30,16 @@ Input validation and feedback with bells and whistles
 
 {% block main %}
 
-<div {% if _uproot_field_errors.share_safe_asset %}class="bg-danger-subtle border-5 border-danger border-start pb-1 ps-4 pt-1 uproot-error"{% endif %}>
+<div {% if "share_safe_asset" in _uproot_field_errors %}class="bg-danger-subtle border-5 border-danger border-start pb-1 ps-4 pt-1 uproot-error"{% endif %}>
     {{ field(form.share_safe_asset) }}
-    {% if _uproot_field_errors.share_safe_asset %}
+    {% if "share_safe_asset" in _uproot_field_errors %}
     <p class="invalid-feedback d-block font-sans-serif mt-n3">{{ _uproot_field_errors.share_safe_asset[0] }}</p>
     {% endif %}
 </div>
 
-<div {% if _uproot_field_errors.share_risky_asset %}class="bg-danger-subtle border-5 border-danger border-start pb-1 ps-4 pt-1 uproot-error"{% endif %}>
+<div {% if "share_risky_asset" in _uproot_field_errors %}class="bg-danger-subtle border-5 border-danger border-start pb-1 ps-4 pt-1 uproot-error"{% endif %}>
     {{ field(form.share_risky_asset) }}
-    {% if _uproot_field_errors.share_risky_asset %}
+    {% if "share_risky_asset" in _uproot_field_errors %}
     <p class="invalid-feedback d-block font-sans-serif mt-n3">{{ _uproot_field_errors.share_risky_asset[0] }}</p>
     {% endif %}
 </div>
