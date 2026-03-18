@@ -1,0 +1,39 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Thank you! Here is a summary of your sorting decisions:</p>
+
+<table class="table w-auto">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Placed in</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in app.C.ITEMS %}
+        {% set field_name = "item_" ~ loop.index0 %}
+        {% set value = player[field_name] %}
+        <tr>
+            <td>{{ safe(item) }}</td>
+            <td>
+                {% if value == 1 %}
+                <span class="badge text-bg-success">{{ app.C.BUCKET_LABELS[0] }}</span>
+                {% elif value == 2 %}
+                <span class="badge text-bg-warning">{{ app.C.BUCKET_LABELS[1] }}</span>
+                {% else %}
+                <span class="text-muted">Not placed</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock main %}

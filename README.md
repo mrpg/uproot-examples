@@ -24,6 +24,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `detect_presence`                                 | Detect players’ actual presence (in classroom experiments)      | Medium     |
 | `dictator_game`                                   | Standard dictator game                                          | Easy       |
 | `double_auction`                                  | Double auction (like Smith, 1962)                               | Advanced   |
+| `draganddrop`                                     | Drag-and-drop sorting into two buckets                          | Easy       |
 | `drawing_board`                                   | Session-level drawing board                                     | Medium     |
 | `dropouts`                                        | Handling dropouts                                               | Easy       |
 | `embed_static`                                    | Embedding a static file                                         | Easy       |

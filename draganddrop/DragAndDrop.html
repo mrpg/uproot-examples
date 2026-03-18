@@ -1,0 +1,76 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Sort the items
+{% endblock title %}
+
+
+{% block main %}
+
+{#
+Instructions — customize this text to explain your task.
+#}
+<p class="mb-4">
+Drag each item into one of the two buckets below. You must place
+<strong>every</strong> item before you can continue.
+</p>
+
+{#
+── Source area ──
+All items start here. Once dragged to a bucket they leave this area,
+but they can be dragged back or between buckets freely.
+#}
+<div id="source" class="d-flex flex-wrap gap-2 mb-4 p-3 border rounded bg-light justify-content-center"
+                 style="min-height: 60px;">
+    {% for item in app.C.ITEMS %}
+    <div class="draggable-item badge text-bg-primary fs-6 p-2 user-select-none"
+         draggable="true"
+         data-index="{{ loop.index0 }}"
+         id="item-{{ loop.index0 }}"
+         style="cursor: grab;">
+        <span>{{ safe(item) }}</span>
+    </div>
+    {% endfor %}
+</div>
+
+{#
+── Buckets ──
+Two equal-width drop zones side by side.
+#}
+<div class="row g-3 mb-4">
+    {# Bucket 1 #}
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header text-center fw-semibold bg-success-subtle">
+                {{ app.C.BUCKET_LABELS[0] }}
+                <span class="badge text-bg-success ms-2" id="count1">0</span>
+            </div>
+            <div id="bucket1"
+                 class="card-body bucket d-flex flex-wrap gap-2 align-content-start"
+                 style="min-height: 160px;">
+            </div>
+        </div>
+    </div>
+
+    {# Bucket 2 #}
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header text-center fw-semibold bg-warning-subtle">
+                {{ app.C.BUCKET_LABELS[1] }}
+                <span class="badge text-bg-warning ms-2" id="count2">0</span>
+            </div>
+            <div id="bucket2"
+                 class="card-body bucket d-flex flex-wrap gap-2 align-content-start"
+                 style="min-height: 160px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ fields() }}
+
+{# ── Drag-and-drop logic ── #}
+<script src="{{ appstatic('draganddrop.js') }}">
+</script>
+
+{% endblock main %}
