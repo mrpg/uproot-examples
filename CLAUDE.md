@@ -111,3 +111,5 @@ This starts all loaded apps. Access the admin interface to create sessions and t
 ## Best practices
 
 If installed, run `black`, `isort`, `ruff` on any new apps. Issues with star imports may be safely ignored.
+
+One tab is to equal 4 spaces, the standard indentation for all markup and programming languages.
