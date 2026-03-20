@@ -12,6 +12,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Dictator game"
+SUGGESTED_MULTIPLE = 2
 
 
 class GroupPlease(GroupCreatingWait):

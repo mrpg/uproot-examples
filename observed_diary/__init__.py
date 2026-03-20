@@ -12,6 +12,7 @@ from uproot.smithereens import *
 from uproot.types import GroupCreatingWait, Page
 
 DESCRIPTION = "Have a player watch someone else's diary entry"
+SUGGESTED_MULTIPLE = 2
 
 
 class GroupPlease(GroupCreatingWait):

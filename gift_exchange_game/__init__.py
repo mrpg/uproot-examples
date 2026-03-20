@@ -12,6 +12,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Gift exchange game (Fehr et al., 1993)"
+SUGGESTED_MULTIPLE = 2
 
 
 class C:

@@ -12,6 +12,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Stackelberg quantity competition (sequential)"
+SUGGESTED_MULTIPLE = 2
 
 
 class C:

@@ -12,6 +12,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Traveller’s dilemma (Basu, 1994)"
+SUGGESTED_MULTIPLE = 2
 
 
 class C:

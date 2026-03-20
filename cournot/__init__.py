@@ -12,6 +12,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Cournot quantity competition"
+SUGGESTED_MULTIPLE = 2
 
 
 class C:

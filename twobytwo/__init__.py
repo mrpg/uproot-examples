@@ -12,6 +12,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Generic 2×2 game"
+SUGGESTED_MULTIPLE = 2
 
 
 class C:

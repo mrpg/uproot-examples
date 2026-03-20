@@ -12,6 +12,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Trust game (Berg et al., 1995)"
+SUGGESTED_MULTIPLE = 2
 
 
 class C:

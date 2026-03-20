@@ -12,6 +12,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Ultimatum game"
+SUGGESTED_MULTIPLE = 2
 
 
 class Context(PlayerContext):

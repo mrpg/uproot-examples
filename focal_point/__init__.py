@@ -12,6 +12,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Coordination through focal points"
+SUGGESTED_MULTIPLE = 2
 
 
 def new_player(player):

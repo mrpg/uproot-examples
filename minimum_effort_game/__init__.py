@@ -12,6 +12,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Minimum effort / weakest link game (Van Huyck et al., 1990)"
+SUGGESTED_MULTIPLE = 3
 
 
 class C:

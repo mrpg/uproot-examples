@@ -12,6 +12,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Public goods game"
+SUGGESTED_MULTIPLE = 3
 
 
 class C:

@@ -12,6 +12,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Prisoner's dilemma (using apply)"
+SUGGESTED_MULTIPLE = 2
 
 
 class GroupPlease(GroupCreatingWait):

@@ -13,6 +13,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = """Wait for all participants in the session, then create groups of identical size C.GROUP_SIZE and notify surplus participants that they could not be grouped. Hence, to test this app, run it with a number of participants that is not a multiple of C.GROUP_SIZE."""
+SUGGESTED_MULTIPLE = 3
 
 
 # CONSTANTS

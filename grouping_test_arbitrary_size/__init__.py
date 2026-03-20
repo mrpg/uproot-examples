@@ -18,6 +18,7 @@ DESCRIPTION = """Wait for session, then create groups of identical size C.GROUP_
     For the purpose of illustration only, this app uses conditions via show for displaying
     the correct pages rather than forwarding participants via move_to_page (which usually
     produces cleaner code)."""
+SUGGESTED_MULTIPLE = 3
 
 
 # CONSTANTS

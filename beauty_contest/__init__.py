@@ -12,6 +12,7 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Beauty contest / guessing game (Nagel, 1995)"
+SUGGESTED_MULTIPLE = 3
 
 
 class C:
