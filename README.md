@@ -75,11 +75,12 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 
 ## Other examples
 
-| Directory        | Description            |
-|------------------|------------------------|
-| `progress_bar`   | Automatic progress bar |
-| `randomize_apps` | Randomizing app order  |
-| `start_button`   | Start button           |
+| Directory              | Description                               |
+|------------------------|-------------------------------------------|
+| `progress_bar`        | Automatic progress bar                    |
+| `randomize_apps`      | Randomizing app order                     |
+| `start_button`        | Start button                              |
+| `student_id_as_label` | Student ID entry on the RoomHello page    |
 
 ## License
 

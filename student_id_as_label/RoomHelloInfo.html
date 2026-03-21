@@ -1,0 +1,58 @@
+{% if _uproot_internal.needlabel %}
+
+<div class="alert alert-info mb-4" role="alert">
+    <p class="mb-0">Please enter your <strong>Student ID</strong> below. It will be used to identify you throughout this experiment.</p>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const labelInput = I("label");
+    if (!labelInput) return;
+
+    const form = labelInput.closest("form");
+    const formLabel = document.querySelector('label[for="label"]');
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    // Rebrand: Access Code → Student ID
+    document.querySelector("h1").textContent = "Student ID";
+    formLabel.textContent = "Please enter your Student ID.";
+
+    // Create confirmation field
+    const confirmDiv = document.createElement("div");
+    confirmDiv.className = "mb-3";
+    confirmDiv.innerHTML =
+        '<label for="label-confirm" class="form-label">Please confirm your Student ID.</label>' +
+        '<input type="text" class="form-control form-control-lg font-monospace" ' +
+        'id="label-confirm" maxlength="128" pattern="[A-Za-z0-9\\-._]+" required>';
+    labelInput.closest(".mb-3").after(confirmDiv);
+
+    const confirmInput = I("label-confirm");
+
+    // Apply the same character filter as the original
+    confirmInput.addEventListener("input", function () {
+        const pos = this.selectionStart;
+        const cleaned = this.value.replace(/[^A-Za-z0-9\-._]/g, "");
+        if (cleaned !== this.value) {
+            const removed = this.value.length - cleaned.length;
+            this.value = cleaned;
+            this.setSelectionRange(pos - removed, pos - removed);
+        }
+        check();
+    });
+
+    labelInput.addEventListener("input", check);
+
+    // Visual feedback + gate submission
+    function check() {
+        const match = labelInput.value !== "" && labelInput.value === confirmInput.value;
+        confirmInput.classList.toggle("is-valid", match && confirmInput.value !== "");
+        confirmInput.classList.toggle("is-invalid", !match && confirmInput.value !== "");
+        submitBtn.disabled = !match;
+    }
+
+    submitBtn.disabled = true;
+    check();
+});
+</script>
+
+{% endif %}
