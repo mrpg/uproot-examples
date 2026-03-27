@@ -1,0 +1,50 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block main %}
+
+{% set num_rounds = app.get_setting(player.session, "num_rounds") %}
+
+<h3>Round {{ player.round }} of {{ num_rounds }}</h3>
+
+{% if player.buyer %}
+<p>You are a <b>buyer</b> with valuation <b>${{ player.cost_or_value }}</b>.</p>
+<p>If you trade: <b>Profit = ${{ player.cost_or_value }} &minus; Clearing Price</b>.</p>
+{% else %}
+<p>You are a <b>seller</b> with cost <b>${{ player.cost_or_value }}</b>.</p>
+<p>If you trade: <b>Profit = Clearing Price &minus; ${{ player.cost_or_value }}</b>.</p>
+{% endif %}
+
+<div x-data="{ bid: {{ player.bid | tojson }}, submitted: {{ (player.bid is not none) | tojson }}, loading: false }">
+    <h4 class="mt-4">Your {% if player.buyer %}bid{% else %}ask{% endif %}</h4>
+
+    <div x-show="submitted" x-cloak class="alert alert-info">
+        Current {% if player.buyer %}bid{% else %}ask{% endif %}: <b>$<span x-text="bid"></span></b>.
+        You may update it before the period ends.
+    </div>
+
+    <div class="w-25 mb-3 input-group">
+        <span class="input-group-text">$</span>
+        <input x-ref="amount" type="number" class="form-control" step="1"
+            min="{% if player.buyer %}0{% else %}{{ player.cost_or_value }}{% endif %}"
+            {% if player.buyer %}max="{{ player.cost_or_value }}"{% endif %}
+            placeholder="0"
+            @keydown.enter.prevent="$refs.btn.click()">
+    </div>
+
+    <button x-ref="btn" class="btn btn-uproot" type="button" :disabled="loading" @click="
+        loading = true;
+        let val = parseInt($refs.amount.value, 10);
+        if (isNaN(val)) { alert('Please enter a valid price.'); loading = false; return; }
+        uproot.invoke('place_bid', val).then(v => { bid = v; submitted = true; }).catch(e => { alert(e.message || String(e)); }).finally(() => { loading = false; });
+    ">
+        <span x-show="!submitted">Submit {% if player.buyer %}bid{% else %}ask{% endif %}</span>
+        <span x-show="submitted">Update {% if player.buyer %}bid{% else %}ask{% endif %}</span>
+    </button>
+
+    <p x-show="!submitted" class="mt-3 text-muted">
+        If you don't submit, you won't participate in this round's auction.
+    </p>
+</div>
+
+{% endblock main %}

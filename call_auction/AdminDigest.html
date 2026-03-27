@@ -1,0 +1,30 @@
+{% block main %}
+
+{% if not rounds_data %}
+<p class="text-muted">No data yet.</p>
+{% else %}
+
+{% for rd in rounds_data %}
+<h4 class="mt-4">Round {{ rd.round }}</h4>
+
+{% if rd.expected_eq %}
+<p>
+    <b>Expected equilibrium:</b>
+    Price {{ rd.expected_eq.price_min }}{% if rd.expected_eq.price_min != rd.expected_eq.price_max %}&ndash;{{ rd.expected_eq.price_max }}{% endif %},
+    Quantity {{ rd.expected_eq.quantity }}
+</p>
+{% endif %}
+
+{% if rd.clearing_price is not none %}
+<p><b>Clearing price:</b> ${{ rd.clearing_price }} | <b>Quantity traded:</b> {{ rd.quantity }}</p>
+{% else %}
+<p class="text-muted">No trades this round.</p>
+{% endif %}
+
+<p><b>Submitted bids:</b> {{ rd.submitted_bids | join(", ") if rd.submitted_bids else "none" }}</p>
+<p><b>Submitted asks:</b> {{ rd.submitted_asks | join(", ") if rd.submitted_asks else "none" }}</p>
+{% endfor %}
+
+{% endif %}
+
+{% endblock main %}

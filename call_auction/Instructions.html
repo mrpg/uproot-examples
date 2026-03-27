@@ -1,0 +1,27 @@
+{% extends "Base.html" %}
+
+{% block main %}
+
+<h3>Instructions</h3>
+
+<p>This is a <b>call auction</b>. In each round:</p>
+
+<ol>
+    <li>You submit a sealed {% if player.buyer %}<b>bid</b> (the price you are willing to pay){% else %}<b>ask</b> (the price you are willing to accept){% endif %} during the bidding period.</li>
+    <li>When the period ends, all bids and asks are collected.</li>
+    <li>A single <b>clearing price</b> is determined where supply meets demand.</li>
+    <li>Buyers who bid at or above the clearing price trade. Sellers who asked at or below the clearing price trade.</li>
+    <li>All trades execute at the clearing price.</li>
+</ol>
+
+{% if player.buyer %}
+<p>You are a <b>buyer</b>.</p>
+<p>If you trade, your profit is <b>Valuation &minus; Clearing Price</b>. If you don't trade, your profit is $0.</p>
+{% else %}
+<p>You are a <b>seller</b>.</p>
+<p>If you trade, your profit is <b>Clearing Price &minus; Cost</b>. If you don't trade, your profit is $0.</p>
+{% endif %}
+
+<p>You may update your {% if player.buyer %}bid{% else %}ask{% endif %} as many times as you like before the period ends.</p>
+
+{% endblock main %}
