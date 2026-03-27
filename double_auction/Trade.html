@@ -15,15 +15,20 @@
 
 {% block main %}
 
+{% set num_rounds = app.get_setting(player.session, "num_rounds") %}
+{% set buyer_tax = app.get_tax(player.session, "buyer_tax", player.round) %}
+{% set seller_tax = app.get_tax(player.session, "seller_tax", player.round) %}
+
+<div x-data="{ costOrValue: {{ player.cost_or_value | tojson }}, buyerTax: {{ buyer_tax | tojson }}, sellerTax: {{ seller_tax | tojson }}, fmt(n) { return Number(n).toLocaleString('en-US'); } }">
+
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3 class="mb-0">Trading Page</h3>
+    <h3>Round {{ player.round }} of {{ num_rounds }}</h3>
     <button type="button" class="btn btn-outline-uproot btn-sm" data-bs-toggle="modal" data-bs-target="#instructionsModal">
         View Instructions
     </button>
 </div>
 
-<p>{% if player.buyer %}You are a <b>buyer</b> with valuation <b>${{ player.cost_or_value | to(2) }}</b>.{% else %}You are a <b>seller</b> with cost <b>${{ player.cost_or_value | to(2) }}</b>.{% endif %}</p>
-
+{% include 'double_auction/RoundInfoText.html' %}
 
 <div id="not-traded" role="region" aria-label="Trading controls">
     <h3 class="mt-4">{% if player.buyer %}Your current bid price{% else %}Your current asking price{% endif %}</h3>
@@ -36,7 +41,7 @@
         <div class="w-25 mb-3 input-group">
             <label for="amount" class="visually-hidden">{% if player.buyer %}Bid price{% else %}Ask price{% endif %}</label>
             <span class="input-group-text">$</span>
-            <input id="amount" type="number" class="form-control" step="0.01" min="0" placeholder="0.00" aria-label="{% if player.buyer %}Bid price{% else %}Ask price{% endif %}">
+            <input id="amount" type="number" class="form-control" step="1" min="{% if player.buyer %}0{% else %}{{ player.cost_or_value + seller_tax }}{% endif %}" {% if player.buyer %}max="{{ player.cost_or_value - buyer_tax }}"{% endif %} placeholder="0" aria-label="{% if player.buyer %}Bid price{% else %}Ask price{% endif %}" onkeydown="return '0123456789Backspace Delete Tab ArrowLeft ArrowRight Home End'.includes(event.key)">
         </div>
 
         <button class="no-offer btn btn-uproot" type="button" onclick="makeOffer(true)" aria-label="Submit new {% if player.buyer %}bid{% else %}ask{% endif %}">{% if player.buyer %}Submit new bid{% else %}Submit new ask{% endif %}</button>
@@ -92,6 +97,9 @@
     </div>
 </div>
 
+
+</div>
+
 {% endblock main %}
 
 
@@ -101,6 +109,8 @@
     let buyer = {{ player.buyer | tojson }};
     let traded = {{ player.trade is not none | tojson }};
     let profit = {{ player.profit | tojson }};
+    let costOrValue = {{ player.cost_or_value | tojson }};
+    let tax = {{ app.get_tax(player.session, "buyer_tax" if player.buyer else "seller_tax", player.round) | tojson }};
     let offerAmount = uproot.vars.offer_amount;
     let market = {
         asks: [],

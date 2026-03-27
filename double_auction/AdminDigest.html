@@ -1,0 +1,296 @@
+{% block main %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+
+{% if not rounds_data %}
+<p class="text-muted">No data yet.</p>
+{% else %}
+
+{% for rd in rounds_data %}
+<h4 class="mt-4">Round {{ rd.round }}</h4>
+
+{% if rd.expected_eq %}
+<p>
+    <b>Expected equilibrium:</b>
+    Price {{ rd.expected_eq.price_min | to(0) }} to {{ rd.expected_eq.price_max | to(0) }},
+    Quantity {{ rd.expected_eq.quantity }}
+</p>
+{% endif %}
+
+<p><b>Trades:</b> {{ rd.transactions | length }}</p>
+
+<div class="row">
+    <div class="col-md-6">
+        <h5>Expected (assigned values/costs)</h5>
+        <div style="display: flex; gap: 1rem; margin-bottom: 4px;">
+            <span><span style="display: inline-block; width: 18px; height: 3px; background: rgb(54, 162, 235); vertical-align: middle;"></span> Demand</span>
+            <span><span style="display: inline-block; width: 18px; height: 3px; background: rgb(255, 99, 132); vertical-align: middle;"></span> Supply</span>
+        </div>
+        <canvas id="expected-{{ rd.round }}" height="250"></canvas>
+    </div>
+    <div class="col-md-6">
+        <h5>Actual trades</h5>
+        <div style="display: flex; gap: 1rem; margin-bottom: 4px;">
+            <span><span style="display: inline-block; width: 10px; height: 10px; background: rgba(255, 200, 0, 0.9); border: 2px solid black; transform: rotate(45deg); vertical-align: middle;"></span> Transaction price</span>
+        </div>
+        <canvas id="actual-{{ rd.round }}" height="250"></canvas>
+    </div>
+</div>
+{% endfor %}
+
+<script>
+const roundsData = {{ rounds_data | tojson }};
+
+function makeDemandStepData(values, ceiling) {
+    // Demand: starts at ceiling (Q=0), steps down, drops to zero after last unit.
+    const points = [];
+    if (values.length > 0) {
+        points.push({x: 0, y: ceiling});
+    }
+    for (let i = 0; i < values.length; i++) {
+        points.push({x: i, y: values[i]});
+        points.push({x: i + 1, y: values[i]});
+    }
+    if (values.length > 0) {
+        points.push({x: values.length, y: 0});
+    }
+    return points;
+}
+
+function makeSupplyStepData(values, ceiling) {
+    // Supply: starts at zero (Q=0), steps up, rises to ceiling after last unit.
+    const points = [];
+    if (values.length > 0) {
+        points.push({x: 0, y: 0});
+    }
+    for (let i = 0; i < values.length; i++) {
+        points.push({x: i, y: values[i]});
+        points.push({x: i + 1, y: values[i]});
+    }
+    if (values.length > 0) {
+        points.push({x: values.length, y: ceiling});
+    }
+    return points;
+}
+
+function eqAnnotations(eq) {
+    if (!eq) return {};
+    const mid = (eq.price_min + eq.price_max) / 2;
+    const annotations = {
+        eqQuantity: {
+            type: 'line',
+            xMin: eq.quantity,
+            xMax: eq.quantity,
+            borderColor: 'rgba(0, 0, 0, 0.25)',
+            borderWidth: 2,
+            borderDash: [6, 4],
+            label: {
+                display: true,
+                content: 'Q=' + eq.quantity,
+                position: 'start',
+            },
+        },
+    };
+    if (eq.price_min === eq.price_max) {
+        annotations.eqPrice = {
+            type: 'line',
+            yMin: mid,
+            yMax: mid,
+            borderColor: 'rgba(0, 0, 0, 0.25)',
+            borderWidth: 2,
+            borderDash: [6, 4],
+            label: {
+                display: true,
+                content: 'P=' + mid.toFixed(0),
+                position: 'start',
+            },
+        };
+    } else {
+        annotations.eqPriceBox = {
+            type: 'box',
+            yMin: eq.price_min,
+            yMax: eq.price_max,
+            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+            borderColor: 'rgba(0, 0, 0, 0.2)',
+            borderWidth: 1,
+            borderDash: [6, 4],
+            label: {
+                display: true,
+                content: 'P=' + eq.price_min.toFixed(0) + '\u2013' + eq.price_max.toFixed(0),
+                position: 'start',
+            },
+        };
+    }
+    return annotations;
+}
+
+function eqPriceAnnotations(eq) {
+    if (!eq) return {};
+    const mid = (eq.price_min + eq.price_max) / 2;
+    if (eq.price_min === eq.price_max) {
+        return {
+            eqPrice: {
+                type: 'line',
+                yMin: mid,
+                yMax: mid,
+                borderColor: 'rgba(0, 0, 0, 0.25)',
+                borderWidth: 2,
+                borderDash: [6, 4],
+                label: {
+                    display: true,
+                    content: 'P=' + mid.toFixed(0),
+                    position: 'start',
+                },
+            },
+        };
+    }
+    return {
+        eqPriceBox: {
+            type: 'box',
+            yMin: eq.price_min,
+            yMax: eq.price_max,
+            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+            borderColor: 'rgba(0, 0, 0, 0.2)',
+            borderWidth: 1,
+            borderDash: [6, 4],
+            label: {
+                display: true,
+                content: 'P=' + eq.price_min.toFixed(0) + '\u2013' + eq.price_max.toFixed(0),
+                position: 'start',
+            },
+        },
+    };
+}
+
+function computeCeiling(demandData, supplyData) {
+    const allValues = demandData.concat(supplyData);
+    const maxVal = allValues.length > 0 ? Math.max(...allValues) : 10;
+    return Math.ceil(maxVal * 1.3);
+}
+
+function createExpectedChart(canvasId, demandData, supplyData, eq, xMax, ceiling) {
+    const ctx = document.getElementById(canvasId);
+    const datasets = [];
+
+    if (demandData.length > 0) {
+        datasets.push({
+            label: 'Demand',
+            data: makeDemandStepData(demandData, ceiling),
+            borderColor: 'rgb(54, 162, 235)',
+            backgroundColor: 'rgba(54, 162, 235, 0.1)',
+            fill: false,
+            pointRadius: 0,
+            borderWidth: 2,
+        });
+    }
+
+    if (supplyData.length > 0) {
+        datasets.push({
+            label: 'Supply',
+            data: makeSupplyStepData(supplyData, ceiling),
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgba(255, 99, 132, 0.1)',
+            fill: false,
+            pointRadius: 0,
+            borderWidth: 2,
+        });
+    }
+
+    new Chart(ctx, {
+        type: 'line',
+        data: { datasets: datasets },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    type: 'linear',
+                    title: { display: true, text: 'Quantity' },
+                    min: 0,
+                    max: xMax,
+                    ticks: { stepSize: 1 },
+                },
+                y: {
+                    title: { display: true, text: 'Price' },
+                    min: 0,
+                    max: ceiling,
+                },
+            },
+            plugins: {
+                legend: { display: false },
+                annotation: {
+                    annotations: eqAnnotations(eq),
+                },
+            },
+        },
+    });
+}
+
+function createActualChart(canvasId, txPrices, eq, xMax, yMax) {
+    const ctx = document.getElementById(canvasId);
+    const datasets = [];
+
+    if (txPrices && txPrices.length > 0) {
+        datasets.push({
+            label: 'Transaction price',
+            data: txPrices.map((p, i) => ({x: i + 1, y: p})),
+            borderColor: 'rgb(0, 0, 0)',
+            backgroundColor: 'rgba(255, 200, 0, 0.9)',
+            pointRadius: 10,
+            pointStyle: 'rectRot',
+            borderWidth: 2,
+            showLine: false,
+        });
+    }
+
+    // Invisible anchor point to force Chart.js to render the full axis range.
+    datasets.push({
+        label: '_anchor',
+        data: [{x: xMax, y: yMax}],
+        pointRadius: 0,
+        showLine: false,
+        hidden: false,
+    });
+
+    new Chart(ctx, {
+        type: 'scatter',
+        data: { datasets: datasets },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    type: 'linear',
+                    title: { display: true, text: 'Trade #' },
+                    min: 0,
+                    max: xMax,
+                    ticks: { stepSize: 1 },
+                },
+                y: {
+                    title: { display: true, text: 'Price' },
+                    min: 0,
+                    max: yMax,
+                },
+            },
+            plugins: {
+                legend: { display: false },
+                annotation: {
+                    annotations: eqPriceAnnotations(eq),
+                },
+            },
+        },
+    });
+}
+
+roundsData.forEach(function(rd) {
+    const expectedMax = Math.max(rd.demand_values.length, rd.supply_costs.length);
+    const actualMax = rd.transactions ? rd.transactions.length : 0;
+    const xMax = Math.max(expectedMax, actualMax) + 1;
+    const ceiling = computeCeiling(rd.demand_values, rd.supply_costs);
+    createExpectedChart('expected-' + rd.round, rd.demand_values, rd.supply_costs, rd.expected_eq, xMax, ceiling);
+    createActualChart('actual-' + rd.round, rd.transactions, rd.expected_eq, xMax, ceiling);
+});
+</script>
+
+{% endif %}
+
+{% endblock main %}

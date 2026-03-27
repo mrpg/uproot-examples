@@ -1,0 +1,19 @@
+{% if player.buyer %}
+<p>You are a <b>buyer</b> with valuation <b>$<span x-text="fmt(costOrValue)"></span></b>.</p>
+{% if buyer_tax %}
+<p>In this round, you must pay a tax of <b>$<span x-text="fmt(buyerTax)"></span></b> per unit traded.</p>
+<p>Your profit will be: <b>Valuation &minus; Price &minus; Tax = $<span x-text="fmt(costOrValue)"></span> &minus; Price &minus; $<span x-text="fmt(buyerTax)"></span></b>.</p>
+{% else %}
+<p>There is no tax in this round.</p>
+<p>Your profit will be: <b>Valuation &minus; Price = $<span x-text="fmt(costOrValue)"></span> &minus; Price</b>.</p>
+{% endif %}
+{% else %}
+<p>You are a <b>seller</b> with cost <b>$<span x-text="fmt(costOrValue)"></span></b>.</p>
+{% if seller_tax %}
+<p>In this round, you must pay a tax of <b>$<span x-text="fmt(sellerTax)"></span></b> per unit traded.</p>
+<p>Your profit will be: <b>Price &minus; Cost &minus; Tax = Price &minus; $<span x-text="fmt(costOrValue)"></span> &minus; $<span x-text="fmt(sellerTax)"></span></b>.</p>
+{% else %}
+<p>There is no tax in this round.</p>
+<p>Your profit will be: <b>Price &minus; Cost = Price &minus; $<span x-text="fmt(costOrValue)"></span></b>.</p>
+{% endif %}
+{% endif %}

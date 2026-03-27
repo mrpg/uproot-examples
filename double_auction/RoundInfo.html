@@ -1,0 +1,17 @@
+{% extends "Base.html" %}
+
+{% block main %}
+
+{% set num_rounds = app.get_setting(player.session, "num_rounds") %}
+{% set buyer_tax = app.get_tax(player.session, "buyer_tax", player.round) %}
+{% set seller_tax = app.get_tax(player.session, "seller_tax", player.round) %}
+
+<div x-data="{ costOrValue: {{ player.cost_or_value | tojson }}, buyerTax: {{ buyer_tax | tojson }}, sellerTax: {{ seller_tax | tojson }}, fmt(n) { return Number(n).toLocaleString('en-US'); } }">
+
+<h3>Round {{ player.round }} of {{ num_rounds }}</h3>
+
+{% include 'double_auction/RoundInfoText.html' %}
+
+</div>
+
+{% endblock main %}

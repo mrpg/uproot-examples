@@ -4,22 +4,18 @@
 
 {% if player.buyer %}
 <p>You are a <b>buyer</b>.</p>
-<p><i>Your valuation</i> is <b>${{ player.cost_or_value | to(2) }}</b>. This is the maximum value the good has to you.</p>
-<p>If you trade, your profit is your valuation minus the price of the accepted offer. Mathematically, <b>Profit = Valuation &minus; Price</b>.</p>
+<p>If you trade, your profit is <b>Profit = Valuation &minus; Price &minus; Tax</b> (tax may be zero). If you don't trade, your profit is $0.</p>
 {% else %}
 <p>You are a <b>seller</b>.</p>
-<p><i>Your cost</i> is <b>${{ player.cost_or_value | to(2) }}</b>. This is the minimum price you need to cover your costs.</p>
-<p>If you trade, your profit is the price of the accepted offer minus your cost. Mathematically, <b>Profit = Price &minus; Cost</b>.</p>
+<p>If you trade, your profit is <b>Profit = Price &minus; Cost &minus; Tax</b> (tax may be zero). If you don't trade, your profit is $0.</p>
 {% endif %}
-
-<p>If you don't trade, your profit is $0.</p>
 
 <h4>How to trade</h4>
 
 <p><b>Making an offer:</b></p>
 <ul>
     <li>{% if player.buyer %}As a buyer, you can make a <b>bid</b>&mdash;this is the price you are willing to pay.{% else %}As a seller, you can make an <b>ask</b>&mdash;this is the price you are willing to accept.{% endif %}</li>
-    <li>Enter your desired price and click "Submit new offer".</li>
+    <li>Enter your desired price and click "Submit new {% if player.buyer %}bid{% else %}ask{% endif %}".</li>
     <li>You can change or cancel your offer at any time before someone accepts it.</li>
 </ul>
 
