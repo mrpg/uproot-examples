@@ -15,4 +15,17 @@ Results
     {% endfor %}
 </ul>
 
+{# Optional: Show group membership. Remove this block if grouping is not needed. #}
+{% if player.group %}
+<p>Your group: <strong>{{ player.group.name }}</strong></p>
+
+<p>Group members:</p>
+<ul>
+    {% for p in player.group.players | sort(attribute='name') %}
+    <li>{{ p.name }}{% if p.name == player.name %} (you){% endif %}</li>
+    {% endfor %}
+</ul>
+<p><i>Note</i>: Players arriving slightly later may be added to this group. Reload this page to check that out.</p>
+{% endif %}
+
 {% endblock main %}

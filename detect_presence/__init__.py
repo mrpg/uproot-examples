@@ -70,7 +70,28 @@ class RaiseHands(Page):
 
 
 class Info(Page):
-    pass
+    @classmethod
+    def before_once(page, player):
+        # Optional: Create a group of all present players. Players who arrive a bit
+        # later are added to the pre-existing group. Remove this method (and the
+        # corresponding template block) if grouping is not needed.
+
+        # IMPORTANT: The group that is created may be "incomplete" when checked on this
+        # page. Make sure to wait for a sufficient amount of time if your logic needs
+        # to ensure that the group really consists of all present players.
+
+        if not player.present:
+            return
+
+        session = player.session
+        group = session.get("presence_group")
+
+        if group is None:
+            # First present player: create the group
+            session.presence_group = create_group(session, [player])
+        else:
+            # Group already exists: add this player to it
+            add_to_group(session.group(group), player)
 
 
 page_order = [
