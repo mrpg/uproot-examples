@@ -9,7 +9,7 @@ Please indicate your presence
 {% block main %}
 
 <div x-data="{
-    present: {{ player.present | tojson }},
+    present: {{ player.get('present', false) | tojson }},
     loading: false,
     toggle() {
         this.loading = true;

@@ -24,7 +24,7 @@ class C:
 class Context(PlayerContext):
     @property
     def present(self):
-        return [p for p in self.player.session.players if p.present]
+        return [p for p in self.player.session.players if p.get("present", False)]
 
 
 class RaiseHands(Page):
@@ -66,7 +66,9 @@ class RaiseHands(Page):
 
 
 # Other pages can now use player.present to check whether a player actually is
-# present, e.g., in show().
+# present, e.g., in show(). Note: The use of player.get("present", False) is
+# recommended, as it falls back to a sensible default instead of raising an
+# Exception, should player.present be unset.
 
 
 class Info(Page):
@@ -80,7 +82,7 @@ class Info(Page):
         # page. Make sure to wait for a sufficient amount of time if your logic needs
         # to ensure that the group really consists of all present players.
 
-        if not player.present:
+        if not player.get("present", False):
             return
 
         session = player.session
