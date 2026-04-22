@@ -1,0 +1,15 @@
+<div class="row mt-3">
+    <div class="col-md-6" id="progress-bar-here">
+        <p>Please wait for your partner to make their decision.</p>
+    </div>
+    <div class="col-md-6">
+        <h5>Chat</h5>
+        {{ chat(player.group.chat) }}
+    </div>
+</div>
+
+<script>
+    uproot.onReady(() => {
+        I("progress-bar-here").appendChild(I("wait-progress-parent"));
+    });
+</script>

@@ -1,0 +1,69 @@
+# Docs are available at https://uproot.science/
+# Examples are available at https://github.com/mrpg/uproot-examples
+#
+# This example app is under the 0BSD license. You can use it freely and build on it
+# without any limitations and without any attribution. However, these two lines must be
+# preserved in any uproot app (the license file is automatically installed in projects):
+#
+# Third-party dependencies:
+# - uproot: LGPL v3+, see ../uproot_license.txt
+
+from uproot.fields import *
+from uproot.smithereens import *
+
+DESCRIPTION = "Prisoner's dilemma with continuous chat"
+SUGGESTED_MULTIPLE = 2
+
+
+class C:
+    PAYOFF_MATRIX = {
+        (True, True): 10,
+        (True, False): 0,
+        (False, True): 15,
+        (False, False): 3,
+    }
+
+
+class Context(PlayerContext):
+    @property
+    def payoff(self):
+        return C.PAYOFF_MATRIX[
+            self.player.cooperate,
+            self.player.other_in_group.cooperate,
+        ]
+
+
+class GroupPlease(GroupCreatingWait):
+    group_size = 2
+
+    @classmethod
+    def after_grouping(page, group):
+        group.chat = chat.create(group.session)
+
+        for i, p in enumerate(group.players, 1):
+            chat.add_player(group.chat, p, pseudonym=f"Player {i}")
+
+
+class Dilemma(Page):
+    fields = dict(
+        cooperate=RadioField(
+            label="Do you wish to cooperate?",
+            choices=[(True, "Yes"), (False, "No")],
+        ),
+    )
+
+
+class Sync(SynchronizingWait):
+    pass
+
+
+class Results(Page):
+    pass
+
+
+page_order = [
+    GroupPlease,
+    Dilemma,
+    Sync,
+    Results,
+]

@@ -1,0 +1,32 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<div class="row mb-5">
+    <div class="col-md-6">
+        {% if player.cooperate %}
+        <p>You cooperated.</p>
+        {% else %}
+        <p>You did not cooperate.</p>
+        {% endif %}
+
+        {% if player.other_in_group.cooperate %}
+        <p>Your partner cooperated.</p>
+        {% else %}
+        <p>Your partner did not cooperate.</p>
+        {% endif %}
+
+        <p>Your payoff is <b>{{ player.context.payoff }}</b>.</p>
+    </div>
+    <div class="col-md-6">
+        <h5>Chat</h5>
+        {{ chat(player.group.chat) }}
+    </div>
+</div>
+
+{% endblock main %}
