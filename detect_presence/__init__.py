@@ -18,7 +18,7 @@ LANDING_PAGE = False
 
 
 class C:
-    DETECTION_PERIOD = 30.0
+    DETECTION_PERIOD = 60.0
 
 
 class Context(PlayerContext):
