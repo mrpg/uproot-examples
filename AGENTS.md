@@ -15,6 +15,10 @@ Before looking for specific patterns, understand what examples are available:
 
 This overview is essential. Don't skip to specific examples without first knowing what's available—you might miss a better starting point.
 
+### Step 1.5: Always Read `input_elements`
+
+**Always read `input_elements/__init__.py`** before building any app that uses form fields. It is the canonical showcase of every field type uproot provides (BooleanField, DateField, DecimalField, DecimalRangeField, EmailField, FileField, IntegerField, LikertField, RadioField, SelectField, StringField, TextAreaField, BoundedChoiceField, IBANField) and demonstrates their parameters, labels, descriptions, addons, and layout options. Use it as your primary reference for field usage.
+
 ### Step 2: Study Relevant Examples
 
 Once you've identified promising examples from the README table:
