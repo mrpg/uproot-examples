@@ -1,0 +1,30 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<dl class="row">
+    <dt class="col-sm-4">Selected branch</dt>
+    <dd class="col-sm-8">{{ branch_name }}</dd>
+
+    <dt class="col-sm-4">Recorded page</dt>
+    <dd class="col-sm-8"><code>{{ selected_page }}</code></dd>
+</dl>
+
+{% if player.get("product_choice") %}
+<p>You chose <strong>{{ player.product_choice }}</strong>.</p>
+{% endif %}
+
+{% if player.get("treatment_code") %}
+<p>You entered the treatment code <span class="font-monospace">{{ player.treatment_code }}</span>.</p>
+{% endif %}
+
+{% if player.get("open_response") %}
+<p>Your response: {{ player.open_response }}</p>
+{% endif %}
+
+{% endblock main %}
