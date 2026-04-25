@@ -1,5 +1,6 @@
 build/
 .claude
+.codex
 .coverage
 .coverage.*
 dist/
@@ -30,10 +31,10 @@ run.sh
 *.swp
 Thumbs.db
 .tox/
+uproot
 uv.lock
 .venv/
 venv/
 .vscode
 .vscode/
 *.whl
-uproot
