@@ -73,6 +73,7 @@ When looking for how to implement something specific, use grep/search across the
 4. **Create matching HTML templates** for each page class
 5. **Add to `main.py`** with `load_config()` to test
 6. **Add to `README.md`** in the Apps table with description and difficulty
+7. **Add a `simulate.js`** to enable automated testing. This file runs on player pages in sessions created with "Simulate responses" enabled. Check existing examples for the pattern: use `uproot.currentPage` to match pages, fill in form fields (e.g., set radio buttons, input values), and call `uproot.submit()` to advance. Look at a similar app's `simulate.js` as a starting point.
 
 ### Frontend Libraries
 
