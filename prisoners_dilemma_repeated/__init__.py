@@ -60,8 +60,10 @@ class Results(Page):
 def digest(session):
     data = []
 
-    for gname in session.groups:
-        with session.group(gname) as group:
+    for group in session.groups:
+        gname = group.name
+
+        with group:
             player1 = group.players.find_one(member_id=0)
             player2 = group.players.find_one(member_id=1)
 
