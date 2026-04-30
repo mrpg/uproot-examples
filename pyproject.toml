@@ -7,6 +7,9 @@ license = "0BSD"
 requires-python = ">=3.13"
 dependencies = [
     "uproot-science @ git+https://github.com/mrpg/uproot.git@main",
+    "anthropic",
+    "audioop-lts",
+    "pydub",
 ]
 
 [tool.black]
