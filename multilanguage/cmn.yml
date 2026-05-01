@@ -1,0 +1,11 @@
+? 'Welcome to today’s experiment'
+: '欢迎参加今天的实验'
+
+? 'Hello world.'
+: '你好，世界。'
+
+? 'Back'
+: '返回'
+
+? 'Next'
+: '下一步'

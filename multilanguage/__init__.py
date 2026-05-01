@@ -35,6 +35,7 @@ class SelectLanguage(Page):
     fields = dict(
         language=RadioField(
             choices=[
+                ("cmn", "普通话"),
                 ("de", "Deutsch"),
                 ("en", "English"),
                 ("es", "Español"),
