@@ -10,6 +10,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 
 | App                                               | Description                                                     | Difficulty |
 |---------------------------------------------------|-----------------------------------------------------------------|------------|
+| `balanced_page_order`                              | Balanced page order randomization                               | Easy       |
 | `barrier`                                         | Force players to stay on a page                                 | Easy       |
 | `bertrand`                                        | Bertrand price competition (2 players, simultaneous)            | Easy       |
 | `beauty_contest`                                  | Beauty contest / guessing game (Nagel, 1995)                    | Easy       |

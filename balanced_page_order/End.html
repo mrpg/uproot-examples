@@ -1,0 +1,17 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Summary
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You saw the pages in this order:</p>
+<ol>
+    {% for name in page_names %}
+    <li>{{ name }}</li>
+    {% endfor %}
+</ol>
+
+{% endblock main %}
