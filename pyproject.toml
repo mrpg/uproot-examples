@@ -10,6 +10,7 @@ dependencies = [
     "anthropic",
     "audioop-lts",
     "pydub",
+    "schwifty",
 ]
 
 [tool.black]

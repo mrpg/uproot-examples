@@ -19,6 +19,7 @@ htmlcov/
 .mypy_cache
 .mypy_cache/
 *.orig
+payments.csv
 *.pyc
 __pycache__
 __pycache__/
