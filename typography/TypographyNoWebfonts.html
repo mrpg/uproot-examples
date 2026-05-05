@@ -42,19 +42,21 @@ Default fonts and font weights in uproot if no web fonts are loaded
         {% for d in range(1, 7) %}<span class="display-{{ d }}">{% if not loop.first %} / {% endif %}Sans-serif</span>{% endfor %}
         <!-- Loop in single line to prevent unwanted whitespace -->
     </p>
-    <h5 class="mb-3">Disambiguation tests</h5>
-    <p><span class="text-primary">Digits, letters, and punctuation</span><br>
-        0 O <i>O</i>, 1 l I \ | / <i>\ | / I l 1</i>, <i>i</i> <i>j</i>, rn m, <i>&epsilon;</i> <i>&varepsilon;</i>, <i>&theta;</i> <i>&vartheta;</i> <i>&Theta;</i>, <i>&phi;</i> <i>&varphi;</i> <i>&psi;</i>, <i>&omega;</i> <i>&varpi;</i>, +&minus; –, —–-</p>
-    <p><span class="text-primary">Latin vs. Greek characters</span><br>
-        <i>a</i> <i>&alpha;</i>, <i>d</i> <i>&delta;</i>, <i>e</i> <i>&epsilon;</i>, <i>i</i> <i>&iota;</i>, <i>k</i> <i>&kappa;</i>, <i>n</i> <i>&eta;</i>, <i>o</i> <i>&sigma;</i>, <i>p</i> <i>&rho;</i>, <i>q</i> <i>&varrho;</i>, <i>ß</i> <i>&beta;</i>, <i>u</i> <i>&upsilon;</i>, <i>v</i> <i>&nu;</i>, <i>w</i> <i>&omega;</i>, <i>x</i> <i>&chi;</i>, <i>y</i> <i>&gamma;</i>, <i>A</i> <i>&Delta;</i> <i>&Lambda;</i>, <i>O</i> <i>&Theta;</i> <i>&Omega;</i>, <i>T</i> <i>&Gamma;</i>, <i>Y</i></i> <i>&Upsilon;</i> <i>&upsih;</i>.</p>
-    <h5>Font weights</h5>
+    <h5 class="fw-600 mb-3">Disambiguation tests</h5>
+    <ol>
+        <li><span class="fw-500 text-primary">Digits, letters, and punctuation</span><br>
+            <span class="ffs-zero">0</span> 0 O <i>O</i>, 1 l I \ | / <i>\ | / I l 1</i>, <i>i</i> <i>j</i>, rn m, <i>&epsilon;</i> <i>&varepsilon;</i>, <i>&theta;</i> <i>&vartheta;</i> <i>&Theta;</i>, <i>&phi;</i> <i>&varphi;</i> <i>&psi;</i>, <i>&omega;</i> <i>&varpi;</i>, +&minus; –, —–-</li>
+        <li><span class="fw-500 text-primary">Latin vs. Greek characters</span><br>
+            <i>a</i> <i>&alpha;</i>, <i>d</i> <i>&delta;</i>, <i>e</i> <i>&epsilon;</i>, <i>i</i> <i>&iota;</i>, <i>k</i> <i>&kappa;</i>, <i>n</i> <i>&eta;</i>, <i>o</i> <i>&sigma;</i>, <i>p</i> <i>&rho;</i>, <i>q</i> <i>&varrho;</i>, <i>ß</i> <i>&beta;</i>, <i>u</i> <i>&upsilon;</i>, <i>v</i> <i>&nu;</i>, <i>w</i> <i>&omega;</i>, <i>x</i> <i>&chi;</i>, <i>y</i> <i>&gamma;</i>, <i>A</i> <i>&Delta;</i> <i>&Lambda;</i>, <i>O</i> <i>&Theta;</i> <i>&Omega;</i>, <i>T</i> <i>&Gamma;</i>, <i>Y</i></i> <i>&Upsilon;</i> <i>&upsih;</i>.</li>
+    </ol>
+    <h5 class="fw-600">Font weights</h5>
     {% for w in range(100, 1000, 100) %}
     <div class="row">
         <div class="col-12 col-xl-6 fw-{{ w }}" dir="ltr">
-            Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
+            Testing font weight {{ w }}: “¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!”
         </div>
         <div class="col-12 col-xl-6 fst-italic fw-{{ w }}" dir="ltr">
-            Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
+            Testing font weight {{ w }}: “¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!”
         </div>
     </div>
     {% endfor %}
@@ -67,23 +69,25 @@ Default fonts and font weights in uproot if no web fonts are loaded
         {% for d in range(1, 7) %}<span class="display-{{ d }}">{% if not loop.first %} / {% endif %}Serif</span>{% endfor %}
         <!-- Loop in single line to prevent unwanted whitespace -->
     </p>
-    <h5>Disambiguation tests</h5>
-    <p><span class="text-danger">Digits, letters, and punctuation</span><br>
-        0 O <i>O</i>, 1 l I \ | / <i>\ | / I l 1</i>, <i>i</i> <i>j</i>, rn m, <i>&epsilon;</i> <i>&varepsilon;</i>, <i>&theta;</i> <i>&vartheta;</i> <i>&Theta;</i>, <i>&phi;</i> <i>&varphi;</i> <i>&psi;</i>, <i>&omega;</i> <i>&varpi;</i>, +&minus; –, —–-</p>
-    <p><span class="text-danger">Latin vs. Greek characters</span><br>
-        <i>a</i> <i>&alpha;</i>, <i>d</i> <i>&delta;</i>, <i>e</i> <i>&epsilon;</i>, <i>i</i> <i>&iota;</i>, <i>k</i> <i>&kappa;</i>, <i>n</i> <i>&eta;</i>, <i>o</i> <i>&sigma;</i>, <i>p</i> <i>&rho;</i>, <i>q</i> <i>&varrho;</i>, <i>ß</i> <i>&beta;</i>, <i>u</i> <i>&upsilon;</i>, <i>v</i> <i>&nu;</i>, <i>w</i> <i>&omega;</i>, <i>x</i> <i>&chi;</i>, <i>y</i> <i>&gamma;</i>, <i>A</i> <i>&Delta;</i> <i>&Lambda;</i>, <i>O</i> <i>&Theta;</i> <i>&Omega;</i>, <i>T</i> <i>&Gamma;</i>, <i>Y</i></i> <i>&Upsilon;</i> <i>&upsih;</i>.</p>
-    <h5>Font weights</h5>
+    <h5 class="fw-600">Disambiguation tests</h5>
+    <ol>
+        <li><span class="fw-500 text-danger">Digits, letters, and punctuation</span><br>
+            <span class="ffs-zero">0</span> 0 O <i>O</i>, 1 l I \ | / <i>\ | / I l 1</i>, <i>i</i> <i>j</i>, rn m, <i>&epsilon;</i> <i>&varepsilon;</i>, <i>&theta;</i> <i>&vartheta;</i> <i>&Theta;</i>, <i>&phi;</i> <i>&varphi;</i> <i>&psi;</i>, <i>&omega;</i> <i>&varpi;</i>, +&minus; –, —–-</li>
+        <li><span class="fw-500 text-danger">Latin vs. Greek characters</span><br>
+            <i>a</i> <i>&alpha;</i>, <i>d</i> <i>&delta;</i>, <i>e</i> <i>&epsilon;</i>, <i>i</i> <i>&iota;</i>, <i>k</i> <i>&kappa;</i>, <i>n</i> <i>&eta;</i>, <i>o</i> <i>&sigma;</i>, <i>p</i> <i>&rho;</i>, <i>q</i> <i>&varrho;</i>, <i>ß</i> <i>&beta;</i>, <i>u</i> <i>&upsilon;</i>, <i>v</i> <i>&nu;</i>, <i>w</i> <i>&omega;</i>, <i>x</i> <i>&chi;</i>, <i>y</i> <i>&gamma;</i>, <i>A</i> <i>&Delta;</i> <i>&Lambda;</i>, <i>O</i> <i>&Theta;</i> <i>&Omega;</i>, <i>T</i> <i>&Gamma;</i>, <i>Y</i></i> <i>&Upsilon;</i> <i>&upsih;</i>.</li>
+    </ol>
+    <h5 class="fw-600">Font weights</h5>
     {% for w in [100, 200, 300, 400, 450, 500, 600, 700] %}
     <div class="fw-{{ w }} row">
         <div class="col-12 col-xl-6" dir="ltr">
-            Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
+            Testing font weight {{ w }}: “¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!”
         </div>
         <div class="col-12 col-xl-6 fst-italic" dir="ltr">
-            Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
+            Testing font weight {{ w }}: “¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!”
         </div>
     </div>
     {% endfor %}
-    <h5 class="mt-3">Mathematics</h5>
+    <h5 class="fw-600 mt-3">Mathematics</h5>
     <p>This is the default font used by your browser for mathematical formulas (MathML):</p>
     <math class="font-math" display="block">
         <mrow>
@@ -130,23 +134,25 @@ Default fonts and font weights in uproot if no web fonts are loaded
         {% for d in range(1, 7) %}<span class="display-{{ d }}">{% if not loop.first %} / {% endif %}Monospace</span>{% endfor %}
         <!-- Loop in single line to prevent unwanted whitespace -->
     </p>
-    <h5>Disambiguation tests</h5>
-    <p><span style="color: var(--bs-code-color);">Digits, letters, and punctuation</span><br>
-        0 O <i>O</i>, 1 l I \ | / <i>\ | / I l 1</i>, <i>i</i> <i>j</i>, rn m, <i>&epsilon;</i> <i>&varepsilon;</i>, <i>&theta;</i> <i>&vartheta;</i> <i>&Theta;</i>, <i>&phi;</i> <i>&varphi;</i> <i>&psi;</i>, <i>&omega;</i> <i>&varpi;</i>, +&minus; –, —–-</p>
-    <p><span style="color: var(--bs-code-color);">Latin vs. Greek characters</span><br>
-        <i>a</i> <i>&alpha;</i>, <i>d</i> <i>&delta;</i>, <i>e</i> <i>&epsilon;</i>, <i>i</i> <i>&iota;</i>, <i>k</i> <i>&kappa;</i>, <i>n</i> <i>&eta;</i>, <i>o</i> <i>&sigma;</i>, <i>p</i> <i>&rho;</i>, <i>q</i> <i>&varrho;</i>, <i>ß</i> <i>&beta;</i>, <i>u</i> <i>&upsilon;</i>, <i>v</i> <i>&nu;</i>, <i>w</i> <i>&omega;</i>, <i>x</i> <i>&chi;</i>, <i>y</i> <i>&gamma;</i>, <i>A</i> <i>&Delta;</i> <i>&Lambda;</i>, <i>O</i> <i>&Theta;</i> <i>&Omega;</i>, <i>T</i> <i>&Gamma;</i>, <i>Y</i></i> <i>&Upsilon;</i> <i>&upsih;</i>.</p>
-    <h5>Font weights</h5>
+    <h5 class="fw-600">Disambiguation tests</h5>
+    <ol>
+        <li><span class="fw-500" style="color: var(--bs-code-color);">Digits, letters, and punctuation</span><br>
+            <span class="ffs-zero">0</span> 0 O <i>O</i>, 1 l I \ | / <i>\ | / I l 1</i>, <i>i</i> <i>j</i>, rn m, <i>&epsilon;</i> <i>&varepsilon;</i>, <i>&theta;</i> <i>&vartheta;</i> <i>&Theta;</i>, <i>&phi;</i> <i>&varphi;</i> <i>&psi;</i>, <i>&omega;</i> <i>&varpi;</i>, +&minus; –, —–-</li>
+        <li><span class="fw-500" style="color: var(--bs-code-color);">Latin vs. Greek characters</span><br>
+            <i>a</i> <i>&alpha;</i>, <i>d</i> <i>&delta;</i>, <i>e</i> <i>&epsilon;</i>, <i>i</i> <i>&iota;</i>, <i>k</i> <i>&kappa;</i>, <i>n</i> <i>&eta;</i>, <i>o</i> <i>&sigma;</i>, <i>p</i> <i>&rho;</i>, <i>q</i> <i>&varrho;</i>, <i>ß</i> <i>&beta;</i>, <i>u</i> <i>&upsilon;</i>, <i>v</i> <i>&nu;</i>, <i>w</i> <i>&omega;</i>, <i>x</i> <i>&chi;</i>, <i>y</i> <i>&gamma;</i>, <i>A</i> <i>&Delta;</i> <i>&Lambda;</i>, <i>O</i> <i>&Theta;</i> <i>&Omega;</i>, <i>T</i> <i>&Gamma;</i>, <i>Y</i></i> <i>&Upsilon;</i> <i>&upsih;</i>.</li>
+    </ol>
+    <h5 class="fw-600">Font weights</h5>
     {% for w in [300, 350, 375, 450, 600, 700] %}
     <div class="row" style="font-weight: {{ w }};">
         <div class="col-12 col-xl-6" dir="ltr">
-            Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
+            Testing font weight {{ w }}: “¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!”
         </div>
         <div class="col-12 col-xl-6 fst-italic" dir="ltr">
-            Testing font weight {{ w }}: ¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!
+            Testing font weight {{ w }}: “¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!”
         </div>
     </div>
     {% endfor %}
-    <h5 class="mt-3">Special ligatures</h5>
+    <h5 class="fw-600 mt-3">Special ligatures</h5>
     <p>Cascadia Code (but not Cascadia Mono) offers ligatures for producing arrows and mathematical symbols:</p>
     {% for w in [300, 350, 375, 450, 600, 700] %}
     <div class="fw-{{ w }} row">
