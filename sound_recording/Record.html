@@ -1,0 +1,74 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Audio Recording
+{% endblock title %}
+
+
+{% block main %}
+
+<div class="mb-4">
+    <p class="lead">Please read the following sentence aloud:</p>
+    <blockquote class="blockquote border-start border-4 ps-3">
+        <p>{{ C.SENTENCE }}</p>
+    </blockquote>
+</div>
+
+<div class="mb-4">
+    <button type="button" id="recordBtn" class="btn btn-danger me-2">
+        Record
+    </button>
+    <button type="button" id="stopBtn" class="btn btn-secondary" disabled>
+        Stop
+    </button>
+    <span id="status" class="ms-3 text-muted"></span>
+</div>
+
+<audio id="playback" class="w-100 mb-3" controls hidden></audio>
+
+<input type="file" id="audio" name="audio" hidden>
+
+<script>
+    const recordBtn = I("recordBtn");
+    const stopBtn = I("stopBtn");
+    const status = I("status");
+    const playback = I("playback");
+    const fileInput = document.querySelector("input[type=file]");
+
+    let mediaRecorder;
+    let chunks = [];
+
+    recordBtn.addEventListener("click", async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        chunks = [];
+
+        mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+        mediaRecorder.onstop = () => {
+            stream.getTracks().forEach((t) => t.stop());
+            const blob = new Blob(chunks, { type: "audio/webm" });
+            playback.src = URL.createObjectURL(blob);
+            playback.hidden = false;
+
+            const file = new File([blob], "recording.webm", { type: "audio/webm" });
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            fileInput.files = dt.files;
+
+            status.textContent = "Recording saved. You can re-record or submit.";
+            recordBtn.disabled = false;
+        };
+
+        mediaRecorder.start();
+        status.textContent = "Recording...";
+        recordBtn.disabled = true;
+        stopBtn.disabled = false;
+    });
+
+    stopBtn.addEventListener("click", () => {
+        mediaRecorder.stop();
+        stopBtn.disabled = true;
+    });
+</script>
+
+{% endblock main %}

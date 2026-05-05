@@ -10,7 +10,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 
 | App                                               | Description                                                     | Difficulty |
 |---------------------------------------------------|-----------------------------------------------------------------|------------|
-| `balanced_page_order`                              | Balanced page order randomization                               | Easy       |
+| `balanced_page_order`                             | Balanced page order randomization                               | Easy       |
 | `barrier`                                         | Force players to stay on a page                                 | Easy       |
 | `bertrand`                                        | Bertrand price competition (2 players, simultaneous)            | Easy       |
 | `beauty_contest`                                  | Beauty contest / guessing game (Nagel, 1995)                    | Easy       |
@@ -61,6 +61,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `read_settings`†                                  | Read session settings                                           | Easy       |
 | `rounds_nested`                                   | Using nested rounds                                             | Easy       |
 | `rounds`                                          | Using rounds (history table)                                    | Easy       |
+| `sound_recording`                                 | Record audio of yourself reading a sentence                     | Advanced   |
 | `stackelberg`                                     | Stackelberg quantity competition (2 players, sequential)        | Easy       |
 | `stroop`                                          | Stroop task                                                     | Advanced   |
 | `student_id`                                      | Have participants enter their Student ID                        | Easy       |

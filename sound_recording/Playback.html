@@ -1,0 +1,16 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Playback
+{% endblock title %}
+
+
+{% block main %}
+
+<p class="lead">Here is your recording:</p>
+
+<audio class="w-100 mb-3" controls>
+    <source src="{{ audio_src }}" type="{{ player.audio_content_type }}">
+</audio>
+
+{% endblock main %}
