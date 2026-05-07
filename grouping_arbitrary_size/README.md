@@ -1,4 +1,4 @@
-# grouping\_test\_arbitrary\_size
+# grouping\_arbitrary\_size
 
 Demonstrates grouping with a configurable group size, timeout-based dropout handling, and multi-round group interactions.
 
@@ -11,5 +11,5 @@ For the purpose of illustration only, this app uses conditions via show for disp
 Load this app using
 
 ```python
-load_config(uproot_server, config="grouping_test_arbitrary_size", apps=["grouping_test_arbitrary_size"])
+load_config(uproot_server, config="grouping_arbitrary_size", apps=["grouping_arbitrary_size"])
 ```

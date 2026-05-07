@@ -1,4 +1,4 @@
-# grouping_test_one_spare
+# grouping\_one\_spare
 
 Demonstrates simple grouping where participants are split into two equal-sized groups, with at most one surplus participant left ungrouped.
 
@@ -9,5 +9,5 @@ To test, run with an odd number of participants to see the surplus handling.
 Load this app using
 
 ```python
-load_config(uproot_server, config="grouping_test_one_spare", apps=["grouping_test_one_spare"])
+load_config(uproot_server, config="grouping_one_spare", apps=["grouping_one_spare"])
 ```

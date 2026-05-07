@@ -35,10 +35,10 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `encryption_task`                                 | Encryption task (Erkal et al., 2011)                            | Medium     |
 | `focal_point`                                     | Focal point game (like Schelling, 1957)                         | Easy       |
 | `gift_exchange_game`                              | Gift exchange game (Fehr et al., 1993)                          | Easy       |
-| `grouping_test`                                   | Custom group creation                                           | Easy       |
-| `grouping_test_arbitrary_size`                    | Grouping with configurable size, timeouts, and dropout handling | Medium     |
-| `grouping_test_one_spare`                         | Two equal groups with one surplus participant                   | Easy       |
-| `grouping_via_GroupCreatingWait_and_move_to_page` | Like `grouping_test_arbitrary_size`, but using `move_to_page`   | Medium     |
+| `grouping`                                        | Custom group creation                                           | Easy       |
+| `grouping_arbitrary_size`                         | Grouping with configurable size, timeouts, and dropout handling | Medium     |
+| `grouping_one_spare`                              | Two equal groups with one surplus participant                   | Easy       |
+| `group_with_dropout`                              | Like `grouping_arbitrary_size`, but using `move_to_page`        | Medium     |
 | `input_elements`                                  | Showcasing the input elements provided by uproot                | Easy       |
 | `input_validation`                                | Validate inputs and show feedback before proceeding             | Easy       |
 | `many_fields`†                                    | Benchmark: insert many fields                                   | Easy       |

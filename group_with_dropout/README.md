@@ -1,4 +1,4 @@
-# grouping\_via\_GroupCreatingWait\_and\_move\_to\_page
+# group\_with\_dropout
 
 Demonstrates grouping with a configurable group size, timeout-based dropout handling, and multi-round group interactions.
 
@@ -9,5 +9,5 @@ To test, run with varying numbers of participants — in particular, numbers tha
 Load this app using
 
 ```python
-load_config(uproot_server, config="grouping_via_GroupCreatingWait_and_move_to_page", apps=["grouping_via_GroupCreatingWait_and_move_to_page"])
+load_config(uproot_server, config="group_with_dropout", apps=["group_with_dropout"])
 ```
