@@ -8,8 +8,6 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
-import random
-
 from uproot.smithereens import *
 
 DESCRIPTION = "Total stranger matching with manually created groups"
@@ -92,7 +90,7 @@ class MatchStrangers(SynchronizingWait):
     @classmethod
     def all_here(page, session):
         all_players = list(session.players)
-        random.shuffle(all_players)
+        rng().shuffle(all_players)
 
         used_pairs = set()
 

@@ -8,8 +8,6 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
-import random
-
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -69,7 +67,7 @@ class RandomlyOrderItems(NoshowPage):  # Note: NoshowPage hides a page
         itemorder = {}
 
         itemkeys = list(C.ITEMS.keys())
-        random.shuffle(itemkeys)
+        rng().shuffle(itemkeys)
 
         for round, itemkey in enumerate(itemkeys, 1):
             # Note: the keys in this dict must be strings because JSON supports only

@@ -9,7 +9,6 @@
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
 import colorsys
-import random
 from typing import Any
 
 import uproot.models as um
@@ -64,9 +63,10 @@ def get_all_strokes(strokes_model):
 
 
 def generate_visible_hex():
-    hue = random.random()
-    saturation = random.random()
-    lightness = 0.6 * random.random()
+    color_rng = rng()
+    hue = color_rng.random()
+    saturation = color_rng.random()
+    lightness = 0.6 * color_rng.random()
 
     rgb = colorsys.hls_to_rgb(hue, lightness, saturation)
     return "#{:02x}{:02x}{:02x}".format(

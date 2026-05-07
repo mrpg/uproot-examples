@@ -16,8 +16,6 @@ and choose their preferred option. Each pair has 7 randomized attributes.
 Profiles are presented one pair at a time using live WebSocket communication.
 """
 
-import random
-
 import uproot.models as um
 from uproot.smithereens import *
 
@@ -79,15 +77,15 @@ def new_player(player):
     player.current_pair = 0
 
 
-def generate_profile():
+def generate_profile(profile_rng):
     return dict(
-        has_beaches=random.choice(C.HAS_BEACHES),
-        english=random.choice(C.ENGLISH),
-        accommodation=random.choice(C.ACCOMMODATION),
-        partying=random.choice(C.PARTYING),
-        sunny=random.choice(C.SUNNY),
-        grading=random.choice(C.GRADING),
-        costs=random.choice(C.COSTS),
+        has_beaches=profile_rng.choice(C.HAS_BEACHES),
+        english=profile_rng.choice(C.ENGLISH),
+        accommodation=profile_rng.choice(C.ACCOMMODATION),
+        partying=profile_rng.choice(C.PARTYING),
+        sunny=profile_rng.choice(C.SUNNY),
+        grading=profile_rng.choice(C.GRADING),
+        costs=profile_rng.choice(C.COSTS),
     )
 
 
@@ -102,6 +100,8 @@ class Choice(Page):
     @classmethod
     def before_once(page, player):
         """Generate all profile pairs for this player."""
+        profile_rng = rng()
+
         for pair_id in range(
             player.session.settings.get(
                 "n_pairs",
@@ -109,7 +109,7 @@ class Choice(Page):
             )
         ):
             for side in (0, 1):
-                attrs = generate_profile()
+                attrs = generate_profile(profile_rng)
                 um.add_entry(
                     player.session.profiles,
                     player,

@@ -8,8 +8,6 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
-import random
-
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -19,7 +17,7 @@ TREATMENTS = [1, 2]  # These can have any supported type and there may be more t
 
 
 def new_player(player):
-    player.treatment = random.choice(TREATMENTS)
+    player.treatment = rng().choice(TREATMENTS)
 
 
 class C:

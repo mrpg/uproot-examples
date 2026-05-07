@@ -19,7 +19,7 @@ Each trial measurement is stored in a separate model entry.
 Time is measured on the client side to avoid network latency effects.
 """
 
-from random import Random as Random_
+from random import Random
 
 import uproot.models as um
 from uproot.fields import *
@@ -66,10 +66,10 @@ def new_session(session):
 def new_player(player):
     """Initialize player state."""
     player.current_trial = 0
-    player.rng = Random_()
+    player.rng = rng()
 
 
-def generate_trial_sequence(rng: Random_, n_trials: int) -> list[dict]:
+def generate_trial_sequence(rng, n_trials: int) -> list[dict]:
     """
     Generate a balanced sequence of congruent and incongruent trials.
 
