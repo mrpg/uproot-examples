@@ -118,6 +118,21 @@ def pipeline(session):
     return rows
 
 
+def played_rounds(*players):
+    # TODO: This code seems kinda convoluted and inelegant?
+    return sorted(
+        {round_num for player in players for round_num in player_rounds(player)}
+    )
+
+
+def player_rounds(player):
+    return [
+        round_num
+        for round_num in range(1, C.ROUNDS + 1)
+        if player.within(app=APP_NAME, round=round_num).get("round") is not None
+    ]
+
+
 def prisoners_dilemma_groups(session):
     groups = []
 
