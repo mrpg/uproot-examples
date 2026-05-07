@@ -1,0 +1,29 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Total stranger matching
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You are <strong>{{ player.name }}</strong>.</p>
+<p>This is round <strong>{{ player.round }}</strong> of {{ total_rounds }}.</p>
+
+{% if player.partners %}
+<p>Your match{{ "es" if player.partners | length > 1 else "" }} in this round:
+{% for name in player.partners %}<strong>{{ name }}</strong>{% if not loop.last %}, {% endif %}{% endfor %}.</p>
+{% else %}
+<p>You do not have a match in this round.</p>
+{% endif %}
+
+<p>Your current group: <strong>{{ player.group.name }}</strong></p>
+
+<p>Members of your current group:</p>
+<ul>
+{% for p in group_members %}
+    <li>{{ p.name }}{% if p.name == player.name %} (you){% endif %}</li>
+{% endfor %}
+</ul>
+
+{% endblock main %}

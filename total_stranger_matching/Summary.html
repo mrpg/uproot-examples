@@ -1,0 +1,36 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Matching history
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You are <strong>{{ player.name }}</strong>.</p>
+
+<p>Your matches across all rounds were:</p>
+<table class="table table-sm w-auto">
+    <thead>
+        <tr>
+            <th scope="col">Round</th>
+            <th scope="col">Matched with</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for partners in player.partner_history %}
+        <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>
+                {% if partners %}
+                {{ partners | join(", ") }}
+                {% else %}
+                No match
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock main %}

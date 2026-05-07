@@ -68,6 +68,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `sumhunt`                                         | Real effort task about finding sums in matrices                 | Medium     |
 | `survey`                                          | Survey with follow-up verification                              | Easy       |
 | `timeout_multipage`                               | Timeout that spans multiple pages                               | Easy       |
+| `total_stranger_matching`                         | Total stranger matching with manually created groups            | Easy       |
 | `travellers_dilemma`                              | Traveller's dilemma (Basu, 1994)                                | Easy       |
 | `treatments_balanced`                             | Treatment assignment (more balanced/cycling)                    | Easy       |
 | `treatments`                                      | Treatment assignment (basic)                                    | Easy       |
