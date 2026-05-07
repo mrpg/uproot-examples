@@ -13,14 +13,16 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Repeated prisoner's dilemma"
 SUGGESTED_MULTIPLE = 2
+APP_NAME = __name__
 
 
 class C:
     ROUNDS = 3
+    GROUP_SIZE = 2
 
 
 class GroupPlease(GroupCreatingWait):
-    group_size = 2
+    group_size = C.GROUP_SIZE
 
 
 class Dilemma(Page):
@@ -60,26 +62,28 @@ class Results(Page):
 def digest(session):
     data = []
 
-    for group in session.groups:
-        gname = group.name
+    for group, players in prisoners_dilemma_groups(session):
+        player1, player2 = players
 
-        with group:
-            player1 = group.players.find_one(member_id=0)
-            player2 = group.players.find_one(member_id=1)
+        rounds = played_rounds(player1, player2)
+        latest_round = rounds[-1] if rounds else 0
 
-            latest_round = max(player1.round, player2.round)
-            history = []
+        history = [
+            (
+                round_num,
+                player1.within(app=APP_NAME, round=round_num).get("cooperate"),
+                player2.within(app=APP_NAME, round=round_num).get("cooperate"),
+            )
+            for round_num in range(1, latest_round + 1)
+        ]
 
-            for round in range(1, latest_round + 1):
-                history.append(
-                    (
-                        round,
-                        player1.within(round=round).get("cooperate"),
-                        player2.within(round=round).get("cooperate"),
-                    ),
-                )
-
-            data.append((gname, latest_round, history))
+        data.append(
+            (
+                group.name,
+                latest_round,
+                history,
+            )
+        )
 
     return data
 
@@ -87,28 +91,58 @@ def digest(session):
 def pipeline(session):
     rows = []
 
-    for group in session.groups:
-        with group:
-            for player in group.players:
-                other = player.other_in_group
+    for group, players in prisoners_dilemma_groups(session):
+        rounds = played_rounds(*players)
 
-                for round_num, round_player in player.along("round"):
-                    other_round_player = other.within(round=round_num)
-                    rows.append(
-                        {
-                            "session": session.name,
-                            "group": group.name,
-                            "round": round_num,
-                            "uname": player.name,
-                            "member_id": player.member_id,
-                            "cooperate": round_player.get("cooperate"),
-                            "other_uname": other.name,
-                            "other_cooperate": other_round_player.get("cooperate"),
-                            "payoff": round_player.get("payoff"),
-                        }
-                    )
+        for member_id, player in enumerate(players):
+            other = players[1 - member_id]
+
+            for round_num in rounds:
+                player_data = player.within(app=APP_NAME, round=round_num)
+                other_data = other.within(app=APP_NAME, round=round_num)
+
+                rows.append(
+                    {
+                        "session": session.name,
+                        "group": group.name,
+                        "round": round_num,
+                        "uname": player.name,
+                        "member_id": member_id,
+                        "cooperate": player_data.get("cooperate"),
+                        "other_uname": other.name,
+                        "other_cooperate": other_data.get("cooperate"),
+                        "payoff": player_data.get("payoff"),
+                    }
+                )
 
     return rows
+
+
+def prisoners_dilemma_groups(session):
+    groups = []
+
+    for group in session.groups:
+        players = list(group.players)
+
+        if len(players) != C.GROUP_SIZE:
+            continue
+
+        if is_prisoners_dilemma_group(group, players):
+            groups.append((group, players))
+
+    return groups
+
+
+def is_prisoners_dilemma_group(group, players):
+    with group:
+        if group.get("app") == APP_NAME:
+            return True
+
+        gid = group.gid
+
+    return all(
+        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
+    )
 
 
 page_order = [
