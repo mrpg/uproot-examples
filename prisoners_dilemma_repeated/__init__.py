@@ -84,6 +84,33 @@ def digest(session):
     return data
 
 
+def pipeline(session):
+    rows = []
+
+    for group in session.groups:
+        with group:
+            for player in group.players:
+                other = player.other_in_group
+
+                for round_num, round_player in player.along("round"):
+                    other_round_player = other.within(round=round_num)
+                    rows.append(
+                        {
+                            "session": session.name,
+                            "group": group.name,
+                            "round": round_num,
+                            "uname": player.name,
+                            "member_id": player.member_id,
+                            "cooperate": round_player.get("cooperate"),
+                            "other_uname": other.name,
+                            "other_cooperate": other_round_player.get("cooperate"),
+                            "payoff": round_player.get("payoff"),
+                        }
+                    )
+
+    return rows
+
+
 page_order = [
     GroupPlease,
     Rounds(
