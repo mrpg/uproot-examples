@@ -8,6 +8,8 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
+import random
+
 from uproot.smithereens import *
 
 DESCRIPTION = "Total stranger matching with manually created groups"
@@ -89,8 +91,8 @@ class MatchStrangers(SynchronizingWait):
 
     @classmethod
     def all_here(page, session):
-        all_players = sorted(session.players, key=lambda p: p.name)
-        round_number = max(p.round for p in all_players)
+        all_players = list(session.players)
+        random.shuffle(all_players)
 
         used_pairs = set()
 
@@ -100,11 +102,7 @@ class MatchStrangers(SynchronizingWait):
                     for name in round_partners:
                         used_pairs.add(frozenset((player.name, name)))
 
-        # Rotate search order so different players sit out when needed
-        r = (round_number - 1) % len(all_players)
-        search_order = all_players[r:] + all_players[:r]
-
-        groups = find_stranger_groups(search_order, C.GROUP_SIZE, used_pairs)
+        groups = find_stranger_groups(all_players, C.GROUP_SIZE, used_pairs)
         create_groups(session, groups, overwrite=True)
 
         for group in groups:
