@@ -92,7 +92,7 @@ git clone https://github.com/mrpg/uproot /tmp/uproot
 ```
 
 The most important files for most users (find them by name):
-- `smithereens.py` - Core utilities (`players()`, `notify()`, `other_in_group()`, etc.). This is where the key helper functions live.
+- `smithereens.py` - Core utilities (`notify()`, etc.). This is where the key helper functions live.
 - `fields.py` - All field type definitions. Essential for understanding what field types are available and how they work.
 - `uproot.js` - Client-side JavaScript API for real-time features, form handling, and WebSocket communication.
 
