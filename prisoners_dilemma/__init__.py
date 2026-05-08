@@ -25,15 +25,6 @@ class C:
     }
 
 
-class Context(PlayerContext):
-    @property
-    def payoff(self):
-        return C.PAYOFF_MATRIX[
-            self.player.cooperate,
-            self.player.other_in_group.cooperate,
-        ]
-
-
 class GroupPlease(GroupCreatingWait):
     group_size = 2
 
