@@ -13,6 +13,7 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Gift exchange game (Fehr et al., 1993)"
 SUGGESTED_MULTIPLE = 2
+APP_NAME = __name__
 
 
 class C:
@@ -99,6 +100,63 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     pass
+
+
+def pipeline(session):
+    rows = []
+
+    for group, players in gift_exchange_groups(session):
+        player_rows = [(player, player.within(app=APP_NAME)) for player in players]
+        employer, employer_data = next(
+            (player, data) for player, data in player_rows if data.get("employer")
+        )
+        worker, worker_data = next(
+            (player, data) for player, data in player_rows if not data.get("employer")
+        )
+        effort = worker_data.get("effort")
+        effort_cost = C.EFFORT_COST_MULTIPLIER * effort if effort is not None else None
+
+        for player, player_data in player_rows:
+            rows.append(
+                {
+                    "session": session.name,
+                    "group": group.name,
+                    "uname": player.name,
+                    "role": "employer" if player_data.get("employer") else "worker",
+                    "employer_uname": employer.name,
+                    "worker_uname": worker.name,
+                    "wage": employer_data.get("wage"),
+                    "effort": effort,
+                    "effort_cost": effort_cost,
+                    "payoff": player_data.get("payoff"),
+                }
+            )
+
+    return rows
+
+
+def gift_exchange_groups(session):
+    groups = []
+
+    for group in session.groups:
+        players = group.players
+
+        if len(players) == 2 and is_app_group(group, players):
+            groups.append((group, players))
+
+    return groups
+
+
+def is_app_group(group, players):
+    with group:
+        if group.get("app") == APP_NAME:
+            return True
+
+        gid = group.gid
+
+    return all(
+        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
+    )
 
 
 page_order = [

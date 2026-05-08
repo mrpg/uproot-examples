@@ -132,7 +132,7 @@ def prisoners_dilemma_groups(session):
     groups = []
 
     for group in session.groups:
-        players = list(group.players)
+        players = group.players
 
         if len(players) != C.GROUP_SIZE:
             continue

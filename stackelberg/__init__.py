@@ -13,6 +13,7 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Stackelberg quantity competition (sequential)"
 SUGGESTED_MULTIPLE = 2
+APP_NAME = __name__
 
 
 class C:
@@ -104,6 +105,75 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     pass
+
+
+def pipeline(session):
+    rows = []
+
+    for group, players in stackelberg_groups(session):
+        player_rows = [(player, player.within(app=APP_NAME)) for player in players]
+        leader, leader_data = next(
+            (player, data) for player, data in player_rows if data.get("first_mover")
+        )
+        follower, follower_data = next(
+            (player, data)
+            for player, data in player_rows
+            if not data.get("first_mover")
+        )
+        leader_units = leader_data.get("units")
+        follower_units = follower_data.get("units")
+
+        if leader_units is None or follower_units is None:
+            total_units = None
+            price = None
+        else:
+            total_units = leader_units + follower_units
+            price = max(0, 100 - total_units)
+
+        for player, player_data in player_rows:
+            rows.append(
+                {
+                    "session": session.name,
+                    "group": group.name,
+                    "uname": player.name,
+                    "role": (
+                        "leader" if player_data.get("first_mover") else "follower"
+                    ),
+                    "leader_uname": leader.name,
+                    "follower_uname": follower.name,
+                    "leader_units": leader_units,
+                    "follower_units": follower_units,
+                    "total_units": total_units,
+                    "price": price,
+                    "payoff": player_data.get("payoff"),
+                }
+            )
+
+    return rows
+
+
+def stackelberg_groups(session):
+    groups = []
+
+    for group in session.groups:
+        players = group.players
+
+        if len(players) == 2 and is_app_group(group, players):
+            groups.append((group, players))
+
+    return groups
+
+
+def is_app_group(group, players):
+    with group:
+        if group.get("app") == APP_NAME:
+            return True
+
+        gid = group.gid
+
+    return all(
+        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
+    )
 
 
 page_order = [

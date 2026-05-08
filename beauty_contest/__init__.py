@@ -13,6 +13,7 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Beauty contest / guessing game (Nagel, 1995)"
 SUGGESTED_MULTIPLE = 3
+APP_NAME = __name__
 
 
 class C:
@@ -56,6 +57,54 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     pass
+
+
+def pipeline(session):
+    rows = []
+
+    for group, players in beauty_contest_groups(session):
+        for member_id, player in enumerate(players):
+            player_data = player.within(app=APP_NAME)
+
+            rows.append(
+                {
+                    "session": session.name,
+                    "group": group.name,
+                    "uname": player.name,
+                    "member_id": member_id,
+                    "guess": player_data.get("guess"),
+                    "average": player_data.get("average"),
+                    "target": player_data.get("target"),
+                    "winner": player_data.get("winner"),
+                    "payoff": player_data.get("payoff"),
+                }
+            )
+
+    return rows
+
+
+def beauty_contest_groups(session):
+    groups = []
+
+    for group in session.groups:
+        players = group.players
+
+        if len(players) == C.GROUP_SIZE and is_app_group(group, players):
+            groups.append((group, players))
+
+    return groups
+
+
+def is_app_group(group, players):
+    with group:
+        if group.get("app") == APP_NAME:
+            return True
+
+        gid = group.gid
+
+    return all(
+        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
+    )
 
 
 page_order = [

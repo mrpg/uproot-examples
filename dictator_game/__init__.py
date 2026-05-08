@@ -13,6 +13,7 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Dictator game"
 SUGGESTED_MULTIPLE = 2
+APP_NAME = __name__
 
 
 class GroupPlease(GroupCreatingWait):
@@ -46,6 +47,61 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     pass
+
+
+def pipeline(session):
+    rows = []
+
+    for group, players in dictator_groups(session):
+        player_rows = [(player, player.within(app=APP_NAME)) for player in players]
+        dictator, dictator_data = next(
+            (player, data) for player, data in player_rows if data.get("dictator")
+        )
+        recipient, _ = next(
+            (player, data) for player, data in player_rows if not data.get("dictator")
+        )
+
+        for player, player_data in player_rows:
+            rows.append(
+                {
+                    "session": session.name,
+                    "group": group.name,
+                    "uname": player.name,
+                    "role": (
+                        "dictator" if player_data.get("dictator") else "recipient"
+                    ),
+                    "dictator_uname": dictator.name,
+                    "recipient_uname": recipient.name,
+                    "give": dictator_data.get("give"),
+                    "payoff": player_data.get("payoff"),
+                }
+            )
+
+    return rows
+
+
+def dictator_groups(session):
+    groups = []
+
+    for group in session.groups:
+        players = group.players
+
+        if len(players) == 2 and is_app_group(group, players):
+            groups.append((group, players))
+
+    return groups
+
+
+def is_app_group(group, players):
+    with group:
+        if group.get("app") == APP_NAME:
+            return True
+
+        gid = group.gid
+
+    return all(
+        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
+    )
 
 
 page_order = [

@@ -13,6 +13,7 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Bertrand price competition"
 SUGGESTED_MULTIPLE = 2
+APP_NAME = __name__
 
 
 class C:
@@ -78,6 +79,78 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     pass
+
+
+def pipeline(session):
+    rows = []
+
+    for group, players in duopoly_groups(session):
+        p1, p2 = players
+        p1_data = p1.within(app=APP_NAME)
+        p2_data = p2.within(app=APP_NAME)
+        p1_price = p1_data.get("price")
+        p2_price = p2_data.get("price")
+
+        if p1_price is None or p2_price is None:
+            d1 = d2 = None
+            market_price = None
+        elif p1_price < p2_price:
+            d1, d2 = max(0, 100 - p1_price), 0
+            market_price = p1_price
+        elif p2_price < p1_price:
+            d1, d2 = 0, max(0, 100 - p2_price)
+            market_price = p2_price
+        else:
+            d1 = d2 = max(0, 100 - p1_price) / 2
+            market_price = p1_price
+
+        demands = [d1, d2]
+
+        for member_id, player in enumerate(players):
+            other = players[1 - member_id]
+            player_data = player.within(app=APP_NAME)
+            other_data = other.within(app=APP_NAME)
+
+            rows.append(
+                {
+                    "session": session.name,
+                    "group": group.name,
+                    "uname": player.name,
+                    "member_id": member_id,
+                    "price": player_data.get("price"),
+                    "other_uname": other.name,
+                    "other_price": other_data.get("price"),
+                    "market_price": market_price,
+                    "demand": demands[member_id],
+                    "payoff": player_data.get("payoff"),
+                }
+            )
+
+    return rows
+
+
+def duopoly_groups(session):
+    groups = []
+
+    for group in session.groups:
+        players = group.players
+
+        if len(players) == 2 and is_app_group(group, players):
+            groups.append((group, players))
+
+    return groups
+
+
+def is_app_group(group, players):
+    with group:
+        if group.get("app") == APP_NAME:
+            return True
+
+        gid = group.gid
+
+    return all(
+        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
+    )
 
 
 page_order = [

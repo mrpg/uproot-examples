@@ -18,6 +18,7 @@ from .find_eq import find_equilibrium
 
 DESCRIPTION = "Call auction"
 LANDING_PAGE = False
+APP_NAME = __name__
 
 
 class C:
@@ -207,6 +208,40 @@ def digest(session):
         )
 
     return {"rounds_data": rounds_data}
+
+
+def pipeline(session):
+    rows = []
+    num_rounds = get_setting(session, "num_rounds")
+
+    for round_num in range(1, num_rounds + 1):
+        clearing_price = session.get(f"clearing_r{round_num}")
+
+        for player in session.players:
+            app_data = player.within(app=APP_NAME)
+
+            if app_data.get("buyer") is None:
+                continue
+
+            round_data = player.within(app=APP_NAME, round=round_num)
+            bid = round_data.get(f"bid_r{round_num}")
+
+            rows.append(
+                {
+                    "session": session.name,
+                    "round": round_num,
+                    "uname": player.name,
+                    "role": "buyer" if app_data.get("buyer") else "seller",
+                    "cost_or_value": app_data.get("cost_or_value"),
+                    "bid_or_ask": bid,
+                    "clearing_price": clearing_price,
+                    "market_quantity": session.get(f"quantity_r{round_num}", 0),
+                    "traded": round_data.get("traded"),
+                    "profit": round_data.get("profit"),
+                }
+            )
+
+    return rows
 
 
 page_order = [

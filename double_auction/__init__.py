@@ -38,6 +38,7 @@ from .find_eq import find_equilibrium
 
 DESCRIPTION = "Double auction"
 LANDING_PAGE = False
+APP_NAME = __name__
 
 
 class C:
@@ -652,6 +653,66 @@ def digest(session):
 
     return {
         "rounds_data": rounds_data,
+    }
+
+
+def pipeline(session):
+    if session.get("offers") is None:
+        return []
+
+    rows = []
+    num_rounds = get_setting(session, "num_rounds")
+
+    for round_num in range(1, num_rounds + 1):
+        latest_offers = latest_offer_by_player(session, round_num)
+        transactions = transactions_by_id(session, round_num)
+
+        for player in session.players:
+            app_data = player.within(app=APP_NAME)
+
+            if app_data.get("buyer") is None:
+                continue
+
+            round_data = player.within(app=APP_NAME, round=round_num)
+            trade_id = round_data.get("trade")
+            transaction = transactions.get(trade_id)
+            active_offer = latest_offers.get(player.pid)
+
+            rows.append(
+                {
+                    "session": session.name,
+                    "round": round_num,
+                    "uname": player.name,
+                    "role": "buyer" if app_data.get("buyer") else "seller",
+                    "cost_or_value": app_data.get("cost_or_value"),
+                    "buyer_tax": get_tax(session, "buyer_tax", round_num),
+                    "seller_tax": get_tax(session, "seller_tax", round_num),
+                    "active_offer": active_offer.price if active_offer else None,
+                    "trade_price": transaction.price if transaction else None,
+                    "profit": round_data.get("profit"),
+                }
+            )
+
+    return rows
+
+
+def latest_offer_by_player(session, round_num):
+    offers = {}
+
+    for _, pid, offer in um.filter_entries(session.offers, Offer, round=round_num):
+        offers[pid] = offer
+
+    return {pid: offer for pid, offer in offers.items() if offer.price is not None}
+
+
+def transactions_by_id(session, round_num):
+    return {
+        entry_id: transaction
+        for entry_id, _, transaction in um.filter_entries(
+            session.txs,
+            Transaction,
+            round=round_num,
+        )
     }
 
 

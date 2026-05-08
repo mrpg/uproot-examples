@@ -13,6 +13,7 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Cournot quantity competition"
 SUGGESTED_MULTIPLE = 2
+APP_NAME = __name__
 
 
 class C:
@@ -66,6 +67,61 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     pass
+
+
+def pipeline(session):
+    rows = []
+
+    for group, players in duopoly_groups(session):
+        units = [player.within(app=APP_NAME).get("units") for player in players]
+        total_units = sum(units) if all(unit is not None for unit in units) else None
+        price = max(0, 100 - total_units) if total_units is not None else None
+
+        for member_id, player in enumerate(players):
+            other = players[1 - member_id]
+            player_data = player.within(app=APP_NAME)
+            other_data = other.within(app=APP_NAME)
+
+            rows.append(
+                {
+                    "session": session.name,
+                    "group": group.name,
+                    "uname": player.name,
+                    "member_id": member_id,
+                    "units": player_data.get("units"),
+                    "other_uname": other.name,
+                    "other_units": other_data.get("units"),
+                    "total_units": total_units,
+                    "price": price,
+                    "payoff": player_data.get("payoff"),
+                }
+            )
+
+    return rows
+
+
+def duopoly_groups(session):
+    groups = []
+
+    for group in session.groups:
+        players = group.players
+
+        if len(players) == 2 and is_app_group(group, players):
+            groups.append((group, players))
+
+    return groups
+
+
+def is_app_group(group, players):
+    with group:
+        if group.get("app") == APP_NAME:
+            return True
+
+        gid = group.gid
+
+    return all(
+        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
+    )
 
 
 page_order = [

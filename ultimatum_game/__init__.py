@@ -13,6 +13,7 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Ultimatum game"
 SUGGESTED_MULTIPLE = 2
+APP_NAME = __name__
 
 
 class Context(PlayerContext):
@@ -81,6 +82,60 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     pass
+
+
+def pipeline(session):
+    rows = []
+
+    for group, players in ultimatum_groups(session):
+        player_rows = [(player, player.within(app=APP_NAME)) for player in players]
+        proposer, proposer_data = next(
+            (player, data) for player, data in player_rows if data.get("proposer")
+        )
+        responder, responder_data = next(
+            (player, data) for player, data in player_rows if not data.get("proposer")
+        )
+
+        for player, player_data in player_rows:
+            rows.append(
+                {
+                    "session": session.name,
+                    "group": group.name,
+                    "uname": player.name,
+                    "role": "proposer" if player_data.get("proposer") else "responder",
+                    "proposer_uname": proposer.name,
+                    "responder_uname": responder.name,
+                    "offer": proposer_data.get("offer"),
+                    "accepted": responder_data.get("accept"),
+                    "payoff": player_data.get("payoff"),
+                }
+            )
+
+    return rows
+
+
+def ultimatum_groups(session):
+    groups = []
+
+    for group in session.groups:
+        players = group.players
+
+        if len(players) == 2 and is_app_group(group, players):
+            groups.append((group, players))
+
+    return groups
+
+
+def is_app_group(group, players):
+    with group:
+        if group.get("app") == APP_NAME:
+            return True
+
+        gid = group.gid
+
+    return all(
+        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
+    )
 
 
 page_order = [

@@ -13,6 +13,7 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Trust game (Berg et al., 1995)"
 SUGGESTED_MULTIPLE = 2
+APP_NAME = __name__
 
 
 class C:
@@ -93,6 +94,63 @@ class Sync(SynchronizingWait):
 
 class Results(Page):
     pass
+
+
+def pipeline(session):
+    rows = []
+
+    for group, players in trust_groups(session):
+        player_rows = [(player, player.within(app=APP_NAME)) for player in players]
+        trustor, trustor_data = next(
+            (player, data) for player, data in player_rows if data.get("trustor")
+        )
+        trustee, trustee_data = next(
+            (player, data) for player, data in player_rows if not data.get("trustor")
+        )
+        sent = trustor_data.get("sent")
+        received = sent * C.MULTIPLIER if sent is not None else None
+
+        for player, player_data in player_rows:
+            rows.append(
+                {
+                    "session": session.name,
+                    "group": group.name,
+                    "uname": player.name,
+                    "role": "trustor" if player_data.get("trustor") else "trustee",
+                    "trustor_uname": trustor.name,
+                    "trustee_uname": trustee.name,
+                    "sent": sent,
+                    "received": received,
+                    "returned": trustee_data.get("returned"),
+                    "payoff": player_data.get("payoff"),
+                }
+            )
+
+    return rows
+
+
+def trust_groups(session):
+    groups = []
+
+    for group in session.groups:
+        players = group.players
+
+        if len(players) == 2 and is_app_group(group, players):
+            groups.append((group, players))
+
+    return groups
+
+
+def is_app_group(group, players):
+    with group:
+        if group.get("app") == APP_NAME:
+            return True
+
+        gid = group.gid
+
+    return all(
+        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
+    )
 
 
 page_order = [
