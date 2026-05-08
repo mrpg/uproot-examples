@@ -2,11 +2,6 @@
 // player pages load in sessions created with the "Simulate responses" option
 // enabled, allowing you to check whether your experiment works as intended.
 
-if (uproot.currentPage == "public_goods_game/Contribute") {
-    I("contribution").value = "5";
-    uproot.submit();
-}
-
-if (uproot.currentPage == "public_goods_game/Results") {
-    // uproot.submit();
-}
+uproot.simulate.on("public_goods_game/Contribute", (sim) => {
+    sim.fill("contribution", "5").submit();
+});

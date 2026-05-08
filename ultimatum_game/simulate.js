@@ -2,16 +2,10 @@
 // player pages load in sessions created with the "Simulate responses" option
 // enabled, allowing you to check whether your experiment works as intended.
 
-if (uproot.currentPage == "ultimatum_game/Propose") {
-    I("offer").value = "4";
-    uproot.submit();
-}
+uproot.simulate.on("ultimatum_game/Propose", (sim) => {
+    sim.fill("offer", "4").submit();
+});
 
-if (uproot.currentPage == "ultimatum_game/Respond") {
-    I("accept-0").checked = true;
-    uproot.submit();
-}
-
-if (uproot.currentPage == "ultimatum_game/Results") {
-    // uproot.submit();
-}
+uproot.simulate.on("ultimatum_game/Respond", (sim) => {
+    sim.choose("accept", "True").submit();
+});

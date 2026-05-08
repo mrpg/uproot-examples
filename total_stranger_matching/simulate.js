@@ -1,3 +1,3 @@
-if (uproot.currentPage !== "total_stranger_matching/Summary" && uproot.currentPage !== "End.html") {
-    uproot.submit();
+if (!uproot.simulate.isPage(["total_stranger_matching/Summary", "End.html"])) {
+    uproot.simulate.submit();
 }

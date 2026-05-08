@@ -2,6 +2,6 @@
 // player pages load in sessions created with the "Simulate responses" option
 // enabled, allowing you to check whether your experiment works as intended.
 
-if (uproot.currentPage == "ping/Ping") {
+uproot.simulate.on("ping/Ping", () => {
     ping(1000);
-}
+});

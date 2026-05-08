@@ -2,16 +2,10 @@
 // player pages load in sessions created with the "Simulate responses" option
 // enabled, allowing you to check whether your experiment works as intended.
 
-if (uproot.currentPage == "bertrand/Instructions") {
-    uproot.submit();
-}
+uproot.simulate.on("bertrand/Instructions", (sim) => {
+    sim.submit();
+});
 
-if (uproot.currentPage == "bertrand/Decision") {
-    var price = Math.floor(Math.random() * 101);
-    I("price").value = price;
-    uproot.submit();
-}
-
-if (uproot.currentPage == "bertrand/Results") {
-    // uproot.submit();
-}
+uproot.simulate.on("bertrand/Decision", (sim) => {
+    sim.fill("price", sim.integer(0, 100)).submit();
+});

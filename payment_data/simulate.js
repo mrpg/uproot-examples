@@ -1,4 +1,3 @@
-if (uproot.currentPage == "payment_data/PaymentForm") {
-    I("iban").value = "DE75512108001245126199";
-    uproot.submit();
-}
+uproot.simulate.on("payment_data/PaymentForm", (sim) => {
+    sim.fill("iban", "DE75512108001245126199").submit();
+});

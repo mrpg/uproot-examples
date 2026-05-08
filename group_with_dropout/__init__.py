@@ -109,12 +109,12 @@ class ShowGroup(Page):
 
     @classmethod
     def templatevars(page, player):
-        group_members = sorted(players(player.group), key=lambda p: p.name)
+        group_members = sorted(player.group.players, key=lambda p: p.name)
         num_groups = (
             len(
                 [
                     p
-                    for p in players(player.session)
+                    for p in player.session.players
                     if not p.withdrew_consent and not p.timed_out_before_grouping
                 ]
             )
@@ -141,7 +141,7 @@ class ShowGroup(Page):
     def after_once(page, player):
         if player.timed_out:
             move_to_page(player, DropoutInfo)
-            for p in players(player.group):
+            for p in player.group.players:
                 with p as pp:
                     move_to_page(pp, DropoutInfo)
 

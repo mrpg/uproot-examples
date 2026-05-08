@@ -2,20 +2,14 @@
 // player pages load in sessions created with the "Simulate responses" option
 // enabled, allowing you to check whether your experiment works as intended.
 
-if (uproot.currentPage == "stackelberg/Instructions") {
-    uproot.submit();
-}
+uproot.simulate.on("stackelberg/Instructions", (sim) => {
+    sim.submit();
+});
 
-if (uproot.currentPage == "stackelberg/LeaderDecision") {
-    I("units").value = "40";
-    uproot.submit();
-}
+uproot.simulate.on("stackelberg/LeaderDecision", (sim) => {
+    sim.fill("units", "40").submit();
+});
 
-if (uproot.currentPage == "stackelberg/FollowerDecision") {
-    I("units").value = "30";
-    uproot.submit();
-}
-
-if (uproot.currentPage == "stackelberg/Results") {
-    // uproot.submit();
-}
+uproot.simulate.on("stackelberg/FollowerDecision", (sim) => {
+    sim.fill("units", "30").submit();
+});

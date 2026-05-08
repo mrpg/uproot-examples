@@ -2,16 +2,10 @@
 // player pages load in sessions created with the "Simulate responses" option
 // enabled, allowing you to check whether your experiment works as intended.
 
-if (uproot.currentPage == "trust_game/Send") {
-    I("sent").value = "6";
-    uproot.submit();
-}
+uproot.simulate.on("trust_game/Send", (sim) => {
+    sim.fill("sent", "6").submit();
+});
 
-if (uproot.currentPage == "trust_game/Return") {
-    I("returned").value = "7";
-    uproot.submit();
-}
-
-if (uproot.currentPage == "trust_game/Results") {
-    // uproot.submit();
-}
+uproot.simulate.on("trust_game/Return", (sim) => {
+    sim.fill("returned", "7").submit();
+});
