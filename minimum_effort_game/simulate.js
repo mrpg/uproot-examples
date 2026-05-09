@@ -5,3 +5,7 @@
 uproot.simulate.on("minimum_effort_game/ChooseEffort", (sim) => {
     sim.choose("effort", sim.integer(1, 7)).submit();
 });
+
+uproot.simulate.on("minimum_effort_game/Results", (sim) => {
+    sim.submit();
+});

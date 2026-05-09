@@ -9,3 +9,7 @@ uproot.simulate.on("ultimatum_game/Propose", (sim) => {
 uproot.simulate.on("ultimatum_game/Respond", (sim) => {
     sim.choose("accept", "True").submit();
 });
+
+uproot.simulate.on("ultimatum_game/Results", (sim) => {
+    sim.submit();
+});

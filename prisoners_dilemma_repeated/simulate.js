@@ -5,3 +5,7 @@
 uproot.simulate.on("prisoners_dilemma_repeated/Dilemma", (sim) => {
     sim.choose("cooperate", sim.random(["True", "False"])).submit();
 });
+
+uproot.simulate.on("prisoners_dilemma_repeated/Results", (sim) => {
+    sim.submit();
+});

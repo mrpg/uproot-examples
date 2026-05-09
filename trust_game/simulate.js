@@ -9,3 +9,7 @@ uproot.simulate.on("trust_game/Send", (sim) => {
 uproot.simulate.on("trust_game/Return", (sim) => {
     sim.fill("returned", "7").submit();
 });
+
+uproot.simulate.on("trust_game/Results", (sim) => {
+    sim.submit();
+});

@@ -13,3 +13,7 @@ uproot.simulate.on("stackelberg/LeaderDecision", (sim) => {
 uproot.simulate.on("stackelberg/FollowerDecision", (sim) => {
     sim.fill("units", "30").submit();
 });
+
+uproot.simulate.on("stackelberg/Results", (sim) => {
+    sim.submit();
+});

@@ -12,6 +12,33 @@ upd.project_metadata(created="1970-01-01", uproot="*.*.*")
 # Load your app configs here
 # Examples are available at https://github.com/mrpg/uproot-examples
 
+load_config(
+    uproot_server,
+    config="simulate-quickly",
+    apps=[
+        "balanced_page_order",
+        "beauty_contest",
+        "bertrand",
+        "big5",
+        "cournot",
+        "dictator_game",
+        "focal_point",
+        "gift_exchange_game",
+        "minimum_effort_game",
+        "payment_data",
+        "ping",
+        "prisoners_dilemma_repeated",
+        "prisoners_dilemma",
+        "public_goods_game",
+        "stackelberg",
+        "total_stranger_matching",
+        "travellers_dilemma",
+        "trust_game",
+        "twobytwo",
+        "ultimatum_game",
+    ],
+)
+
 # fmt: off
 load_config(uproot_server, config="balanced_page_order", apps=["balanced_page_order"])
 load_config(uproot_server, config="barrier", apps=["barrier"])

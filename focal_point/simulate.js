@@ -5,3 +5,7 @@
 uproot.simulate.on("focal_point/Claim", (sim) => {
     sim.fill("claim", sim.integer(0, 100)).submit();
 });
+
+uproot.simulate.on("focal_point/Results", (sim) => {
+    sim.submit();
+});

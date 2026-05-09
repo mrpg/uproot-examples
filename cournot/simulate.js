@@ -9,3 +9,7 @@ uproot.simulate.on("cournot/Instructions", (sim) => {
 uproot.simulate.on("cournot/Decision", (sim) => {
     sim.fill("units", "30").submit();
 });
+
+uproot.simulate.on("cournot/Results", (sim) => {
+    sim.submit();
+});

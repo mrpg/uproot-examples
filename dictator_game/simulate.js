@@ -5,3 +5,7 @@
 uproot.simulate.on("dictator_game/Dictate", (sim) => {
     sim.fill("give", sim.integer(0, 10)).submit();
 });
+
+uproot.simulate.on("dictator_game/Results", (sim) => {
+    sim.submit();
+});

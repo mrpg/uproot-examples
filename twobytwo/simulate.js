@@ -9,3 +9,7 @@ uproot.simulate.on("twobytwo/Instructions", (sim) => {
 uproot.simulate.on("twobytwo/Decision", (sim) => {
     sim.choose("choice", sim.random(["A", "B"])).submit();
 });
+
+uproot.simulate.on("twobytwo/Results", (sim) => {
+    sim.submit();
+});

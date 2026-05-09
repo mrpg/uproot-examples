@@ -5,3 +5,7 @@
 uproot.simulate.on("travellers_dilemma/Claim", (sim) => {
     sim.fill("claim", sim.integer(2, 100)).submit();
 });
+
+uproot.simulate.on("travellers_dilemma/Results", (sim) => {
+    sim.submit();
+});

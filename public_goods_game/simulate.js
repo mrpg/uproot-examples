@@ -5,3 +5,7 @@
 uproot.simulate.on("public_goods_game/Contribute", (sim) => {
     sim.fill("contribution", "5").submit();
 });
+
+uproot.simulate.on("public_goods_game/Results", (sim) => {
+    sim.submit();
+});

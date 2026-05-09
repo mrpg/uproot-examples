@@ -5,3 +5,7 @@
 uproot.simulate.on("beauty_contest/Guess", (sim) => {
     sim.fill("guess", "33").submit();
 });
+
+uproot.simulate.on("beauty_contest/Results", (sim) => {
+    sim.submit();
+});

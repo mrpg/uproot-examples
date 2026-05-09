@@ -9,3 +9,7 @@ uproot.simulate.on("bertrand/Instructions", (sim) => {
 uproot.simulate.on("bertrand/Decision", (sim) => {
     sim.fill("price", sim.integer(0, 100)).submit();
 });
+
+uproot.simulate.on("bertrand/Results", (sim) => {
+    sim.submit();
+});
