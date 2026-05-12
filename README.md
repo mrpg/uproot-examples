@@ -45,6 +45,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `minimum_effort_game`                             | Minimum effort / weakest link game (Van Huyck et al., 1990)     | Easy       |
 | `mpl`                                             | Multiple price list                                             | Medium     |
 | `multilanguage`                                   | App with language switcher                                      | Easy       |
+| `n_by_n`                                          | Generic n×n game with configurable payoff matrix (2 ≤ n ≤ 26)  | Easy       |
 | `nato_alphabet`                                   | NATO phonetic alphabet real effort task (Gibson, 2025)          | Advanced   |
 | `notifications`†                                  | Test notifications between players                              | Easy       |
 | `observed_diary`                                  | Observed diary/surveillance game                                | Medium     |

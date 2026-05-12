@@ -1,0 +1,22 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Instructions
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You are matched with another participant. Each of you will independently choose an action.</p>
+
+<p>Your earnings depend on both your choice and the other participant's choice, according to the following table:</p>
+
+{% include 'n_by_n/PayoffTable.html' %}
+
+<p>Each cell shows (<i>your earnings</i>, <i>the other's earnings</i>).</p>
+
+<p>You may use the simulator to explore different outcomes.</p>
+
+{% include 'n_by_n/Simulator.html' %}
+
+{% endblock main %}
