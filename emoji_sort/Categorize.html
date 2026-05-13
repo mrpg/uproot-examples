@@ -1,0 +1,65 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Sort the Emojis!
+{% endblock title %}
+
+
+{% block main %}
+
+<p class="mb-4 fs-5">
+Drag each emoji into the <strong class="text-success">NICE</strong> or
+<strong class="text-danger">NASTY</strong> bucket.
+You must place <strong>every</strong> emoji before you can continue!
+</p>
+
+{# ── Source area ── #}
+<div id="source" class="d-flex flex-wrap gap-3 mb-4 p-3 border rounded bg-light justify-content-center"
+                 style="min-height: 70px;">
+    {% for item in app.C.ITEMS %}
+    <div class="draggable-item fs-1 p-2 user-select-none"
+         draggable="true"
+         data-index="{{ loop.index0 }}"
+         id="item-{{ loop.index0 }}"
+         style="cursor: grab;">
+        <span>{{ safe(item) }}</span>
+    </div>
+    {% endfor %}
+</div>
+
+{# ── Buckets ── #}
+<div class="row g-3 mb-4">
+    {# NICE bucket #}
+    <div class="col-md-6">
+        <div class="card h-100 border-success">
+            <div class="card-header text-center fw-bold bg-success-subtle fs-4">
+                {{ app.C.BUCKET_LABELS[0] }}
+                <span class="badge text-bg-success ms-2" id="count1">0</span>
+            </div>
+            <div id="bucket1"
+                 class="card-body bucket d-flex flex-wrap gap-2 align-content-start justify-content-center"
+                 style="min-height: 180px;">
+            </div>
+        </div>
+    </div>
+
+    {# NASTY bucket #}
+    <div class="col-md-6">
+        <div class="card h-100 border-danger">
+            <div class="card-header text-center fw-bold bg-danger-subtle fs-4">
+                {{ app.C.BUCKET_LABELS[1] }}
+                <span class="badge text-bg-danger ms-2" id="count2">0</span>
+            </div>
+            <div id="bucket2"
+                 class="card-body bucket d-flex flex-wrap gap-2 align-content-start justify-content-center"
+                 style="min-height: 180px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ fields() }}
+
+<script src="{{ appstatic('draganddrop.js') }}"></script>
+
+{% endblock main %}

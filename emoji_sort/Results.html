@@ -1,0 +1,39 @@
+{% extends "Base.html" %}
+
+{% block title %}
+All done!
+{% endblock title %}
+
+
+{% block main %}
+
+<p class="fs-5">Thank you! Here is how you sorted the emojis:</p>
+
+<table class="table w-auto fs-4">
+    <thead>
+        <tr>
+            <th>Emoji</th>
+            <th>Bucket</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in app.C.ITEMS %}
+        {% set field_name = "item_" ~ loop.index0 %}
+        {% set value = player[field_name] %}
+        <tr>
+            <td>{{ safe(item) }}</td>
+            <td>
+                {% if value == 1 %}
+                <span class="badge text-bg-success">{{ app.C.BUCKET_LABELS[0] }}</span>
+                {% elif value == 2 %}
+                <span class="badge text-bg-danger">{{ app.C.BUCKET_LABELS[1] }}</span>
+                {% else %}
+                <span class="text-muted">Not placed</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock main %}

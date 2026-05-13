@@ -4,13 +4,31 @@
 import os
 
 import uproot.deployment as upd
+from dotenv import load_dotenv
 from uproot.cli import cli
+from uproot.rooms import room
 from uproot.server import load_config, uproot_server
 
 upd.project_metadata(created="1970-01-01", uproot="*.*.*")
 
+load_dotenv()
+
 # Load your app configs here
 # Examples are available at https://github.com/mrpg/uproot-examples
+
+load_config(
+    uproot_server,
+    config="demo",
+    apps=[
+        "multilanguage",
+        "chat",
+        "bounded_choice",
+        "randomize_pages_allow_back",
+        "chat_with_claude",
+        "sumhunt",
+        "emoji_sort",
+    ],
+)
 
 # fmt: off
 load_config(uproot_server, config="balanced_page_order", apps=["balanced_page_order"])
@@ -35,6 +53,7 @@ load_config(uproot_server, config="draganddrop", apps=["draganddrop"])
 load_config(uproot_server, config="drawing_board", apps=["drawing_board"])
 load_config(uproot_server, config="dropouts", apps=["dropouts"])
 load_config(uproot_server, config="embed_static", apps=["embed_static"])
+load_config(uproot_server, config="emoji_sort", apps=["emoji_sort"])
 load_config(uproot_server, config="encryption_task", apps=["encryption_task"])
 load_config(uproot_server, config="focal_point", apps=["focal_point"])
 load_config(uproot_server, config="gift_exchange_game", apps=["gift_exchange_game"])
@@ -87,6 +106,16 @@ load_config(uproot_server, config="upload", apps=["upload"])
 # Create admin
 
 upd.ADMINS["admin"] = ...
+
+# Create room
+
+upd.DEFAULT_ROOMS.append(
+    room(
+        "demo",
+        config="demo",
+        open=True,
+    )
+)
 
 # Set API key
 

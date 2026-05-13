@@ -20,10 +20,10 @@ LANDING_PAGE = False
 
 
 class C:
-    NUMMIN = 10
-    NUMMAX = 99
-    GRID = (3, 3)
-    TARGET = 100
+    NUMMIN = 0
+    NUMMAX = 9
+    GRID = (2, 2)
+    TARGET = 10
     TERMS = 2
     SEED = 0x1337  # Every player sees the same matrices over time
 
@@ -99,7 +99,7 @@ def generate_matrix(
 
 
 class Sumhunt(Page):
-    timeout = 120
+    timeout = 30
 
     @live
     async def get_matrix(page, player):
