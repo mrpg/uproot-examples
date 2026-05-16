@@ -87,7 +87,7 @@ load_config(uproot_server, config="upload", apps=["upload"])
 
 # Create admin
 
-upd.ADMINS["admin"] = ...
+upd.ADMINS["admin"] = upd.auto_login()
 
 # Set API key
 
