@@ -46,6 +46,7 @@ load_config(uproot_server, config="group_with_dropout", apps=["group_with_dropou
 load_config(uproot_server, config="input_elements", apps=["input_elements"])
 load_config(uproot_server, config="input_validation", apps=["input_validation"])
 load_config(uproot_server, config="many_fields", apps=["many_fields"])
+load_config(uproot_server, config="market", apps=["market"])
 load_config(uproot_server, config="minimum_effort_game", apps=["minimum_effort_game"])
 load_config(uproot_server, config="mpl", apps=["mpl"])
 load_config(uproot_server, config="multilanguage", apps=["multilanguage"])

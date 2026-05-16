@@ -437,6 +437,14 @@ wheels = [
 ]
 
 [[package]]
+name = "mini-exchange"
+version = "0.1.0"
+source = { git = "https://github.com/mrpg/mini-exchange.git?rev=master#bce0c8ed0a718c40806ee479694316ec5e5ee624" }
+dependencies = [
+    { name = "sortedcontainers" },
+]
+
+[[package]]
 name = "msgpack"
 version = "1.1.2"
 source = { registry = "https://pypi.org/simple" }
@@ -971,6 +979,7 @@ dependencies = [
     { name = "audioop-lts" },
     { name = "black" },
     { name = "isort" },
+    { name = "mini-exchange" },
     { name = "pre-commit" },
     { name = "pydub" },
     { name = "ruff" },
@@ -989,6 +998,7 @@ requires-dist = [
     { name = "audioop-lts" },
     { name = "black" },
     { name = "isort" },
+    { name = "mini-exchange", git = "https://github.com/mrpg/mini-exchange.git?rev=master" },
     { name = "pre-commit" },
     { name = "pydub" },
     { name = "ruff" },
