@@ -1,5 +1,10 @@
-uproot-science @ git+https://github.com/mrpg/uproot.git@main
 anthropic
 audioop-lts
+black
+isort
+mini-exchange @ git+https://github.com/mrpg/mini-exchange.git@master
+pre-commit
 pydub
+ruff
 schwifty
+uproot-science @ git+https://github.com/mrpg/uproot.git@main
