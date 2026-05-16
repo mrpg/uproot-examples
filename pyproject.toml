@@ -7,6 +7,9 @@ license = "0BSD"
 requires-python = ">=3.13"
 dependencies = [
     "uproot-science @ git+https://github.com/mrpg/uproot.git@main",
+    "black",
+    "isort",
+    "ruff",
     "anthropic",
     "audioop-lts",
     "pydub",
@@ -20,3 +23,9 @@ target-version = ["py313"]
 pg = [
     "uproot-science[pg] @ git+https://github.com/mrpg/uproot.git@main",
 ]
+
+[tool.ruff.lint]
+ignore = ["F403", "F405"]
+
+[tool.isort]
+profile = "black"
