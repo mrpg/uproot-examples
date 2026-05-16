@@ -33,7 +33,6 @@ run.sh
 Thumbs.db
 .tox/
 uproot
-uv.lock
 .venv/
 venv/
 .vscode
