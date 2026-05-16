@@ -38,7 +38,7 @@ class PageWithCustomTimeout(Page):
 
 
 class C:
-    TOTAL_TIMEOUT = 15.0
+    TOTAL_TIMEOUT = 75.0
 
 
 class Hello(Page):
