@@ -22,10 +22,7 @@ The auction follows these principles:
 - Trades occur when a buyer accepts an ask or a seller accepts a bid
 """
 
-from dataclasses import dataclass
 from decimal import Decimal
-from enum import Enum
-from itertools import cycle
 from time import time
 from typing import Any, Optional
 from uuid import UUID

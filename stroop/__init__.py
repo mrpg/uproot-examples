@@ -19,8 +19,6 @@ Each trial measurement is stored in a separate model entry.
 Time is measured on the client side to avoid network latency effects.
 """
 
-from random import Random
-
 import uproot.models as um
 from uproot.fields import *
 from uproot.smithereens import *

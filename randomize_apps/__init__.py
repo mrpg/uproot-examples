@@ -8,15 +8,15 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
+# You MUST import all apps to be randomized:
+import app1
+import app2
+import app3
 from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "This app randomizes app1, app2, app3."
 
-
-import app1
-import app2
-import app3
 
 page_order = [
     Random(

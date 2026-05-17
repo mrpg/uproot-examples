@@ -12,7 +12,7 @@ import asyncio
 
 from uproot.fields import *
 from uproot.smithereens import *
-from uproot.storage import Admin, Session
+from uproot.storage import Admin
 
 DESCRIPTION = "Do something in intervals"
 LANDING_PAGE = False

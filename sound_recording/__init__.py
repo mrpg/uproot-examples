@@ -8,8 +8,6 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
-import base64
-
 from uproot.fields import *
 from uproot.smithereens import *
 from uproot.types import Page

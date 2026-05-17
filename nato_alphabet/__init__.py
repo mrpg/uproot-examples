@@ -11,10 +11,9 @@
 import json
 import random
 import string
-import sys
 from io import BytesIO
 
-from fastapi.responses import Response
+from pydub import AudioSegment
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -33,17 +32,6 @@ class C:
     __export__ = ["WORD_LENGTH"]
 
 
-def new_session(session):
-    try:
-        import audioop
-
-        import pydub
-    except ImportError:
-        raise RuntimeError(
-            "This app requires 'pydub' and 'audioop-lts'. Install via pip/uv."
-        )
-
-
 def new_player(player):
     player.rng = random.Random(C.SEED)
     player.current_word = None
@@ -51,7 +39,6 @@ def new_player(player):
 
 
 def generate_wav(letters: str):
-    from pydub import AudioSegment
 
     intermediate = AudioSegment.silent(
         duration=1000
