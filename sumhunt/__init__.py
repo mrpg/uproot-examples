@@ -102,7 +102,7 @@ class Sumhunt(Page):
     timeout = 120
 
     @live
-    async def get_matrix(page, player):
+    def get_matrix(page, player):
         if player.matrix is None:
             player.matrix = generate_matrix(
                 player.rng,
@@ -116,7 +116,7 @@ class Sumhunt(Page):
         return player.matrix
 
     @live
-    async def propose_solution(page, player, solution: list[int]):
+    def propose_solution(page, player, solution: list[int]):
         if (
             player.matrix is not None
             and len(solution) == C.TERMS

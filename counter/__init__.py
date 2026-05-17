@@ -19,12 +19,12 @@ def new_player(player):
 
 class Counter(Page):
     @live
-    async def increment(page, player):
+    def increment(page, player):
         player.counter += 1
         return player.counter
 
     @live
-    async def reset(page, player):
+    def reset(page, player):
         player.counter = 0
 
 

@@ -249,7 +249,7 @@ class Trading(Page):
             player.stock = 0
 
     @live
-    async def get_state(page, player):
+    def get_state(page, player):
         exchange = get_exchange(player.session)
         book = get_book_snapshot(exchange)
         trades = get_recent_trades(exchange)
@@ -263,7 +263,7 @@ class Trading(Page):
         }
 
     @live
-    async def submit_order(
+    def submit_order(
         page,
         player,
         order_type: str,
@@ -322,7 +322,7 @@ class Trading(Page):
         }
 
     @live
-    async def cancel_order(page, player, order_id: str):
+    def cancel_order(page, player, order_id: str):
         session = player.session
         exchange = get_exchange(session)
 

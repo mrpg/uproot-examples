@@ -15,7 +15,7 @@ DESCRIPTION = "Ping the server (a simple WebSocket benchmark)"
 
 class Ping(Page):
     @live
-    async def ping(page, player, jstime: int, direct: bool):
+    def ping(page, player, jstime: int, direct: bool):
         if direct:
             return jstime
         else:

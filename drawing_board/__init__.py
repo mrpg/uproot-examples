@@ -87,7 +87,7 @@ class Draw(Page):
         )
 
     @live
-    async def stroke(page, player, points: list[dict], lineWidth: int, **kwargs):
+    def stroke(page, player, points: list[dict], lineWidth: int, **kwargs):
         # Save stroke to the model
         um.add_entry(
             player.session.strokes,

@@ -79,12 +79,12 @@ def generate_word(rng: random.Random) -> str:
 
 class Transcribe(Page):
     @live
-    async def ensure_word(page, player):
+    def ensure_word(page, player):
         if player.get("current_word") is None:
             player.current_word = generate_word(player.rng)
 
     @live
-    async def get_audio(page, player):
+    def get_audio(page, player):
         buffer = BytesIO()
 
         result = generate_wav(player.current_word)
@@ -93,7 +93,7 @@ class Transcribe(Page):
         return data_uri(buffer.getvalue())
 
     @live
-    async def submit_answer(page, player, answer: str):
+    def submit_answer(page, player, answer: str):
         """Check the answer and return result."""
         if player.current_word is None:
             return {

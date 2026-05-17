@@ -136,7 +136,7 @@ class Stroop(Page):
         player.trial_sequence = generate_trial_sequence(player.rng, NUM_TRIALS)
 
     @live
-    async def get_state(page, player):
+    def get_state(page, player):
         """Get current trial state (called on page load)."""
         # Count completed trials from model
         completed_count = 0
@@ -158,7 +158,7 @@ class Stroop(Page):
         }
 
     @live
-    async def submit_response(
+    def submit_response(
         page,
         player,
         trial_number: int,

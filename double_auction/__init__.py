@@ -399,11 +399,11 @@ class Trade(Page):
                 return dict(offer_amount=offer.price)
 
     @live
-    async def get_market(page, player):
+    def get_market(page, player):
         return market_data(player.session.offers, player.session.txs, player.round)
 
     @live
-    async def make_offer(page, player, amount: Optional[int]):
+    def make_offer(page, player, amount: Optional[int]):
         """
         Submit a new bid (buyers) or ask (sellers) to the market
 
@@ -462,7 +462,7 @@ class Trade(Page):
         return amount
 
     @live
-    async def accept_offer(page, player, offer_id: UUID):
+    def accept_offer(page, player, offer_id: UUID):
         """
         Accept an existing market offer, executing a trade
 

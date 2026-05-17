@@ -17,7 +17,7 @@ class SendAndReceive(Page):
     allow_back = True
 
     @live
-    async def notify_(page, player, data: str, where_: str | None):
+    def notify_(page, player, data: str, where_: str | None):
         if where_ is None:
             where = None
         elif where_ == "...":

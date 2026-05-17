@@ -120,7 +120,7 @@ class Choice(Page):
                 )
 
     @live
-    async def get_pair(page, player):
+    def get_pair(page, player):
         """Get the current pair of profiles, or signal done."""
         pair_id = player.current_pair
         if pair_id >= player.session.settings.get(
@@ -154,7 +154,7 @@ class Choice(Page):
         }
 
     @live
-    async def submit_choice(page, player, side: int):
+    def submit_choice(page, player, side: int):
         """Record the player's choice and advance to the next pair."""
         if side not in (0, 1):
             return {"type": "error"}
