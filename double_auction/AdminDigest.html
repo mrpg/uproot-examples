@@ -40,7 +40,7 @@
 {% endfor %}
 
 <script>
-const roundsData = {{ rounds_data | tojson }};
+const roundsData = {{ rounds_data | tojson | safe }};
 
 function makeDemandStepData(values, ceiling) {
     // Demand: starts at ceiling (Q=0), steps down, drops to zero after last unit.
