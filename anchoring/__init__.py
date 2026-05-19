@@ -55,7 +55,7 @@ class Estimate(Page):
                 label="Your estimate:",
                 min=0,
                 addon_end="km",
-                class_wrapper="w-25",
+                class_wrapper="short-field",
             ),
         }
 
