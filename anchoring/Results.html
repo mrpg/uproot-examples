@@ -1,0 +1,12 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+{% block main %}
+
+<p>You said the answer was <strong>{{ player.comparison }}</strong> than the anchor.</p>
+<p>Your estimate was <strong>{{ player.estimate | fmtnum(places=0) }}&nbsp;km</strong>.</p>
+
+{% endblock main %}
