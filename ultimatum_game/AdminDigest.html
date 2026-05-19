@@ -1,0 +1,36 @@
+{% block main %}
+
+<table class="table w-50">
+    <thead>
+        <tr>
+            <th scope="col">Group</th>
+            <th scope="col">Offer</th>
+            <th scope="col">Response</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for group, offer, accepted in data %}
+        <tr>
+            <td>{{ group }}</td>
+            <td>
+                {% if offer is none %}
+                <span class="text-muted">Pending</span>
+                {% else %}
+                {{ offer }}
+                {% endif %}
+            </td>
+            <td>
+                {% if accepted is none %}
+                <span class="text-muted">Pending</span>
+                {% elif accepted %}
+                Accepted
+                {% else %}
+                Rejected
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock main %}
