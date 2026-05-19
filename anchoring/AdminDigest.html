@@ -15,7 +15,7 @@
         <tr>
             <td>{{ name }}</td>
             <td>{{ treatment }}</td>
-            <td>{{ anchor }} km</td>
+            <td>{{ anchor }}&nbsp;km</td>
             <td>
                 {% if comparison is none %}
                 <span class="text-muted">Pending</span>
@@ -27,7 +27,7 @@
                 {% if estimate is none %}
                 <span class="text-muted">Pending</span>
                 {% else %}
-                {{ estimate }} km
+                {{ estimate }}&nbsp;km
                 {% endif %}
             </td>
         </tr>
@@ -50,8 +50,8 @@
     {% for treatment, anchor, average, n in averages %}
         <tr>
             <td>{{ treatment }}</td>
-            <td>{{ anchor }} km</td>
-            <td>{{ average | to(1) }} km</td>
+            <td>{{ anchor }}&nbsp;km</td>
+            <td>{{ average | to(1) }}&nbsp;km</td>
             <td>{{ n }}</td>
         </tr>
     {% endfor %}
