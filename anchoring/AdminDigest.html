@@ -1,0 +1,62 @@
+{% block main %}
+
+<table class="table w-75">
+    <thead>
+        <tr>
+            <th scope="col">Participant</th>
+            <th scope="col">Treatment</th>
+            <th scope="col">Anchor</th>
+            <th scope="col">Comparison</th>
+            <th scope="col">Estimate</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for name, treatment, anchor, comparison, estimate in data %}
+        <tr>
+            <td>{{ name }}</td>
+            <td>{{ treatment }}</td>
+            <td>{{ anchor }}&nbsp;km</td>
+            <td>
+                {% if comparison is none %}
+                <span class="text-muted">Pending</span>
+                {% else %}
+                {{ comparison }}
+                {% endif %}
+            </td>
+            <td>
+                {% if estimate is none %}
+                <span class="text-muted">Pending</span>
+                {% else %}
+                {{ estimate }}&nbsp;km
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% if averages %}
+<h5 class="mt-4">Average Estimate by Treatment</h5>
+<table class="table w-50">
+    <thead>
+        <tr>
+            <th scope="col">Treatment</th>
+            <th scope="col">Anchor</th>
+            <th scope="col">Average Estimate</th>
+            <th scope="col">N</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for treatment, anchor, average, n in averages %}
+        <tr>
+            <td>{{ treatment }}</td>
+            <td>{{ anchor }}&nbsp;km</td>
+            <td>{{ average | to(1) }}&nbsp;km</td>
+            <td>{{ n }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% endblock main %}

@@ -1,0 +1,17 @@
+{% extends "Base.html" %}
+
+{% block title %}
+DNA Length Estimate
+{% endblock title %}
+
+{% block main %}
+
+<p>What is the total length of all the DNA in your body's cell nuclei, if stretched end to end?</p>
+
+{{ field(form.comparison) }}
+
+<p>Please now provide your own estimate.</p>
+
+{{ field(form.estimate) }}
+
+{% endblock main %}

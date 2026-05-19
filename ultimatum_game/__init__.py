@@ -84,6 +84,23 @@ class Results(Page):
     pass
 
 
+def digest(session):
+    data = []
+
+    for group, players in ultimatum_groups(session):
+        proposer = next(p for p in players if p.within(app=APP_NAME).get("proposer"))
+        responder = next(
+            p for p in players if not p.within(app=APP_NAME).get("proposer")
+        )
+
+        offer = proposer.within(app=APP_NAME).get("offer")
+        accepted = responder.within(app=APP_NAME).get("accept")
+
+        data.append((group.name, offer, accepted))
+
+    return data
+
+
 def pipeline(session):
     rows = []
 
