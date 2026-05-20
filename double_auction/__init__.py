@@ -459,50 +459,50 @@ class Trade(Page):
         return amount
 
     @live
-    def accept_offer(page, player, offer_id: UUID):
+    def accept_offer(page, player, offer_ids: list):
         """
         Accept an existing market offer, executing a trade
 
-        The acceptor takes the proposer's price. Both parties'
-        profits are calculated and distributed immediately.
-
-        Args:
-            offer_id: ID of offer to accept
-
-        Returns:
-            Acceptor's realized profit
-
-        Raises:
-            ValueError: If player already traded or offer invalid
+        The client sends a list of offer IDs (all at the same price);
+        the server picks the first one that is still valid.
         """
         if player.trade:
             raise ValueError(f"Player {player} already traded.")
 
-        # Validate and retrieve the target offer
-        result = validate_offer(
-            player.session.offers,
-            player.round,
-            offer_id,
-        )
+        # Try each candidate until we find one still valid
+        offer_id = None
+        offer = None
 
-        if result is None:
+        for raw_id in offer_ids:
+            cid = UUID(str(raw_id))
+            result = validate_offer(player.session.offers, player.round, cid)
+
+            if result is None:
+                continue
+
+            _, validated_offer = result
+
+            if validated_offer.buy == player.buyer:
+                continue
+
+            offer_id = cid
+            offer = validated_offer
+            break
+
+        if offer_id is None:
             raise ValueError("Offer no longer valid")
-
-        validated_id, offer = result
-        if validated_id != offer_id:
-            raise ValueError("Offer no longer valid")
-
-        if offer.buy == player.buyer:
-            raise ValueError("Buyer cannot sell, seller cannot buy")
 
         # Ensure accepting this offer wouldn't yield negative profit
         session = player.session
+
         if player.buyer:
             tax = get_tax(session, "buyer_tax", player.round)
+
             if offer.price > player.cost_or_value - tax:
                 raise ValueError("Accepting this offer would result in negative profit")
         else:
             tax = get_tax(session, "seller_tax", player.round)
+
             if offer.price < player.cost_or_value + tax:
                 raise ValueError("Accepting this offer would result in negative profit")
 
@@ -554,6 +554,7 @@ class Trade(Page):
         new_tx = new_tx_entries[0][2] if new_tx_entries else None
 
         remove_ids = [offer_id]
+
         if acceptor_old_offer_id is not None:
             remove_ids.append(acceptor_old_offer_id)
 
@@ -564,6 +565,7 @@ class Trade(Page):
             add=[],
             txs=[new_tx] if new_tx is not None else [],
         )
+
         return player.profit
 
 
