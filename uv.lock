@@ -246,6 +246,11 @@ wheels = [
 ]
 
 [[package]]
+name = "find-eq"
+version = "0.1.0"
+source = { git = "https://github.com/mrpg/find-eq.git?rev=master#f64424358190257b8985565eabd1efb9b86c14d9" }
+
+[[package]]
 name = "h11"
 version = "0.16.0"
 source = { registry = "https://pypi.org/simple" }
@@ -978,6 +983,7 @@ dependencies = [
     { name = "anthropic" },
     { name = "audioop-lts" },
     { name = "black" },
+    { name = "find-eq" },
     { name = "isort" },
     { name = "mini-exchange" },
     { name = "pre-commit" },
@@ -997,6 +1003,7 @@ requires-dist = [
     { name = "anthropic" },
     { name = "audioop-lts" },
     { name = "black" },
+    { name = "find-eq", git = "https://github.com/mrpg/find-eq.git?rev=master" },
     { name = "isort" },
     { name = "mini-exchange", git = "https://github.com/mrpg/mini-exchange.git?rev=master" },
     { name = "pre-commit" },

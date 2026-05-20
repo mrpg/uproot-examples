@@ -69,12 +69,11 @@ function refreshDisplay() {
 
         if (buyer) {
             const affordable = group.price <= maxBid;
-            if (!affordable) badge.classList.add("offer-unprofitable");
             badge.setAttribute("role", "button");
             badge.setAttribute("tabindex", "0");
             badge.setAttribute("aria-label", `Accept ask at price ${fmt(group.price)}` + (count > 1 ? ` (${count} orders)` : "") + (affordable ? "" : " (too expensive)"));
             badge.onclick = () => { if (checkProfitLimit(group.price)) acceptOffer(group.ids); };
-            badge.onkeypress = (e) => {
+            badge.onkeydown = (e) => {
                 if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     if (checkProfitLimit(group.price)) acceptOffer(group.ids);
@@ -97,12 +96,11 @@ function refreshDisplay() {
 
         if (!buyer) {
             const profitable = group.price >= minAsk;
-            if (!profitable) badge.classList.add("offer-unprofitable");
             badge.setAttribute("role", "button");
             badge.setAttribute("tabindex", "0");
             badge.setAttribute("aria-label", `Accept bid at price ${fmt(group.price)}` + (count > 1 ? ` (${count} orders)` : "") + (profitable ? "" : " (too low)"));
             badge.onclick = () => { if (checkProfitLimit(group.price)) acceptOffer(group.ids); };
-            badge.onkeypress = (e) => {
+            badge.onkeydown = (e) => {
                 if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     if (checkProfitLimit(group.price)) acceptOffer(group.ids);
