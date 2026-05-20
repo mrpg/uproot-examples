@@ -186,7 +186,9 @@ class Assignment(NoshowPage):
 
         session = player.session
         present = player.context.present
-        assignment = session.get("double_auction_assignment")
+
+        with session:
+            assignment = session.get("double_auction_assignment")
 
         if assignment is None:
             values = get_setting(session, "values")
@@ -207,7 +209,9 @@ class Assignment(NoshowPage):
                 assignable_buyer.append(is_buyer)
                 assignable_cost_or_value.append(max(values) if is_buyer else min(costs))
 
-            assignment = list(zip(assignable_buyer, assignable_cost_or_value))
+            assignment = [
+                [a, b] for a, b in zip(assignable_buyer, assignable_cost_or_value)
+            ]
             rng().shuffle(assignment)
             session.double_auction_assignment = assignment
 
