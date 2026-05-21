@@ -213,12 +213,13 @@ class Assignment(NoshowPage):
                 assignable_buyer = master_buyer * k
                 assignable_cost_or_value = master_cost_or_value * k
 
+                max_value = max(values)
+                min_cost = min(costs)
+
                 for i in range(e):
                     is_buyer = i % 2 == 0
                     assignable_buyer.append(is_buyer)
-                    assignable_cost_or_value.append(
-                        max(values) if is_buyer else min(costs)
-                    )
+                    assignable_cost_or_value.append(max_value if is_buyer else min_cost)
 
                 assignment = [
                     [a, b] for a, b in zip(assignable_buyer, assignable_cost_or_value)
@@ -258,25 +259,23 @@ def market_data(
         player_offers[entry.pid] = (entry_id, entry.buy, entry.price)
 
     # Partition valid offers into market sides
-    market_book = {"asks": [], "bids": []}
+    bids = []
+    asks = []
 
     for pid, (offer_id, is_buy, price) in player_offers.items():
-        if pid in traded_players:
+        if pid in traded_players or price is None:
             continue
 
-        if price is None:  # Skip cancelled offers
-            continue
+        (bids if is_buy else asks).append({"id": offer_id, "price": price})
 
-        offer_data = {"id": offer_id, "price": price}
-        side_key = "bids" if is_buy else "asks"
-        market_book[side_key].append(offer_data)
-
-    market_book["txs"] = [
-        {"price": entry.price}
-        for _, _, entry in um.filter_entries(txs_model, Transaction, round=round)
-    ]
-
-    return market_book
+    return {
+        "asks": asks,
+        "bids": bids,
+        "txs": [
+            {"price": entry.price}
+            for _, _, entry in um.filter_entries(txs_model, Transaction, round=round)
+        ],
+    }
 
 
 def calculate_profit(
@@ -303,12 +302,16 @@ def get_player_active_offer_id(
     txs_model,
     round: int,
     offer_uuid,
+    *,
+    traded_players: Optional[set] = None,
 ) -> Optional[UUID]:
     """Return offer_uuid if it is currently the active offer, else None."""
     if offer_uuid is None:
         return None
 
-    result = validate_offer(offers_model, txs_model, round, offer_uuid)
+    result = validate_offer(
+        offers_model, txs_model, round, offer_uuid, traded_players=traded_players
+    )
 
     return offer_uuid if result is not None else None
 
@@ -423,11 +426,14 @@ def validate_offer(
     txs_model,
     round: int,
     offer_id: UUID,
+    *,
+    traded_players: Optional[set] = None,
 ) -> Optional[tuple[UUID, Offer]]:
     """
     Validate that an offer exists and is active
 
-    Returns (id, offer) tuple if valid, None if invalid/cancelled
+    Returns (id, offer) tuple if valid, None if invalid/cancelled.
+    Pass traded_players to skip recomputing the traded set.
     """
     target_offer = None
     superseded = False
@@ -439,13 +445,13 @@ def validate_offer(
         elif target_offer is not None and entry.pid == target_offer.pid:
             superseded = True
 
-    if target_offer is None or target_offer.price is None:
+    if target_offer is None or target_offer.price is None or superseded:
         return None
 
-    if superseded:
-        return None
-
-    if player_has_traded(txs_model, round, target_offer.pid):
+    if traded_players is not None:
+        if target_offer.pid in traded_players:
+            return None
+    elif player_has_traded(txs_model, round, target_offer.pid):
         return None
 
     return (offer_id, target_offer)
@@ -518,6 +524,7 @@ class Trade(Page):
             player.session.txs,
             player.round,
             player.offer,
+            traded_players=set(),
         )
 
         if result is None:
@@ -581,6 +588,7 @@ class Trade(Page):
             player.session.txs,
             player.round,
             player.get("offer"),
+            traded_players=set(),
         )
 
         player.offer = create_offer_entry(
@@ -615,13 +623,12 @@ class Trade(Page):
         """
         ensure_trading_open(player)
 
-        if player.get("trade") or player_has_traded(
-            player.session.txs, player.round, player.pid
-        ):
-            raise ValueError(f"Player {player} already traded.")
-
         # Pre-compute lookup state to avoid rescanning per candidate
         traded_players = players_traded_in_round(player.session.txs, player.round)
+
+        if player.get("trade") or player.pid in traded_players:
+            raise ValueError(f"Player {player} already traded.")
+
         offers_by_id = {}
         player_latest = {}
 
@@ -784,43 +791,36 @@ def digest(session):
 
         expected_eq = eq_to_dict(
             find_equilibrium(
-                [Decimal(str(v)) for v in eff_demand],
-                [Decimal(str(c)) for c in eff_supply],
+                [Decimal(v) for v in eff_demand],
+                [Decimal(c) for c in eff_supply],
             )
         )
 
-        traded = players_traded_in_round(session.txs, round_num)
+        traded = set()
+        tx_prices = []
+
+        for _, _, transaction in um.filter_entries(
+            session.txs, Transaction, round=round_num
+        ):
+            traded.update(transaction_players(transaction))
+            tx_prices.append(transaction.price)
+
         player_offers = {}
 
-        for entry_id, _, entry in um.filter_entries(
-            session.offers, Offer, round=round_num
-        ):
+        for _, _, entry in um.filter_entries(session.offers, Offer, round=round_num):
             player_offers[entry.pid] = (entry.buy, entry.price)
 
         actual_bids = []
         actual_asks = []
 
         for pid, (is_buy, price) in player_offers.items():
-            if pid in traded:
+            if pid in traded or price is None:
                 continue
 
-            if price is None:
-                continue
-
-            if is_buy:
-                actual_bids.append(price)
-            else:
-                actual_asks.append(price)
+            (actual_bids if is_buy else actual_asks).append(price)
 
         actual_bids.sort(reverse=True)
         actual_asks.sort()
-
-        tx_prices = [
-            entry.price
-            for _, _, entry in um.filter_entries(
-                session.txs, Transaction, round=round_num
-            )
-        ]
 
         rounds_data.append(
             {
@@ -847,8 +847,11 @@ def pipeline(session):
     num_rounds = get_setting(session, "num_rounds")
 
     for round_num in range(1, num_rounds + 1):
-        latest_offers = latest_offer_by_player(session, round_num)
         transactions = transactions_by_id(session, round_num)
+        traded = {
+            pid for tx in transactions.values() for pid in transaction_players(tx)
+        }
+        latest_offers = latest_offer_by_player(session, round_num, traded=traded)
 
         for player in session.players:
             app_data = player.within(app=APP_NAME)
@@ -879,12 +882,14 @@ def pipeline(session):
     return rows
 
 
-def latest_offer_by_player(session, round_num):
+def latest_offer_by_player(session, round_num, *, traded=None):
     offers = {}
-    traded = players_traded_in_round(session.txs, round_num)
 
-    for _, pid, offer in um.filter_entries(session.offers, Offer, round=round_num):
-        offers[pid] = offer
+    if traded is None:
+        traded = players_traded_in_round(session.txs, round_num)
+
+    for _, _, offer in um.filter_entries(session.offers, Offer, round=round_num):
+        offers[offer.pid] = offer
 
     return {
         pid: offer
