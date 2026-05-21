@@ -190,32 +190,34 @@ class Assignment(NoshowPage):
         with session:
             assignment = session.get("double_auction_assignment")
 
-        if assignment is None:
-            values = get_setting(session, "values")
-            costs = get_setting(session, "costs")
+            if assignment is None:
+                values = get_setting(session, "values")
+                costs = get_setting(session, "costs")
 
-            master_buyer = [True for _ in values] + [False for _ in costs]
-            master_cost_or_value = values + costs
+                master_buyer = [True for _ in values] + [False for _ in costs]
+                master_cost_or_value = values + costs
 
-            n = len(present)
-            k = n // len(master_buyer)
-            e = n - k * len(master_buyer)
+                n = len(present)
+                k = n // len(master_buyer)
+                e = n - k * len(master_buyer)
 
-            assignable_buyer = master_buyer * k
-            assignable_cost_or_value = master_cost_or_value * k
+                assignable_buyer = master_buyer * k
+                assignable_cost_or_value = master_cost_or_value * k
 
-            for i in range(e):
-                is_buyer = i % 2 == 0
-                assignable_buyer.append(is_buyer)
-                assignable_cost_or_value.append(max(values) if is_buyer else min(costs))
+                for i in range(e):
+                    is_buyer = i % 2 == 0
+                    assignable_buyer.append(is_buyer)
+                    assignable_cost_or_value.append(
+                        max(values) if is_buyer else min(costs)
+                    )
 
-            assignment = [
-                [a, b] for a, b in zip(assignable_buyer, assignable_cost_or_value)
-            ]
-            rng().shuffle(assignment)
-            session.double_auction_assignment = assignment
+                assignment = [
+                    [a, b] for a, b in zip(assignable_buyer, assignable_cost_or_value)
+                ]
+                rng().shuffle(assignment)
+                session.double_auction_assignment = assignment
 
-        my_id = present.index(player)  # This is guaranteed to work
+        my_id = present.index(player)
         player.buyer, player.cost_or_value = assignment[my_id]
 
 
@@ -401,33 +403,22 @@ def validate_offer(
 
     Returns (id, offer) tuple if valid, None if invalid/cancelled
     """
-    candidates = um.filter_entries(
-        offers_model,
-        Offer,
-        id=offer_id,
-        round=round,
-    )
+    target_offer = None
+    player_latest = {}
 
-    if not candidates:
+    for entry_id, _, entry in um.filter_entries(offers_model, Offer, round=round):
+        player_latest[entry.pid] = entry_id
+        if entry_id == offer_id:
+            target_offer = entry
+
+    if target_offer is None or target_offer.price is None:
         return None
-
-    target_id, _, target_offer = candidates[0]
-    if target_offer.price is None:
+    if player_latest.get(target_offer.pid) != offer_id:
         return None
     if player_has_traded(txs_model, round, target_offer.pid):
         return None
 
-    latest_id = None
-
-    # Verify this is the player's current active offer
-    for entry_id, _, entry in um.filter_entries(offers_model, Offer, round=round):
-        if entry.pid == target_offer.pid:
-            latest_id = entry_id
-
-    if latest_id != target_id:
-        return None  # Player has a newer offer
-
-    return (target_id, target_offer)
+    return (offer_id, target_offer)
 
 
 class Instructions(Page):
@@ -621,9 +612,6 @@ class Trade(Page):
 
         if offer_id is None:
             raise ValueError("Offer no longer valid")
-
-        if player_has_traded(player.session.txs, player.round, offer.pid):
-            raise ValueError("Offer proposer already traded")
 
         # Ensure accepting this offer wouldn't yield negative profit
         session = player.session
