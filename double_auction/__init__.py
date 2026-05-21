@@ -297,23 +297,36 @@ def calculate_profit(
         return price - player.cost_or_value - get_tax(session, "seller_tax", round_num)
 
 
-def get_player_active_offer_id(
+def player_active_offer(
     offers_model,
     txs_model,
     round: int,
-    offer_uuid,
+    pid: PlayerIdentifier,
     *,
     traded_players: Optional[set] = None,
-) -> Optional[UUID]:
-    """Return offer_uuid if it is currently the active offer, else None."""
-    if offer_uuid is None:
+) -> Optional[tuple[UUID, Offer]]:
+    """Return the player's latest active offer from the durable offer ledger."""
+    latest = None
+
+    for entry_id, _, entry in um.filter_entries(offers_model, Offer, round=round):
+        if entry.pid == pid:
+            latest = (entry_id, entry)
+
+    if latest is None:
         return None
 
-    result = validate_offer(
-        offers_model, txs_model, round, offer_uuid, traded_players=traded_players
-    )
+    entry_id, offer = latest
 
-    return offer_uuid if result is not None else None
+    if offer.price is None:
+        return None
+
+    if traded_players is not None:
+        if pid in traded_players:
+            return None
+    elif player_has_traded(txs_model, round, pid):
+        return None
+
+    return entry_id, offer
 
 
 def transaction_players(transaction: Transaction) -> tuple[PlayerIdentifier, ...]:
@@ -421,42 +434,6 @@ def create_offer_entry(
     )
 
 
-def validate_offer(
-    offers_model,
-    txs_model,
-    round: int,
-    offer_id: UUID,
-    *,
-    traded_players: Optional[set] = None,
-) -> Optional[tuple[UUID, Offer]]:
-    """
-    Validate that an offer exists and is active
-
-    Returns (id, offer) tuple if valid, None if invalid/cancelled.
-    Pass traded_players to skip recomputing the traded set.
-    """
-    target_offer = None
-    superseded = False
-
-    for entry_id, _, entry in um.filter_entries(offers_model, Offer, round=round):
-        if entry_id == offer_id:
-            target_offer = entry
-            superseded = False
-        elif target_offer is not None and entry.pid == target_offer.pid:
-            superseded = True
-
-    if target_offer is None or target_offer.price is None or superseded:
-        return None
-
-    if traded_players is not None:
-        if target_offer.pid in traded_players:
-            return None
-    elif player_has_traded(txs_model, round, target_offer.pid):
-        return None
-
-    return (offer_id, target_offer)
-
-
 class Instructions(Page):
     """
     Instructions page shown before trading begins
@@ -513,18 +490,17 @@ class Trade(Page):
 
     @classmethod
     async def jsvars(page, player):
-        if player_has_traded(player.session.txs, player.round, player.pid):
+        traded_players = players_traded_in_round(player.session.txs, player.round)
+
+        if player.pid in traded_players:
             return dict(offer_amount=None)
 
-        if player.get("offer") is None:
-            return dict(offer_amount=None)
-
-        result = validate_offer(
+        result = player_active_offer(
             player.session.offers,
             player.session.txs,
             player.round,
-            player.offer,
-            traded_players=set(),
+            player.pid,
+            traded_players=traded_players,
         )
 
         if result is None:
@@ -554,9 +530,7 @@ class Trade(Page):
         """
         ensure_trading_open(player)
 
-        if player.get("trade") or player_has_traded(
-            player.session.txs, player.round, player.pid
-        ):
+        if player_has_traded(player.session.txs, player.round, player.pid):
             raise ValueError(f"Player {player} already traded.")
 
         if amount is not None:
@@ -583,13 +557,14 @@ class Trade(Page):
                 if amount < min_ask:
                     raise ValueError("Ask cannot be below your cost plus tax")
 
-        old_offer_id = get_player_active_offer_id(
+        active_offer = player_active_offer(
             player.session.offers,
             player.session.txs,
             player.round,
-            player.get("offer"),
-            traded_players=set(),
+            player.pid,
+            traded_players=players_traded_in_round(player.session.txs, player.round),
         )
+        old_offer_id = active_offer[0] if active_offer is not None else None
 
         player.offer = create_offer_entry(
             player.session,
@@ -626,7 +601,7 @@ class Trade(Page):
         # Pre-compute lookup state to avoid rescanning per candidate
         traded_players = players_traded_in_round(player.session.txs, player.round)
 
-        if player.get("trade") or player.pid in traded_players:
+        if player.pid in traded_players:
             raise ValueError(f"Player {player} already traded.")
 
         offers_by_id = {}
@@ -682,17 +657,17 @@ class Trade(Page):
             if offer.price < player.cost_or_value + tax:
                 raise ValueError("Accepting this offer would result in negative profit")
 
-        # Capture acceptor's active offer ID before cancellation (reuse pre-computed state)
-        acceptor_offer_uuid = player.get("offer")
-        acceptor_old_offer_id = None
-
-        if (
-            acceptor_offer_uuid is not None
-            and acceptor_offer_uuid in offers_by_id
-            and offers_by_id[acceptor_offer_uuid].price is not None
-            and player_latest.get(player.pid) == acceptor_offer_uuid
-        ):
-            acceptor_old_offer_id = acceptor_offer_uuid
+        # Capture acceptor's active offer ID before cancellation.
+        acceptor_active_offer = player_active_offer(
+            player.session.offers,
+            player.session.txs,
+            player.round,
+            player.pid,
+            traded_players=traded_players,
+        )
+        acceptor_old_offer_id = (
+            acceptor_active_offer[0] if acceptor_active_offer is not None else None
+        )
 
         # Cancel proposer's offer to prevent double-trading
         create_offer_entry(

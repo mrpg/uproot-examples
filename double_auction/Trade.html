@@ -113,7 +113,7 @@
     {% set ledger_traded = app.player_has_traded(player.session.txs, player.round, player.pid) %}
     {% set ledger_profit = app.player_profit_from_ledger(player) %}
     let buyer = {{ player.buyer | tojson }};
-    let traded = {{ (ledger_traded or player.trade is not none) | tojson }};
+    let traded = {{ ledger_traded | tojson }};
     let profit = {{ (ledger_profit if ledger_traded else player.profit) | tojson }};
     let costOrValue = {{ player.cost_or_value | tojson }};
     let tax = {{ app.get_tax(player.session, "buyer_tax" if player.buyer else "seller_tax", player.round) | tojson }};
