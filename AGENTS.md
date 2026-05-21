@@ -118,3 +118,7 @@ This starts all loaded apps. Access the admin interface to create sessions and t
 If installed, run `black`, `isort`, `ruff` on any new apps. Issues with star imports may be safely ignored.
 
 One tab is to equal 4 spaces, the standard indentation for all markup and programming languages.
+
+### Python vertical spacing
+
+Add a blank line before `if`, `return`, `while`, and `for` statements. The exception is right after a line that ends with a colon (i.e., the first statement in any block) — no blank line there. Do not be breathless.
