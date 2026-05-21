@@ -58,8 +58,10 @@ def get_setting(session, key):
 def get_tax(session, key, round_num):
     """Get tax for a specific round. key is 'buyer_tax' or 'seller_tax'."""
     val = get_setting(session, key)
+
     if isinstance(val, list):
         return val[round_num - 1]
+
     return val
 
 
@@ -110,14 +112,17 @@ def new_session(session):
         or num_rounds < 1
     ):
         raise ValueError("num_rounds must be a positive integer")
+
     if not is_integer(duration) or duration <= 0:
         raise ValueError("duration must be a positive integer")
+
     if (
         not isinstance(values, list)
         or not values
         or not all(is_integer(v) for v in values)
     ):
         raise ValueError("values must be a non-empty integer list")
+
     if (
         not isinstance(costs, list)
         or not costs
@@ -127,11 +132,13 @@ def new_session(session):
 
     for key in ("buyer_tax", "seller_tax"):
         val = get_setting(session, key)
+
         if isinstance(val, list):
             if len(val) != num_rounds:
                 raise ValueError(
                     f"{key} has {len(val)} entries but num_rounds is {num_rounds}"
                 )
+
             if not all(is_integer(tax) for tax in val):
                 raise ValueError(f"{key} must contain only integers")
         elif not is_integer(val):
@@ -162,6 +169,7 @@ class RaiseHands(Page):
     @classmethod
     def timeout(page, player):
         page.ensure_detection(player)
+
         return player.session.detection_period_until - time()
 
     @classmethod
@@ -175,6 +183,7 @@ class RaiseHands(Page):
     @live
     def set_presence(page, player, new_value: bool):
         player.present = new_value
+
         return new_value
 
 
@@ -244,6 +253,7 @@ def market_data(
 
     # Map each player to their latest offer (last one wins)
     player_offers = {}
+
     for entry_id, _, entry in um.filter_entries(offers_model, Offer, round=round):
         player_offers[entry.pid] = (entry_id, entry.buy, entry.price)
 
@@ -253,6 +263,7 @@ def market_data(
     for pid, (offer_id, is_buy, price) in player_offers.items():
         if pid in traded_players:
             continue
+
         if price is None:  # Skip cancelled offers
             continue
 
@@ -280,6 +291,7 @@ def calculate_profit(
     Sellers: profit = price - cost - seller_tax
     """
     session = player.session
+
     if player.buyer:
         return player.cost_or_value - price - get_tax(session, "buyer_tax", round_num)
     else:
@@ -295,21 +307,25 @@ def get_player_active_offer_id(
     """Return offer_uuid if it is currently the active offer, else None."""
     if offer_uuid is None:
         return None
+
     result = validate_offer(offers_model, txs_model, round, offer_uuid)
+
     return offer_uuid if result is not None else None
 
 
 def transaction_players(transaction: Transaction) -> tuple[PlayerIdentifier, ...]:
-    players = [transaction.acceptor]
     if transaction.proposer is not None:
-        players.append(transaction.proposer)
-    return tuple(players)
+        return (transaction.acceptor, transaction.proposer)
+
+    return (transaction.acceptor,)
 
 
 def players_traded_in_round(txs_model, round: int) -> set[PlayerIdentifier]:
     traded = set()
+
     for _, _, transaction in um.filter_entries(txs_model, Transaction, round=round):
         traded.update(transaction_players(transaction))
+
     return traded
 
 
@@ -317,6 +333,7 @@ def player_transaction_id(
     txs_model, round: int, pid: PlayerIdentifier
 ) -> Optional[UUID]:
     result = player_transaction(txs_model, round, pid)
+
     return result[0] if result is not None else None
 
 
@@ -328,18 +345,26 @@ def player_transaction(
     for tx_id, _, transaction in um.filter_entries(txs_model, Transaction, round=round):
         if pid in transaction_players(transaction):
             return tx_id, transaction
+
     return None
 
 
 def player_has_traded(txs_model, round: int, pid: PlayerIdentifier) -> bool:
-    return player_transaction_id(txs_model, round, pid) is not None
+    for _, _, transaction in um.filter_entries(txs_model, Transaction, round=round):
+        if pid in transaction_players(transaction):
+            return True
+
+    return False
 
 
 def player_profit_from_ledger(player) -> Optional[int]:
     result = player_transaction(player.session.txs, player.round, player.pid)
+
     if result is None:
         return None
+
     _, transaction = result
+
     return calculate_profit(player, transaction.price, player.round)
 
 
@@ -354,6 +379,7 @@ def ensure_trading_open(player):
 
     if session.get("trade_round") != player.round:
         raise ValueError("Trading is closed for this round")
+
     if now > session.trade_until:
         raise ValueError("Trading is closed for this round")
 
@@ -404,17 +430,21 @@ def validate_offer(
     Returns (id, offer) tuple if valid, None if invalid/cancelled
     """
     target_offer = None
-    player_latest = {}
+    superseded = False
 
     for entry_id, _, entry in um.filter_entries(offers_model, Offer, round=round):
-        player_latest[entry.pid] = entry_id
         if entry_id == offer_id:
             target_offer = entry
+            superseded = False
+        elif target_offer is not None and entry.pid == target_offer.pid:
+            superseded = True
 
     if target_offer is None or target_offer.price is None:
         return None
-    if player_latest.get(target_offer.pid) != offer_id:
+
+    if superseded:
         return None
+
     if player_has_traded(txs_model, round, target_offer.pid):
         return None
 
@@ -465,6 +495,7 @@ class Trade(Page):
     @classmethod
     def timeout(page, player):
         session = player.session
+
         if (
             session.get("trade_until") is None
             or session.get("trade_round") != player.round
@@ -478,21 +509,23 @@ class Trade(Page):
     async def jsvars(page, player):
         if player_has_traded(player.session.txs, player.round, player.pid):
             return dict(offer_amount=None)
+
         if player.get("offer") is None:
             return dict(offer_amount=None)
-        else:
-            result = validate_offer(
-                player.session.offers,
-                player.session.txs,
-                player.round,
-                player.offer,
-            )
 
-            if result is None:
-                return dict(offer_amount=None)
-            else:
-                _, offer = result
-                return dict(offer_amount=offer.price)
+        result = validate_offer(
+            player.session.offers,
+            player.session.txs,
+            player.round,
+            player.offer,
+        )
+
+        if result is None:
+            return dict(offer_amount=None)
+
+        _, offer = result
+
+        return dict(offer_amount=offer.price)
 
     @live
     def get_market(page, player):
@@ -522,19 +555,24 @@ class Trade(Page):
         if amount is not None:
             if not is_integer(amount):
                 raise ValueError("Offer amount must be an integer")
+
             if amount < 0:
                 raise ValueError(f"Bad amount: {amount}")
+
             session = player.session
+
             if player.buyer:
                 max_bid = player.cost_or_value - get_tax(
                     session, "buyer_tax", player.round
                 )
+
                 if amount > max_bid:
                     raise ValueError("Bid cannot exceed your valuation minus tax")
             else:
                 min_ask = player.cost_or_value + get_tax(
                     session, "seller_tax", player.round
                 )
+
                 if amount < min_ask:
                     raise ValueError("Ask cannot be below your cost plus tax")
 
@@ -564,6 +602,7 @@ class Trade(Page):
             ),
             txs=[],
         )
+
         return amount
 
     @live
@@ -581,33 +620,42 @@ class Trade(Page):
         ):
             raise ValueError(f"Player {player} already traded.")
 
+        # Pre-compute lookup state to avoid rescanning per candidate
+        traded_players = players_traded_in_round(player.session.txs, player.round)
+        offers_by_id = {}
+        player_latest = {}
+
+        for entry_id, _, entry in um.filter_entries(
+            player.session.offers, Offer, round=player.round
+        ):
+            player_latest[entry.pid] = entry_id
+            offers_by_id[entry_id] = entry
+
         # Try each candidate until we find one still valid
         offer_id = None
         offer = None
 
         for raw_id in offer_ids:
             cid = UUID(str(raw_id))
-            result = validate_offer(
-                player.session.offers,
-                player.session.txs,
-                player.round,
-                cid,
-            )
+            candidate = offers_by_id.get(cid)
 
-            if result is None:
+            if candidate is None or candidate.price is None:
                 continue
 
-            _, validated_offer = result
+            if player_latest.get(candidate.pid) != cid:
+                continue
 
-            if validated_offer.round != player.round:
+            if candidate.pid in traded_players:
                 continue
-            if validated_offer.buy == player.buyer:
+
+            if candidate.buy == player.buyer:
                 continue
-            if validated_offer.pid == player.pid:
+
+            if candidate.pid == player.pid:
                 continue
 
             offer_id = cid
-            offer = validated_offer
+            offer = candidate
             break
 
         if offer_id is None:
@@ -627,13 +675,17 @@ class Trade(Page):
             if offer.price < player.cost_or_value + tax:
                 raise ValueError("Accepting this offer would result in negative profit")
 
-        # Capture acceptor's active offer ID before cancellation
-        acceptor_old_offer_id = get_player_active_offer_id(
-            player.session.offers,
-            player.session.txs,
-            player.round,
-            player.get("offer"),
-        )
+        # Capture acceptor's active offer ID before cancellation (reuse pre-computed state)
+        acceptor_offer_uuid = player.get("offer")
+        acceptor_old_offer_id = None
+
+        if (
+            acceptor_offer_uuid is not None
+            and acceptor_offer_uuid in offers_by_id
+            and offers_by_id[acceptor_offer_uuid].price is not None
+            and player_latest.get(player.pid) == acceptor_offer_uuid
+        ):
+            acceptor_old_offer_id = acceptor_offer_uuid
 
         # Cancel proposer's offer to prevent double-trading
         create_offer_entry(
@@ -701,6 +753,7 @@ def digest(session):
     for player in session.players:
         if player.get("buyer") is None:
             continue
+
         if player.buyer:
             demand_values.append(player.cost_or_value)
         else:
@@ -712,6 +765,7 @@ def digest(session):
     def eq_to_dict(eq):
         if eq is None or eq.quantity == 0:
             return None
+
         return {
             "price_min": int(eq.price_min),
             "price_max": int(eq.price_max),
@@ -720,6 +774,7 @@ def digest(session):
 
     rounds_data = []
     num_rounds = get_setting(session, "num_rounds")
+
     for round_num in range(1, num_rounds + 1):
         # Tax-adjusted curves (micro 101: demand shifts down, supply shifts up)
         buyer_tax = get_tax(session, "buyer_tax", round_num)
@@ -736,6 +791,7 @@ def digest(session):
 
         traded = players_traded_in_round(session.txs, round_num)
         player_offers = {}
+
         for entry_id, _, entry in um.filter_entries(
             session.offers, Offer, round=round_num
         ):
@@ -743,11 +799,14 @@ def digest(session):
 
         actual_bids = []
         actual_asks = []
+
         for pid, (is_buy, price) in player_offers.items():
             if pid in traded:
                 continue
+
             if price is None:
                 continue
+
             if is_buy:
                 actual_bids.append(price)
             else:
