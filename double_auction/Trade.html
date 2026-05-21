@@ -22,6 +22,7 @@
 {% set num_rounds = app.get_setting(player.session, "num_rounds") %}
 {% set buyer_tax = app.get_tax(player.session, "buyer_tax", player.round) %}
 {% set seller_tax = app.get_tax(player.session, "seller_tax", player.round) %}
+{% set can_offer = app.get_setting(player.session, "buyer_can_offer") if player.buyer else app.get_setting(player.session, "seller_can_offer") %}
 
 <div x-data="{ costOrValue: {{ player.cost_or_value | tojson }}, buyerTax: {{ buyer_tax | tojson }}, sellerTax: {{ seller_tax | tojson }}, fmt(n) { return Number(n).toLocaleString('en-US'); } }">
 
@@ -35,6 +36,7 @@
 {% include 'double_auction/RoundInfoText.html' %}
 
 <div id="not-traded" role="region" aria-label="Trading controls">
+    {% if can_offer %}
     <h3 class="mt-4">{% if player.buyer %}Your current bid price{% else %}Your current asking price{% endif %}</h3>
 
     <p class="no-offer" aria-live="polite">{% if player.buyer %}You do not have a current bid.{% else %}You do not have a current ask.{% endif %}</p>
@@ -52,6 +54,9 @@
         <button class="has-offer btn btn-uproot" type="button" onclick="makeOffer(true)" aria-label="Replace current {% if player.buyer %}bid{% else %}ask{% endif %}">{% if player.buyer %}Replace current bid{% else %}Replace current ask{% endif %}</button>
         <button class="has-offer btn btn-outline-uproot" type="button" onclick="makeOffer(false)" aria-label="Cancel current {% if player.buyer %}bid{% else %}ask{% endif %}">{% if player.buyer %}Cancel current bid{% else %}Cancel current ask{% endif %}</button>
     </div>
+    {% else %}
+    <p class="mt-4" aria-live="polite">You can only accept offers from the other side of the market. Click on an offer below to trade.</p>
+    {% endif %}
 </div>
 
 <div id="traded" role="region" aria-label="Trading completed" aria-live="assertive" class="text-success">
@@ -117,6 +122,7 @@
     let profit = {{ (ledger_profit if ledger_traded else player.profit) | tojson }};
     let costOrValue = {{ player.cost_or_value | tojson }};
     let tax = {{ app.get_tax(player.session, "buyer_tax" if player.buyer else "seller_tax", player.round) | tojson }};
+    let canOffer = uproot.vars.can_offer;
     let offerAmount = uproot.vars.offer_amount;
     let market = {
         asks: [],

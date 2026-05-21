@@ -11,6 +11,8 @@ uproot.simulate.on("double_auction/RoundInfo", (sim) => {
 });
 
 uproot.simulate.on("double_auction/Trade", (sim) => {
-    const amount = buyer ? costOrValue - tax : costOrValue + tax;
-    uproot.invoke("make_offer", amount);
+    if (canOffer) {
+        const amount = buyer ? costOrValue - tax : costOrValue + tax;
+        uproot.invoke("make_offer", amount);
+    }
 });

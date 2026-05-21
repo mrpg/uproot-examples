@@ -45,6 +45,8 @@ class C:
     DEFAULT_NUM_ROUNDS = 3
     DEFAULT_VALUES = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
     DEFAULT_COSTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    DEFAULT_BUYER_CAN_OFFER = True
+    DEFAULT_SELLER_CAN_OFFER = True
 
 
 def is_integer(value):
@@ -129,6 +131,12 @@ def new_session(session):
         or not all(is_integer(c) for c in costs)
     ):
         raise ValueError("costs must be a non-empty integer list")
+
+    for key in ("buyer_can_offer", "seller_can_offer"):
+        val = get_setting(session, key)
+
+        if not isinstance(val, bool):
+            raise ValueError(f"{key} must be a boolean")
 
     for key in ("buyer_tax", "seller_tax"):
         val = get_setting(session, key)
@@ -490,10 +498,13 @@ class Trade(Page):
 
     @classmethod
     async def jsvars(page, player):
+        can_offer_key = "buyer_can_offer" if player.buyer else "seller_can_offer"
+        can_offer = get_setting(player.session, can_offer_key)
+
         traded_players = players_traded_in_round(player.session.txs, player.round)
 
         if player.pid in traded_players:
-            return dict(offer_amount=None)
+            return dict(offer_amount=None, can_offer=can_offer)
 
         result = player_active_offer(
             player.session.offers,
@@ -504,11 +515,11 @@ class Trade(Page):
         )
 
         if result is None:
-            return dict(offer_amount=None)
+            return dict(offer_amount=None, can_offer=can_offer)
 
         _, offer = result
 
-        return dict(offer_amount=offer.price)
+        return dict(offer_amount=offer.price, can_offer=can_offer)
 
     @live
     def get_market(page, player):
@@ -529,6 +540,11 @@ class Trade(Page):
             ValueError: If amount is negative or player already traded
         """
         ensure_trading_open(player)
+
+        can_offer_key = "buyer_can_offer" if player.buyer else "seller_can_offer"
+
+        if not get_setting(player.session, can_offer_key):
+            raise ValueError("Your role cannot make offers in this market")
 
         if player_has_traded(player.session.txs, player.round, player.pid):
             raise ValueError(f"Player {player} already traded.")

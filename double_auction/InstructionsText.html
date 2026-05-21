@@ -1,5 +1,7 @@
 <p>This is a <b>double auction market</b> where buyers and sellers can trade with each other. Trades occur when buyers and sellers agree on a price.</p>
 
+{% set can_offer = app.get_setting(player.session, "buyer_can_offer") if player.buyer else app.get_setting(player.session, "seller_can_offer") %}
+
 <h4>Your role</h4>
 
 {% if player.buyer %}
@@ -12,6 +14,7 @@
 
 <h4>How to trade</h4>
 
+{% if can_offer %}
 <p><b>Making an offer:</b></p>
 <ul>
     <li>{% if player.buyer %}As a buyer, you can make a <b>bid</b>&mdash;this is the price you are willing to pay.{% else %}As a seller, you can make an <b>ask</b>&mdash;this is the price you are willing to accept.{% endif %}</li>
@@ -25,3 +28,12 @@
     <li>Click any offer to immediately trade at that price.</li>
     <li>Once you trade, you cannot make any more offers this round.</li>
 </ul>
+{% else %}
+<p><b>Accepting an offer:</b></p>
+<ul>
+    <li>{% if player.buyer %}Look at the <b>Asks</b> section to see what sellers are offering.{% else %}Look at the <b>Bids</b> section to see what buyers are offering.{% endif %}</li>
+    <li>Click any offer to immediately trade at that price.</li>
+    <li>You may only accept offers&mdash;you cannot post your own.</li>
+    <li>Once you trade, you cannot accept any more offers this round.</li>
+</ul>
+{% endif %}
