@@ -111,7 +111,6 @@ This allows the experimenter to compare theoretical predictions against observed
 | File                  | Purpose |
 |-----------------------|---------|
 | `__init__.py`         | All Python logic: constants, pages, models, live handlers, digest |
-| `find_eq.py`          | Competitive equilibrium solver (adapted from [find-eq](https://github.com/mrpg/find-eq)) |
 | `RaiseHands.html`     | Attendance toggle (Alpine.js) |
 | `RoundInfo.html`      | Per-round role and profit info |
 | `RoundInfoText.html`  | Shared text fragment for role/tax display (included by RoundInfo and Trade) |

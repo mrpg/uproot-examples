@@ -54,7 +54,6 @@ All settings are optional. Configure them via `session.settings`.
 | File                | Purpose                                                        |
 |---------------------|----------------------------------------------------------------|
 | `__init__.py`       | All Python logic: constants, pages, live handlers, digest      |
-| `find_eq.py`        | Competitive equilibrium solver (from [find-eq](https://github.com/mrpg/find-eq)) |
 | `Instructions.html` | Auction rules, tailored to buyer/seller role                   |
 | `Submit.html`       | Bidding interface with input and timer                         |
 | `Results.html`      | Round results: clearing price, trade outcome, profit           |

@@ -11,10 +11,9 @@
 from decimal import Decimal
 from time import time
 
+from find_eq import find_equilibrium
 from uproot.fields import *
 from uproot.smithereens import *
-
-from .find_eq import find_equilibrium
 
 DESCRIPTION = "Call auction"
 LANDING_PAGE = False
