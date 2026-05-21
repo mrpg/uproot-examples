@@ -63,15 +63,14 @@ function refreshDisplay() {
         const badge = document.createElement("span");
         badge.className = "badge bg-danger me-1 mb-1";
         const count = group.ids.length;
-        badge.innerHTML = count > 1
-            ? `${fmt(group.price)}<sub>(${count})</sub>`
-            : fmt(group.price);
+        const unitWord = count === 1 ? "unit" : "units";
+        badge.innerHTML = `$${fmt(group.price)}<br><span class="units">(${count}&thinsp;${unitWord})</span>`;
 
         if (buyer) {
             const affordable = group.price <= maxBid;
             badge.setAttribute("role", "button");
             badge.setAttribute("tabindex", "0");
-            badge.setAttribute("aria-label", `Accept ask at price ${fmt(group.price)}` + (count > 1 ? ` (${count} orders)` : "") + (affordable ? "" : " (too expensive)"));
+            badge.setAttribute("aria-label", `Accept ask at price ${fmt(group.price)} (${count} ${unitWord})` + (affordable ? "" : " (too expensive)"));
             badge.onclick = () => { if (checkProfitLimit(group.price)) acceptOffer(group.ids); };
             badge.onkeydown = (e) => {
                 if (e.key === "Enter" || e.key === " ") {
@@ -80,7 +79,7 @@ function refreshDisplay() {
                 }
             };
         } else {
-            badge.setAttribute("aria-label", `Ask price ${fmt(group.price)}` + (count > 1 ? ` (${count} orders)` : ""));
+            badge.setAttribute("aria-label", `Ask price ${fmt(group.price)} (${count} ${unitWord})`);
         }
 
         asksContainer.appendChild(badge);
@@ -90,15 +89,14 @@ function refreshDisplay() {
         const badge = document.createElement("span");
         badge.className = "badge bg-success me-1 mb-1";
         const count = group.ids.length;
-        badge.innerHTML = count > 1
-            ? `${fmt(group.price)}<sub>(${count})</sub>`
-            : fmt(group.price);
+        const unitWord = count === 1 ? "unit" : "units";
+        badge.innerHTML = `$${fmt(group.price)}<br><span class="units">(${count}&thinsp;${unitWord})</span>`;
 
         if (!buyer) {
             const profitable = group.price >= minAsk;
             badge.setAttribute("role", "button");
             badge.setAttribute("tabindex", "0");
-            badge.setAttribute("aria-label", `Accept bid at price ${fmt(group.price)}` + (count > 1 ? ` (${count} orders)` : "") + (profitable ? "" : " (too low)"));
+            badge.setAttribute("aria-label", `Accept bid at price ${fmt(group.price)} (${count} ${unitWord})` + (profitable ? "" : " (too low)"));
             badge.onclick = () => { if (checkProfitLimit(group.price)) acceptOffer(group.ids); };
             badge.onkeydown = (e) => {
                 if (e.key === "Enter" || e.key === " ") {
@@ -107,7 +105,7 @@ function refreshDisplay() {
                 }
             };
         } else {
-            badge.setAttribute("aria-label", `Bid price ${fmt(group.price)}` + (count > 1 ? ` (${count} orders)` : ""));
+            badge.setAttribute("aria-label", `Bid price ${fmt(group.price)} (${count} ${unitWord})`);
         }
 
         bidsContainer.appendChild(badge);
