@@ -480,8 +480,6 @@ class Trade(Page):
         player.offer = None
         player.trade = None
         player.profit = 0
-        num_rounds = get_setting(player.session, "num_rounds")
-        player.add_round = player.round < num_rounds
 
     @classmethod
     def timeout(page, player):
@@ -900,12 +898,14 @@ def transactions_by_id(session, round_num):
     }
 
 
-page_order = [
-    RaiseHands,
-    Assignment,
-    Instructions,
-    Repeat(
-        RoundInfo,
-        Trade,
-    ),
-]
+def page_order(player):
+    return [
+        RaiseHands,
+        Assignment,
+        Instructions,
+        Rounds(
+            RoundInfo,
+            Trade,
+            n=get_setting(player.session, "num_rounds"),
+        ),
+    ]
