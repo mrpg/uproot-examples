@@ -1,0 +1,48 @@
+{% block main %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Group</th>
+            <th>Total Contribution</th>
+            {% for i in range(C.NUM_CONTRIBUTORS) %}
+            <th>C{{ i + 1 }} Contrib.</th>
+            <th>C{{ i + 1 }} Punished</th>
+            {% endfor %}
+            <th>Total Punishment Spent</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for group, total_contribution, details, total_punishment in data %}
+        <tr>
+            <td>{{ group }}</td>
+            <td>
+                {% if total_contribution is none %}
+                <span class="text-muted">Pending</span>
+                {% else %}
+                {{ total_contribution }}
+                {% endif %}
+            </td>
+            {% for contribution, punishment in details %}
+            <td>
+                {% if contribution is none %}
+                <span class="text-muted">Pending</span>
+                {% else %}
+                {{ contribution }}
+                {% endif %}
+            </td>
+            <td>
+                {% if punishment is none %}
+                <span class="text-muted">&mdash;</span>
+                {% else %}
+                {{ punishment }}
+                {% endif %}
+            </td>
+            {% endfor %}
+            <td>{{ total_punishment }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock main %}

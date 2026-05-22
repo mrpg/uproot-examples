@@ -1,0 +1,37 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Punishment Decision
+{% endblock title %}
+
+{% block main %}
+
+<p>You are the <strong>observer</strong>. The {{ C.NUM_CONTRIBUTORS }} contributors in your group made the following contributions to the group account:</p>
+
+<table class="table w-auto mb-4">
+    <thead>
+        <tr>
+            <th>Contributor</th>
+            <th>Contribution</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contributor in player.context.contributors %}
+        <tr>
+            <td>Contributor {{ loop.index }}</td>
+            <td>{{ contributor.contribution }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p>You have an endowment of <strong>{{ C.PUNISHER_ENDOWMENT }}</strong>.
+You may spend any amount to reduce a contributor's earnings.
+Each unit you spend reduces that contributor's earnings by <strong>{{ C.PUNISHMENT_RATIO }}</strong>.</p>
+
+<p>Your total spending across all contributors cannot exceed {{ C.PUNISHER_ENDOWMENT }}.</p>
+
+{{ fields() }}
+{{ errors() }}
+
+{% endblock main %}

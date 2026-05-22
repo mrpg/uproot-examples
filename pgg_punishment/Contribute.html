@@ -1,0 +1,22 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Contribute
+{% endblock title %}
+
+{% block main %}
+
+<p>You are a <strong>contributor</strong> in a group of {{ C.GROUP_SIZE }} ({{ C.NUM_CONTRIBUTORS }} contributors and 1 observer).</p>
+
+<p>You have an endowment of <strong>{{ C.ENDOWMENT }}</strong>.
+You can allocate any amount to the group account. The remainder stays in your private account.</p>
+
+<p>All contributions to the group account will be multiplied by {{ C.MPCR }} per contributor
+(total return: {{ C.MPCR }} &times; total contributions, given to each contributor).</p>
+
+<p>After contributions are made, the observer may spend their own endowment to reduce contributors' earnings.
+Each unit the observer spends on you reduces your earnings by <strong>{{ C.PUNISHMENT_RATIO }}</strong>.</p>
+
+{{ fields() }}
+
+{% endblock main %}
