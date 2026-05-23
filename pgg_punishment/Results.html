@@ -1,0 +1,45 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+{% block main %}
+
+{% if player.is_punisher %}
+
+<h5>Contributions</h5>
+<table class="table w-auto mb-4">
+    <thead>
+        <tr>
+            <th>Contributor</th>
+            <th>Contribution</th>
+            <th>Your punishment cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contributor in player.context.contributors %}
+        <tr>
+            <td>Contributor {{ loop.index }}</td>
+            <td>{{ contributor.contribution }}</td>
+            <td>{{ player | attr("punish_" ~ contributor.member_id) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p>Total contributions: <strong>{{ player.context.total_contribution }}</strong></p>
+<p>Your total punishment spending: <strong>{{ player.context.punishment_spent }}</strong></p>
+
+{% else %}
+
+<p>You contributed <strong>{{ player.contribution }}</strong> to the group account.</p>
+<p>Total contributions: <strong>{{ player.context.total_contribution }}</strong></p>
+<p>Your return from the group account: {{ C.MPCR }} &times; {{ player.context.total_contribution }} = <strong>{{ C.MPCR * player.context.total_contribution }}</strong></p>
+<p>Punishment received: <strong>{{ player.context.punishment_received }}</strong></p>
+
+{% endif %}
+
+<p class="mt-3">Your final payoff is <strong>{{ player.payoff }}</strong>.</p>
+
+{% endblock main %}

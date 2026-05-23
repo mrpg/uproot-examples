@@ -54,6 +54,8 @@ All settings are optional. Configure them via `session.settings` (e.g., in a sce
 | `duration`    | int (seconds)   | `1500` (25 min)                  | Length of each trading period. |
 | `buyer_tax`   | int or list     | `0`                              | Per-unit tax on buyers. If a list, one entry per round (length must equal `num_rounds`). |
 | `seller_tax`  | int or list     | `0`                              | Per-unit tax on sellers. If a list, one entry per round (length must equal `num_rounds`). |
+| `buyer_can_offer`  | bool       | `true`                           | Whether buyers can post bids. When `false`, buyers can only accept sellers' asks (posted-offer market). |
+| `seller_can_offer` | bool       | `true`                           | Whether sellers can post asks. When `false`, sellers can only accept buyers' bids. |
 
 ### Example scenarios
 
@@ -80,6 +82,18 @@ All settings are optional. Configure them via `session.settings` (e.g., in a sce
     "seller_tax": [0, 0, 0, 0, 0, 0, 25, 25, 25],
     "duration": 600,
     "num_rounds": 9
+}
+```
+
+**Posted-offer market** (sellers post prices, buyers can only accept):
+
+```json
+{
+    "values": [100, 85, 70, 55, 44, 38, 30, 20, 10],
+    "costs": [5, 15, 25, 35, 40, 50, 60, 75, 90],
+    "buyer_can_offer": false,
+    "duration": 600,
+    "num_rounds": 3
 }
 ```
 
@@ -111,7 +125,6 @@ This allows the experimenter to compare theoretical predictions against observed
 | File                  | Purpose |
 |-----------------------|---------|
 | `__init__.py`         | All Python logic: constants, pages, models, live handlers, digest |
-| `find_eq.py`          | Competitive equilibrium solver (adapted from [find-eq](https://github.com/mrpg/find-eq)) |
 | `RaiseHands.html`     | Attendance toggle (Alpine.js) |
 | `RoundInfo.html`      | Per-round role and profit info |
 | `RoundInfoText.html`  | Shared text fragment for role/tax display (included by RoundInfo and Trade) |

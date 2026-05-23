@@ -1,15 +1,30 @@
 {% extends "Base.html" %}
 {% set buttons = False %}
 
-{% block title %}
-Please indicate your presence
-{% endblock title %}
+{% block head %}
+<style>
+    .presence-card {
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+
+    .presence-card-body {
+        width: 320px;
+        height: 320px;
+    }
+
+    .presence-emoji {
+        font-size: 4rem;
+        line-height: 1;
+    }
+</style>
+{% endblock head %}
 
 
 {% block main %}
 
 <div x-data="{
-    present: {{ player.present | tojson }},
+    present: {{ player.get('present', false) | tojson }},
     loading: false,
     toggle() {
         this.loading = true;
@@ -18,20 +33,22 @@ Please indicate your presence
             this.loading = false;
         });
     }
-}">
-    <div class="d-flex flex-column my-4">
-        <p class="mb-3">Are you here? Just flip the switch to let us know.</p>
+}" class="d-flex flex-column align-items-center my-4">
 
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="presenceToggle"
-                   :checked="present" :disabled="loading" @click="toggle()">
+    <p class="my-4 text-center text-muted">Click below to let us know you’re here.</p>
 
-            <label class="form-check-label" for="presenceToggle">
-                <span x-show="present" class="text-success fw-bold">I'm here!</span>
-                <span x-show="!present" class="text-muted">Not yet</span>
-            </label>
+    <div @click="toggle()" role="button" tabindex="0" @keydown.enter="toggle()" @keydown.space.prevent="toggle()"
+         :class="present ? 'border border-success shadow' : 'border shadow-sm'"
+         class="card mx-auto text-center presence-card"
+         :style="loading ? 'opacity: 0.6; pointer-events: none;' : ''" id="toggle-wrapper">
+        <div class="card-body d-flex flex-column align-items-center justify-content-center presence-card-body">
+            <div class="mb-3 presence-emoji" x-text="present ? '👍' : '👋'"></div>
+            <h4 :class="present ? 'text-success' : 'text-body-secondary'" class="card-title mb-1"
+                x-text="present ? 'I’m here!' : 'Click to check in'"></h4>
         </div>
     </div>
+
+    <p class="mt-4 text-muted" x-show="present">Please wait while others check in.</p>
 </div>
 
 {% endblock main %}

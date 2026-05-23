@@ -9,6 +9,7 @@
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
 from collections import Counter
+from statistics import median
 
 from uproot.fields import *
 from uproot.smithereens import *
@@ -87,18 +88,18 @@ def digest(session):
             if estimate is not None:
                 estimates_by_treatment[treatment].append(estimate)
 
-    averages = [
+    medians = [
         (
             treatment,
             C.ANCHORS[treatment],
-            sum(estimates) / len(estimates),
+            median(estimates),
             len(estimates),
         )
         for treatment, estimates in estimates_by_treatment.items()
         if estimates
     ]
 
-    return {"data": data, "averages": averages}
+    return {"data": data, "medians": medians}
 
 
 def pipeline(session):

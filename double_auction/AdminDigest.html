@@ -40,7 +40,7 @@
 {% endfor %}
 
 <script>
-const roundsData = {{ rounds_data | tojson }};
+const roundsData = {{ rounds_data | tojson | safe }};
 
 function makeDemandStepData(values, ceiling) {
     // Demand: starts at ceiling (Q=0), steps down, drops to zero after last unit.
@@ -72,57 +72,6 @@ function makeSupplyStepData(values, ceiling) {
         points.push({x: values.length, y: ceiling});
     }
     return points;
-}
-
-function eqAnnotations(eq) {
-    if (!eq) return {};
-    const mid = (eq.price_min + eq.price_max) / 2;
-    const annotations = {
-        eqQuantity: {
-            type: 'line',
-            xMin: eq.quantity,
-            xMax: eq.quantity,
-            borderColor: 'rgba(0, 0, 0, 0.25)',
-            borderWidth: 2,
-            borderDash: [6, 4],
-            label: {
-                display: true,
-                content: 'Q=' + eq.quantity,
-                position: 'start',
-            },
-        },
-    };
-    if (eq.price_min === eq.price_max) {
-        annotations.eqPrice = {
-            type: 'line',
-            yMin: mid,
-            yMax: mid,
-            borderColor: 'rgba(0, 0, 0, 0.25)',
-            borderWidth: 2,
-            borderDash: [6, 4],
-            label: {
-                display: true,
-                content: 'P=' + mid.toFixed(0),
-                position: 'start',
-            },
-        };
-    } else {
-        annotations.eqPriceBox = {
-            type: 'box',
-            yMin: eq.price_min,
-            yMax: eq.price_max,
-            backgroundColor: 'rgba(0, 0, 0, 0.04)',
-            borderColor: 'rgba(0, 0, 0, 0.2)',
-            borderWidth: 1,
-            borderDash: [6, 4],
-            label: {
-                display: true,
-                content: 'P=' + eq.price_min.toFixed(0) + '\u2013' + eq.price_max.toFixed(0),
-                position: 'start',
-            },
-        };
-    }
-    return annotations;
 }
 
 function eqPriceAnnotations(eq) {
@@ -161,6 +110,25 @@ function eqPriceAnnotations(eq) {
             },
         },
     };
+}
+
+function eqAnnotations(eq) {
+    if (!eq) return {};
+    const annotations = eqPriceAnnotations(eq);
+    annotations.eqQuantity = {
+        type: 'line',
+        xMin: eq.quantity,
+        xMax: eq.quantity,
+        borderColor: 'rgba(0, 0, 0, 0.25)',
+        borderWidth: 2,
+        borderDash: [6, 4],
+        label: {
+            display: true,
+            content: 'Q=' + eq.quantity,
+            position: 'start',
+        },
+    };
+    return annotations;
 }
 
 function computeCeiling(demandData, supplyData) {

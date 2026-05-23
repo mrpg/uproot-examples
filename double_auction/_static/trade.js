@@ -21,6 +21,19 @@ function checkProfitLimit(price) {
     return true;
 }
 
+function groupByPrice(offers) {
+    const groups = {};
+    for (const offer of offers) {
+        const key = offer.price;
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(offer.id);
+    }
+    return Object.entries(groups).map(([price, ids]) => ({
+        price: Number(price),
+        ids,
+    }));
+}
+
 function refreshDisplay() {
     if (!traded) {
         I("not-traded").style.display = "block";
@@ -46,51 +59,53 @@ function refreshDisplay() {
     bidsContainer.innerHTML = "";
     txsContainer.innerHTML = "";
 
-    market.asks.sort((a, b) => a.price - b.price).forEach(offer => {
+    groupByPrice(market.asks).sort((a, b) => a.price - b.price).forEach(group => {
         const badge = document.createElement("span");
         badge.className = "badge bg-danger me-1 mb-1";
-        badge.textContent = fmt(offer.price);
+        const count = group.ids.length;
+        const unitWord = count === 1 ? "unit" : "units";
+        badge.innerHTML = `$${fmt(group.price)}<br><span class="units">(${count}&thinsp;${unitWord})</span>`;
 
         if (buyer) {
-            const affordable = offer.price <= maxBid;
-            if (!affordable) badge.classList.add("offer-unprofitable");
+            const affordable = group.price <= maxBid;
             badge.setAttribute("role", "button");
             badge.setAttribute("tabindex", "0");
-            badge.setAttribute("aria-label", `Accept ask at price ${fmt(offer.price)}` + (affordable ? "" : " (too expensive)"));
-            badge.onclick = () => { if (checkProfitLimit(offer.price)) acceptOffer(offer.id); };
-            badge.onkeypress = (e) => {
+            badge.setAttribute("aria-label", `Accept ask at price ${fmt(group.price)} (${count} ${unitWord})` + (affordable ? "" : " (too expensive)"));
+            badge.onclick = () => { if (checkProfitLimit(group.price)) acceptOffer(group.ids); };
+            badge.onkeydown = (e) => {
                 if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    if (checkProfitLimit(offer.price)) acceptOffer(offer.id);
+                    if (checkProfitLimit(group.price)) acceptOffer(group.ids);
                 }
             };
         } else {
-            badge.setAttribute("aria-label", `Ask price ${fmt(offer.price)}`);
+            badge.setAttribute("aria-label", `Ask price ${fmt(group.price)} (${count} ${unitWord})`);
         }
 
         asksContainer.appendChild(badge);
     });
 
-    market.bids.sort((a, b) => b.price - a.price).forEach(offer => {
+    groupByPrice(market.bids).sort((a, b) => b.price - a.price).forEach(group => {
         const badge = document.createElement("span");
         badge.className = "badge bg-success me-1 mb-1";
-        badge.textContent = fmt(offer.price);
+        const count = group.ids.length;
+        const unitWord = count === 1 ? "unit" : "units";
+        badge.innerHTML = `$${fmt(group.price)}<br><span class="units">(${count}&thinsp;${unitWord})</span>`;
 
         if (!buyer) {
-            const profitable = offer.price >= minAsk;
-            if (!profitable) badge.classList.add("offer-unprofitable");
+            const profitable = group.price >= minAsk;
             badge.setAttribute("role", "button");
             badge.setAttribute("tabindex", "0");
-            badge.setAttribute("aria-label", `Accept bid at price ${fmt(offer.price)}` + (profitable ? "" : " (too low)"));
-            badge.onclick = () => { if (checkProfitLimit(offer.price)) acceptOffer(offer.id); };
-            badge.onkeypress = (e) => {
+            badge.setAttribute("aria-label", `Accept bid at price ${fmt(group.price)} (${count} ${unitWord})` + (profitable ? "" : " (too low)"));
+            badge.onclick = () => { if (checkProfitLimit(group.price)) acceptOffer(group.ids); };
+            badge.onkeydown = (e) => {
                 if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    if (checkProfitLimit(offer.price)) acceptOffer(offer.id);
+                    if (checkProfitLimit(group.price)) acceptOffer(group.ids);
                 }
             };
         } else {
-            badge.setAttribute("aria-label", `Bid price ${fmt(offer.price)}`);
+            badge.setAttribute("aria-label", `Bid price ${fmt(group.price)} (${count} ${unitWord})`);
         }
 
         bidsContainer.appendChild(badge);
@@ -134,11 +149,11 @@ function makeOffer(newOffer) {
     });
 }
 
-function acceptOffer(id) {
+function acceptOffer(ids) {
     const badges = document.querySelectorAll('[role="button"]');
     badges.forEach(badge => badge.style.pointerEvents = "none");
 
-    uproot.invoke("accept_offer", id).then((profit_) => {
+    uproot.invoke("accept_offer", ids).then((profit_) => {
         traded = true;
         profit = profit_;
         refreshDisplay();
@@ -174,10 +189,13 @@ uproot.onReady(() => {
 
     // Prevent default form submission on Enter key in amount input
     const amountInput = I("amount");
-    amountInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            makeOffer(true);
-        }
-    });
+
+    if (amountInput) {
+        amountInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                makeOffer(true);
+            }
+        });
+    }
 });

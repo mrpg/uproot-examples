@@ -9,6 +9,7 @@ dependencies = [
     "anthropic",
     "audioop-lts",
     "black",
+    "find-eq @ git+https://github.com/mrpg/find-eq.git@master",
     "isort",
     "mini-exchange @ git+https://github.com/mrpg/mini-exchange.git@master",
     "pre-commit",
