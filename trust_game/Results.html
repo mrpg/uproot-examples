@@ -8,13 +8,13 @@ Results
 {% block main %}
 
 {% if player.trustor %}
-<p>You sent <b>{{ player.context.sent }}</b>, which was multiplied to {{ player.context.received }}.</p>
-<p>The other player returned <b>{{ player.context.returned }}</b> to you.</p>
+<p>You sent <b>{{ player.context.sent | fmtnum(pre="$", places=2) }}</b>, which was multiplied to {{ player.context.received | fmtnum(pre="$", places=2) }}.</p>
+<p>The other player returned <b>{{ player.context.returned | fmtnum(pre="$", places=2) }}</b> to you.</p>
 {% else %}
-<p>The other player sent {{ player.context.sent }}, which was multiplied to <b>{{ player.context.received }}</b>.</p>
-<p>You returned <b>{{ player.context.returned }}</b>.</p>
+<p>The other player sent {{ player.context.sent | fmtnum(pre="$", places=2) }}, which was multiplied to <b>{{ player.context.received | fmtnum(pre="$", places=2) }}</b>.</p>
+<p>You returned <b>{{ player.context.returned | fmtnum(pre="$", places=2) }}</b>.</p>
 {% endif %}
 
-<p>Your payoff is <b>{{ player.payoff }}</b>.</p>
+<p>Your payoff is <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b>.</p>
 
 {% endblock main %}

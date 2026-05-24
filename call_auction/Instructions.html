@@ -16,10 +16,10 @@
 
 {% if player.buyer %}
 <p>You are a <b>buyer</b>.</p>
-<p>If you trade, your profit is <b>Valuation &minus; Clearing Price</b>. If you don't trade, your profit is $0.</p>
+<p>If you trade, your profit is <b>Valuation &minus; Clearing Price</b>. If you don't trade, your profit is {{ 0 | fmtnum(pre="$", places=2) }}.</p>
 {% else %}
 <p>You are a <b>seller</b>.</p>
-<p>If you trade, your profit is <b>Clearing Price &minus; Cost</b>. If you don't trade, your profit is $0.</p>
+<p>If you trade, your profit is <b>Clearing Price &minus; Cost</b>. If you don't trade, your profit is {{ 0 | fmtnum(pre="$", places=2) }}.</p>
 {% endif %}
 
 <p>You may update your {% if player.buyer %}bid{% else %}ask{% endif %} as many times as you like before the period ends.</p>

@@ -6,10 +6,10 @@
 
 {% if player.buyer %}
 <p>You are a <b>buyer</b>.</p>
-<p>If you trade, your profit is <b>Profit = Valuation &minus; Price &minus; Tax</b> (tax may be zero). If you don't trade, your profit is $0.</p>
+<p>If you trade, your profit is <b>Profit = Valuation &minus; Price &minus; Tax</b> (tax may be zero). If you don't trade, your profit is {{ 0 | fmtnum(pre="$", places=2) }}.</p>
 {% else %}
 <p>You are a <b>seller</b>.</p>
-<p>If you trade, your profit is <b>Profit = Price &minus; Cost &minus; Tax</b> (tax may be zero). If you don't trade, your profit is $0.</p>
+<p>If you trade, your profit is <b>Profit = Price &minus; Cost &minus; Tax</b> (tax may be zero). If you don't trade, your profit is {{ 0 | fmtnum(pre="$", places=2) }}.</p>
 {% endif %}
 
 <h4>How to trade</h4>

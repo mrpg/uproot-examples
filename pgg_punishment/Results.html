@@ -21,25 +21,25 @@ Results
         {% for contributor in player.context.contributors %}
         <tr>
             <td>Contributor {{ loop.index }}</td>
-            <td>{{ contributor.contribution }}</td>
-            <td>{{ player | attr("punish_" ~ contributor.member_id) }}</td>
+            <td>{{ contributor.contribution | fmtnum(pre="$", places=2) }}</td>
+            <td>{{ (player | attr("punish_" ~ contributor.member_id)) | fmtnum(pre="$", places=2) }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
-<p>Total contributions: <strong>{{ player.context.total_contribution }}</strong></p>
-<p>Your total punishment spending: <strong>{{ player.context.punishment_spent }}</strong></p>
+<p>Total contributions: <strong>{{ player.context.total_contribution | fmtnum(pre="$", places=2) }}</strong></p>
+<p>Your total punishment spending: <strong>{{ player.context.punishment_spent | fmtnum(pre="$", places=2) }}</strong></p>
 
 {% else %}
 
-<p>You contributed <strong>{{ player.contribution }}</strong> to the group account.</p>
-<p>Total contributions: <strong>{{ player.context.total_contribution }}</strong></p>
-<p>Your return from the group account: {{ C.MPCR }} &times; {{ player.context.total_contribution }} = <strong>{{ C.MPCR * player.context.total_contribution }}</strong></p>
-<p>Punishment received: <strong>{{ player.context.punishment_received }}</strong></p>
+<p>You contributed <strong>{{ player.contribution | fmtnum(pre="$", places=2) }}</strong> to the group account.</p>
+<p>Total contributions: <strong>{{ player.context.total_contribution | fmtnum(pre="$", places=2) }}</strong></p>
+<p>Your return from the group account: {{ C.MPCR }} &times; {{ player.context.total_contribution | fmtnum(pre="$", places=2) }} = <strong>{{ (C.MPCR * player.context.total_contribution) | fmtnum(pre="$", places=2) }}</strong></p>
+<p>Punishment received: <strong>{{ player.context.punishment_received | fmtnum(pre="$", places=2) }}</strong></p>
 
 {% endif %}
 
-<p class="mt-3">Your final payoff is <strong>{{ player.payoff }}</strong>.</p>
+<p class="mt-3">Your final payoff is <strong>{{ player.payoff | fmtnum(pre="$", places=2) }}</strong>.</p>
 
 {% endblock main %}

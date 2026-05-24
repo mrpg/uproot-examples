@@ -7,20 +7,20 @@ Results
 
 {% block main %}
 
-<p>You claimed <b>${{ player.claim | to(2) }}</b>.</p>
+<p>You claimed <b>{{ player.claim | fmtnum(pre="$", places=2) }}</b>.</p>
 
-<p>Your partner claimed <b>${{ player.other_in_group.claim | to(2) }}</b>.</p>
+<p>Your partner claimed <b>{{ player.other_in_group.claim | fmtnum(pre="$", places=2) }}</b>.</p>
 
 <p>
-    The sum of claims is ${{ (player.claim + player.other_in_group.claim) | to(2) }}.
+    The sum of claims is {{ (player.claim + player.other_in_group.claim) | fmtnum(pre="$", places=2) }}.
 
     {% if player.claim + player.other_in_group.claim <= 100 %}
-    This is $100 or less.
+    This is {{ 100 | fmtnum(pre="$", places=2) }} or less.
     {% else %}
-    This is more than $100.
+    This is more than {{ 100 | fmtnum(pre="$", places=2) }}.
     {% endif %}
 </p>
 
-<p>Therefore, your payoff is <b>${{ player.payoff | to(2) }}</b>.</p>
+<p>Therefore, your payoff is <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b>.</p>
 
 {% endblock main %}

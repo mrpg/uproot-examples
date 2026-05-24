@@ -6,16 +6,19 @@ const maxBid = costOrValue - tax;
 const minAsk = costOrValue + tax;
 
 function fmt(n) {
-    return Number(n).toLocaleString("en-US");
+    return "$" + Number(n).toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
 }
 
 function checkProfitLimit(price) {
     if (buyer && price > maxBid) {
-        alert("Negative profit not allowed. The price $" + fmt(price) + " is above your valuation" + (tax ? " net of the tax you must pay" : "") + " ($" + fmt(maxBid) + ").");
+        alert("Negative profit not allowed. The price " + fmt(price) + " is above your valuation" + (tax ? " net of the tax you must pay" : "") + " (" + fmt(maxBid) + ").");
         return false;
     }
     if (!buyer && price < minAsk) {
-        alert("Negative profit not allowed. The price $" + fmt(price) + " is below your cost" + (tax ? " including the tax you must pay" : "") + " ($" + fmt(minAsk) + ").");
+        alert("Negative profit not allowed. The price " + fmt(price) + " is below your cost" + (tax ? " including the tax you must pay" : "") + " (" + fmt(minAsk) + ").");
         return false;
     }
     return true;
@@ -64,7 +67,7 @@ function refreshDisplay() {
         badge.className = "badge bg-danger me-1 mb-1";
         const count = group.ids.length;
         const unitWord = count === 1 ? "unit" : "units";
-        badge.innerHTML = `$${fmt(group.price)}<br><span class="units">(${count}&thinsp;${unitWord})</span>`;
+        badge.innerHTML = `${fmt(group.price)}<br><span class="units">(${count}&thinsp;${unitWord})</span>`;
 
         if (buyer) {
             const affordable = group.price <= maxBid;
@@ -90,7 +93,7 @@ function refreshDisplay() {
         badge.className = "badge bg-success me-1 mb-1";
         const count = group.ids.length;
         const unitWord = count === 1 ? "unit" : "units";
-        badge.innerHTML = `$${fmt(group.price)}<br><span class="units">(${count}&thinsp;${unitWord})</span>`;
+        badge.innerHTML = `${fmt(group.price)}<br><span class="units">(${count}&thinsp;${unitWord})</span>`;
 
         if (!buyer) {
             const profitable = group.price >= minAsk;

@@ -11,6 +11,6 @@ Results
 <p>Other efforts: {% for other in player.others_in_group %}{{ other.effort }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
 <p>Minimum effort in group: <b>{{ player.minimum }}</b></p>
 
-<p>Your payoff is <b>{{ player.payoff }}</b>.</p>
+<p>Your payoff is <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b>.</p>
 
 {% endblock main %}

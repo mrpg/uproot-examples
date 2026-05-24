@@ -7,8 +7,8 @@ Results
 
 {% block main %}
 
-<p>You contributed {{ player.contribution }} to the group account.</p>
-<p>The total contribution to the group account was {{ player.context.total }}.</p>
-<p>Your payoff is <b>{{ player.payoff }}</b>.</p>
+<p>You contributed {{ player.contribution | fmtnum(pre="$", places=2) }} to the group account.</p>
+<p>The total contribution to the group account was {{ player.context.total | fmtnum(pre="$", places=2) }}.</p>
+<p>Your payoff is <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b>.</p>
 
 {% endblock main %}

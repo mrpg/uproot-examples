@@ -7,25 +7,25 @@
 <h3>Round {{ player.round }} of {{ num_rounds }} &mdash; Results</h3>
 
 {% if player.clearing_price is not none %}
-<p>The market cleared at <b>${{ player.clearing_price }}</b> with <b>{{ player.market_quantity }}</b> unit{{ "s" if player.market_quantity != 1 else "" }} traded.</p>
+<p>The market cleared at <b>{{ player.clearing_price | fmtnum(pre="$", places=2) }}</b> with <b>{{ player.market_quantity }}</b> unit{{ "s" if player.market_quantity != 1 else "" }} traded.</p>
 
 {% if player.traded %}
 <div class="alert alert-success">
-    <b>You traded!</b> Your profit this round: <b>${{ player.profit }}</b>.
+    <b>You traded!</b> Your profit this round: <b>{{ player.profit | fmtnum(pre="$", places=2) }}</b>.
 </div>
 {% elif player.bid is not none %}
 <div class="alert alert-warning">
-    You did not trade. Your {% if player.buyer %}bid (${{ player.bid }}){% else %}ask (${{ player.bid }}){% endif %} was not competitive enough. Profit: $0.
+    You did not trade. Your {% if player.buyer %}bid ({{ player.bid | fmtnum(pre="$", places=2) }}){% else %}ask ({{ player.bid | fmtnum(pre="$", places=2) }}){% endif %} was not competitive enough. Profit: {{ 0 | fmtnum(pre="$", places=2) }}.
 </div>
 {% else %}
 <div class="alert alert-secondary">
-    You did not submit an offer. Profit: $0.
+    You did not submit an offer. Profit: {{ 0 | fmtnum(pre="$", places=2) }}.
 </div>
 {% endif %}
 
 {% else %}
 <div class="alert alert-secondary">
-    No trades occurred this round. Profit: $0.
+    No trades occurred this round. Profit: {{ 0 | fmtnum(pre="$", places=2) }}.
 </div>
 {% endif %}
 

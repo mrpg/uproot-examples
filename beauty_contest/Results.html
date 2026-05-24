@@ -18,6 +18,6 @@ Results
 <p>You did not win.</p>
 {% endif %}
 
-<p>Your payoff is <b>{{ player.payoff }}</b>.</p>
+<p>Your payoff is <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b>.</p>
 
 {% endblock main %}

@@ -27,7 +27,7 @@
                 {% if estimate is none %}
                 <span class="text-muted">Pending</span>
                 {% else %}
-                {{ estimate }}&nbsp;km
+                {{ estimate | fmtnum(places=0) }}&nbsp;km
                 {% endif %}
             </td>
         </tr>
@@ -51,7 +51,7 @@
         <tr>
             <td>{{ treatment }}</td>
             <td>{{ anchor }}&nbsp;km</td>
-            <td>{{ median | to(1) }}&nbsp;km</td>
+            <td>{{ median | fmtnum(places=1) }}&nbsp;km</td>
             <td>{{ n }}</td>
         </tr>
     {% endfor %}

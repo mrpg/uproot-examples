@@ -8,18 +8,18 @@
 <h3>Round {{ player.round }} of {{ num_rounds }}</h3>
 
 {% if player.buyer %}
-<p>You are a <b>buyer</b> with valuation <b>${{ player.cost_or_value }}</b>.</p>
-<p>If you trade: <b>Profit = ${{ player.cost_or_value }} &minus; Clearing Price</b>.</p>
+<p>You are a <b>buyer</b> with valuation <b>{{ player.cost_or_value | fmtnum(pre="$", places=2) }}</b>.</p>
+<p>If you trade: <b>Profit = {{ player.cost_or_value | fmtnum(pre="$", places=2) }} &minus; Clearing Price</b>.</p>
 {% else %}
-<p>You are a <b>seller</b> with cost <b>${{ player.cost_or_value }}</b>.</p>
-<p>If you trade: <b>Profit = Clearing Price &minus; ${{ player.cost_or_value }}</b>.</p>
+<p>You are a <b>seller</b> with cost <b>{{ player.cost_or_value | fmtnum(pre="$", places=2) }}</b>.</p>
+<p>If you trade: <b>Profit = Clearing Price &minus; {{ player.cost_or_value | fmtnum(pre="$", places=2) }}</b>.</p>
 {% endif %}
 
 <div x-data="{ bid: {{ player.bid | tojson }}, submitted: {{ (player.bid is not none) | tojson }}, loading: false }">
     <h4 class="mt-4">Your {% if player.buyer %}bid{% else %}ask{% endif %}</h4>
 
     <div x-show="submitted" x-cloak class="alert alert-info">
-        Current {% if player.buyer %}bid{% else %}ask{% endif %}: <b>$<span x-text="bid"></span></b>.
+        Current {% if player.buyer %}bid{% else %}ask{% endif %}: <b><span x-text="Number(bid).toLocaleString('en-US', { style: 'currency', currency: 'USD' })"></span></b>.
         You may update it before the period ends.
     </div>
 
