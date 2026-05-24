@@ -13,7 +13,7 @@
 {% if rd.expected_eq %}
 <p>
     <b>Expected equilibrium:</b>
-    Price {{ rd.expected_eq.price_min | to(0) }} to {{ rd.expected_eq.price_max | to(0) }},
+    Price {{ rd.expected_eq.price_min | fmtnum(pre="$", places=2) }} to {{ rd.expected_eq.price_max | fmtnum(pre="$", places=2) }},
     Quantity {{ rd.expected_eq.quantity }}
 </p>
 {% endif %}

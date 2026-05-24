@@ -26,7 +26,10 @@ class GroupPlease(GroupCreatingWait):
 
 class Claim(Page):
     fields = dict(
-        claim=DecimalField(label="How much do you claim?"),
+        claim=DecimalField(
+            label="How much do you claim?",
+            addon_start="$",
+        ),
     )
 
 

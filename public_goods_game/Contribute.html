@@ -7,7 +7,7 @@ Contribute
 
 {% block main %}
 
-<p>You have an endowment of <b>{{ C.ENDOWMENT }}</b>. You are in a group with {{ C.GROUP_SIZE }} members.</p>
+<p>You have an endowment of <b>{{ C.ENDOWMENT | fmtnum(pre="$", places=2) }}</b>. You are in a group with {{ C.GROUP_SIZE }} members.</p>
 <p>You can allocate any amount to the group account. The remainder stays in your private account.</p>
 <p>All contributions to the group account will be multiplied by {{ C.MULTIPLIER }} and divided equally among the {{ C.GROUP_SIZE }} group members.</p>
 

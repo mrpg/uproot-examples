@@ -20,7 +20,7 @@
                 {% if total_contribution is none %}
                 <span class="text-muted">Pending</span>
                 {% else %}
-                {{ total_contribution }}
+                {{ total_contribution | fmtnum(pre="$", places=2) }}
                 {% endif %}
             </td>
             {% for contribution, punishment in details %}
@@ -28,18 +28,18 @@
                 {% if contribution is none %}
                 <span class="text-muted">Pending</span>
                 {% else %}
-                {{ contribution }}
+                {{ contribution | fmtnum(pre="$", places=2) }}
                 {% endif %}
             </td>
             <td>
                 {% if punishment is none %}
                 <span class="text-muted">&mdash;</span>
                 {% else %}
-                {{ punishment }}
+                {{ punishment | fmtnum(pre="$", places=2) }}
                 {% endif %}
             </td>
             {% endfor %}
-            <td>{{ total_punishment }}</td>
+            <td>{{ total_punishment | fmtnum(pre="$", places=2) }}</td>
         </tr>
     {% endfor %}
     </tbody>

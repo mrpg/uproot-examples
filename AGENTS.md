@@ -119,6 +119,24 @@ If installed, run `black`, `isort`, `ruff` on any new apps. Issues with star imp
 
 One tab is to equal 4 spaces, the standard indentation for all markup and programming languages.
 
+### Jinja2 number formatting
+
+Use the `fmtnum` filter when printing currency amounts in templates. Do not use older `to(1)`/`to(2)` filters or hand-written currency prefixes such as `${{ amount }}`.
+
+For dollar amounts, include the dollar sign through the filter and use two decimal places:
+
+```jinja2
+{{ number | fmtnum(pre="$", places=2) }}
+```
+
+SI units may be printed as follows:
+
+```jinja2
+{{ distance | fmtnum(post=" meters", places=0) }}
+```
+
+Keep the spacing around filters and arguments readable; do not be breathless.
+
 ### Python vertical spacing
 
 Add a blank line before `if`, `return`, `while`, and `for` statements. The exception is right after a line that ends with a colon (i.e., the first statement in any block) — no blank line there. Do not be breathless.

@@ -7,6 +7,6 @@ Hello
 
 {% block main %}
 
-<p>Upon clicking “Next,” you will have {{ C.TOTAL_TIMEOUT | to(1) }} seconds to traverse the following four pages.</p>
+<p>Upon clicking “Next,” you will have {{ C.TOTAL_TIMEOUT | fmtnum(places=1) }} seconds to traverse the following four pages.</p>
 
 {% endblock main %}

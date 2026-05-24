@@ -19,17 +19,17 @@ Punishment Decision
         {% for contributor in player.context.contributors %}
         <tr>
             <td>Contributor {{ loop.index }}</td>
-            <td>{{ contributor.contribution }}</td>
+            <td>{{ contributor.contribution | fmtnum(pre="$", places=2) }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
-<p>You have an endowment of <strong>{{ C.PUNISHER_ENDOWMENT }}</strong>.
+<p>You have an endowment of <strong>{{ C.PUNISHER_ENDOWMENT | fmtnum(pre="$", places=2) }}</strong>.
 You may spend any amount to reduce a contributor's earnings.
 Each unit you spend reduces that contributor's earnings by <strong>{{ C.PUNISHMENT_RATIO }}</strong>.</p>
 
-<p>Your total spending across all contributors cannot exceed {{ C.PUNISHER_ENDOWMENT }}.</p>
+<p>Your total spending across all contributors cannot exceed {{ C.PUNISHER_ENDOWMENT | fmtnum(pre="$", places=2) }}.</p>
 
 {{ fields() }}
 {{ errors() }}

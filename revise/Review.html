@@ -1,0 +1,38 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Review your decisions
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Please review your decisions. You may revise any round before submitting.</p>
+
+{# The Python code prepares round_data for this page. That keeps the table to one
+row per round, even after a player revises an earlier round. #}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Round</th>
+            <th scope="col">Number</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for round, number in round_data %}
+        <tr>
+            <td>{{ round }}</td>
+            <td>{{ number }}</td>
+            <td>
+                <button type="button" class="btn btn-sm btn-outline-secondary"
+                    onclick="uproot.invoke('revise', {{ round | tojson }})">
+                    Revise
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock main %}

@@ -16,7 +16,7 @@
                 {% if offer is none %}
                 <span class="text-muted">Pending</span>
                 {% else %}
-                {{ offer }}
+                {{ offer | fmtnum(pre="$", places=2) }}
                 {% endif %}
             </td>
             <td>

@@ -7,7 +7,7 @@ Results
 
 {% block main %}
 
-<p>The offer was <b>{{ player.context.offer }}</b>.</p>
+<p>The offer was <b>{{ player.context.offer | fmtnum(pre="$", places=2) }}</b>.</p>
 
 {% if player.context.accepted %}
 <p>The offer was <b>accepted</b>.</p>
@@ -15,6 +15,6 @@ Results
 <p>The offer was <b>rejected</b>.</p>
 {% endif %}
 
-<p>Your payoff is <b>{{ player.payoff }}</b>.</p>
+<p>Your payoff is <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b>.</p>
 
 {% endblock main %}
