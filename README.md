@@ -64,6 +64,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `randomize_pages_allow_back`                      | Randomizing page order and allow going back                     | Easy       |
 | `randomize_pages`                                 | Randomizing page order                                          | Easy       |
 | `read_settings`†                                  | Read session settings                                           | Easy       |
+| `revise`                                          | Revise decisions across rounds                                  | Medium     |
 | `rounds_nested`                                   | Using nested rounds                                             | Easy       |
 | `rounds`                                          | Using rounds (history table)                                    | Easy       |
 | `sound_recording`                                 | Record audio of yourself reading a sentence                     | Advanced   |
