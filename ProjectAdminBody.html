@@ -1,4 +1,6 @@
-{% if deployment.PUBLIC_DEMO and deployment.ORIGIN == "https://demo.uproot.science" %}
+{% if deployment.PUBLIC_DEMO %}
+
+{% if deployment.ORIGIN == "https://demo.uproot.science" %}
 
 <script>
     const headsUp = document.createElement("div");
@@ -16,15 +18,44 @@
                     <a class="link-offset-2 link-underline-uproot link-underline-opacity-25 link-underline-opacity-100-hover link-uproot" href="https://uproot.science/">uproot</a>,
                     an open-source framework for deploying behavioral experiments and surveys in the social sciences.
                     Content on this server is public and cannot be perfectly controlled.
-                </div>
-                <div class="mt-2 text-body-secondary">
                     Please
                     <a class="link-offset-2 link-underline-uproot link-underline-opacity-25 link-underline-opacity-100-hover link-uproot" href="https://uproot.science/legal/">report objectionable material</a>.
-                    The server restarts regularly and is located in Europe.
+                    The server restarts regularly and is located in Europe, which may affect performance depending on your location.
+                    <a class="link-offset-2 link-underline-uproot link-underline-opacity-25 link-underline-opacity-100-hover link-uproot" href="https://demo-au.uproot.science/">Alternative server (hosted in Australia).</a>
                     <a class="link-offset-2 link-underline-uproot link-underline-opacity-25 link-underline-opacity-100-hover link-uproot" href="https://github.com/mrpg/uproot-examples">View source code.</a>
                 </div>
             </div>
         </div>`;
 </script>
+
+{% elif deployment.ORIGIN == "https://demo-au.uproot.science" %}
+
+<script>
+    const headsUp = document.createElement("div");
+    I("uproot-main").prepend(headsUp);
+
+    headsUp.className = "bg-uproot-subtle border border-uproot-subtle-light callout mb-4 px-3 py-3 text-uproot";
+    headsUp.setAttribute("role", "status");
+    headsUp.innerHTML =
+        `<div class="align-items-start d-flex gap-3">
+            <i class="bi bi-info-circle flex-shrink-0 fs-5 lh-1 mt-1 text-uproot" aria-hidden="true"></i>
+            <div class="small lh-base">
+                <div class="fw-semibold text-uproot-dark">Public demo server</div>
+                <div class="mt-1 text-body-secondary">
+                    This is a public demo of
+                    <a class="link-offset-2 link-underline-uproot link-underline-opacity-25 link-underline-opacity-100-hover link-uproot" href="https://uproot.science/">uproot</a>,
+                    an open-source framework for deploying behavioral experiments and surveys in the social sciences.
+                    Content on this server is public and cannot be perfectly controlled.
+                    Please
+                    <a class="link-offset-2 link-underline-uproot link-underline-opacity-25 link-underline-opacity-100-hover link-uproot" href="https://uproot.science/legal/">report objectionable material</a>.
+                    The server restarts regularly and is located in Australia, which may affect performance depending on your location.
+                    <a class="link-offset-2 link-underline-uproot link-underline-opacity-25 link-underline-opacity-100-hover link-uproot" href="https://demo.uproot.science/">Alternative server (hosted in Europe).</a>
+                    <a class="link-offset-2 link-underline-uproot link-underline-opacity-25 link-underline-opacity-100-hover link-uproot" href="https://github.com/mrpg/uproot-examples">View source code.</a>
+                </div>
+            </div>
+        </div>`;
+</script>
+
+{% endif %}
 
 {% endif %}
