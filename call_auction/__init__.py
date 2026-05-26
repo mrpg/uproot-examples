@@ -84,12 +84,15 @@ class Submit(Page):
     def place_bid(page, player, amount: int):
         if amount < 0:
             raise ValueError("Price cannot be negative")
+
         if player.buyer and amount > player.cost_or_value:
             raise ValueError("Bid cannot exceed your valuation")
+
         if not player.buyer and amount < player.cost_or_value:
             raise ValueError("Ask cannot be below your cost")
+
         player.bid = amount
-        setattr(player, f"bid_r{player.round}", amount)
+
         return amount
 
 
@@ -101,13 +104,7 @@ class Results(Page):
         num_rounds = get_setting(session, "num_rounds")
         player.add_round = round_num < num_rounds
 
-        # Collect bids and asks (using persisted per-round values)
-        bids = []
-        asks = []
-        for p in session.players:
-            bid = p.get(f"bid_r{round_num}")
-            if bid is not None:
-                (bids if p.buyer else asks).append(bid)
+        bids, asks = bids_and_asks(session, round_num)
 
         clearing_price = None
         quantity = 0
@@ -125,7 +122,7 @@ class Results(Page):
         player.market_quantity = quantity
 
         # Determine if this player traded
-        my_bid = player.get(f"bid_r{round_num}")
+        my_bid = player.within(app=APP_NAME, round=round_num).get("bid")
         if clearing_price is not None and my_bid is not None:
             if player.buyer and my_bid >= clearing_price:
                 player.traded = True
@@ -133,10 +130,6 @@ class Results(Page):
             elif not player.buyer and my_bid <= clearing_price:
                 player.traded = True
                 player.profit = clearing_price - player.cost_or_value
-
-        # Store for digest
-        setattr(session, f"clearing_r{round_num}", clearing_price)
-        setattr(session, f"quantity_r{round_num}", quantity)
 
 
 def digest(session):
@@ -175,23 +168,8 @@ def digest(session):
             )
         )
 
-        submitted_bids = sorted(
-            [
-                p.get(f"bid_r{round_num}")
-                for p in session.players
-                if p.get("buyer") and p.get(f"bid_r{round_num}") is not None
-            ],
-            reverse=True,
-        )
-        submitted_asks = sorted(
-            [
-                p.get(f"bid_r{round_num}")
-                for p in session.players
-                if p.get("buyer") is not None
-                and not p.buyer
-                and p.get(f"bid_r{round_num}") is not None
-            ],
-        )
+        submitted_bids, submitted_asks = bids_and_asks(session, round_num)
+        clearing_price, market_quantity = market_result(session, round_num)
 
         rounds_data.append(
             {
@@ -201,12 +179,49 @@ def digest(session):
                 "expected_eq": expected_eq,
                 "submitted_bids": submitted_bids,
                 "submitted_asks": submitted_asks,
-                "clearing_price": session.get(f"clearing_r{round_num}"),
-                "quantity": session.get(f"quantity_r{round_num}", 0),
+                "clearing_price": clearing_price,
+                "quantity": market_quantity,
             }
         )
 
     return {"rounds_data": rounds_data}
+
+
+def player_data_for_round(player, round_num):
+    return player.within(app=APP_NAME, round=round_num)
+
+
+def bids_and_asks(session, round_num):
+    submitted_bids = []
+    submitted_asks = []
+
+    for player in session.players:
+        if player.get("buyer") is None:
+            continue
+
+        bid = player_data_for_round(player, round_num).get("bid")
+
+        if bid is None:
+            continue
+
+        if player.get("buyer"):
+            submitted_bids.append(bid)
+        else:
+            submitted_asks.append(bid)
+
+    return sorted(submitted_bids, reverse=True), sorted(submitted_asks)
+
+
+def market_result(session, round_num):
+    for player in session.players:
+        round_data = player_data_for_round(player, round_num)
+
+        if round_data.get("clearing_price") is not None:
+            return round_data.get("clearing_price"), round_data.get(
+                "market_quantity", 0
+            )
+
+    return None, 0
 
 
 def pipeline(session):
@@ -214,7 +229,7 @@ def pipeline(session):
     num_rounds = get_setting(session, "num_rounds")
 
     for round_num in range(1, num_rounds + 1):
-        clearing_price = session.get(f"clearing_r{round_num}")
+        clearing_price, market_quantity = market_result(session, round_num)
 
         for player in session.players:
             app_data = player.within(app=APP_NAME)
@@ -223,7 +238,7 @@ def pipeline(session):
                 continue
 
             round_data = player.within(app=APP_NAME, round=round_num)
-            bid = round_data.get(f"bid_r{round_num}")
+            bid = round_data.get("bid")
 
             rows.append(
                 {
@@ -234,7 +249,7 @@ def pipeline(session):
                     "cost_or_value": app_data.get("cost_or_value"),
                     "bid_or_ask": bid,
                     "clearing_price": clearing_price,
-                    "market_quantity": session.get(f"quantity_r{round_num}", 0),
+                    "market_quantity": market_quantity,
                     "traded": round_data.get("traded"),
                     "profit": round_data.get("profit"),
                 }
