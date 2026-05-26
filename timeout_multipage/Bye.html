@@ -8,9 +8,9 @@ Bye
 {% block main %}
 
 {% if player.failed %}
-<p>You failed.</p>
+<p class="fw-bold text-danger">You failed.</p>
 {% else %}
-<p>You did not fail.</p>
+<p class="fw-bold text-success">You succeeded.</p>
 {% endif %}
 
 {% endblock main %}
