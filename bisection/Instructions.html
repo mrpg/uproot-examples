@@ -1,0 +1,56 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Instructions
+{% endblock title %}
+
+
+{% block main %}
+
+<p>
+    In this task, you will evaluate <b>4 lotteries</b>. Each lottery offers a
+    50–50 chance of winning one of two amounts. All lotteries have the same
+    expected value of <b>€50</b>.
+</p>
+
+<table class="table table-hover w-auto mx-auto mb-4">
+    <thead>
+        <tr>
+            <th scope="col">Lottery</th>
+            <th scope="col">Outcomes (50–50)</th>
+            <th scope="col">Expected value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>L1</td>
+            <td>€47 or €53</td>
+            <td>€50</td>
+        </tr>
+        <tr>
+            <td>L2</td>
+            <td>€40 or €60</td>
+            <td>€50</td>
+        </tr>
+        <tr>
+            <td>L3</td>
+            <td>€25 or €75</td>
+            <td>€50</td>
+        </tr>
+        <tr>
+            <td>L4</td>
+            <td>€0 or €100</td>
+            <td>€50</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+    For each lottery, you will answer <b>5 questions</b>. Each question asks
+    whether you prefer a specific <b>certain amount</b> or the <b>lottery</b>.
+    Your answers determine how much each lottery is worth to you.
+</p>
+
+<p>There are <b>20 questions</b> in total.</p>
+
+{% endblock main %}

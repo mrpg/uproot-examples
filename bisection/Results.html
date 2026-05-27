@@ -1,0 +1,61 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>
+    The <b>certainty equivalent</b> (CE) is the certain amount you find equally
+    attractive as the lottery. The <b>risk premium</b> is how much of the expected
+    value you would give up to avoid the risk: &pi; = €50 &minus; CE.
+</p>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Lottery</th>
+            <th scope="col">Outcomes</th>
+            <th scope="col">Spread</th>
+            <th scope="col">CE</th>
+            <th scope="col">Risk premium &pi;</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in results %}
+        <tr>
+            <td>L{{ r.lottery_num }}</td>
+            <td>
+                {% if r.spread == 0 %}
+                    {{ r.low | fmtnum(pre="€", places=0) }} certain
+                {% else %}
+                    {{ r.low | fmtnum(pre="€", places=0) }}
+                    or
+                    {{ r.high | fmtnum(pre="€", places=0) }}
+                {% endif %}
+            </td>
+            <td>{{ r.spread }}</td>
+            <td>{{ r.ce | fmtnum(pre="€", places=2) }}</td>
+            <td>{{ r.risk_premium | fmtnum(pre="€", places=2) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if consistent %}
+<div class="alert alert-success mt-3">
+    Your risk premiums are nonnegative and weakly increasing across the
+    lottery chain — consistent with risk aversion in the Rothschild–Stiglitz
+    sense.
+</div>
+{% else %}
+<div class="alert alert-warning mt-3">
+    Your risk premiums are <b>not</b> consistent with global risk aversion.
+    This may indicate risk-seeking preferences, context dependence, or noise in
+    the elicitation.
+</div>
+{% endif %}
+
+{% endblock main %}
