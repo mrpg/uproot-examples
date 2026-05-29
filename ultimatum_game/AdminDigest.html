@@ -33,4 +33,32 @@
     </tbody>
 </table>
 
+{% if summary %}
+<h5 class="mt-4">Summary by Offer</h5>
+<table class="table w-75">
+    <thead>
+        <tr>
+            <th scope="col">Offer</th>
+            <th scope="col">Proposer Keeps</th>
+            <th scope="col">Accepted</th>
+            <th scope="col">Rejected</th>
+            <th scope="col">Pending</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for offer, proposer_keeps, accepted, rejected, pending, total in summary %}
+        <tr>
+            <td>{{ offer | fmtnum(pre="$", places=2) }}</td>
+            <td>{{ proposer_keeps | fmtnum(pre="$", places=2) }}</td>
+            <td>{{ accepted }}</td>
+            <td>{{ rejected }}</td>
+            <td>{{ pending }}</td>
+            <td>{{ total }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
 {% endblock main %}

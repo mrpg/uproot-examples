@@ -3,9 +3,9 @@
 // enabled, allowing you to check whether your experiment works as intended.
 
 uproot.simulate.on("ultimatum_game/Propose", (sim) => {
-    sim.fill("offer", "4").submit();
+    sim.fill("offer", sim.integer(0, 10)).submit();
 });
 
 uproot.simulate.on("ultimatum_game/Respond", (sim) => {
-    sim.choose("accept", "True").submit();
+    sim.choose("accept", sim.random(["True", "False"])).submit();
 });

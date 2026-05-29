@@ -86,6 +86,7 @@ class Results(Page):
 
 def digest(session):
     data = []
+    summary_by_offer = {}
 
     for group, players in ultimatum_groups(session):
         proposer = next(p for p in players if p.within(app=APP_NAME).get("proposer"))
@@ -98,7 +99,38 @@ def digest(session):
 
         data.append((group.name, offer, accepted))
 
-    return data
+        if offer is not None:
+            counts = summary_by_offer.setdefault(
+                offer,
+                {"accepted": 0, "rejected": 0, "pending": 0},
+            )
+
+            if accepted is True:
+                counts["accepted"] += 1
+            elif accepted is False:
+                counts["rejected"] += 1
+            else:
+                counts["pending"] += 1
+
+    summary = []
+
+    for offer, counts in sorted(summary_by_offer.items()):
+        accepted = counts["accepted"]
+        rejected = counts["rejected"]
+        pending = counts["pending"]
+
+        summary.append(
+            (
+                offer,
+                cu(10) - offer,
+                accepted,
+                rejected,
+                pending,
+                accepted + rejected + pending,
+            )
+        )
+
+    return {"data": data, "summary": summary}
 
 
 def pipeline(session):
