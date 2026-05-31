@@ -71,8 +71,8 @@ def digest(session):
         history = [
             (
                 round_num,
-                player1.within(app=APP_NAME, round=round_num).get("cooperate"),
-                player2.within(app=APP_NAME, round=round_num).get("cooperate"),
+                player1.within.strict(app=APP_NAME, round=round_num).get("cooperate"),
+                player2.within.strict(app=APP_NAME, round=round_num).get("cooperate"),
             )
             for round_num in range(1, latest_round + 1)
         ]
@@ -98,8 +98,8 @@ def pipeline(session):
             other = players[1 - member_id]
 
             for round_num in rounds:
-                player_data = player.within(app=APP_NAME, round=round_num)
-                other_data = other.within(app=APP_NAME, round=round_num)
+                player_data = player.within.strict(app=APP_NAME, round=round_num)
+                other_data = other.within.strict(app=APP_NAME, round=round_num)
 
                 rows.append(
                     {
