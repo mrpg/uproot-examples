@@ -3,3 +3,15 @@
 
 ? 'Hello world.'
 : 'Hello world.'
+
+? 'Is it raining?'
+: 'Is it raining?'
+
+? 'Yes'
+: 'Yes'
+
+? 'No'
+: 'No'
+
+? 'I don’t know'
+: 'I don’t know'

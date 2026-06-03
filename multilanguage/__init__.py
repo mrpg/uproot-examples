@@ -53,6 +53,16 @@ class SelectLanguage(Page):
 
 class Hello(Page):
     allow_back = True
+    fields = dict(
+        rain=RadioField(
+            label="Is it raining?",
+            choices=[
+                (True, "Yes"),
+                (False, "No"),
+                (None, "I don’t know"),
+            ],
+        )
+    )
 
 
 page_order = [

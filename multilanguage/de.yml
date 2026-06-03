@@ -3,3 +3,15 @@
 
 ? 'Hello world.'
 : 'Hallo Welt.'
+
+? 'Is it raining?'
+: 'Regnet es?'
+
+? 'Yes'
+: 'Ja'
+
+? 'No'
+: 'Nein'
+
+? 'I don’t know'
+: 'Ich weiß es nicht'

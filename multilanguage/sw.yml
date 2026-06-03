@@ -4,6 +4,18 @@
 ? 'Hello world.'
 : 'Habari dunia.'
 
+? 'Is it raining?'
+: 'Je, mvua inanyesha?'
+
+? 'Yes'
+: 'Ndiyo'
+
+? 'No'
+: 'Hapana'
+
+? 'I don’t know'
+: 'Sijui'
+
 ? 'Back'
 : 'Rudi'
 

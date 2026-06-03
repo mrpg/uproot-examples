@@ -4,6 +4,18 @@
 ? 'Hello world.'
 : 'Bonjour le monde.'
 
+? 'Is it raining?'
+: 'Pleut-il ?'
+
+? 'Yes'
+: 'Oui'
+
+? 'No'
+: 'Non'
+
+? 'I don’t know'
+: 'Je ne sais pas'
+
 ? 'Back'
 : 'Retour'
 

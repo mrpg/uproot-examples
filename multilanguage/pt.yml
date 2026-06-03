@@ -4,6 +4,18 @@
 ? 'Hello world.'
 : 'Olá mundo.'
 
+? 'Is it raining?'
+: 'Está a chover?'
+
+? 'Yes'
+: 'Sim'
+
+? 'No'
+: 'Não'
+
+? 'I don’t know'
+: 'Não sei'
+
 ? 'Back'
 : 'Voltar'
 

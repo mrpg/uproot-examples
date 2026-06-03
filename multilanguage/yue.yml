@@ -4,6 +4,18 @@
 ? 'Hello world.'
 : '你好，世界。'
 
+? 'Is it raining?'
+: '落緊雨嗎？'
+
+? 'Yes'
+: '係'
+
+? 'No'
+: '唔係'
+
+? 'I don’t know'
+: '我唔知'
+
 ? 'Back'
 : '返回'
 
