@@ -5,7 +5,7 @@
 : 'Bonjour le monde.'
 
 ? 'Is it raining?'
-: 'Pleut-il ?'
+: "Pleut-il\u202F?"
 
 ? 'Yes'
 : 'Oui'
