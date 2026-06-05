@@ -9,41 +9,23 @@ Stroop Task
 {% block head %}
 <style>
 .stroop-word {
-    font-size: 4em;
+    font-size: 4rem;
     font-weight: bold;
+    min-height: 6rem;
     text-transform: uppercase;
     user-select: none;
-    min-height: 1.5em;
 }
 
 .color-btn {
-    width: 120px;
-    height: 50px;
-    font-weight: bold;
-    text-transform: uppercase;
     border: 2px solid #333;
-}
-
-.color-btn:hover {
-    opacity: 0.8;
+    font-weight: bold;
+    height: 3.25rem;
+    text-transform: uppercase;
+    width: 7.5rem;
 }
 
 .color-btn:disabled {
-    opacity: 0.5;
-}
-
-.feedback {
-    font-size: 1.5em;
-    font-weight: bold;
-    min-height: 1.5em;
-}
-
-.feedback-correct {
-    color: green;
-}
-
-.feedback-incorrect {
-    color: red;
+    opacity: 0.55;
 }
 </style>
 {% endblock head %}
@@ -51,142 +33,90 @@ Stroop Task
 
 {% block main %}
 
-<div x-data="stroopTask()" x-init="init()">
-    <div class="text-center mb-4" x-show="state !== 'done' && state !== 'loading'">
-        <p class="text-muted">Trial <span x-text="currentTrial + 1"></span> of <span x-text="totalTrials"></span></p>
+<div class="text-center">
+    <p class="text-muted">Trial {{ player.round }} of {{ C.NUM_TRIALS }}</p>
+
+    <div class="stroop-word text-muted" id="fixation">+</div>
+    <div
+        class="stroop-word d-none"
+        id="stimulus"
+        style="color: {{ player.ink_color }};"
+    >
+        {{ player.word }}
     </div>
 
-    <div class="text-center mb-4" style="min-height: 150px;">
-        <template x-if="state === 'loading'">
-            <div class="stroop-word text-muted">Loading...</div>
-        </template>
-
-        <template x-if="state === 'fixation'">
-            <div class="stroop-word text-muted">+</div>
-        </template>
-
-        <template x-if="state === 'stimulus'">
-            <div class="stroop-word" :style="{ color: currentColor }" x-text="currentWord"></div>
-        </template>
-
-        <template x-if="state === 'feedback'">
-            <div>
-                <div class="stroop-word" :style="{ color: currentColor }" x-text="currentWord"></div>
-                <div class="feedback" :class="lastCorrect ? 'feedback-correct' : 'feedback-incorrect'">
-                    <span x-text="lastCorrect ? 'Correct!' : 'Incorrect'"></span>
-                    <span class="text-muted" style="font-size: 0.6em;" x-text="'(' + lastRT + ' ms)'"></span>
-                </div>
-            </div>
-        </template>
-
-        <template x-if="state === 'done'">
-            <div>
-                <p class="lead">Task complete!</p>
-            </div>
-        </template>
+    <div class="d-flex flex-wrap gap-2 justify-content-center mt-4">
+        {% for color in C.COLORS %}
+        <button
+            class="btn color-btn"
+            data-color="{{ color }}"
+            disabled
+            style="background-color: {{ color }}; color: {% if color == "yellow" %}#333{% else %}white{% endif %};"
+            type="button"
+        >
+            {{ color }}
+        </button>
+        {% endfor %}
     </div>
+</div>
 
-    <div class="text-center mb-4" x-show="state !== 'loading'">
-        <div class="d-flex justify-content-center gap-2 flex-wrap">
-            <template x-for="color in colors" :key="color">
-                <button
-                    type="button"
-                    class="btn color-btn"
-                    :style="{ backgroundColor: color, color: color === 'yellow' ? '#333' : 'white' }"
-                    :disabled="state !== 'stimulus'"
-                    @click="respond(color)"
-                    x-text="color"
-                ></button>
-            </template>
-        </div>
-    </div>
-
+<div class="d-none">
+    {{ form.response() }}
+    {{ form.reaction_time_ms() }}
 </div>
 
 <script>
-function stroopTask() {
-    return {
-        trials: [],
-        colors: [],
-        currentTrial: 0,
-        totalTrials: 0,
-        currentWord: '',
-        currentColor: '',
-        state: 'loading',
-        stimulusOnset: 0,
-        lastCorrect: false,
-        lastRT: 0,
+let stimulusOnset = 0;
+let acceptingResponses = false;
+const responseInput = document.getElementById("response");
+const rtInput = document.getElementById("reaction_time_ms");
+const fixation = document.getElementById("fixation");
+const stimulus = document.getElementById("stimulus");
+const buttons = document.querySelectorAll(".color-btn");
 
-        init() {
-            this.state = 'loading';
-            uproot.onReady(() => {
-                uproot.invoke('get_state').then((data) => {
-                    this.trials = data.trials;
-                    this.colors = data.colors;
-                    this.totalTrials = data.num_trials;
-                    this.currentTrial = data.completed_trials;
+function eventTime(event) {
+    const now = performance.now();
 
-                    // If already done, submit immediately
-                    if (this.currentTrial >= this.totalTrials) {
-                        this.state = 'done';
-                        uproot.submit();
-                    } else {
-                        this.startTrial();
-                    }
-                });
-            });
-        },
+    if (event.timeStamp > 0 && event.timeStamp < now + 1000) {
+        return event.timeStamp;
+    }
 
-        startTrial() {
-            if (this.currentTrial >= this.totalTrials) {
-                this.state = 'done';
-                return;
-            }
-
-            this.state = 'fixation';
-            this.currentWord = '';
-            this.currentColor = '';
-
-            // Show fixation cross for 500ms, then show stimulus
-            setTimeout(() => {
-                this.showStimulus();
-            }, 500);
-        },
-
-        showStimulus() {
-            const trial = this.trials[this.currentTrial];
-            this.currentWord = trial.word;
-            this.currentColor = trial.ink_color;
-            this.state = 'stimulus';
-            this.stimulusOnset = performance.now();
-        },
-
-        respond(color) {
-            if (this.state !== 'stimulus') return;
-
-            const reactionTime = performance.now() - this.stimulusOnset;
-            const trialNumber = this.currentTrial + 1;
-
-            uproot.invoke('submit_response', trialNumber, color, reactionTime)
-                .then((result) => {
-                    this.lastCorrect = result.correct;
-                    this.lastRT = Math.round(reactionTime);
-                    this.state = 'feedback';
-
-                    // Show feedback for 800ms, then next trial
-                    setTimeout(() => {
-                        this.currentTrial++;
-                        if (result.done) {
-                            this.state = 'done';
-                            uproot.submit();
-                        } else {
-                            this.startTrial();
-                        }
-                    }, 800);
-                });
-        }
-    };
+    return now;
 }
+
+function showStimulus() {
+    fixation.classList.add("d-none");
+    stimulus.classList.remove("d-none");
+
+    requestAnimationFrame((timestamp) => {
+        stimulusOnset = timestamp;
+        acceptingResponses = true;
+
+        buttons.forEach((button) => {
+            button.disabled = false;
+        });
+    });
+}
+
+buttons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+        if (!acceptingResponses) {
+            return;
+        }
+
+        acceptingResponses = false;
+        buttons.forEach((btn) => {
+            btn.disabled = true;
+        });
+        responseInput.value = button.dataset.color;
+        rtInput.value = Math.max(0, eventTime(event) - stimulusOnset);
+        uproot.submit();
+    });
+});
+
+uproot.onReady(() => {
+    setTimeout(showStimulus, 500);
+});
 </script>
 
 {% endblock main %}

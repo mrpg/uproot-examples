@@ -9,44 +9,44 @@ Results
 
 <h3>Your Results</h3>
 
-<div x-data="{ results: uproot.vars }">
-    <table class="table table-bordered w-auto">
-        <tbody>
-            <tr>
-                <td>Total trials</td>
-                <td><span x-text="results.total_trials"></span></td>
-            </tr>
-            <tr>
-                <td>Correct responses</td>
-                <td><span x-text="results.correct_count"></span></td>
-            </tr>
-            <tr>
-                <td>Accuracy</td>
-                <td><span x-text="results.accuracy"></span>%</td>
-            </tr>
-            <tr>
-                <td>Mean reaction time</td>
-                <td><span x-text="results.mean_rt"></span> ms</td>
-            </tr>
-            <tr class="table-info">
-                <td>Congruent trials (mean RT)</td>
-                <td><span x-text="results.congruent_rt"></span> ms</td>
-            </tr>
-            <tr class="table-warning">
-                <td>Incongruent trials (mean RT)</td>
-                <td><span x-text="results.incongruent_rt"></span> ms</td>
-            </tr>
-            <tr class="table-secondary">
-                <td><strong>Stroop effect</strong></td>
-                <td><strong><span x-text="results.stroop_effect"></span> ms</strong></td>
-            </tr>
-        </tbody>
-    </table>
+{% set results = player.context.results %}
 
-    <p class="text-muted mt-3">
-        The Stroop effect is the difference in reaction time between incongruent and congruent trials.
-        A positive value indicates interference from the word meaning.
-    </p>
-</div>
+<table class="table table-bordered w-auto">
+    <tbody>
+        <tr>
+            <td>Total trials</td>
+            <td>{{ results.total_trials }}</td>
+        </tr>
+        <tr>
+            <td>Correct responses</td>
+            <td>{{ results.correct_count }}</td>
+        </tr>
+        <tr>
+            <td>Accuracy</td>
+            <td>{{ results.accuracy | fmtnum(post="%", places=1) }}</td>
+        </tr>
+        <tr>
+            <td>Mean reaction time</td>
+            <td>{{ results.mean_rt | fmtnum(post=" ms", places=1) }}</td>
+        </tr>
+        <tr class="table-info">
+            <td>Congruent trials (mean RT)</td>
+            <td>{{ results.congruent_rt | fmtnum(post=" ms", places=1) }}</td>
+        </tr>
+        <tr class="table-warning">
+            <td>Incongruent trials (mean RT)</td>
+            <td>{{ results.incongruent_rt | fmtnum(post=" ms", places=1) }}</td>
+        </tr>
+        <tr class="table-secondary">
+            <td><strong>Stroop effect</strong></td>
+            <td><strong>{{ results.stroop_effect | fmtnum(post=" ms", places=1) }}</strong></td>
+        </tr>
+    </tbody>
+</table>
+
+<p class="text-muted mt-3">
+    The Stroop effect is the difference in reaction time between incongruent and congruent trials.
+    A positive value indicates interference from the word meaning.
+</p>
 
 {% endblock main %}
