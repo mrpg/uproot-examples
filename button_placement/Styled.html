@@ -1,0 +1,17 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Styled Button
+{% endblock title %}
+
+
+{% block main %}
+
+<p>This page places a large, custom-styled Next button.</p>
+
+<!-- Calling button_next() suppresses the default buttons. -->
+<div class="text-center my-5">
+    {{ button_next(class_="btn btn-success btn-lg", style="font-size: 2rem; padding: 1rem 3rem;") }}
+</div>
+
+{% endblock main %}

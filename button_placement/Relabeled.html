@@ -1,0 +1,17 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Custom Labels
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Buttons with custom text via the <code>label=</code> parameter.</p>
+
+<!-- The label= kwarg overrides the translated "Next"/"Back" text. -->
+<div class="my-5">
+    {{ button_next(label="I agree — continue to the final page") }}
+</div>
+
+{% endblock main %}

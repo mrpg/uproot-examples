@@ -19,6 +19,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `big5`                                            | Short Big 5 questionnaire with scoring                          | Medium     |
 | `bisection`                                       | CE elicitation over mean-preserving spreads                     | Medium     |
 | `bounded_choice`                                  | Examples for the BoundedChoiceField                             | Easy       |
+| `button_placement`                                | Placing and customizing Next/Back buttons                       | Easy       |
 | `call_auction`                                    | Call auction (sealed-bid batch clearing)                        | Medium     |
 | `chat`                                            | Chat                                                            | Easy       |
 | `chat_with_claude`                                | Chat with Claude                                                | Medium     |

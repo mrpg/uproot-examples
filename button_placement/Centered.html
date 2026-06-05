@@ -1,0 +1,19 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Centered Buttons
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Both buttons centered together in a custom layout.</p>
+
+<!-- allow_back = True on this page, so button_back() renders a real button.
+     On pages without allow_back, button_back() returns nothing. -->
+<div class="d-flex justify-content-center gap-3 my-5">
+    {{ button_back(class_="btn btn-outline-dark btn-lg") }}
+    {{ button_next(class_="btn btn-dark btn-lg") }}
+</div>
+
+{% endblock main %}

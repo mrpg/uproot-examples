@@ -1,0 +1,20 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Buttons at the Top
+{% endblock title %}
+
+
+{% block main %}
+
+<!-- Buttons first, content below — useful for long pages where
+     participants may want to navigate before scrolling. -->
+<div class="d-flex gap-2 mb-4 border-bottom pb-3">
+    {{ button_back() }}
+    {{ button_next(label="Finish") }}
+</div>
+
+<p>On this page the buttons appear at the top.</p>
+<p>This is the last page of the example.</p>
+
+{% endblock main %}
