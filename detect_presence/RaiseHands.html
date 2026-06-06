@@ -27,8 +27,9 @@
     present: {{ player.get('present', false) | tojson }},
     loading: false,
     toggle() {
+        if (this.present) return;
         this.loading = true;
-        uproot.invoke('set_presence', !this.present).then((v) => {
+        uproot.invoke('set_presence', true).then((v) => {
             this.present = v;
             this.loading = false;
         });
@@ -40,7 +41,8 @@
     <div @click="toggle()" role="button" tabindex="0" @keydown.enter="toggle()" @keydown.space.prevent="toggle()"
          :class="present ? 'border border-success shadow' : 'border shadow-sm'"
          class="card mx-auto text-center presence-card"
-         :style="loading ? 'opacity: 0.6; pointer-events: none;' : ''" id="toggle-wrapper">
+         :style="(loading || present) ? 'pointer-events: none;' : ''"
+         :aria-disabled="present" id="toggle-wrapper">
         <div class="card-body d-flex flex-column align-items-center justify-content-center presence-card-body">
             <div class="mb-3 presence-emoji" x-text="present ? '👍' : '👋'"></div>
             <h4 :class="present ? 'text-success' : 'text-body-secondary'" class="card-title mb-1"
@@ -50,5 +52,11 @@
 
     <p class="mt-4 text-muted" x-show="present">Please wait while others check in.</p>
 </div>
+
+<script>
+    uproot.receive = () => {
+        uproot.submit();
+    };
+</script>
 
 {% endblock main %}

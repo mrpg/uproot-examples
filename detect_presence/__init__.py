@@ -45,6 +45,12 @@ class RaiseHands(Page):
             page.reset_session(player)
 
     @classmethod
+    def show(page, player):
+        return player.session.get(
+            "detection_period_until"
+        ) is None or not page.may_proceed(player)
+
+    @classmethod
     def timeout(page, player):
         page.ensure_detection(player)
 
@@ -60,7 +66,14 @@ class RaiseHands(Page):
 
     @live
     def set_presence(page, player, new_value: bool):
+        if player.get("present", False):
+            return True
+
         player.present = new_value
+
+        if new_value and all(p.get("present", False) for p in player.session.players):
+            player.session.detection_period_until = now()
+            notify(player, player.session.players)
 
         return new_value
 
