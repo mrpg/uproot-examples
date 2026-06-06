@@ -84,32 +84,32 @@ class RaiseHands(Page):
 # Exception, should player.present be unset.
 
 
-class Info(Page):
+class WaitForPresent(SynchronizingWait):
+    synchronize = "session"
+
     @classmethod
-    def before_once(page, player):
-        # Optional: Create a group of all present players. Players who arrive a bit
-        # later are added to the pre-existing group. Remove this method (and the
-        # corresponding template block) if grouping is not needed.
+    def wait_for(page, player):
+        return [identify(p) for p in player.session.players if p.get("present", False)]
 
-        # IMPORTANT: The group that is created may be "incomplete" when checked on this
-        # page. Make sure to wait for a sufficient amount of time if your logic needs
-        # to ensure that the group really consists of all present players.
-
+    @classmethod
+    async def show(page, player):
         if not player.get("present", False):
-            return
+            return False
 
-        session = player.session
-        group = session.get("presence_group")
+        return not await page.may_proceed(player)
 
-        if group is None:
-            # First present player: create the group
-            session.presence_group = create_group(session, [player])
-        else:
-            # Group already exists: add this player to it
-            add_to_group(session.group(group), player)
+    @classmethod
+    def all_here(page, session):
+        present = [p for p in session.players if p.get("present", False)]
+        session.presence_group = create_group(session, present)
+
+
+class Info(Page):
+    pass
 
 
 page_order = [
     RaiseHands,
+    WaitForPresent,
     Info,
 ]
