@@ -89,7 +89,10 @@ class WaitForPresent(SynchronizingWait):
 
     @classmethod
     def wait_for(page, player):
-        return [identify(p) for p in player.session.players if p.get("present", False)]
+        # If you define wait_for, it should return a list of PlayerIdentifiers,
+        # NOT Players. This explains the use of identify(), which converts
+        # Players to PlayerIdentifiers.
+        return [identify(p) for p in player.context.present]
 
     @classmethod
     async def show(page, player):
