@@ -8,24 +8,52 @@ Stroop Task
 
 {% block head %}
 <style>
+.stroop-arena {
+    --arena-size: 620px;
+    --button-width: 110px;
+    --button-height: 52px;
+    --word-width: 400px;
+
+    display: grid;
+    grid-template-areas:
+        ".    top    ."
+        "left center right"
+        ".    bottom .";
+    grid-template-columns: var(--button-width) var(--word-width) var(--button-width);
+    grid-template-rows: var(--button-height) 316px var(--button-height);
+    place-items: center;
+    width: var(--arena-size);
+    aspect-ratio: 1;
+    margin: 1rem auto;
+}
+
 .stroop-word {
-    font-size: 4rem;
+    grid-area: center;
+    font-size: 3rem;
     font-weight: bold;
-    min-height: 6rem;
+    line-height: 1;
+    text-align: center;
     text-transform: uppercase;
     user-select: none;
+    white-space: nowrap;
+    width: var(--word-width);
 }
 
 .color-btn {
-    border: 2px solid #333;
     font-weight: bold;
-    height: 3.25rem;
+    height: var(--button-height);
     text-transform: uppercase;
-    width: 7.5rem;
+    width: var(--button-width);
 }
 
 .color-btn:disabled {
     opacity: 0.55;
+}
+
+.next-btn {
+    grid-area: center;
+    padding: 0.75rem 2rem;
+    width: var(--button-width);
 }
 </style>
 {% endblock head %}
@@ -36,27 +64,32 @@ Stroop Task
 <div class="text-center">
     <p class="text-muted">Trial {{ player.round }} of {{ C.NUM_TRIALS }}</p>
 
-    <div class="stroop-word text-muted" id="fixation">+</div>
-    <div
-        class="stroop-word d-none"
-        id="stimulus"
-        style="color: {{ player.ink_color }};"
-    >
-        {{ player.word }}
-    </div>
-
-    <div class="d-flex flex-wrap gap-2 justify-content-center mt-4">
-        {% for color in C.COLORS %}
+    <div class="stroop-arena">
+        {% set areas = ["top", "right", "bottom", "left"] %}
+        {% for color in player.button_order %}
         <button
-            class="btn color-btn"
+            class="btn btn-secondary color-btn d-none"
             data-color="{{ color }}"
             disabled
-            style="background-color: {{ color }}; color: {% if color == "yellow" %}#333{% else %}white{% endif %};"
+            style="grid-area: {{ areas[loop.index0] }};"
             type="button"
         >
-            {{ color }}
+            {{ color | upper }}
         </button>
         {% endfor %}
+
+        <button class="btn btn-dark next-btn" id="nextBtn" type="button">
+            {% if player.round == 1 %}Start{% else %}Next{% endif %}
+        </button>
+
+        <div class="stroop-word text-muted d-none" id="fixation">+</div>
+        <div
+            class="stroop-word d-none"
+            id="stimulus"
+            style="color: {{ player.ink_color }};"
+        >
+            {{ player.word }}
+        </div>
     </div>
 </div>
 
@@ -70,6 +103,7 @@ let stimulusOnset = 0;
 let acceptingResponses = false;
 const responseInput = document.getElementById("response");
 const rtInput = document.getElementById("reaction_time_ms");
+const nextBtn = document.getElementById("nextBtn");
 const fixation = document.getElementById("fixation");
 const stimulus = document.getElementById("stimulus");
 const buttons = document.querySelectorAll(".color-btn");
@@ -98,6 +132,17 @@ function showStimulus() {
     });
 }
 
+nextBtn.addEventListener("click", () => {
+    nextBtn.classList.add("d-none");
+    fixation.classList.remove("d-none");
+
+    buttons.forEach((button) => {
+        button.classList.remove("d-none");
+    });
+
+    setTimeout(showStimulus, 500);
+});
+
 buttons.forEach((button) => {
     button.addEventListener("click", (event) => {
         if (!acceptingResponses) {
@@ -112,10 +157,6 @@ buttons.forEach((button) => {
         rtInput.value = Math.max(0, eventTime(event) - stimulusOnset);
         uproot.submit();
     });
-});
-
-uproot.onReady(() => {
-    setTimeout(showStimulus, 500);
 });
 </script>
 

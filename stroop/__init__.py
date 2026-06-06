@@ -56,12 +56,14 @@ def make_trials():
 
     for _ in range(C.NUM_TRIALS // 2):
         color = random.choice(C.COLORS)
-        trials.append([color.upper(), color, True])
+        order = random.sample(C.COLORS, len(C.COLORS))
+        trials.append([color.upper(), color, True, order])
 
     for _ in range(C.NUM_TRIALS - len(trials)):
         word_color = random.choice(C.COLORS)
         ink_color = random.choice([color for color in C.COLORS if color != word_color])
-        trials.append([word_color.upper(), ink_color, False])
+        order = random.sample(C.COLORS, len(C.COLORS))
+        trials.append([word_color.upper(), ink_color, False, order])
 
     random.shuffle(trials)
 
@@ -80,9 +82,9 @@ class Stroop(Page):
 
     @classmethod
     def before_once(page, player):
-        player.word, player.ink_color, player.congruent = player.trial_sequence[
-            player.round - 1
-        ]
+        player.word, player.ink_color, player.congruent, player.button_order = (
+            player.trial_sequence[player.round - 1]
+        )
 
     @classmethod
     def validate(page, player, data):
