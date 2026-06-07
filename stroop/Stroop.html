@@ -66,7 +66,7 @@ Stroop Test
 
 {% block main %}
 
-<p class="text-center text-body-tertiary mb-5">Trial {{ player.round }} of {{ C.NUM_TRIALS }}</p>
+<p class="text-center text-body-tertiary mb-5">Trial {{ player.round }} of {{ C.NUM_TRIALS + C.NUM_TRIALS_NEUTRAL }}</p>
 
 <!-- Full-width -->
 <div class="pt-5 offset-6 overflow-x-hidden translate-middle-x vw-100">
@@ -75,7 +75,7 @@ Stroop Test
         <div
             class="stroop-word d-none"
             id="stimulus"
-            style="color: {{ player.ink_color }};"
+            style="color: {{ player.hex_color }};"
         >
             {{ player.word }}
         </div>
