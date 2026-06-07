@@ -11,7 +11,7 @@
 from uproot.fields import *
 from uproot.smithereens import *
 
-DESCRIPTION = "Stroop task"
+DESCRIPTION = "Stroop color-word test (Stroop, 1935) in a version adapated from Gerhardt et al. (2017)"
 LANDING_PAGE = False
 APP_NAME = __name__
 
@@ -57,13 +57,13 @@ def make_trials():
     for _ in range(C.NUM_TRIALS // 2):
         color = random.choice(C.COLORS)
         order = random.sample(C.COLORS, len(C.COLORS))
-        trials.append([color.upper(), color, True, order])
+        trials.append([color, color, True, order])
 
     for _ in range(C.NUM_TRIALS - len(trials)):
         word_color = random.choice(C.COLORS)
         ink_color = random.choice([color for color in C.COLORS if color != word_color])
         order = random.sample(C.COLORS, len(C.COLORS))
-        trials.append([word_color.upper(), ink_color, False, order])
+        trials.append([word_color, ink_color, False, order])
 
     random.shuffle(trials)
 

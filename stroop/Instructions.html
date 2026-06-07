@@ -7,27 +7,43 @@ Stroop Task Instructions
 
 {% block main %}
 
-<h3>Instructions</h3>
+<p>In this task, you will see color words (like Red, Blue, Green, Yellow) displayed in different font colors.</p>
 
-<p>In this task, you will see color words (like RED, BLUE, GREEN, YELLOW) displayed in different ink colors.</p>
+<p><strong>Your task:</strong> Identify the <em>font color</em> of the word, <em>not</em> the word itself.</p>
 
-<p><strong>Your task:</strong> Identify the <em>ink color</em> of the word, <strong>not</strong> the word itself.</p>
-
-<h4>Examples</h4>
-
-<div class="mb-4">
-    <p>
-        <span style="color: red; font-size: 1.5em; font-weight: bold;">RED</span>
-        &rarr; Correct answer: <strong>red</strong> (word and color match)
+<div class="alert alert-light bg-body-secondary bg-opacity-25 callout">
+    <h5 class="mb-3">Examples</h5>
+    <p class="text-black">
+        <b class="fs-5" style="color: red;">Red</b>
+        &rarr; Correct answer: <strong>Red</strong> (word and color match)
     </p>
-    <p>
-        <span style="color: blue; font-size: 1.5em; font-weight: bold;">RED</span>
-        &rarr; Correct answer: <strong>blue</strong> (ignore the word, focus on the ink color)
+    <p class="mb-0 text-black">
+        <b class="fs-5" style="color: blue;">Red</b>
+        &rarr; Correct answer: <strong>Blue</strong> (ignore the word, focus on the font color)
     </p>
 </div>
 
-<p>Respond as <strong>quickly</strong> and <strong>accurately</strong> as possible.</p>
+<p>Located around the word, you will see several buttons with color names.</p>
 
-<p>Click the button matching the ink color you see.</p>
+<p>A correct response is made by pressing the button that names the font color of the word.</p>
+
+<div class="alert alert-light bg-body-secondary bg-opacity-25 callout">
+    <h5 class="mb-3">Examples</h5>
+    <p class="text-black my-4">
+        <span class="btn btn-outline-dark me-2" style="width: 5em;">Yellow</span>
+        <span class="btn btn-outline-dark me-2" style="width: 5em;">Red</span>
+        <span class="btn btn-outline-dark me-2" style="width: 5em;">Blue</span>
+        <span class="btn btn-outline-dark" style="width: 5em;" type="button">Green</span>
+    </p>
+    <p class="text-black">
+        For <b class="fs-5" style="color: red;">Red</b>, the correct response is pressing the <span class="btn btn-outline-dark btn-sm mx-1" style="width: 5em;" >Red</span> button, since the word is displayed in red.
+    </p>
+    <p class="mb-0 text-black">
+        For <b class="fs-5" style="color: blue;">Red</b>, the correct response is pressing the <span class="btn btn-outline-dark btn-sm mx-1" style="width: 5em;">Blue</span> button, since the word is displayed in blue.
+    </p>
+</div>
+
+
+<p>Respond as <strong>quickly</strong> and <strong>accurately</strong> as possible.</p>
 
 {% endblock main %}

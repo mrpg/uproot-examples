@@ -1,52 +1,66 @@
 {% extends "Base.html" %}
 
+
+{% set buttons = False %}
+{% set results = player.context.results %}
+
+
 {% block title %}
-Results
+
+Your Results
+
 {% endblock title %}
 
 
 {% block main %}
 
-<h3>Your Results</h3>
-
-{% set results = player.context.results %}
-
-<table class="table table-bordered w-auto">
+<table class="table w-auto">
+    <thead>
+        <tr>
+            <th class="pe-4">Metric</th>
+            <th class="text-center">Value</th>
+        </tr>
+    </thead>
     <tbody>
         <tr>
-            <td>Total trials</td>
-            <td>{{ results.total_trials }}</td>
+            <td class="pe-4">Total trials</td>
+            <td class="text-end">{{ results.total_trials }}</td>
         </tr>
         <tr>
-            <td>Correct responses</td>
-            <td>{{ results.correct_count }}</td>
+            <td class="pe-4">Correct responses</td>
+            <td class="text-end">{{ results.correct_count }}</td>
         </tr>
         <tr>
-            <td>Accuracy</td>
-            <td>{{ results.accuracy | fmtnum(post="%", places=1) }}</td>
+            <td class="pe-4">Accuracy</td>
+            <td class="text-end">{{ results.accuracy | fmtnum(post="%", places=1) }}</td>
         </tr>
         <tr>
-            <td>Mean reaction time</td>
-            <td>{{ results.mean_rt | fmtnum(post=" ms", places=1) }}</td>
+            <td class="pe-4">Mean reaction time</td>
+            <td class="text-end">{{ results.mean_rt | fmtnum(post=" ms", places=1) }}</td>
         </tr>
-        <tr class="table-info">
-            <td>Congruent trials (mean RT)</td>
-            <td>{{ results.congruent_rt | fmtnum(post=" ms", places=1) }}</td>
+        <tr class="table-success">
+            <td class="pe-4">Congruent trials (mean RT)</td>
+            <td class="text-end">{{ results.congruent_rt | fmtnum(post=" ms", places=1) }}</td>
         </tr>
         <tr class="table-warning">
-            <td>Incongruent trials (mean RT)</td>
-            <td>{{ results.incongruent_rt | fmtnum(post=" ms", places=1) }}</td>
+            <td class="pe-4">Incongruent trials (mean RT)</td>
+            <td class="text-end">{{ results.incongruent_rt | fmtnum(post=" ms", places=1) }}</td>
         </tr>
-        <tr class="table-secondary">
-            <td><strong>Stroop effect</strong></td>
-            <td><strong>{{ results.stroop_effect | fmtnum(post=" ms", places=1) }}</strong></td>
+        <tr class="table-danger">
+            <td class="pe-4"><strong>Stroop effect</strong></td>
+            <td class="text-end"><strong>{{ results.stroop_effect | fmtnum(post=" ms", places=1) }}</strong></td>
         </tr>
     </tbody>
 </table>
 
-<p class="text-muted mt-3">
+<p class="text-muted my-4">
     The Stroop effect is the difference in reaction time between incongruent and congruent trials.
     A positive value indicates interference from the word meaning.
 </p>
+
+<button class="btn btn-primary" id="uproot-button-next">
+    End
+</button>
+
 
 {% endblock main %}

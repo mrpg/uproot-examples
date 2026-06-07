@@ -1,8 +1,11 @@
 {% extends "Base.html" %}
 {% set buttons = False %}
 
+
 {% block title %}
-Stroop Task
+
+Stroop Test
+
 {% endblock title %}
 
 
@@ -33,7 +36,7 @@ Stroop Task
     font-weight: bold;
     line-height: 1;
     text-align: center;
-    text-transform: uppercase;
+    text-transform: capitalize;
     user-select: none;
     white-space: nowrap;
     width: var(--word-width);
@@ -42,7 +45,7 @@ Stroop Task
 .color-btn {
     font-weight: bold;
     height: var(--button-height);
-    text-transform: uppercase;
+    text-transform: capitalize;
     width: var(--button-width);
 }
 
@@ -68,13 +71,13 @@ Stroop Task
         {% set areas = ["top", "right", "bottom", "left"] %}
         {% for color in player.button_order %}
         <button
-            class="btn btn-secondary color-btn d-none"
+            class="btn btn-outline-dark color-btn d-none"
             data-color="{{ color }}"
             disabled
             style="grid-area: {{ areas[loop.index0] }};"
             type="button"
         >
-            {{ color | upper }}
+            {{ color }}
         </button>
         {% endfor %}
 
