@@ -30,18 +30,38 @@ class Context(PlayerContext):
         ]
         completed = [trial for trial in trials if trial.get("response") is not None]
         correct = [trial for trial in completed if trial.get("correct")]
-        congruent = [trial for trial in correct if trial.get("congruent")]
-        incongruent = [trial for trial in correct if not trial.get("congruent")]
+        congruent = [trial for trial in completed if trial.get("congruent")]
         congruent_rt = mean_rt(congruent)
+        congruent_correct = [trial for trial in congruent if trial.get("correct")]
+        congruent_correct_rt = mean_rt(congruent_correct)
+        congruent_incorrect = [trial for trial in congruent if not trial.get("correct")]
+        congruent_incorrect_rt = mean_rt(congruent_incorrect)
+        incongruent = [trial for trial in completed if not trial.get("congruent")]
         incongruent_rt = mean_rt(incongruent)
+        incongruent_correct = [trial for trial in incongruent if trial.get("correct")]
+        incongruent_correct_rt = mean_rt(incongruent_correct)
+        incongruent_incorrect = [trial for trial in incongruent if not trial.get("correct")]
+        incongruent_incorrect_rt = mean_rt(incongruent_incorrect)
 
         return dict(
             total_trials=len(completed),
             correct_count=len(correct),
-            accuracy=round(percent(len(correct), len(completed)), 1),
-            mean_rt=mean_rt(correct),
+            mean_rt=mean_rt(completed),
+            congruent_trials=len(congruent),
             congruent_rt=congruent_rt,
+            congruent_correct_count=len(congruent_correct),
+            congruent_incorrect_count=len(congruent_incorrect),
+            congruent_accuracy=round(percent(len(congruent_correct), len(congruent)), 1),
+            congruent_correct_rt=congruent_correct_rt,
+            congruent_incorrect_rt=congruent_incorrect_rt,
+            incongruent_trials=len(incongruent),
             incongruent_rt=incongruent_rt,
+            incongruent_correct_count=len(incongruent_correct),
+            incongruent_incorrect_count=len(incongruent_incorrect),
+            incongruent_accuracy=round(percent(len(incongruent_correct), len(incongruent)), 1),
+            incongruent_correct_rt=incongruent_correct_rt,
+            incongruent_incorrect_rt=incongruent_incorrect_rt,
+            delta_accuracy=round(percent(len(congruent_correct), len(congruent)) - percent(len(incongruent_correct), len(incongruent)), 1),
             stroop_effect=round(incongruent_rt - congruent_rt, 1),
         )
 

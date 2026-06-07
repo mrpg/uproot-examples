@@ -28,46 +28,108 @@ Your Results
 
 <table class="table w-auto">
     <thead>
-        <tr>
+        <tr class="border-dark">
             <th>Metric</th>
             <th class="text-end">Value</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>Total trials</td>
+        <tr class="border-primary">
+            <td>Total number of trials</td>
             <td class="text-end">{{ results.total_trials }}</td>
         </tr>
-        <tr>
-            <td>Correct responses</td>
-            <td class="text-end">{{ results.correct_count }}</td>
+        <tr class="border-primary">
+            <td>Mean response time across all trials</td>
+            <td class="text-end">{{ results.mean_rt | fmtnum(post=" ms", places=1) }}</td>
         </tr>
         <tr>
-            <td>Accuracy</td>
-            <td class="text-end">{{ results.accuracy | fmtnum(post="%", places=1) }}</td>
+            <td>Number of congruent trials</td>
+            <td class="text-end">{{ results.congruent_trials }}</td>
+        </tr>
+        <tr class="border-primary">
+            <td>Number of incongruent trials</td>
+            <td class="text-end">{{ results.incongruent_trials }}</td>
         </tr>
         <tr>
-            <td>Mean response time</td>
-            <td class="text-end">{{ results.mean_rt | fmtnum(post=" ms", places=1) }}</td>
+            <td>Mean response time in congruent trials</td>
+            <td class="text-end">{{ results.congruent_rt | fmtnum(post=" ms", places=1) }}</td>
+        </tr>
+        <tr class="border-primary">
+            <td>Mean response time in incongruent trials</td>
+            <td class="text-end">{{ results.incongruent_rt | fmtnum(post=" ms", places=1) }}</td>
+        </tr>
+        <tr>
+            <td>Correct responses in congruent trials</td>
+            <td class="text-end">{{ results.congruent_correct_count }}</td>
+        </tr>
+        <tr class="border-primary">
+            <td>Correct responses in incongruent trials</td>
+            <td class="text-end">{{ results.incongruent_correct_count }}</td>
         </tr>
         <tr class="fw-bold">
-            <td class="text-success">Congruent trials (mean RT)</td>
-            <td class="text-end text-success">{{ results.congruent_rt | fmtnum(post=" ms", places=1) }}</td>
+            <td>Accuracy in congruent trials <span class="ms-1 text-success">&bull;</span></td>
+            <td class="text-end">{{ results.congruent_accuracy | fmtnum(post="%", places=1) }}</td>
         </tr>
         <tr class="fw-bold">
-            <td class="text-danger">Incongruent trials (mean RT)</td>
-            <td class="text-end text-danger">{{ results.incongruent_rt | fmtnum(post=" ms", places=1) }}</td>
+            <td>Accuracy in incongruent trials <span class="ms-1 text-danger">&bull;</span></td>
+            <td class="text-end">{{ results.incongruent_accuracy | fmtnum(post="%", places=1) }}</td>
+        </tr>
+        <tr class="fw-bold">
+            <td class="bg-primary text-white">Difference in accuracy</td>
+            <td class="bg-primary text-end text-white">{{ results.delta_accuracy | fmtnum(post="%", places=1) }}</td>
+        </tr>
+        <tr>
+            <td>Mean RT in incorrect congruent trials (mean RT) <span class="ms-1 text-success">&bull;</span></td>
+            <td class="text-end">
+                {% if results.congruent_incorrect_count > 0 %}
+                {{ results.congruent_incorrect_rt | fmtnum(post=" ms", places=1) }}
+                {% else %}
+                <span class="text-body-tertiary">—</span>
+                {% endif %}
+            </td>
+        </tr>
+        <tr class="border-primary">
+            <td>Mean RT in incorrect incongruent trials (mean RT) <span class="ms-1 text-danger">&bull;</span></td>
+            <td class="text-end">
+                {% if results.incongruent_incorrect_count > 0 %}
+                {{ results.incongruent_incorrect_rt | fmtnum(post=" ms", places=1) }}
+                {% else %}
+                <span class="text-body-tertiary">—</span>
+                {% endif %}
+            </td>
+        </tr>
+        <tr class="fw-bold">
+            <td>Mean RT in correct congruent trials (mean RT) <span class="ms-1 text-success">&bull;</span></td>
+            <td class="text-end">
+                {% if results.congruent_correct_count > 0 %}
+                {{ results.congruent_correct_rt | fmtnum(post=" ms", places=1) }}
+                {% else %}
+                <span class="text-body-tertiary">—</span>
+                {% endif %}
+            </td>
+        </tr>
+        <tr class="border-primary fw-bold">
+            <td>Mean RT in correct incongruent trials (mean RT) <span class="ms-1 text-danger">&bull;</span></td>
+            <td class="text-end">
+                {% if results.incongruent_correct_count > 0 %}
+                {{ results.incongruent_correct_rt | fmtnum(post=" ms", places=1) }}
+                {% else %}
+                <span class="text-body-tertiary">—</span>
+                {% endif %}
+            </td>
         </tr>
         <tr class="fw-bold">
             <td class="bg-primary text-white">Stroop effect</td>
-            <td class="bg-primary text-end text-white">{{ results.stroop_effect | fmtnum(post=" ms", places=1) }}</td>
+            <td class="bg-primary text-end text-white">{{ results.stroop_effect | fmtnum(post=" ms", places=1) }}</td>
         </tr>
     </tbody>
 </table>
 
 <p class="text-muted my-4">
-    The Stroop effect is the difference in the mean response time between incongruent and congruent trials.
-    A positive value indicates interference from the word meaning.
+    The Stroop effect is the difference in the mean response time between correct reponses in incongruent trials and correct responses in congruent trials. A positive value indicates interference from the word meaning.
+</p>
+<p class="text-muted my-4">
+    A second measure is the difference in the share of correct reponses in congruent trials and correct responses in incongruent trials. A larger share of correct responses in congruent trials (i.e., larger share of errors in incongruent trials) indicates interference from the word meaning.
 </p>
 
 <button class="btn btn-primary" id="uproot-button-next">
