@@ -52,6 +52,7 @@ class Context(PlayerContext):
         neutral_correct = [trial for trial in neutral if trial.get("correct")]
         neutral_incorrect = [trial for trial in neutral if not trial.get("correct")]
         neutral_correct_rt = mean_rt(neutral_correct)
+        neutral_incorrect_rt = mean_rt(neutral_incorrect)
         return dict(
             total_trials=len(completed),
             correct_count=len(correct),
@@ -79,13 +80,18 @@ class Context(PlayerContext):
                 - percent(len(incongruent_correct), len(incongruent)),
                 1,
             ),
-            stroop_effect=round(incongruent_rt - congruent_rt, 1),
+            stroop_effect=(
+                round(incongruent_correct_rt - congruent_correct_rt, 1)
+                if congruent_correct and incongruent_correct
+                else None
+            ),
             neutral_trials=len(neutral),
             neutral_correct_count=len(neutral_correct),
             neutral_incorrect_count=len(neutral_incorrect),
             neutral_accuracy=round(percent(len(neutral_correct), len(neutral)), 1),
             neutral_rt=neutral_rt,
             neutral_correct_rt=neutral_correct_rt,
+            neutral_incorrect_rt=neutral_incorrect_rt,
         )
 
 

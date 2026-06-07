@@ -155,7 +155,11 @@ Your Results
                         <b>Stroop effect</b> (<span class="text-danger">&bull;</span> &minus; <span class="text-success">&bull;</span>)
                     </td>
                     <td class="bg-primary fw-bold text-end text-white" colspan="2">
+                        {% if results.stroop_effect is not none %}
                         {{ results.stroop_effect | fmtnum(post=" ms", places=1) }}
+                        {% else %}
+                        &mdash;
+                        {% endif %}
                     </td>
                 </tr>
             </tbody>
