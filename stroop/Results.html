@@ -12,50 +12,62 @@ Your Results
 {% endblock title %}
 
 
+{% block head %}
+
+<style>
+    /* Increase default horizontal padding of table cells slightly */
+    .table > :not(caption) > * > * {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+</style>
+
+{% endblock head %}
+
 {% block main %}
 
 <table class="table w-auto">
     <thead>
         <tr>
-            <th class="pe-4">Metric</th>
-            <th class="text-center">Value</th>
+            <th>Metric</th>
+            <th class="text-end">Value</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td class="pe-4">Total trials</td>
+            <td>Total trials</td>
             <td class="text-end">{{ results.total_trials }}</td>
         </tr>
         <tr>
-            <td class="pe-4">Correct responses</td>
+            <td>Correct responses</td>
             <td class="text-end">{{ results.correct_count }}</td>
         </tr>
         <tr>
-            <td class="pe-4">Accuracy</td>
+            <td>Accuracy</td>
             <td class="text-end">{{ results.accuracy | fmtnum(post="%", places=1) }}</td>
         </tr>
         <tr>
-            <td class="pe-4">Mean reaction time</td>
+            <td>Mean response time</td>
             <td class="text-end">{{ results.mean_rt | fmtnum(post=" ms", places=1) }}</td>
         </tr>
-        <tr class="table-success">
-            <td class="pe-4">Congruent trials (mean RT)</td>
-            <td class="text-end">{{ results.congruent_rt | fmtnum(post=" ms", places=1) }}</td>
+        <tr class="fw-bold">
+            <td class="text-success">Congruent trials (mean RT)</td>
+            <td class="text-end text-success">{{ results.congruent_rt | fmtnum(post=" ms", places=1) }}</td>
         </tr>
-        <tr class="table-warning">
-            <td class="pe-4">Incongruent trials (mean RT)</td>
-            <td class="text-end">{{ results.incongruent_rt | fmtnum(post=" ms", places=1) }}</td>
+        <tr class="fw-bold">
+            <td class="text-danger">Incongruent trials (mean RT)</td>
+            <td class="text-end text-danger">{{ results.incongruent_rt | fmtnum(post=" ms", places=1) }}</td>
         </tr>
-        <tr class="table-danger">
-            <td class="pe-4"><strong>Stroop effect</strong></td>
-            <td class="text-end"><strong>{{ results.stroop_effect | fmtnum(post=" ms", places=1) }}</strong></td>
+        <tr class="fw-bold">
+            <td class="bg-primary text-white">Stroop effect</td>
+            <td class="bg-primary text-end text-white">{{ results.stroop_effect | fmtnum(post=" ms", places=1) }}</td>
         </tr>
     </tbody>
 </table>
 
 <p class="text-muted my-4">
-    The Stroop effect is the difference in reaction time between incongruent and congruent trials.
-    A positive value indicates interference from the word meaning.
+    The Stroop effect is the difference in the mean response time between incongruent and congruent trials.
+    A positive value indicates interference from the word meaning.
 </p>
 
 <button class="btn btn-primary" id="uproot-button-next">
