@@ -1,95 +1,103 @@
 {% extends "Base.html" %}
 {% set buttons = False %}
 
+
 {% block title %}
-Stroop Task
+
+Stroop Test
+
 {% endblock title %}
 
 
 {% block head %}
+
 <style>
-.stroop-arena {
-    --arena-size: 620px;
-    --button-width: 110px;
-    --button-height: 52px;
-    --word-width: 400px;
+    .stroop-arena {
+        --button-font-size: min(min(3.5vh, 3.5vw), 1.25em);
+        --button-height: min(min(7.5vh, 7.5vw), 2.5em);
+        --button-width: min(min(17.5vh, 17.5vw), 6em);
+        --word-font-size: min(min(7.5vh, 7.5vw), 3em);
+        --word-height: min(min(37.5vh, 37.5vw), 13em);
+        --word-width: min(min(37.5vh, 37.5vw), 15em);
+        display: grid;
+        grid-template-areas:
+            ".    top    ."
+            "left center right"
+            ".    bottom .";
+        grid-template-columns:
+            calc(1.25 * var(--button-width)) calc(1.25 * var(--word-width)) calc(1.25 * var(--button-width));
+        grid-template-rows:
+            calc(1.25 * var(--button-height)) calc(1.25 * var(--word-height)) calc(1.25 * var(--button-height));
+        place-items: center;
+        width: fit-content;
+        margin: auto auto;
+    }
 
-    display: grid;
-    grid-template-areas:
-        ".    top    ."
-        "left center right"
-        ".    bottom .";
-    grid-template-columns: var(--button-width) var(--word-width) var(--button-width);
-    grid-template-rows: var(--button-height) 316px var(--button-height);
-    place-items: center;
-    width: var(--arena-size);
-    aspect-ratio: 1;
-    margin: 1rem auto;
-}
+    .stroop-word {
+        grid-area: center;
+        font-size: var(--word-font-size);
+        font-weight: bold;
+        line-height: 1;
+        text-align: center;
+        text-transform: capitalize;
+        user-select: none;
+        white-space: nowrap;
+        width: 100%;
+    }
 
-.stroop-word {
-    grid-area: center;
-    font-size: 3rem;
-    font-weight: bold;
-    line-height: 1;
-    text-align: center;
-    text-transform: uppercase;
-    user-select: none;
-    white-space: nowrap;
-    width: var(--word-width);
-}
+    .color-btn {
+        font-size: var(--button-font-size);
+        font-weight: bold;
+        height: var(--button-height);
+        text-transform: capitalize;
+        width: var(--button-width);
+    }
 
-.color-btn {
-    font-weight: bold;
-    height: var(--button-height);
-    text-transform: uppercase;
-    width: var(--button-width);
-}
-
-.color-btn:disabled {
-    opacity: 0.55;
-}
-
-.next-btn {
-    grid-area: center;
-    padding: 0.75rem 2rem;
-    width: var(--button-width);
-}
+    .next-btn {
+        font-size: var(--button-font-size);
+        grid-area: center;
+        height: var(--button-height);
+        width: var(--button-width);
+    }
 </style>
+
 {% endblock head %}
 
 
 {% block main %}
 
-<div class="text-center">
-    <p class="text-muted">Trial {{ player.round }} of {{ C.NUM_TRIALS }}</p>
+<p class="text-center text-body-tertiary mb-5">Trial {{ player.round }} of {{ C.NUM_TRIALS + C.NUM_TRIALS_NEUTRAL }}</p>
 
-    <div class="stroop-arena">
+<!-- Full-width -->
+<div class="pt-5 offset-6 overflow-x-hidden translate-middle-x vw-100">
+    <div id="stroop-arena" class="stroop-arena">
+        <div class="fw-light stroop-word text-body-tertiary d-none" id="fixation">+</div>
+        <div
+            class="stroop-word d-none"
+            id="stimulus"
+            style="color: {{ player.hex_color }};"
+        >
+            {{ player.word }}
+        </div>
+
         {% set areas = ["top", "right", "bottom", "left"] %}
         {% for color in player.button_order %}
         <button
-            class="btn btn-secondary color-btn d-none"
+            class="btn btn-outline-dark color-btn d-none p-0"
             data-color="{{ color }}"
             disabled
             style="grid-area: {{ areas[loop.index0] }};"
             type="button"
         >
-            {{ color | upper }}
+            {{ color }}
         </button>
         {% endfor %}
 
-        <button class="btn btn-dark next-btn" id="nextBtn" type="button">
-            {% if player.round == 1 %}Start{% else %}Next{% endif %}
-        </button>
-
-        <div class="stroop-word text-muted d-none" id="fixation">+</div>
-        <div
-            class="stroop-word d-none"
-            id="stimulus"
-            style="color: {{ player.ink_color }};"
-        >
-            {{ player.word }}
-        </div>
+        <a href="#stroop-arena" style="grid-area: center;">
+            <button class="btn btn-dark next-btn p-0" id="nextBtn" type="button">
+                {% if player.round == 1 %}Start{% else %}Next{% endif %}
+            </button>
+        </a>
     </div>
 </div>
 
@@ -98,66 +106,65 @@ Stroop Task
     {{ form.reaction_time_ms() }}
 </div>
 
+{% endblock main %}
+
+
+{% block late %}
+
 <script>
-let stimulusOnset = 0;
-let acceptingResponses = false;
-const responseInput = document.getElementById("response");
-const rtInput = document.getElementById("reaction_time_ms");
-const nextBtn = document.getElementById("nextBtn");
-const fixation = document.getElementById("fixation");
-const stimulus = document.getElementById("stimulus");
-const buttons = document.querySelectorAll(".color-btn");
+    let stimulusOnset = 0;
+    let acceptingResponses = false;
+    const responseInput = document.getElementById("response");
+    const rtInput = document.getElementById("reaction_time_ms");
+    const nextBtn = document.getElementById("nextBtn");
+    const fixation = document.getElementById("fixation");
+    const stimulus = document.getElementById("stimulus");
+    const buttons = document.querySelectorAll(".color-btn");
 
-function eventTime(event) {
-    const now = performance.now();
-
-    if (event.timeStamp > 0 && event.timeStamp < now + 1000) {
-        return event.timeStamp;
+    function eventTime(event) {
+        const now = performance.now();
+        if (event.timeStamp > 0 && event.timeStamp < now + 1000) {
+            return event.timeStamp;
+        }
+        return now;
     }
 
-    return now;
-}
+    function showStimulus() {
+        fixation.classList.add("d-none");
+        stimulus.classList.remove("d-none");
+        requestAnimationFrame((timestamp) => {
+            stimulusOnset = timestamp;
+            acceptingResponses = true;
 
-function showStimulus() {
-    fixation.classList.add("d-none");
-    stimulus.classList.remove("d-none");
-
-    requestAnimationFrame((timestamp) => {
-        stimulusOnset = timestamp;
-        acceptingResponses = true;
-
-        buttons.forEach((button) => {
-            button.disabled = false;
+            buttons.forEach((button) => {
+                button.disabled = false;
+            });
         });
-    });
-}
+    }
 
-nextBtn.addEventListener("click", () => {
-    nextBtn.classList.add("d-none");
-    fixation.classList.remove("d-none");
+    nextBtn.addEventListener("click", () => {
+        nextBtn.classList.add("d-none");
+        fixation.classList.remove("d-none");
+        buttons.forEach((button) => {
+            button.classList.remove("d-none");
+        });
+        setTimeout(showStimulus, 500);
+    });
 
     buttons.forEach((button) => {
-        button.classList.remove("d-none");
-    });
-
-    setTimeout(showStimulus, 500);
-});
-
-buttons.forEach((button) => {
-    button.addEventListener("click", (event) => {
-        if (!acceptingResponses) {
-            return;
-        }
-
-        acceptingResponses = false;
-        buttons.forEach((btn) => {
-            btn.disabled = true;
+        button.addEventListener("click", (event) => {
+            if (!acceptingResponses) {
+                return;
+            }
+            acceptingResponses = false;
+            buttons.forEach((btn) => {
+                btn.disabled = true;
+            });
+            responseInput.value = button.dataset.color;
+            rtInput.value = Math.max(0, eventTime(event) - stimulusOnset);
+            uproot.submit();
         });
-        responseInput.value = button.dataset.color;
-        rtInput.value = Math.max(0, eventTime(event) - stimulusOnset);
-        uproot.submit();
     });
-});
 </script>
 
-{% endblock main %}
+{% endblock late %}
