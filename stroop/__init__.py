@@ -40,7 +40,9 @@ class Context(PlayerContext):
         incongruent_rt = mean_rt(incongruent)
         incongruent_correct = [trial for trial in incongruent if trial.get("correct")]
         incongruent_correct_rt = mean_rt(incongruent_correct)
-        incongruent_incorrect = [trial for trial in incongruent if not trial.get("correct")]
+        incongruent_incorrect = [
+            trial for trial in incongruent if not trial.get("correct")
+        ]
         incongruent_incorrect_rt = mean_rt(incongruent_incorrect)
 
         return dict(
@@ -51,17 +53,25 @@ class Context(PlayerContext):
             congruent_rt=congruent_rt,
             congruent_correct_count=len(congruent_correct),
             congruent_incorrect_count=len(congruent_incorrect),
-            congruent_accuracy=round(percent(len(congruent_correct), len(congruent)), 1),
+            congruent_accuracy=round(
+                percent(len(congruent_correct), len(congruent)), 1
+            ),
             congruent_correct_rt=congruent_correct_rt,
             congruent_incorrect_rt=congruent_incorrect_rt,
             incongruent_trials=len(incongruent),
             incongruent_rt=incongruent_rt,
             incongruent_correct_count=len(incongruent_correct),
             incongruent_incorrect_count=len(incongruent_incorrect),
-            incongruent_accuracy=round(percent(len(incongruent_correct), len(incongruent)), 1),
+            incongruent_accuracy=round(
+                percent(len(incongruent_correct), len(incongruent)), 1
+            ),
             incongruent_correct_rt=incongruent_correct_rt,
             incongruent_incorrect_rt=incongruent_incorrect_rt,
-            delta_accuracy=round(percent(len(congruent_correct), len(congruent)) - percent(len(incongruent_correct), len(incongruent)), 1),
+            delta_accuracy=round(
+                percent(len(congruent_correct), len(congruent))
+                - percent(len(incongruent_correct), len(incongruent)),
+                1,
+            ),
             stroop_effect=round(incongruent_rt - congruent_rt, 1),
         )
 
