@@ -11,7 +11,7 @@
 from uproot.fields import *
 from uproot.smithereens import *
 
-DESCRIPTION = "Stroop color-word test (Stroop, 1935) in a version adapated from Gerhardt et al. (2017)"
+DESCRIPTION = "Stroop color-word test (Stroop, 1935) in a version adapted from Gerhardt et al. (2017)"
 LANDING_PAGE = False
 APP_NAME = __name__
 
@@ -53,6 +53,7 @@ class Context(PlayerContext):
         neutral_incorrect = [trial for trial in neutral if not trial.get("correct")]
         neutral_correct_rt = mean_rt(neutral_correct)
         neutral_incorrect_rt = mean_rt(neutral_incorrect)
+
         return dict(
             total_trials=len(completed),
             correct_count=len(correct),
@@ -147,6 +148,7 @@ class Stroop(Page):
         player.word, player.ink_color, player.type, player.button_order = (
             player.trial_sequence[player.round - 1]
         )
+
         if player.ink_color == "blue":
             player.hex_color = "#0066cc"  # "#0a58ca"
         elif player.ink_color == "green":
