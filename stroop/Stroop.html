@@ -59,6 +59,11 @@ Stroop Test
         height: var(--button-height);
         width: var(--button-width);
     }
+
+    /* Reduce space below #uproot-main-container */
+    #uproot-main-container {
+        margin-bottom: 3em;
+    }
 </style>
 
 {% endblock head %}
@@ -67,38 +72,6 @@ Stroop Test
 {% block main %}
 
 <p class="text-center text-body-tertiary mb-5">Trial {{ player.round }} of {{ C.NUM_TRIALS + C.NUM_TRIALS_NEUTRAL }}</p>
-
-<div class="overflow-x-hidden pt-5 w-100">
-    <div id="stroop-arena" class="stroop-arena">
-        <div class="fw-light stroop-word text-body-tertiary d-none" id="fixation">+</div>
-        <div
-            class="stroop-word d-none"
-            id="stimulus"
-            style="color: {{ player.hex_color }};"
-        >
-            {{ player.word }}
-        </div>
-
-        {% set areas = ["top", "right", "bottom", "left"] %}
-        {% for color in player.button_order %}
-        <button
-            class="btn btn-outline-dark color-btn d-none p-0"
-            data-color="{{ color }}"
-            disabled
-            style="grid-area: {{ areas[loop.index0] }};"
-            type="button"
-        >
-            {{ color }}
-        </button>
-        {% endfor %}
-
-        <a href="#stroop-arena" style="grid-area: center;">
-            <button class="btn btn-dark next-btn p-0" id="nextBtn" type="button">
-                {% if player.round == 1 %}Start{% else %}Next{% endif %}
-            </button>
-        </a>
-    </div>
-</div>
 
 <div class="d-none">
     {{ form.response() }}
@@ -109,6 +82,43 @@ Stroop Test
 
 
 {% block late %}
+
+<!-- This block has full width, since it is placed after #uproot-main-container, which has class .container. -->
+
+<div id="stroop-arena" class="stroop-arena mb-5">
+    <div class="fw-light stroop-word text-body-tertiary d-none" id="fixation">+</div>
+    <div
+        class="stroop-word d-none"
+        id="stimulus"
+        style="color: {{ player.hex_color }};"
+    >
+        {{ player.word }}
+    </div>
+
+    {% set areas = ["top", "right", "bottom", "left"] %}
+    {% for color in player.button_order %}
+    <button
+        class="btn btn-outline-dark color-btn d-none p-0"
+        data-color="{{ color }}"
+        disabled
+        style="grid-area: {{ areas[loop.index0] }};"
+        type="button"
+    >
+        {{ color }}
+    </button>
+    {% endfor %}
+
+    <a href="#stroop-arena" style="grid-area: center;">
+        <button class="btn btn-dark next-btn p-0" id="nextBtn" type="button">
+            {% if player.round == 1 %}Start{% else %}Next{% endif %}
+        </button>
+    </a>
+</div>
+
+{% endblock late %}
+
+
+{% block late2 %}
 
 <script>
     let stimulusOnset = 0;
@@ -166,4 +176,4 @@ Stroop Test
     });
 </script>
 
-{% endblock late %}
+{% endblock late2 %}
