@@ -75,6 +75,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `student_id`                                      | Have participants enter their Student ID                        | Easy       |
 | `sumhunt`                                         | Real effort task about finding sums in matrices                 | Medium     |
 | `survey`                                          | Survey with follow-up verification                              | Easy       |
+| `templating_and_typography`                       | Showcasing the template blocks and default fonts used by uproot | Easy       |
 | `timeout_multipage`                               | Timeout that spans multiple pages                               | Easy       |
 | `total_stranger_matching`                         | Total stranger matching with manually created groups            | Easy       |
 | `travellers_dilemma`                              | Traveller's dilemma (Basu, 1994)                                | Easy       |
@@ -83,7 +84,6 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `trigger_jserrors`†                               | Test JavaScript error handling                                  | Easy       |
 | `trust_game`                                      | Trust game (Berg et al., 1995)                                  | Easy       |
 | `twobytwo`                                        | Generic 2×2 game with simulator                                 | Medium     |
-| `typography`                                      | Showcasing the default fonts used by uproot                     | Easy       |
 | `ultimatum_game`                                  | Standard ultimatum game                                         | Easy       |
 | `upload`                                          | Uploading files                                                 | Easy       |
 
@@ -91,8 +91,8 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 
 ## Other examples
 
-| Directory              | Description                               |
-|------------------------|-------------------------------------------|
+| Directory             | Description                               |
+|-----------------------|-------------------------------------------|
 | `progress_bar`        | Automatic progress bar                    |
 | `randomize_apps`      | Randomizing app order                     |
 | `start_button`        | Start button                              |

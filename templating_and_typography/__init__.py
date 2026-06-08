@@ -21,6 +21,12 @@ LANDING_PAGE = False
 # PAGES
 
 
+class Templating(Page):
+    """Showcase the default fonts used by uproot if webfonts are loaded"""
+
+    pass
+
+
 class Typography(Page):
     """Showcase the default fonts used by uproot if webfonts are loaded"""
 
@@ -37,6 +43,7 @@ class TypographyNoWebfonts(Page):
 
 
 page_order = [
+    Templating,
     Typography,
     TypographyNoWebfonts,
 ]
