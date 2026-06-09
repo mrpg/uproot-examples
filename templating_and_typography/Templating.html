@@ -5,7 +5,7 @@
 
 <div class="bg-danger-subtle py-3 px-4">
     <p>This is the <code>head</code> block. It is included in the <code>&lt;head&gt;</code> element of the HTML page, that is, before the <code>&lt;body&gt;</code> element.</p>
-    <p class="mb-0">You should <em>not</em> include HTML here but only JavaScript, CSS, and metadata. If this block contains text/HTML, it is rendered despite not being part of the <code>&lt;body&gt;</code> element.</p>
+    <p class="mb-0">You <em>must not</em> include visible HTML here but only JavaScript, CSS, and metadata. If this block contains visible text/HTML, it is rendered despite not being part of the <code>&lt;body&gt;</code> element; but doing so violates the HTML standard and can break your experiment in some browsers.</p>
 </div>
 
 {% endblock head %}
