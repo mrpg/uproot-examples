@@ -1,0 +1,118 @@
+{% extends "Base.html" %}
+
+
+{% block head %}
+
+<div class="bg-danger-subtle py-3 px-4">
+    <p>This is the <code>head</code> block. It is included in the <code>&lt;head&gt;</code> element of the HTML page, that is, before the <code>&lt;body&gt;</code> element.</p>
+    <p class="mb-0">You should <em>not</em> include HTML here but only JavaScript, CSS, and metadata. If this block contains text/HTML, it is rendered despite not being part of the <code>&lt;body&gt;</code> element.</p>
+</div>
+
+{% endblock head %}
+
+
+{% block pre_container %}
+
+<div class="bg-warning-subtle py-3 px-4">
+    <p class="mb-0">This is the <code>pre_container</code> block. It is included in the <code>&lt;body&gt;</code> element of the HTML page, but before the beginning of the <code>&lt;form&gt;</code> element.</p>
+</div>
+
+{% endblock pre_container %}
+
+
+{% block wrapper_start %}
+
+<div class="bg-info-subtle border border-info py-3 px-4">
+    <p class="mb-0">This is the <code>wrapper_start</code> block. It is included in the <code>&lt;form&gt;</code> element but before the <code>&lt;div&gt;</code> with class <code>.container</code>.
+</div>
+
+{% endblock wrapper_start %}
+
+
+{% block start %}
+
+<div class="border border-info py-3 px-4">
+  <p class="mb-0">This is the <code>start</code> block. It is included after the start of the <code>&lt;div&gt;</code> with class <code>.container</code>. This is why its width is determined by the settings for the <code>.container</code> class, and it is centered horizontally in the viewport.</p>
+</div>
+{% endblock start %}
+
+
+{% block title %}
+
+<div class="border border-info py-3 px-4">
+  This is the <code>title</code> block.
+  <p class="mb-0 text-body-tertiary">It is embedded in the <code>div</code> with class <code>.container</code> but placed before <code>&lt;main&gt;</code>. Its contents are rended as an <code>&lt;h1&gt;</code> heading.</p>
+</div>
+
+{% endblock title %}
+
+
+{% block main %}
+
+<div class="border border-primary py-3 px-4">
+    <p class="mb-0">This is the <code>main</code> block. It is placed within the <code>&lt;main&gt;</code> element.</p>
+</div>
+
+{% endblock main %}
+
+
+{% block main2 %}
+
+<div class="border border-primary py-3 px-4">
+    <p class="mb-0">This is the <code>main2</code> block. It is placed within the <code>&lt;main&gt;</code> element.</p>
+</div>
+
+{% endblock main2 %}
+
+
+{% block main3 %}
+
+<div class="border border-primary py-3 px-4">
+    <p class="mb-0">This is the <code>main3</code> block. It is placed within the <code>&lt;main&gt;</code> element.</p>
+</div>
+
+{% endblock main3 %}
+
+
+{% block postmain %}
+
+<div class="border border-info py-3 px-4">
+    <p class="mb-0">This is the <code>postmain</code> block. It is placed after the <code>&lt;main&gt;</code> element.</p>
+</div>
+
+{% endblock postmain %}
+
+
+{% block wrapper_end %}
+
+<div class="bg-info-subtle py-3 px-4">
+    <p>This is the <code>wrapper_end</code> block. It is placed after the <code>&lt;main&gt;</code> element but still within the <code>&lt;form&gt;</code> element.</p>
+    <p class="container mb-0">As illustrated here, you can use a block like this to produce a full-width element, such as a block with a background spanning the entire width of the browser window. This is a very common approach in current web design. If you still want the cotent of this block to have the width of the main content and be horizontally centered like the main content—as this paragraph is—just apply the <code>.container</code> class to the content.</p>
+</div>
+
+{% endblock wrapper_end %}
+
+
+{% block late %}
+
+<div class="bg-warning-subtle py-3 px-4">
+    <p class="mb-0">This is the <code>late</code> block. It is placed after the <code>&lt;form&gt;</code> element.</p>
+</div>
+
+{% endblock late %}
+
+{% block late2 %}
+
+<div class="bg-warning-subtle py-3 px-4">
+    <p class="mb-0">This is the <code>late2</code> block. It is placed after the <code>&lt;form&gt;</code> element.</p>
+</div>
+
+{% endblock late2 %}
+
+
+{% block footer %}
+
+<div class="bg-primary py-3 px-4 text-white">
+  <p class="mb-0">This is the <code>footer</code> block. It is included in the <code>&lt;footer&gt;</code> element. By default, it contains an empty <code>&lt;div&gt;</code> with a specified height to prevent buttons from being placed too close to the bottom of the browser window (which can cause them to be unclickable, in particular, on smartphones).</p>
+</div>
+{% endblock footer %}
