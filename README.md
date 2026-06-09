@@ -75,6 +75,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `student_id`                                      | Have participants enter their Student ID                        | Easy       |
 | `sumhunt`                                         | Real effort task about finding sums in matrices                 | Medium     |
 | `survey`                                          | Survey with follow-up verification                              | Easy       |
+| `tabs`                                            | Tab navigation between sections on a single page                | Easy       |
 | `timeout_multipage`                               | Timeout that spans multiple pages                               | Easy       |
 | `total_stranger_matching`                         | Total stranger matching with manually created groups            | Easy       |
 | `travellers_dilemma`                              | Traveller's dilemma (Basu, 1994)                                | Easy       |

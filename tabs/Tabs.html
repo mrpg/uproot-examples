@@ -1,0 +1,170 @@
+{% extends "Base.html" %}
+
+
+{% block head %}
+
+<link rel="stylesheet" href="{{ projectstatic('tabs.css') }}">
+<script defer src="{{ projectstatic('tabs.js') }}"></script>
+
+{% endblock head %}
+
+
+{% block main %}
+
+<div class="tabs-page" data-tabs>
+    <ul class="nav nav-tabs tabs-page__nav" id="tabs" role="tablist" aria-label="Question tabs">
+        <li class="nav-item" role="presentation">
+            <button
+                class="nav-link active"
+                id="tab-1"
+                type="button"
+                role="tab"
+                aria-controls="tab-panel-1"
+                aria-selected="true"
+                data-tab-target="tab-panel-1"
+            >
+                1
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button
+                class="nav-link"
+                id="tab-2"
+                type="button"
+                role="tab"
+                aria-controls="tab-panel-2"
+                aria-selected="false"
+                data-tab-target="tab-panel-2"
+            >
+                2
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button
+                class="nav-link"
+                id="tab-3"
+                type="button"
+                role="tab"
+                aria-controls="tab-panel-3"
+                aria-selected="false"
+                data-tab-target="tab-panel-3"
+            >
+                3
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button
+                class="nav-link"
+                id="tab-4"
+                type="button"
+                role="tab"
+                aria-controls="tab-panel-4"
+                aria-selected="false"
+                data-tab-target="tab-panel-4"
+            >
+                4
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button
+                class="nav-link"
+                id="tab-5"
+                type="button"
+                role="tab"
+                aria-controls="tab-panel-5"
+                aria-selected="false"
+                data-tab-target="tab-panel-5"
+            >
+                5
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content tabs-page__content">
+        <section
+            class="tab-pane show active"
+            id="tab-panel-1"
+            role="tabpanel"
+            aria-labelledby="tab-1"
+            data-tab-panel
+            tabindex="0"
+        >
+            <p><i>Put content to be shown on tab 1 here.</i></p>
+        </section>
+
+        <section
+            class="tab-pane"
+            id="tab-panel-2"
+            role="tabpanel"
+            aria-labelledby="tab-2"
+            data-tab-panel
+            tabindex="0"
+            hidden
+        >
+            <p><i>Put content to be shown on tab 2 here.</i></p>
+        </section>
+
+        <section
+            class="tab-pane"
+            id="tab-panel-3"
+            role="tabpanel"
+            aria-labelledby="tab-3"
+            data-tab-panel
+            tabindex="0"
+            hidden
+        >
+            <p><i>Put content to be shown on tab 3 here.</i></p>
+        </section>
+
+        <section
+            class="tab-pane"
+            id="tab-panel-4"
+            role="tabpanel"
+            aria-labelledby="tab-4"
+            data-tab-panel
+            tabindex="0"
+            hidden
+        >
+            <p><i>Put content to be shown on tab 4 here.</i></p>
+        </section>
+
+        <section
+            class="tab-pane"
+            id="tab-panel-5"
+            role="tabpanel"
+            aria-labelledby="tab-5"
+            data-tab-panel
+            tabindex="0"
+            hidden
+        >
+            <p><i>Put content to be shown on tab 5 here.</i> Here is an example:</p>
+
+            {{ fields() }}
+
+            <p>Note: this template ensures that players are put back on this tab in case there is a validation error on the form. This is useful for comprehension checks (participants get re-shown the quiz and they can optionally go back to previous tabs to try again). You can replicate this behavior by opening the Web Developer console and running <code>uproot.submit()</code>.</p>
+            {# See below; after "block late". #}
+
+            <div class="tabs-page__submit">
+                {{ button_next() }}
+            </div>
+        </section>
+    </div>
+</div>
+
+{% endblock main %}
+
+
+{% block late %}
+
+{% if _uproot_field_errors %}
+{# Auto-skip to tab 5 if there was a validation issue with the form #}
+
+<script>
+    uproot.onReady(() => {
+        document.querySelector("button[data-tab-target=tab-panel-5]").click();
+    });
+</script>
+
+{% endif %}
+
+{% endblock late %}
