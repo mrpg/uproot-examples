@@ -1018,7 +1018,7 @@ provides-extras = ["pg"]
 [[package]]
 name = "uproot-science"
 version = "0.0.1"
-source = { git = "https://github.com/mrpg/uproot.git?rev=main#652852b532e89b8b593c1e4b35e86c29375cd4fe" }
+source = { git = "https://github.com/mrpg/uproot.git?rev=main#f0cf1e257e248a98c2bfd15478f7dec815116131" }
 dependencies = [
     { name = "appendmuch" },
     { name = "click" },
