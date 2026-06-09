@@ -12,9 +12,7 @@
 from uproot.fields import *
 from uproot.smithereens import *
 
-DESCRIPTION = (
-    "Showcase the default fonts used by uproot if web fonts are loaded or not."
-)
+DESCRIPTION = "Showcasing the template blocks and default fonts used by uproot."
 LANDING_PAGE = False
 
 
@@ -22,7 +20,7 @@ LANDING_PAGE = False
 
 
 class Templating(Page):
-    """Showcase the default fonts used by uproot if webfonts are loaded"""
+    """Showcase the template blocks available in uproot"""
 
     pass
 
