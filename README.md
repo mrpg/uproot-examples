@@ -80,6 +80,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `student_id`                                      | Have participants enter their Student ID                        | Easy       |
 | `sumhunt`                                         | Real effort task about finding sums in matrices                 | Medium     |
 | `survey`                                          | Survey with follow-up verification                              | Easy       |
+| `svo_slider`                                      | SVO slider measure (Murphy et al., 2011)                        | Medium     |
 | `tabs`                                            | Tab navigation between sections on a single page                | Easy       |
 | `templating_and_typography`                       | Showcasing the template blocks and default fonts used by uproot | Easy       |
 | `timeout_multipage`                               | Timeout that spans multiple pages                               | Easy       |

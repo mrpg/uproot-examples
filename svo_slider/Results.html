@@ -1,0 +1,40 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>On average, you allocated <b>{{ player.mean_self | fmtnum(post=" points", places=1) }}</b> to yourself and <b>{{ player.mean_other | fmtnum(post=" points", places=1) }}</b> to the other person.</p>
+<p>Your SVO angle is <b>{{ player.svo_angle | fmtnum(post="°", places=2) }}</b>, which classifies you as <b>{{ player.svo_category }}</b>.</p>
+
+<table class="table w-auto mt-4">
+    <thead>
+        <tr>
+            <th scope="col">Category</th>
+            <th scope="col">SVO angle</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr {% if player.svo_category == "altruistic" %}class="table-success"{% endif %}>
+            <td>Altruistic</td>
+            <td>&gt; 57.15&deg;</td>
+        </tr>
+        <tr {% if player.svo_category == "prosocial" %}class="table-success"{% endif %}>
+            <td>Prosocial</td>
+            <td>22.45&deg; to 57.15&deg;</td>
+        </tr>
+        <tr {% if player.svo_category == "individualistic" %}class="table-success"{% endif %}>
+            <td>Individualistic</td>
+            <td>&minus;12.04&deg; to 22.45&deg;</td>
+        </tr>
+        <tr {% if player.svo_category == "competitive" %}class="table-success"{% endif %}>
+            <td>Competitive</td>
+            <td>&lt; &minus;12.04&deg;</td>
+        </tr>
+    </tbody>
+</table>
+
+{% endblock main %}
