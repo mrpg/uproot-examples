@@ -20,9 +20,11 @@ LANDING_PAGE = False
 
 
 class Templating(Page):
-    """Showcase the template blocks available in uproot"""
+    """Showcase the template blocks provided by uproot"""
 
-    pass
+    @classmethod
+    def timeout(page, player):
+        return 1200
 
 
 class Typography(Page):
