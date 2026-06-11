@@ -37,6 +37,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `embed_static`                                    | Embedding a static file                                         | Easy       |
 | `emoji_sort`                                      | Drag emojis into NICE or NASTY buckets                          | Easy       |
 | `encryption_task`                                 | Encryption task (Erkal et al., 2011)                            | Medium     |
+| `first_price_auction`                             | First-price sealed-bid auction (private values)                 | Easy       |
 | `focal_point`                                     | Focal point game (like Schelling, 1957)                         | Easy       |
 | `gift_exchange_game`                              | Gift exchange game (Fehr et al., 1993)                          | Easy       |
 | `grouping`                                        | Custom group creation                                           | Easy       |
