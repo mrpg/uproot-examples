@@ -15,7 +15,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Die-roll honesty task (Fischbacher & Föllmi-Heusi, 2013)"
 LANDING_PAGE = False
-APP_NAME = __name__
 
 
 class C:
@@ -45,7 +44,7 @@ def digest(session):
     counts = Counter()
 
     for player in session.players:
-        report = player.within(app=APP_NAME).get("report")
+        report = player.within(app=__name__).get("report")
 
         if report is not None:
             counts[report] += 1
@@ -63,7 +62,7 @@ def pipeline(session):
     rows = []
 
     for player in session.players:
-        player_data = player.within(app=APP_NAME)
+        player_data = player.within(app=__name__)
         report = player_data.get("report")
 
         if report is not None:

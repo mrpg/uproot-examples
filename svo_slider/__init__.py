@@ -15,7 +15,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Social Value Orientation slider measure (Murphy et al., 2011)"
 LANDING_PAGE = False
-APP_NAME = __name__
 
 
 class C:
@@ -97,7 +96,7 @@ def pipeline(session):
     rows = []
 
     for player in session.players:
-        player_data = player.within(app=APP_NAME)
+        player_data = player.within(app=__name__)
         angle = player_data.get("svo_angle")
 
         if angle is not None:

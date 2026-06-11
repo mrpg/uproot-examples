@@ -13,7 +13,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Bomb Risk Elicitation Task (Crosetto & Filippin, 2013)"
 LANDING_PAGE = False
-APP_NAME = __name__
 
 
 class C:
@@ -48,7 +47,7 @@ def pipeline(session):
     rows = []
 
     for player in session.players:
-        player_data = player.within(app=APP_NAME)
+        player_data = player.within(app=__name__)
         collected = player_data.get("collected")
 
         if collected is not None:
