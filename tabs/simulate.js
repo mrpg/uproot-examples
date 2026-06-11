@@ -1,3 +1,3 @@
 uproot.simulate.on("tabs/Tabs", (sim) => {
-    sim.submit();
+    sim.fill("age", "42").submit();
 });
