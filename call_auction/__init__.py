@@ -17,7 +17,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Call auction"
 LANDING_PAGE = False
-APP_NAME = __name__
 
 
 class C:
@@ -122,7 +121,7 @@ class Results(Page):
         player.market_quantity = quantity
 
         # Determine if this player traded
-        my_bid = player.within(app=APP_NAME, round=round_num).get("bid")
+        my_bid = player.within(app=__name__, round=round_num).get("bid")
         if clearing_price is not None and my_bid is not None:
             if player.buyer and my_bid >= clearing_price:
                 player.traded = True
@@ -188,7 +187,7 @@ def digest(session):
 
 
 def player_data_for_round(player, round_num):
-    return player.within(app=APP_NAME, round=round_num)
+    return player.within(app=__name__, round=round_num)
 
 
 def bids_and_asks(session, round_num):
@@ -232,12 +231,12 @@ def pipeline(session):
         clearing_price, market_quantity = market_result(session, round_num)
 
         for player in session.players:
-            app_data = player.within(app=APP_NAME)
+            app_data = player.within(app=__name__)
 
             if app_data.get("buyer") is None:
                 continue
 
-            round_data = player.within(app=APP_NAME, round=round_num)
+            round_data = player.within(app=__name__, round=round_num)
             bid = round_data.get("bid")
 
             rows.append(

@@ -16,7 +16,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Anchoring effect (Tversky & Kahneman, 1974)"
 LANDING_PAGE = False
-APP_NAME = __name__
 
 
 class C:
@@ -70,7 +69,7 @@ def digest(session):
     estimates_by_treatment = {treatment: [] for treatment in C.TREATMENTS}
 
     for player in session.players:
-        d = player.within(app=APP_NAME)
+        d = player.within(app=__name__)
         treatment = d.get("treatment")
         comparison = d.get("comparison")
         estimate = d.get("estimate")
@@ -106,7 +105,7 @@ def pipeline(session):
     rows = []
 
     for player in session.players:
-        d = player.within(app=APP_NAME)
+        d = player.within(app=__name__)
         treatment = d.get("treatment")
         comparison = d.get("comparison")
         estimate = d.get("estimate")

@@ -13,7 +13,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Linear public goods game with third-party punishment"
 SUGGESTED_MULTIPLE = 4
-APP_NAME = __name__
 
 
 class C:
@@ -141,7 +140,7 @@ def digest(session):
         if len(players) != C.GROUP_SIZE:
             continue
         if not any(
-            p.within(app=APP_NAME).get("is_punisher") is not None for p in players
+            p.within(app=__name__).get("is_punisher") is not None for p in players
         ):
             continue
 
@@ -149,7 +148,7 @@ def digest(session):
         punisher_data = None
 
         for player in players:
-            pd = player.within(app=APP_NAME)
+            pd = player.within(app=__name__)
             if pd.get("is_punisher"):
                 punisher_data = pd
             else:
@@ -190,12 +189,12 @@ def pipeline(session):
         if len(players) != C.GROUP_SIZE:
             continue
         if not any(
-            p.within(app=APP_NAME).get("is_punisher") is not None for p in players
+            p.within(app=__name__).get("is_punisher") is not None for p in players
         ):
             continue
 
         for player in players:
-            pd = player.within(app=APP_NAME)
+            pd = player.within(app=__name__)
             is_punisher = pd.get("is_punisher")
 
             row = {
@@ -212,7 +211,7 @@ def pipeline(session):
                 row["punishment"] = {}
 
                 for other in players:
-                    if not other.within(app=APP_NAME).get("is_punisher"):
+                    if not other.within(app=__name__).get("is_punisher"):
                         row["punishment"][str(other.member_id)] = str(
                             pd.get(f"punish_{other.member_id}")
                         )

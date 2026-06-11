@@ -13,7 +13,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Ultimatum game"
 SUGGESTED_MULTIPLE = 2
-APP_NAME = __name__
 
 
 class Context(PlayerContext):
@@ -88,14 +87,15 @@ def digest(session):
     data = []
     summary_by_offer = {}
 
-    for group, players in ultimatum_groups(session):
-        proposer = next(p for p in players if p.within(app=APP_NAME).get("proposer"))
+    for group in session.groups(app=__name__):
+        players = group.players
+        proposer = next(p for p in players if p.within(app=__name__).get("proposer"))
         responder = next(
-            p for p in players if not p.within(app=APP_NAME).get("proposer")
+            p for p in players if not p.within(app=__name__).get("proposer")
         )
 
-        offer = proposer.within(app=APP_NAME).get("offer")
-        accepted = responder.within(app=APP_NAME).get("accept")
+        offer = proposer.within(app=__name__).get("offer")
+        accepted = responder.within(app=__name__).get("accept")
 
         data.append((group.name, offer, accepted))
 
@@ -136,8 +136,9 @@ def digest(session):
 def pipeline(session):
     rows = []
 
-    for group, players in ultimatum_groups(session):
-        player_rows = [(player, player.within(app=APP_NAME)) for player in players]
+    for group in session.groups(app=__name__):
+        players = group.players
+        player_rows = [(player, player.within(app=__name__)) for player in players]
         proposer, proposer_data = next(
             (player, data) for player, data in player_rows if data.get("proposer")
         )
@@ -161,30 +162,6 @@ def pipeline(session):
             )
 
     return rows
-
-
-def ultimatum_groups(session):
-    groups = []
-
-    for group in session.groups:
-        players = group.players
-
-        if len(players) == 2 and is_app_group(group, players):
-            groups.append((group, players))
-
-    return groups
-
-
-def is_app_group(group, players):
-    with group:
-        if group.get("app") == APP_NAME:
-            return True
-
-        gid = group.gid
-
-    return all(
-        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
-    )
 
 
 page_order = [

@@ -13,7 +13,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Stroop color-word test (Stroop, 1935) in a version adapted from Gerhardt et al. (2017)"
 LANDING_PAGE = False
-APP_NAME = __name__
 
 
 class C:
@@ -26,7 +25,7 @@ class Context(PlayerContext):
     @property
     def results(self):
         trials = [
-            self.player.within(app=APP_NAME, round=round_num)
+            self.player.within(app=__name__, round=round_num)
             for round_num in range(1, C.NUM_TRIALS + C.NUM_TRIALS_NEUTRAL + 1)
         ]
         completed = [trial for trial in trials if trial.get("response") is not None]

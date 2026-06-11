@@ -13,7 +13,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Public goods game"
 SUGGESTED_MULTIPLE = 3
-APP_NAME = __name__
 
 
 class C:
@@ -59,16 +58,17 @@ class Results(Page):
 def pipeline(session):
     rows = []
 
-    for group, players in public_goods_groups(session):
+    for group in session.groups(app=__name__):
+        players = group.players
         contributions = [
-            player.within(app=APP_NAME).get("contribution") for player in players
+            player.within(app=__name__).get("contribution") for player in players
         ]
         total = (
             sum(contributions) if all(c is not None for c in contributions) else None
         )
 
         for member_id, player in enumerate(players):
-            player_data = player.within(app=APP_NAME)
+            player_data = player.within(app=__name__)
 
             rows.append(
                 {
@@ -84,30 +84,6 @@ def pipeline(session):
             )
 
     return rows
-
-
-def public_goods_groups(session):
-    groups = []
-
-    for group in session.groups:
-        players = group.players
-
-        if len(players) == C.GROUP_SIZE and is_app_group(group, players):
-            groups.append((group, players))
-
-    return groups
-
-
-def is_app_group(group, players):
-    with group:
-        if group.get("app") == APP_NAME:
-            return True
-
-        gid = group.gid
-
-    return all(
-        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
-    )
 
 
 page_order = [

@@ -13,7 +13,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Coordination through focal points"
 SUGGESTED_MULTIPLE = 2
-APP_NAME = __name__
 
 
 def new_player(player):
@@ -53,16 +52,17 @@ class Results(Page):
 def pipeline(session):
     rows = []
 
-    for group, players in focal_point_groups(session):
-        claims = [player.within(app=APP_NAME).get("claim") for player in players]
+    for group in session.groups(app=__name__):
+        players = group.players
+        claims = [player.within(app=__name__).get("claim") for player in players]
         total_claim = (
             sum(claims) if all(claim is not None for claim in claims) else None
         )
 
         for member_id, player in enumerate(players):
             other = players[1 - member_id]
-            player_data = player.within(app=APP_NAME)
-            other_data = other.within(app=APP_NAME)
+            player_data = player.within(app=__name__)
+            other_data = other.within(app=__name__)
 
             rows.append(
                 {
@@ -79,30 +79,6 @@ def pipeline(session):
             )
 
     return rows
-
-
-def focal_point_groups(session):
-    groups = []
-
-    for group in session.groups:
-        players = group.players
-
-        if len(players) == 2 and is_app_group(group, players):
-            groups.append((group, players))
-
-    return groups
-
-
-def is_app_group(group, players):
-    with group:
-        if group.get("app") == APP_NAME:
-            return True
-
-        gid = group.gid
-
-    return all(
-        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
-    )
 
 
 page_order = [

@@ -12,7 +12,6 @@ from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Revise decisions across rounds"
-APP_NAME = __name__
 
 
 class C:
@@ -32,7 +31,7 @@ class Decision(Page):
 
 
 class Revise(Decision):
-    template = f"{APP_NAME}/Decision.html"
+    template = f"{__name__}/Decision.html"
 
     @classmethod
     def templatevars(page, player):
@@ -45,7 +44,7 @@ class Revise(Decision):
     @classmethod
     def fields(page, player):
         # Show the old answer as the starting value when a player revises a round.
-        current = player.within(app=APP_NAME, round=player.revise_round).get("number")
+        current = player.within(app=__name__, round=player.revise_round).get("number")
 
         return dict(
             number=IntegerField(label="Please enter a number.", default=current),
@@ -69,7 +68,7 @@ class Review(Page):
         round_data = list()
 
         for round_num in range(1, C.ROUNDS + 1):
-            number = player.within(app=APP_NAME, round=round_num).get("number")
+            number = player.within(app=__name__, round=round_num).get("number")
 
             if number is not None:
                 round_data.append((round_num, number))

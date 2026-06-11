@@ -13,7 +13,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Certainty-equivalent elicitation over mean-preserving spreads"
 LANDING_PAGE = False
-APP_NAME = __name__
 
 
 class C:
@@ -34,7 +33,7 @@ def bisection_state(player, lottery_index, up_to_step):
 
     for s in range(up_to_step):
         mid = (low + high) / 2
-        chose_certain = player.within(app=APP_NAME, round=first_round + s).get(
+        chose_certain = player.within(app=__name__, round=first_round + s).get(
             "prefer_certain"
         )
 
@@ -153,7 +152,7 @@ def pipeline(session):
             last_round = (i + 1) * C.BISECTION_STEPS
 
             if (
-                player.within(app=APP_NAME, round=last_round).get("prefer_certain")
+                player.within(app=__name__, round=last_round).get("prefer_certain")
                 is None
             ):
                 continue
@@ -163,7 +162,7 @@ def pipeline(session):
             choices = {}
 
             for s in range(C.BISECTION_STEPS):
-                rd = player.within(app=APP_NAME, round=first_round + s)
+                rd = player.within(app=__name__, round=first_round + s)
                 choices[f"step_{s + 1}_certain"] = rd.get("prefer_certain")
 
             rows.append(
@@ -186,7 +185,7 @@ def digest(session):
     data = []
 
     for player in session.players:
-        if player.within(app=APP_NAME, round=1).get("prefer_certain") is None:
+        if player.within(app=__name__, round=1).get("prefer_certain") is None:
             continue
 
         player_data = dict(name=player.name, results=[])
@@ -195,7 +194,7 @@ def digest(session):
             last_round = (i + 1) * C.BISECTION_STEPS
 
             if (
-                player.within(app=APP_NAME, round=last_round).get("prefer_certain")
+                player.within(app=__name__, round=last_round).get("prefer_certain")
                 is None
             ):
                 player_data["results"].append(
