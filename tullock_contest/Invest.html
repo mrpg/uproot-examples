@@ -1,0 +1,16 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Your investment
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You are in a group with {{ C.GROUP_SIZE }} players (including yourself). Each player has an endowment of <b>{{ C.ENDOWMENT | fmtnum(pre="$", places=0) }}</b> and competes for a prize of <b>{{ C.PRIZE | fmtnum(pre="$", places=0) }}</b>.</p>
+<p>Each player invests any whole amount of their endowment in the contest. Your chance of winning the prize equals <b>your investment divided by the total investment</b> of all players in your group. Investments are not refunded, whether you win or not.</p>
+<p>If nobody invests anything, the prize is not awarded.</p>
+
+{{ fields() }}
+
+{% endblock main %}

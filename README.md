@@ -89,6 +89,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `treatments`                                      | Treatment assignment (basic)                                    | Easy       |
 | `trigger_jserrors`†                               | Test JavaScript error handling                                  | Easy       |
 | `trust_game`                                      | Trust game (Berg et al., 1995)                                  | Easy       |
+| `tullock_contest`                                 | Tullock rent-seeking contest (Tullock, 1980)                    | Easy       |
 | `twobytwo`                                        | Generic 2×2 game with simulator                                 | Medium     |
 | `ultimatum_game`                                  | Standard ultimatum game                                         | Easy       |
 | `upload`                                          | Uploading files                                                 | Easy       |

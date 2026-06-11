@@ -1,0 +1,24 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Your investment: <b>{{ player.spend | fmtnum(pre="$", places=0) }}</b></p>
+<p>Total investment in your group: <b>{{ player.total_spend | fmtnum(pre="$", places=0) }}</b></p>
+<p>Your chance of winning was <b>{{ (100 * player.win_probability) | fmtnum(post="%", places=1) }}</b>.</p>
+
+{% if player.winner %}
+<p><b>You won the prize of {{ C.PRIZE | fmtnum(pre="$", places=0) }}.</b></p>
+{% elif player.total_spend == 0 %}
+<p>Nobody invested, so the prize was not awarded.</p>
+{% else %}
+<p>You did not win the prize.</p>
+{% endif %}
+
+<p>Your payoff is <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b>.</p>
+
+{% endblock main %}
