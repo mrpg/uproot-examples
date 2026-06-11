@@ -13,7 +13,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Stackelberg quantity competition (sequential)"
 SUGGESTED_MULTIPLE = 2
-APP_NAME = __name__
 
 
 class C:
@@ -110,8 +109,9 @@ class Results(Page):
 def pipeline(session):
     rows = []
 
-    for group, players in stackelberg_groups(session):
-        player_rows = [(player, player.within(app=APP_NAME)) for player in players]
+    for group in session.groups(app=__name__):
+        players = group.players
+        player_rows = [(player, player.within(app=__name__)) for player in players]
         leader, leader_data = next(
             (player, data) for player, data in player_rows if data.get("first_mover")
         )
@@ -150,30 +150,6 @@ def pipeline(session):
             )
 
     return rows
-
-
-def stackelberg_groups(session):
-    groups = []
-
-    for group in session.groups:
-        players = group.players
-
-        if len(players) == 2 and is_app_group(group, players):
-            groups.append((group, players))
-
-    return groups
-
-
-def is_app_group(group, players):
-    with group:
-        if group.get("app") == APP_NAME:
-            return True
-
-        gid = group.gid
-
-    return all(
-        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
-    )
 
 
 page_order = [

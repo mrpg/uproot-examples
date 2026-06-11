@@ -13,7 +13,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Minimum effort / weakest link game (Van Huyck et al., 1990)"
 SUGGESTED_MULTIPLE = 3
-APP_NAME = __name__
 
 
 class C:
@@ -55,9 +54,11 @@ class Results(Page):
 def pipeline(session):
     rows = []
 
-    for group, players in minimum_effort_groups(session):
+    for group in session.groups(app=__name__):
+        players = group.players
+
         for member_id, player in enumerate(players):
-            player_data = player.within(app=APP_NAME)
+            player_data = player.within(app=__name__)
 
             rows.append(
                 {
@@ -72,30 +73,6 @@ def pipeline(session):
             )
 
     return rows
-
-
-def minimum_effort_groups(session):
-    groups = []
-
-    for group in session.groups:
-        players = group.players
-
-        if len(players) == C.GROUP_SIZE and is_app_group(group, players):
-            groups.append((group, players))
-
-    return groups
-
-
-def is_app_group(group, players):
-    with group:
-        if group.get("app") == APP_NAME:
-            return True
-
-        gid = group.gid
-
-    return all(
-        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
-    )
 
 
 page_order = [

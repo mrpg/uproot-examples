@@ -20,7 +20,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Continuous market (limit order book)"
 LANDING_PAGE = False
-APP_NAME = __name__
 
 
 class BookEvent(metaclass=um.Entry):

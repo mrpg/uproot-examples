@@ -13,7 +13,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Bertrand price competition"
 SUGGESTED_MULTIPLE = 2
-APP_NAME = __name__
 
 
 class C:
@@ -84,10 +83,11 @@ class Results(Page):
 def pipeline(session):
     rows = []
 
-    for group, players in duopoly_groups(session):
+    for group in session.groups(app=__name__):
+        players = group.players
         p1, p2 = players
-        p1_data = p1.within(app=APP_NAME)
-        p2_data = p2.within(app=APP_NAME)
+        p1_data = p1.within(app=__name__)
+        p2_data = p2.within(app=__name__)
         p1_price = p1_data.get("price")
         p2_price = p2_data.get("price")
 
@@ -108,8 +108,8 @@ def pipeline(session):
 
         for member_id, player in enumerate(players):
             other = players[1 - member_id]
-            player_data = player.within(app=APP_NAME)
-            other_data = other.within(app=APP_NAME)
+            player_data = player.within(app=__name__)
+            other_data = other.within(app=__name__)
 
             rows.append(
                 {
@@ -127,30 +127,6 @@ def pipeline(session):
             )
 
     return rows
-
-
-def duopoly_groups(session):
-    groups = []
-
-    for group in session.groups:
-        players = group.players
-
-        if len(players) == 2 and is_app_group(group, players):
-            groups.append((group, players))
-
-    return groups
-
-
-def is_app_group(group, players):
-    with group:
-        if group.get("app") == APP_NAME:
-            return True
-
-        gid = group.gid
-
-    return all(
-        player.within(app=APP_NAME).get("_uproot_group") == gid for player in players
-    )
 
 
 page_order = [

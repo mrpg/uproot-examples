@@ -34,7 +34,6 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Double auction"
 LANDING_PAGE = False
-APP_NAME = __name__
 
 
 class C:
@@ -843,12 +842,12 @@ def pipeline(session):
         latest_offers = latest_offer_by_player(session, round_num, traded=traded)
 
         for player in session.players:
-            app_data = player.within(app=APP_NAME)
+            app_data = player.within(app=__name__)
 
             if app_data.get("buyer") is None:
                 continue
 
-            round_data = player.within(app=APP_NAME, round=round_num)
+            round_data = player.within(app=__name__, round=round_num)
             trade_id = round_data.get("trade")
             transaction = transactions.get(trade_id)
             active_offer = latest_offers.get(player.pid)
