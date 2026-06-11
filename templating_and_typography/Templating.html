@@ -26,7 +26,7 @@
 
 <div class="bg-light py-3">
     <p class="fw-bold mx-4">This is the <code>header_start</code> block.</p>
-    <p class="mx-4 text-body-tertiary">It is placed at the start of the <code>&lt;header&gt;</code> element, that is, before uproot’s timeout indicator. The <code>header</code> element is placed before the <code>form</code> element.</p>
+    <p class="mx-4 text-body-tertiary">It is placed at the start of the <code>&lt;header&gt;</code> element, that is, before uproot’s timeout indicator. The <code>&lt;header&gt;</code> element is placed before the <code>&lt;form&gt;</code> element.</p>
     <p class="mx-4 text-body-tertiary">By default, it is as wide as the body of your document, which is the full width of the browser window by default.</p>
     <p class="container mb-0 text-body-tertiary">If you want some content of this block to have the width of the main content and be horizontally centered like the main content—as this paragraph is—just apply the <code>.container</code> class to that content.</p>
 </div>
@@ -56,9 +56,9 @@
 {% block pre_main %}
 
 <div class="bg-info-subtle py-3">
-  <p class="fw-bold mx-4">This is the <code>pre_main</code> block.</p>
-  <p class="mx-4 text-body-tertiary">It is placed before the <code>&lt;main&gt;</code> and the <code>&lt;h1&gt;</code> heading and embedded in a <code>&lt;div&gt;</code> with class <code>.container</code>.</p>
-  <p class="container mb-0 text-body-tertiary">If you want some content of this block to have the width of the main content and be horizontally centered like the main content—as this paragraph is—just apply the <code>.container</code> class to that content.</p>
+    <p class="fw-bold mx-4">This is the <code>pre_main</code> block.</p>
+    <p class="mx-4 text-body-tertiary">It is placed before the <code>&lt;main&gt;</code> and the <code>&lt;h1&gt;</code> heading and embedded in a <code>&lt;div&gt;</code> with class <code>.container</code>.</p>
+    <p class="container mb-0 text-body-tertiary">If you want some content of this block to have the width of the main content and be horizontally centered like the main content—as this paragraph is—just apply the <code>.container</code> class to that content.</p>
 </div>
 {% endblock pre_main %}
 
@@ -66,8 +66,9 @@
 {% block title %}
 
 <div class="border border-info py-3">
-  <span class="fw-bold mx-4">This is the <code>title</code> block.</span>
-  <p class="mb-0 mx-4 text-body-tertiary">It is embedded in a <code>div</code> with class <code>.container</code> and placed before <code>&lt;main&gt;</code>. Its contents are embedded in an <code>&lt;h1&gt;</code> heading.</p>
+  
+    <div class="fw-bold mx-4">This is the <code>title</code> block.</div>
+    <p class="mb-0 mx-4 text-body-tertiary">It is embedded in a <code>&lt;div&gt;</code> with class <code>.container</code> and placed before <code>&lt;main&gt;</code>. Its contents are embedded in an <code>&lt;h1&gt;</code> heading.</p>
 </div>
 
 {% endblock title %}
@@ -120,6 +121,7 @@
     <p class="fw-bold mx-4">This is the <code>main3</code> block.</p>
     <p class="mb-0 mx-4 text-body-tertiary">It is placed within the <code>&lt;main&gt;</code> element and embedded in a <code>&lt;div&gt;</code> with class <code>.container</code>.</p>
 </div>
+<p class="fst-i mb-0 mt-3 text-body-tertiary">By default, the “Next” button (and the “Back” button, if present) is placed in a separate block called <code>uproot_main_buttons</code> right before the end of the <code>&lt;main&gt;</code> element:</p>
 
 {% endblock main3 %}
 
