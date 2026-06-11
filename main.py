@@ -15,6 +15,7 @@ upd.project_metadata(created="1970-01-01", uproot="*.*.*")
 # fmt: off
 load_config(uproot_server, config="anchoring", apps=["anchoring"])
 load_config(uproot_server, config="balanced_page_order", apps=["balanced_page_order"])
+load_config(uproot_server, config="bargaining", apps=["bargaining"])
 load_config(uproot_server, config="barrier", apps=["barrier"])
 load_config(uproot_server, config="beauty_contest", apps=["beauty_contest"])
 load_config(uproot_server, config="bertrand", apps=["bertrand"])

@@ -1,0 +1,18 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+{% if player.group.agreed %}
+<p><b>You reached an agreement.</b></p>
+{% else %}
+<p><b>The time ran out without an agreement.</b></p>
+{% endif %}
+
+<p>Your payoff is <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b>.</p>
+
+{% endblock main %}

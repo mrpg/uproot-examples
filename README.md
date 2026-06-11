@@ -12,6 +12,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 |---------------------------------------------------|-----------------------------------------------------------------|------------|
 | `anchoring`                                       | Anchoring effect (Tversky & Kahneman, 1974)                     | Easy       |
 | `balanced_page_order`                             | Balanced page order randomization                               | Easy       |
+| `bargaining`                                      | Unstructured real-time bargaining with a deadline               | Medium     |
 | `barrier`                                         | Force players to stay on a page                                 | Easy       |
 | `bertrand`                                        | Bertrand price competition (2 players, simultaneous)            | Easy       |
 | `beauty_contest`                                  | Beauty contest / guessing game (Nagel, 1995)                    | Easy       |

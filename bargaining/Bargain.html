@@ -1,0 +1,93 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Bargain
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You and the other player have <b>{{ C.PIE | fmtnum(pre="$", places=2) }}</b> to divide. You can send as many proposals as you like before the time runs out. A proposal states how much of the pie <i>you</i> want; the other player would get the rest.</p>
+<p>As soon as one of you accepts the other's most recent proposal, bargaining ends and the pie is divided accordingly. <b>If the time runs out without an agreement, both of you earn nothing.</b></p>
+
+<div x-data="bargain()" class="row g-4 my-1">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header fw-bold">Your proposal</div>
+            <div class="card-body">
+                <label class="form-label" for="demand">I want this much for myself:</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <input type="number" class="form-control" id="demand" min="0" max="{{ C.PIE }}" step="0.01" x-model.number="demand">
+                </div>
+
+                <button type="button" class="btn btn-uproot" id="propose-button" @click="propose" :disabled="demand === null || demand === '' || demand < 0 || demand > pie">
+                    Send proposal
+                </button>
+
+                <p class="mt-3 mb-0" x-show="myProposal !== null">
+                    Your standing proposal: <b>$<span x-text="fmt(myProposal)"></span></b> for you,
+                    $<span x-text="fmt(pie - myProposal)"></span> for the other player.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header fw-bold">The other player's proposal</div>
+            <div class="card-body">
+                <p x-show="theirProposal === null">No proposal received yet.</p>
+
+                <p x-show="theirProposal !== null">
+                    The other player wants <b>$<span x-text="fmt(theirProposal)"></span></b> for themselves,
+                    leaving <b>$<span x-text="fmt(pie - theirProposal)"></span></b> for you.
+                </p>
+
+                <button type="button" class="btn btn-success" id="accept-button" @click="accept" :disabled="theirProposal === null">
+                    Accept
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function bargain() {
+        return {
+            pie: uproot.vars.pie,
+            demand: null,
+            myProposal: uproot.vars.my_proposal,
+            theirProposal: uproot.vars.their_proposal,
+            init() {
+                if (uproot.vars.agreed) {
+                    uproot.submit();
+                }
+
+                uproot.onCustomEvent("Proposal", (event) => {
+                    this.theirProposal = event.detail.data;
+                });
+
+                uproot.onCustomEvent("Agreed", () => {
+                    uproot.submit();
+                });
+            },
+            fmt(x) {
+                return Number(x).toFixed(2);
+            },
+            propose() {
+                const amount = this.demand;
+
+                uproot.invoke("propose", amount).then(() => {
+                    this.myProposal = amount;
+                });
+            },
+            accept() {
+                uproot.invoke("accept");
+            },
+        };
+    }
+</script>
+
+{% endblock main %}
