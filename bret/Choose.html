@@ -1,0 +1,64 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Collect boxes
+{% endblock title %}
+
+
+{% block head %}
+
+<style>
+    .bret-grid {
+        display: grid;
+        grid-template-columns: repeat({{ C.COLS }}, 3.5rem);
+        gap: 0.5rem;
+        justify-content: center;
+    }
+    .bret-box {
+        height: 3.5rem;
+        cursor: pointer;
+        user-select: none;
+    }
+</style>
+
+{% endblock head %}
+
+
+{% block main %}
+
+<p>Below you see {{ C.NUM_BOXES }} boxes. {{ C.NUM_BOXES - 1 }} of them contain {{ C.BOX_VALUE | fmtnum(pre="$", places=0) }} each, but <b>one of them contains a bomb</b>. The bomb is equally likely to be in any box, and its location will only be determined <i>after</i> your decision.</p>
+<p>Boxes are collected in reading order, from the top left to the bottom right. Click on a box to collect it together with all boxes before it. Clicking the last collected box again puts it back.</p>
+<p>You earn {{ C.BOX_VALUE | fmtnum(pre="$", places=0) }} for every box you collect. However, if the bomb turns out to be in one of your collected boxes, it explodes and you earn <b>nothing</b>.</p>
+
+<div x-data="bret()">
+    <div class="bret-grid my-4">
+        {% for i in range(1, C.NUM_BOXES + 1) %}
+        <div class="bret-box border rounded d-flex align-items-center justify-content-center fs-4"
+             :class="{{ i }} <= n ? 'bg-warning-subtle border-warning' : 'bg-body-tertiary'"
+             @click="pick({{ i }})"
+             x-text="{{ i }} <= n ? '\u{1F4E6}' : ''"></div>
+        {% endfor %}
+    </div>
+
+    <p class="text-center">
+        Boxes collected: <b x-text="n"></b>
+    </p>
+
+    {{ fields() }}
+</div>
+
+<script>
+    function bret() {
+        return {
+            n: 0,
+            pick(i) {
+                this.n = (this.n === i) ? i - 1 : i;
+
+                const input = document.querySelector('input[name="collected"]');
+                input.value = this.n;
+            },
+        };
+    }
+</script>
+
+{% endblock main %}
