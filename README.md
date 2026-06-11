@@ -30,6 +30,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `cournot`                                         | Cournot quantity competition (2 players, simultaneous)          | Easy       |
 | `detect_presence`                                 | Detect players’ actual presence (in classroom experiments)      | Medium     |
 | `dictator_game`                                   | Standard dictator game                                          | Easy       |
+| `die_roll`                                        | Die-roll honesty task (Fischbacher & Föllmi-Heusi, 2013)        | Easy       |
 | `double_auction`                                  | Double auction (like Smith, 1962)                               | Advanced   |
 | `draganddrop`                                     | Drag-and-drop sorting into two buckets                          | Easy       |
 | `drawing_board`                                   | Session-level drawing board                                     | Medium     |

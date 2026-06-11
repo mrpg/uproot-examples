@@ -1,0 +1,75 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Roll the die
+{% endblock title %}
+
+
+{% block head %}
+
+<style>
+    [x-cloak] {
+        display: none !important;
+    }
+</style>
+
+{% endblock head %}
+
+
+{% block main %}
+
+<p>Please roll the die below by clicking the button. <b>Only your first roll counts.</b> You are welcome to roll a few more times afterwards to convince yourself that the die is fair.</p>
+<p>Your payment depends on the number you report from your <b>first</b> roll: reporting a 1, 2, 3, 4, or 5 pays that amount in dollars. Reporting a 6 pays nothing.</p>
+<p>Nobody can see the outcome of your rolls. Only your report determines your payment.</p>
+
+<div x-data="die()">
+    <div class="my-4 text-center">
+        <div class="mb-3" style="font-size: 6rem; line-height: 1;">
+            <span x-show="face === null">&#x1F3B2;</span>
+            <span x-show="face !== null" x-text="faces[face - 1]"></span>
+        </div>
+
+        <button type="button" class="btn btn-uproot" id="roll-button" @click="roll" :disabled="rolling">
+            Roll the die
+        </button>
+
+        <p class="mt-2 text-body-secondary" x-show="rolls > 0" x-cloak>
+            Rolls so far: <span x-text="rolls"></span>
+        </p>
+    </div>
+
+    <div x-show="rolls > 0" x-cloak>
+        {{ fields() }}
+    </div>
+</div>
+
+<script>
+    function die() {
+        return {
+            faces: ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"],
+            face: null,
+            rolls: 0,
+            rolling: false,
+            roll() {
+                if (this.rolling) {
+                    return;
+                }
+
+                this.rolling = true;
+                let ticks = 0;
+
+                const timer = setInterval(() => {
+                    this.face = 1 + Math.floor(Math.random() * 6);
+
+                    if (++ticks >= 10) {
+                        clearInterval(timer);
+                        this.rolling = false;
+                        this.rolls++;
+                    }
+                }, 80);
+            },
+        };
+    }
+</script>
+
+{% endblock main %}
