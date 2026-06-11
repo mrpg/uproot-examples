@@ -3,45 +3,71 @@
 
 {% block head %}
 
-<div class="bg-danger-subtle py-3 px-4">
-    <p>This is the <code>head</code> block. It is included in the <code>&lt;head&gt;</code> element of the HTML page, that is, before the <code>&lt;body&gt;</code> element.</p>
-    <p class="mb-0">You should <em>not</em> include HTML here but only JavaScript, CSS, and metadata. If this block contains text/HTML, it is rendered despite not being part of the <code>&lt;body&gt;</code> element.</p>
+<div class="bg-danger-subtle py-3 text-danger">
+    <p class="fw-bold mx-4">This is the <code>head</code> block.</p>
+    <p class="mx-4">It is included in the <code>&lt;head&gt;</code> element of the HTML page, that is, before the <code>&lt;body&gt;</code> element.</p>
+    <p class="mb-0 mx-4">You should <em>not</em> include HTML here but only JavaScript, CSS, and metadata. If this block contains text/HTML, it is rendered despite not being part of the <code>&lt;body&gt;</code> element, as you can see here.</p>
 </div>
 
 {% endblock head %}
 
 
-{% block pre_container %}
+{% block pre_form %}
 
-<div class="bg-warning-subtle py-3 px-4">
-    <p class="mb-0">This is the <code>pre_container</code> block. It is included in the <code>&lt;body&gt;</code> element of the HTML page, but before the beginning of the <code>&lt;form&gt;</code> element.</p>
+<div class="bg-warning-subtle py-3">
+    <p class="fw-bold mx-4">This is the <code>pre_form</code> block.</p>
+    <p class="mb-0 mx-4 text-body-tertiary">It is included in the <code>&lt;body&gt;</code> element of the HTML page, but before the beginning of the <code>&lt;form&gt;</code> element.</p>
 </div>
 
-{% endblock pre_container %}
+{% endblock pre_form %}
 
 
-{% block wrapper_start %}
+{% block header_start %}
 
-<div class="bg-info-subtle border border-info py-3 px-4">
-    <p class="mb-0">This is the <code>wrapper_start</code> block. It is included in the <code>&lt;form&gt;</code> element but before the <code>&lt;div&gt;</code> with class <code>.container</code>.
+<div class="bg-light py-3">
+    <p class="fw-bold mx-4">This is the <code>header_start</code> block.</p>
+    <p class="mx-4 text-body-tertiary">It is placed at the start of the <code>&lt;header&gt;</code> element, that is, before uproot’s timeout indicator. The <code>header</code> element is placed before the <code>form</code> element.</p>
+    <p class="mx-4 text-body-tertiary">By default, it is as wide as the body of your document, which is the full width of the browser window by default.</p>
+    <p class="container mb-0 text-body-tertiary">If you want some content of this block to have the width of the main content and be horizontally centered like the main content—as this paragraph is—just apply the <code>.container</code> class to that content.</p>
 </div>
 
-{% endblock wrapper_start %}
+{% endblock header_start %}
 
 
-{% block start %}
+{% block header_end %}
 
-<div class="border border-info py-3 px-4">
-  <p class="mb-0">This is the <code>start</code> block. It is included after the start of the <code>&lt;div&gt;</code> with class <code>.container</code>. This is why its width is determined by the settings for the <code>.container</code> class, and it is centered horizontally in the viewport.</p>
+<div class="bg-light py-3">
+    <p class="fw-bold mx-4">This is the <code>header_end</code> block.</p>
+    <p class="mb-0 mx-4 text-body-tertiary">It is placed at the end of the <code>&lt;header&gt;</code> element, that is, after uproot’s timeout indicator.</p>
 </div>
-{% endblock start %}
+
+{% endblock header_end %}
+
+
+{% block form_start %}
+
+<div class="bg-info-subtle py-3">
+    <p class="fw-bold mb-0 mx-4">This is the <code>form_start</code> block. It is included at the start of the <code>&lt;form&gt;</code> element.
+</div>
+
+{% endblock form_start %}
+
+
+{% block pre_main %}
+
+<div class="bg-info-subtle py-3">
+  <p class="fw-bold mx-4">This is the <code>pre_main</code> block.</p>
+  <p class="mx-4 text-body-tertiary">It is placed before the <code>&lt;main&gt;</code> and the <code>&lt;h1&gt;</code> heading and embedded in a <code>&lt;div&gt;</code> with class <code>.container</code>.</p>
+  <p class="container mb-0 text-body-tertiary">If you want some content of this block to have the width of the main content and be horizontally centered like the main content—as this paragraph is—just apply the <code>.container</code> class to that content.</p>
+</div>
+{% endblock pre_main %}
 
 
 {% block title %}
 
-<div class="border border-info py-3 px-4">
-  This is the <code>title</code> block.
-  <p class="mb-0 text-body-tertiary">It is embedded in the <code>div</code> with class <code>.container</code> but placed before <code>&lt;main&gt;</code>. Its contents are rended as an <code>&lt;h1&gt;</code> heading.</p>
+<div class="border border-info py-3">
+  <span class="fw-bold mx-4">This is the <code>title</code> block.</span>
+  <p class="mb-0 mx-4 text-body-tertiary">It is embedded in a <code>div</code> with class <code>.container</code> and placed before <code>&lt;main&gt;</code>. Its contents are embedded in an <code>&lt;h1&gt;</code> heading.</p>
 </div>
 
 {% endblock title %}
@@ -49,62 +75,90 @@
 
 {% block main %}
 
-<div class="border border-primary py-3 px-4">
-    <p class="mb-0">This is the <code>main</code> block. It is placed within the <code>&lt;main&gt;</code> element.</p>
+<div class="border border-primary py-3">
+    <p class="fw-bold mx-4">This is the <code>main</code> block.</p>
+    <p class="mb-0 mx-4 text-body-tertiary">It is placed within the <code>&lt;main&gt;</code> element. It is embedded in a <code>&lt;div&gt;</code> with class <code>.container</code>. Hence, its width is determined by the settings for the <code>.container</code> class, and it is centered horizontally in the viewport.</p>
 </div>
 
 {% endblock main %}
 
 
+{% block main_full_width %}
+
+<div class="bg-light py-3">
+    <p class="fw-bold mx-4">This is the <code>main_full_width</code> block.</p>
+    <p class="mx-4 text-body-tertiary">It is placed within the <code>&lt;main&gt;</code> element. It has the width of the <code>&lt;main&gt;</code> element, which is the width of the <code>&lt;body&gt;</code> element by default. This, in turn, is the full width of the browser window by default. You can, thus, use this block, for instance, to highlight content with a color band. This is a very common approach in current web design.</p>
+    <p class="container mb-0 text-body-tertiary">If you want some content of this block to have the width of the main content and be horizontally centered like the main content—as this paragraph is—just apply the <code>.container</code> class to that content.</p>
+</div>
+
+{% endblock main_full_width %}
+
+
 {% block main2 %}
 
-<div class="border border-primary py-3 px-4">
-    <p class="mb-0">This is the <code>main2</code> block. It is placed within the <code>&lt;main&gt;</code> element.</p>
+<div class="border border-primary py-3">
+    <p class="fw-bold mx-4">This is the <code>main2</code> block.</p>
+    <p class="mb-0 mx-4 text-body-tertiary">It is placed within the <code>&lt;main&gt;</code> element and embedded in a <code>&lt;div&gt;</code> with class <code>.container</code>.</p>
 </div>
 
 {% endblock main2 %}
 
 
+{% block main2_full_width %}
+
+<div class="bg-light py-3">
+    <p class="fw-bold mx-4">This is the <code>main2_full_width</code> block.</p>
+    <p class="mb-0 mx-4 text-body-tertiary">It is placed within the <code>&lt;main&gt;</code> element and has full width.</p>
+</div>
+
+{% endblock main2_full_width %}
+
+
 {% block main3 %}
 
-<div class="border border-primary py-3 px-4">
-    <p class="mb-0">This is the <code>main3</code> block. It is placed within the <code>&lt;main&gt;</code> element.</p>
+<div class="border border-primary py-3">
+    <p class="fw-bold mx-4">This is the <code>main3</code> block.</p>
+    <p class="mb-0 mx-4 text-body-tertiary">It is placed within the <code>&lt;main&gt;</code> element and embedded in a <code>&lt;div&gt;</code> with class <code>.container</code>.</p>
 </div>
 
 {% endblock main3 %}
 
 
-{% block postmain %}
+{% block post_main %}
 
-<div class="border border-info py-3 px-4">
-    <p class="mb-0">This is the <code>postmain</code> block. It is placed after the <code>&lt;main&gt;</code> element.</p>
+<div class="bg-info-subtle py-3">
+    <p class="fw-bold mx-4">This is the <code>post_main</code> block.</p>
+    <p class="mb-0 mx-4 text-body-tertiary">It is placed after the <code>&lt;main&gt;</code> element, still within the <code>&lt;form&gt;</code> element.</p>
 </div>
 
-{% endblock postmain %}
+{% endblock post_main %}
 
 
-{% block wrapper_end %}
+{% block form_end %}
 
-<div class="bg-info-subtle py-3 px-4">
-    <p>This is the <code>wrapper_end</code> block. It is placed after the <code>&lt;main&gt;</code> element but still within the <code>&lt;form&gt;</code> element.</p>
-    <p class="container mb-0">As illustrated here, you can use a block like this to produce a full-width element, such as a block with a background spanning the entire width of the browser window. This is a very common approach in current web design. If you still want the cotent of this block to have the width of the main content and be horizontally centered like the main content—as this paragraph is—just apply the <code>.container</code> class to the content.</p>
+<div class="bg-info-subtle py-3">
+    <p class="fw-bold mx-4">This is the <code>form_end</code> block.</p>
+    <p class="mb-0 mx-4 text-body-tertiary">It is placed after the <code>&lt;main&gt;</code> element, right before the end of the <code>&lt;form&gt;</code> element.</p>
 </div>
 
-{% endblock wrapper_end %}
+{% endblock form_end %}
 
 
 {% block late %}
 
-<div class="bg-warning-subtle py-3 px-4">
-    <p class="mb-0">This is the <code>late</code> block. It is placed after the <code>&lt;form&gt;</code> element.</p>
+<div class="bg-warning-subtle py-3">
+    <p class="fw-bold mx-4">This is the <code>late</code> block.</p>
+    <p class="mb-0 mx-4 text-body-tertiary">It is placed after the <code>&lt;form&gt;</code> element and mainly intended for including JavaScript.</p>
 </div>
 
 {% endblock late %}
 
+
 {% block late2 %}
 
-<div class="bg-warning-subtle py-3 px-4">
-    <p class="mb-0">This is the <code>late2</code> block. It is placed after the <code>&lt;form&gt;</code> element.</p>
+<div class="bg-warning-subtle py-3">
+    <p class="fw-bold mx-4">This is the <code>late2</code> block.</p>
+    <p class="mb-0 mx-4 text-body-tertiary">It is placed after the <code>&lt;form&gt;</code> element and mainly intended for including JavaScript.</p>
 </div>
 
 {% endblock late2 %}
@@ -112,7 +166,10 @@
 
 {% block footer %}
 
-<div class="bg-primary py-3 px-4 text-white">
-  <p class="mb-0">This is the <code>footer</code> block. It is included in the <code>&lt;footer&gt;</code> element. By default, it contains an empty <code>&lt;div&gt;</code> with a specified height to prevent buttons from being placed too close to the bottom of the browser window (which can cause them to be unclickable, in particular, on smartphones).</p>
+<div class="bg-primary fw-500 py-3 text-white">
+    <p class="fw-bold mx-4">This is the <code>footer</code> block.</p>
+    <p class="mx-4 text-body-tertiary">It is included in the <code>&lt;footer&gt;</code> element. By default, it contains an empty <code>&lt;div&gt;</code> with a specified height to prevent buttons from being placed too close to the bottom of the browser window (which can cause them to be unclickable, in particular, on smartphones).</p>
+    <p class="container mb-4 text-body-tertiary">If you want some content of this block to have the width of the main content and be horizontally centered like the main content—as this paragraph is—just apply the <code>.container</code> class to that content.</p>
 </div>
+
 {% endblock footer %}

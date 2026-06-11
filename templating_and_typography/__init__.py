@@ -22,10 +22,11 @@ LANDING_PAGE = False
 
 
 class Templating(Page):
-    """Showcase the default fonts used by uproot if webfonts are loaded"""
+    """Showcase the template blocks provided by uproot"""
 
-    pass
-
+    @classmethod
+    def timeout(page, player):
+        return 1200
 
 class Typography(Page):
     """Showcase the default fonts used by uproot if webfonts are loaded"""
