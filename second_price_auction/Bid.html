@@ -1,0 +1,16 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Place your bid
+{% endblock title %}
+
+
+{% block main %}
+
+<p>You are in a group with {{ C.GROUP_SIZE }} bidders (including yourself). One item is for sale.</p>
+<p>Your private value for the item is <b>{{ player.value | fmtnum(pre="$", places=2) }}</b>. The other bidders cannot see your value. Each of them has their own private value, a whole number of dollars up to {{ C.MAX_VALUE | fmtnum(pre="$", places=0) }}.</p>
+<p>All bidders submit their bids simultaneously. The highest bidder wins the item but pays only the <b>second-highest bid</b>, earning their value minus that price. Everyone else earns nothing. Ties are broken at random.</p>
+
+{{ fields() }}
+
+{% endblock main %}

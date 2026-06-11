@@ -1,0 +1,24 @@
+{% block main %}
+
+<p>Reports so far: <b>{{ total }}</b>. Under truthful reporting, each number is expected one sixth of the time (16.7%).</p>
+
+<table class="table w-50">
+    <thead>
+        <tr>
+            <th scope="col">Reported number</th>
+            <th scope="col">Count</th>
+            <th scope="col">Share</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for face, count, share in distribution %}
+        <tr>
+            <td>{{ face }}</td>
+            <td>{{ count }}</td>
+            <td>{{ (100 * share) | fmtnum(post="%", places=1) }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock main %}

@@ -12,6 +12,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 |---------------------------------------------------|-----------------------------------------------------------------|------------|
 | `anchoring`                                       | Anchoring effect (Tversky & Kahneman, 1974)                     | Easy       |
 | `balanced_page_order`                             | Balanced page order randomization                               | Easy       |
+| `bargaining`                                      | Unstructured real-time bargaining with a deadline               | Medium     |
 | `barrier`                                         | Force players to stay on a page                                 | Easy       |
 | `bertrand`                                        | Bertrand price competition (2 players, simultaneous)            | Easy       |
 | `beauty_contest`                                  | Beauty contest / guessing game (Nagel, 1995)                    | Easy       |
@@ -19,6 +20,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `big5`                                            | Short Big 5 questionnaire with scoring                          | Medium     |
 | `bisection`                                       | CE elicitation over mean-preserving spreads                     | Medium     |
 | `bounded_choice`                                  | Examples for the BoundedChoiceField                             | Easy       |
+| `bret`                                            | Bomb Risk Elicitation Task (Crosetto & Filippin, 2013)          | Medium     |
 | `button_placement`                                | Placing and customizing Next/Back buttons                       | Easy       |
 | `call_auction`                                    | Call auction (sealed-bid batch clearing)                        | Medium     |
 | `chat`                                            | Chat                                                            | Easy       |
@@ -30,6 +32,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `cournot`                                         | Cournot quantity competition (2 players, simultaneous)          | Easy       |
 | `detect_presence`                                 | Detect players’ actual presence (in classroom experiments)      | Medium     |
 | `dictator_game`                                   | Standard dictator game                                          | Easy       |
+| `die_roll`                                        | Die-roll honesty task (Fischbacher & Föllmi-Heusi, 2013)        | Easy       |
 | `double_auction`                                  | Double auction (like Smith, 1962)                               | Advanced   |
 | `draganddrop`                                     | Drag-and-drop sorting into two buckets                          | Easy       |
 | `drawing_board`                                   | Session-level drawing board                                     | Medium     |
@@ -37,6 +40,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `embed_static`                                    | Embedding a static file                                         | Easy       |
 | `emoji_sort`                                      | Drag emojis into NICE or NASTY buckets                          | Easy       |
 | `encryption_task`                                 | Encryption task (Erkal et al., 2011)                            | Medium     |
+| `first_price_auction`                             | First-price sealed-bid auction (private values)                 | Easy       |
 | `focal_point`                                     | Focal point game (like Schelling, 1957)                         | Easy       |
 | `gift_exchange_game`                              | Gift exchange game (Fehr et al., 1993)                          | Easy       |
 | `grouping`                                        | Custom group creation                                           | Easy       |
@@ -69,12 +73,14 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `revise`                                          | Revise decisions across rounds                                  | Medium     |
 | `rounds_nested`                                   | Using nested rounds                                             | Easy       |
 | `rounds`                                          | Using rounds (history table)                                    | Easy       |
+| `second_price_auction`                            | Second-price sealed-bid auction (Vickrey, 1961)                 | Easy       |
 | `sound_recording`                                 | Record audio of yourself reading a sentence                     | Advanced   |
 | `stackelberg`                                     | Stackelberg quantity competition (2 players, sequential)        | Easy       |
 | `stroop`                                          | Stroop task                                                     | Advanced   |
 | `student_id`                                      | Have participants enter their Student ID                        | Easy       |
 | `sumhunt`                                         | Real effort task about finding sums in matrices                 | Medium     |
 | `survey`                                          | Survey with follow-up verification                              | Easy       |
+| `svo_slider`                                      | SVO slider measure (Murphy et al., 2011)                        | Medium     |
 | `tabs`                                            | Tab navigation between sections on a single page                | Easy       |
 | `templating_and_typography`                       | Showcasing the template blocks and default fonts used by uproot | Easy       |
 | `timeout_multipage`                               | Timeout that spans multiple pages                               | Easy       |
@@ -84,6 +90,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `treatments`                                      | Treatment assignment (basic)                                    | Easy       |
 | `trigger_jserrors`†                               | Test JavaScript error handling                                  | Easy       |
 | `trust_game`                                      | Trust game (Berg et al., 1995)                                  | Easy       |
+| `tullock_contest`                                 | Tullock rent-seeking contest (Tullock, 1980)                    | Easy       |
 | `twobytwo`                                        | Generic 2×2 game with simulator                                 | Medium     |
 | `ultimatum_game`                                  | Standard ultimatum game                                         | Easy       |
 | `upload`                                          | Uploading files                                                 | Easy       |

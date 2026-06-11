@@ -1,0 +1,23 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Your value: <b>{{ player.value | fmtnum(pre="$", places=2) }}</b></p>
+<p>Your bid: <b>{{ player.bid | fmtnum(pre="$", places=2) }}</b></p>
+<p>Highest bid in your group: <b>{{ player.high_bid | fmtnum(pre="$", places=2) }}</b></p>
+<p>Second-highest bid (the price): <b>{{ player.price | fmtnum(pre="$", places=2) }}</b></p>
+
+{% if player.winner %}
+<p><b>You won the auction</b> and paid {{ player.price | fmtnum(pre="$", places=2) }}.</p>
+{% else %}
+<p>You did not win the auction.</p>
+{% endif %}
+
+<p>Your payoff is <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b>.</p>
+
+{% endblock main %}

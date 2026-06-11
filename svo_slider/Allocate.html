@@ -1,0 +1,44 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Allocate points
+{% endblock title %}
+
+
+{% block main %}
+
+<p>In each of the following six items, you allocate points between yourself and another person. The two of you remain mutually anonymous.</p>
+<p>Each slider position corresponds to one combination of points for you and points for the other person. Move each slider to the allocation you prefer most. There are no right or wrong answers.</p>
+
+{{ errors() }}
+
+{% for field_ in form %}
+<div class="card my-3">
+    <div class="card-body">
+        <p class="text-center mb-1">
+            You receive <b><span id="own-{{ loop.index }}">&mdash;</span></b>
+            &nbsp;&middot;&nbsp;
+            The other person receives <b><span id="other-{{ loop.index }}">&mdash;</span></b>
+        </p>
+
+        {{ field(field_) }}
+    </div>
+</div>
+{% endfor %}
+
+<script>
+    const items = uproot.vars.items;
+
+    document.querySelectorAll("input[type='range'][data-item]").forEach((slider) => {
+        const i = parseInt(slider.dataset.item, 10);
+
+        slider.addEventListener("input", () => {
+            const position = parseInt(slider.value, 10) - 1;
+
+            I("own-" + i).textContent = items[i - 1].own[position];
+            I("other-" + i).textContent = items[i - 1].other[position];
+        });
+    });
+</script>
+
+{% endblock main %}
