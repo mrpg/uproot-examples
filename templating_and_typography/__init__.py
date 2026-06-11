@@ -28,6 +28,7 @@ class Templating(Page):
     def timeout(page, player):
         return 1200
 
+
 class Typography(Page):
     """Showcase the default fonts used by uproot if webfonts are loaded"""
 
