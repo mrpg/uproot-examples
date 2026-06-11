@@ -70,6 +70,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `revise`                                          | Revise decisions across rounds                                  | Medium     |
 | `rounds_nested`                                   | Using nested rounds                                             | Easy       |
 | `rounds`                                          | Using rounds (history table)                                    | Easy       |
+| `second_price_auction`                            | Second-price sealed-bid auction (Vickrey, 1961)                 | Easy       |
 | `sound_recording`                                 | Record audio of yourself reading a sentence                     | Advanced   |
 | `stackelberg`                                     | Stackelberg quantity competition (2 players, sequential)        | Easy       |
 | `stroop`                                          | Stroop task                                                     | Advanced   |
