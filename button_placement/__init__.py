@@ -31,6 +31,12 @@ class Relabeled(Page):
     """Custom button labels via the label= parameter."""
 
 
+class TimeoutDisplay(Page):
+    """Custom timeout placement with timeout_box() and timeout()."""
+
+    timeout = 90
+
+
 class Finale(Page):
     """Buttons at the top of the page, not the bottom."""
 
@@ -42,5 +48,6 @@ page_order = [
     Styled,
     Centered,
     Relabeled,
+    TimeoutDisplay,
     Finale,
 ]

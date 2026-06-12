@@ -1,0 +1,58 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Custom Timeout Display
+{% endblock title %}
+
+
+{% block timeoutbox %}
+{# This page intentionally clears the default header timeout box.
+   The timer is rendered inside the main page content below. #}
+{% endblock timeoutbox %}
+
+
+{% block main %}
+
+<p>
+    This page has a timeout, but the default <code>timeoutbox</code> block has
+    been emptied so the standard header timer is not shown.
+</p>
+
+<div class="my-4">
+    {{ timeout_box(class_="alert alert-info border-info-subtle mb-0") }}
+    <div id="uproot-timeout-announcer" class="visually-hidden" aria-live="assertive" aria-atomic="true"></div>
+</div>
+
+<p>
+    The same live countdown can also be embedded inline:
+    <span class="badge text-bg-light border">{{ timeout(class_="fw-semibold") }}</span>
+</p>
+
+<div class="row g-3 my-4">
+    <div class="col-md-4">
+        <div class="border rounded p-3 h-100">
+            <div class="text-body-secondary small">Compact badge</div>
+            <div class="fs-4">{{ timeout(class_="badge text-bg-dark") }}</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="border rounded p-3 h-100">
+            <div class="text-body-secondary small">Large text</div>
+            <div class="display-6">{{ timeout(class_="font-monospace") }}</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="border rounded p-3 h-100">
+            <div class="text-body-secondary small">Inside a button label</div>
+            <button type="button" class="btn btn-outline-secondary w-100" disabled>
+                {{ timeout(class_="fw-bold") }} left
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    {{ button_next(label="Continue") }}
+</div>
+
+{% endblock main %}
