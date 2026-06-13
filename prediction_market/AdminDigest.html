@@ -52,6 +52,14 @@
     </div>
 </div>
 
+<div class="card mb-4">
+    <div class="card-body">
+        <h6 class="mb-1">Market Maker Subsidy</h6>
+        <span class="fs-5 fw-bold">{{ maker_loss | fmtnum(pre="$", places=2) }}</span>
+        <span class="text-muted small">/ {{ max_maker_loss | fmtnum(pre="$", places=2) }} max</span>
+    </div>
+</div>
+
 {% if price_history | length > 1 %}
 <h5>Price History</h5>
 <div style="max-height: 300px;">

@@ -124,17 +124,17 @@ class Trading(Page):
                         "outcome": entry.outcome,
                         "action": entry.action,
                         "shares": entry.shares,
-                        "total_cost": round(entry.total_cost, 2),
-                        "price_yes": round(entry.price_yes_after, 4),
+                        "total_cost": entry.total_cost,
+                        "price_yes": entry.price_yes_after,
                     }
                 )
 
         return {
-            "price_yes": round(p_yes, 4),
-            "price_no": round(p_no, 4),
+            "price_yes": p_yes,
+            "price_no": p_no,
             "q_yes": q_yes,
             "q_no": q_no,
-            "cash": round(float(player.get("cash") or 0), 2),
+            "cash": float(player.get("cash") or 0),
             "yes_shares": player.get("yes_shares") or 0,
             "no_shares": player.get("no_shares") or 0,
             "trades": trades[-50:],
@@ -162,13 +162,13 @@ class Trading(Page):
         q_no = session.get("q_no") or 0
 
         if action == "buy":
-            cost = round(compute_buy_cost(q_yes, q_no, b, is_yes, shares), 2)
+            cost = compute_buy_cost(q_yes, q_no, b, is_yes, shares)
             cash = float(player.get("cash") or 0)
 
-            if cost > cash + 0.005:
+            if cost > cash + 0.01:
                 raise ValueError("Insufficient funds")
 
-            player.cash = round(cash - cost, 2)
+            player.cash = cash - cost
 
             if is_yes:
                 player.yes_shares = (player.get("yes_shares") or 0) + shares
@@ -188,8 +188,8 @@ class Trading(Page):
                     f"You only hold {held} {outcome.capitalize()} contracts"
                 )
 
-            revenue = round(compute_sell_revenue(q_yes, q_no, b, is_yes, shares), 2)
-            player.cash = round(float(player.get("cash") or 0) + revenue, 2)
+            revenue = compute_sell_revenue(q_yes, q_no, b, is_yes, shares)
+            player.cash = float(player.get("cash") or 0) + revenue
 
             if is_yes:
                 player.yes_shares = held - shares
@@ -223,25 +223,25 @@ class Trading(Page):
             player,
             session.players,
             {
-                "price_yes": round(p_yes, 4),
-                "price_no": round(p_no, 4),
+                "price_yes": p_yes,
+                "price_no": p_no,
                 "q_yes": new_q_yes,
                 "q_no": new_q_no,
                 "trade": {
                     "outcome": outcome,
                     "action": action,
                     "shares": shares,
-                    "total_cost": round(total_cost, 2),
-                    "price_yes": round(p_yes, 4),
+                    "total_cost": total_cost,
+                    "price_yes": p_yes,
                 },
             },
             event="PriceUpdate",
         )
 
         return {
-            "price_yes": round(p_yes, 4),
-            "price_no": round(p_no, 4),
-            "cash": round(float(player.cash), 2),
+            "price_yes": p_yes,
+            "price_no": p_no,
+            "cash": float(player.cash),
             "yes_shares": player.yes_shares,
             "no_shares": player.no_shares,
         }
@@ -255,7 +255,7 @@ def settle_player(player):
     cash = float(cash_val) if cash_val is not None else float(C.ENDOWMENT)
 
     if session.get("refunded"):
-        net_expenditure = round(C.ENDOWMENT - cash, 2)
+        net_expenditure = C.ENDOWMENT - cash
         player.contract_payout = 0
         player.refund_amount = net_expenditure
         player.payoff = cu(f"{C.ENDOWMENT:.2f}")
@@ -265,7 +265,7 @@ def settle_player(player):
         yes_shares = player.get("yes_shares") or 0
         no_shares = player.get("no_shares") or 0
         contract_payout = yes_shares * yes_payout + no_shares * no_payout
-        payoff = round(cash + contract_payout, 2)
+        payoff = cash + contract_payout
 
         player.contract_payout = contract_payout
         player.payoff = cu(f"{payoff:.2f}")
@@ -285,17 +285,19 @@ def digest(session):
 
     price_history = [0.5]
     trades = []
+    net_payments = 0
 
     if session.get("trade_log") is not None:
         for _, _, entry in um.get_entries(session.trade_log, TradeEntry):
-            price_history.append(round(entry.price_yes_after, 4))
+            net_payments += float(entry.total_cost)
+            price_history.append(entry.price_yes_after)
             trades.append(
                 {
                     "outcome": entry.outcome,
                     "action": entry.action,
                     "shares": entry.shares,
-                    "total_cost": round(entry.total_cost, 2),
-                    "price_yes": round(entry.price_yes_after, 4),
+                    "total_cost": entry.total_cost,
+                    "price_yes": entry.price_yes_after,
                 }
             )
 
@@ -311,7 +313,7 @@ def digest(session):
         positions.append(
             {
                 "name": player.name,
-                "cash": round(float(cash), 2),
+                "cash": float(cash),
                 "yes_shares": player_data.get("yes_shares") or 0,
                 "no_shares": player_data.get("no_shares") or 0,
                 "refund_amount": player_data.get("refund_amount"),
@@ -319,10 +321,23 @@ def digest(session):
             }
         )
 
+    b = C.LIQUIDITY
+    max_maker_loss = b * math.log(2)
+
+    if session.get("refunded"):
+        maker_loss = 0
+    else:
+        if session.get("event_resolved") is True:
+            maker_payout = q_yes if session.get("event_occurred") else q_no
+        else:
+            maker_payout = max(q_yes, q_no)
+
+        maker_loss = max(0, maker_payout - net_payments)
+
     return {
         "event_question": session.get("event_question", C.DEFAULT_EVENT_QUESTION),
-        "price_yes": round(p_yes, 4),
-        "price_no": round(p_no, 4),
+        "price_yes": p_yes,
+        "price_no": p_no,
         "q_yes": q_yes,
         "q_no": q_no,
         "price_history": price_history,
@@ -332,6 +347,8 @@ def digest(session):
         "resolved": session.get("event_resolved") is True,
         "refunded": session.get("refunded") or False,
         "event_occurred": session.get("event_occurred"),
+        "maker_loss": maker_loss,
+        "max_maker_loss": max_maker_loss,
     }
 
 
@@ -389,7 +406,7 @@ def pipeline(session, data=None):
             "session": session.name,
             "uname": player.name,
             "endowment": C.ENDOWMENT,
-            "final_cash": round(float(cash), 2),
+            "final_cash": float(cash),
             "yes_shares": player_data.get("yes_shares") or 0,
             "no_shares": player_data.get("no_shares") or 0,
             "refunded": session.get("refunded") or False,
