@@ -242,17 +242,24 @@ def settle_player(player):
     player.app = __name__  # HACK
 
     session = player.session
-    yes_payout = 1 if session.event_occurred else 0
-    no_payout = 1 - yes_payout
-    yes_shares = player.get("yes_shares") or 0
-    no_shares = player.get("no_shares") or 0
     cash_val = player.get("cash")
     cash = float(cash_val) if cash_val is not None else float(C.ENDOWMENT)
-    contract_payout = yes_shares * yes_payout + no_shares * no_payout
-    payoff = round(cash + contract_payout, 2)
 
-    player.contract_payout = contract_payout
-    player.payoff = cu(f"{payoff:.2f}")
+    if session.get("refunded"):
+        net_expenditure = round(C.ENDOWMENT - cash, 2)
+        player.contract_payout = 0
+        player.refund_amount = net_expenditure
+        player.payoff = cu(f"{C.ENDOWMENT:.2f}")
+    else:
+        yes_payout = 1 if session.event_occurred else 0
+        no_payout = 1 - yes_payout
+        yes_shares = player.get("yes_shares") or 0
+        no_shares = player.get("no_shares") or 0
+        contract_payout = yes_shares * yes_payout + no_shares * no_payout
+        payoff = round(cash + contract_payout, 2)
+
+        player.contract_payout = contract_payout
+        player.payoff = cu(f"{payoff:.2f}")
 
 
 class Results(Page):
@@ -298,6 +305,7 @@ def digest(session):
                 "cash": round(float(cash), 2),
                 "yes_shares": player_data.get("yes_shares") or 0,
                 "no_shares": player_data.get("no_shares") or 0,
+                "refund_amount": player_data.get("refund_amount"),
                 "payoff": player_data.get("payoff"),
             }
         )
@@ -313,6 +321,7 @@ def digest(session):
         "trades": trades,
         "positions": positions,
         "resolved": session.get("event_resolved") is True,
+        "refunded": session.get("refunded") or False,
         "event_occurred": session.get("event_occurred"),
     }
 
@@ -320,12 +329,15 @@ def digest(session):
 # --- Pipeline ---
 
 
-def resolve_event(session, event_value):
-    """Resolve the event, move players to Results."""
+def resolve_event(session, event_value=None, refund=False):
     if session.get("event_resolved"):
         return True
 
-    session.event_occurred = bool(int(event_value))
+    if refund:
+        session.refunded = True
+    else:
+        session.event_occurred = event_value
+
     session.event_resolved = True
 
     for player in session.players:
@@ -336,8 +348,23 @@ def resolve_event(session, event_value):
 
 
 def pipeline(session, data=None):
-    if data and "event" in data:
-        resolve_event(session, data["event"])
+    if data:
+        if data.get("refund") not in (
+            None,
+            True,
+            False,
+        ) or data.get("event") not in (
+            None,
+            True,
+            False,
+        ):
+            raise ValueError("refund and event must be true or false (or unset)")
+
+        resolve_event(
+            session,
+            event_value=data.get("event"),
+            refund=data.get("refund"),
+        )
 
     rows = []
 
@@ -348,19 +375,20 @@ def pipeline(session, data=None):
         if cash is None:
             continue
 
-        rows.append(
-            {
-                "session": session.name,
-                "uname": player.name,
-                "endowment": C.ENDOWMENT,
-                "final_cash": round(float(cash), 2),
-                "yes_shares": player_data.get("yes_shares") or 0,
-                "no_shares": player_data.get("no_shares") or 0,
-                "event_occurred": session.get("event_occurred"),
-                "contract_payout": player_data.get("contract_payout"),
-                "payoff": player_data.get("payoff"),
-            }
-        )
+        row = {
+            "session": session.name,
+            "uname": player.name,
+            "endowment": C.ENDOWMENT,
+            "final_cash": round(float(cash), 2),
+            "yes_shares": player_data.get("yes_shares") or 0,
+            "no_shares": player_data.get("no_shares") or 0,
+            "refunded": session.get("refunded") or False,
+            "event_occurred": session.get("event_occurred"),
+            "contract_payout": player_data.get("contract_payout"),
+            "refund_amount": player_data.get("refund_amount"),
+            "payoff": player_data.get("payoff"),
+        }
+        rows.append(row)
 
     return rows
 

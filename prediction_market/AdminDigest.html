@@ -4,16 +4,20 @@
 
 <h4>{{ event_question }}</h4>
 
-{% if resolved %}
+{% if refunded %}
+<div class="alert alert-secondary">
+    <b>Refunded:</b> Market voided. All contracts cancelled, net expenditures returned.
+</div>
+{% elif resolved %}
 <div class="alert alert-{{ 'success' if event_occurred else 'danger' }}">
     <b>Resolved:</b> Event {{ "occurred" if event_occurred else "did not occur" }}.
 </div>
 {% else %}
 <div class="alert alert-warning">
     <b>Not yet resolved.</b>
-    To resolve the market, run the pipeline with <code>{"event": 1}</code> (event occurred) or
-    <code>{"event": 0}</code> (event did not occur) as the data argument.
-    This moves all players to the Results page.
+    To resolve the market, run the pipeline with <code>{"event": true}</code> (event occurred) or
+    <code>{"event": false}</code> (event did not occur).
+    To void the market and refund all traders, use <code>{"refund": true}</code>. No need to set <code>event</code>.
 </div>
 {% endif %}
 
@@ -61,6 +65,9 @@
             <th class="text-end">Cash</th>
             <th class="text-end">Yes</th>
             <th class="text-end">No</th>
+            {% if refunded %}
+            <th class="text-end">Refund</th>
+            {% endif %}
             {% if resolved %}
             <th class="text-end">Payoff</th>
             {% endif %}
@@ -73,6 +80,15 @@
             <td class="text-end">{{ p.cash | fmtnum(pre="$", places=2) }}</td>
             <td class="text-end">{{ p.yes_shares }}</td>
             <td class="text-end">{{ p.no_shares }}</td>
+            {% if refunded %}
+            <td class="text-end">
+                {% if p.refund_amount is not none %}
+                {{ p.refund_amount | fmtnum(pre="$", places=2) }}
+                {% else %}
+                <span class="text-muted">&mdash;</span>
+                {% endif %}
+            </td>
+            {% endif %}
             {% if resolved and p.payoff is not none %}
             <td class="text-end fw-bold">{{ p.payoff | fmtnum(pre="$", places=2) }}</td>
             {% elif resolved %}

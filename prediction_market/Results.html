@@ -7,6 +7,45 @@ Results
 
 {% block main %}
 
+{% if player.session.refunded %}
+
+<h2>Market Refunded</h2>
+
+<div class="alert alert-secondary">
+    <b>This market has been voided.</b> All contracts are cancelled and net expenditures have been refunded.
+</div>
+
+<h2 class="mt-5">Your Refund</h2>
+
+<table class="table w-auto" style="font-variant-numeric: tabular-nums;">
+    <tbody>
+        <tr>
+            <td>Cash remaining</td>
+            <td class="text-end fw-bold">{{ player.cash | fmtnum(pre="$", places=2) }}</td>
+        </tr>
+        <tr>
+            <td><span class="badge bg-success">Yes</span> contracts held (voided)</td>
+            <td class="text-end text-muted">{{ player.yes_shares }} &times; {{ 0 | fmtnum(pre="$", places=2) }}</td>
+        </tr>
+        <tr>
+            <td><span class="badge bg-danger">No</span> contracts held (voided)</td>
+            <td class="text-end text-muted">{{ player.no_shares }} &times; {{ 0 | fmtnum(pre="$", places=2) }}</td>
+        </tr>
+        <tr>
+            <td>Net expenditure refunded</td>
+            <td class="text-end fw-bold">{{ player.refund_amount | fmtnum(pre="$", places=2) }}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr class="table-active">
+            <td><b>Total payoff</b></td>
+            <td class="text-end fw-bold">{{ player.payoff | fmtnum(pre="$", places=2) }}</td>
+        </tr>
+    </tfoot>
+</table>
+
+{% else %}
+
 <h2>Market Resolved</h2>
 
 {% if player.session.event_occurred %}
@@ -53,5 +92,7 @@ Results
         </tr>
     </tfoot>
 </table>
+
+{% endif %}
 
 {% endblock main %}
