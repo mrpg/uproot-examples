@@ -33,4 +33,11 @@ Input fields based on fields provided by uproot
 
 {{ likert_matrix(form.likert_field_2, form.likert_field_3, form.likert_field_4, form.likert_field_5) }}
 
+<p>
+    <b>Example of a “Likert grid”</b><br>
+    (responsive version of “Likert matrix”: row of radio buttons becomes column of radio buttons if viewport width is less than Bootstrap’s <code>lg</code> breakpoint):
+</p>
+
+{{ likert_grid(form.likert_field_2, form.likert_field_3, form.likert_field_4, form.likert_field_5) }}
+
 {% endblock main %}
