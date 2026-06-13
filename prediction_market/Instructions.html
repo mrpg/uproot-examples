@@ -1,0 +1,47 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Instructions
+{% endblock title %}
+
+
+{% block main %}
+
+<h2>Prediction Market</h2>
+
+<p>In this experiment, you participate in a prediction market. The market is about the following question:</p>
+
+<div class="card bg-light mb-4">
+    <div class="card-body text-center">
+        <h2 class="mb-0">{{ C.EVENT_QUESTION }}</h2>
+    </div>
+</div>
+
+<h2 class="mt-5">Contracts</h2>
+
+<p>You start with an endowment of <b>{{ C.ENDOWMENT | fmtnum(pre="$", places=2) }}</b>. You can use this money to buy two types of contracts:</p>
+
+<ul>
+    <li>A <b class="text-success">Yes</b> contract pays <b>{{ 1 | fmtnum(pre="$", places=2) }}</b> if the event occurs, and nothing otherwise.</li>
+    <li>A <b class="text-danger">No</b> contract pays <b>{{ 1 | fmtnum(pre="$", places=2) }}</b> if the event does <i>not</i> occur, and nothing otherwise.</li>
+</ul>
+
+<h2 class="mt-5">The Automated Market Maker</h2>
+
+<p>Contract prices are set by an automated market maker. Prices always sum to {{ 1 | fmtnum(pre="$", places=2) }}.</p>
+
+<p>The more contracts of one type are bought, the higher their price becomes. This means that early traders get a better price, but also take on more risk.</p>
+
+<h2 class="mt-5">Trading</h2>
+
+<p>You can buy and sell contracts at any time. When you sell contracts you hold, you receive the current market price.</p>
+
+<h2 class="mt-5">Your Payoff</h2>
+
+<div class="alert alert-info">
+    <b>Payoff</b> = remaining cash + payout from contracts you hold
+</div>
+
+<p>Try to maximize your payoff by trading wisely.</p>
+
+{% endblock main %}

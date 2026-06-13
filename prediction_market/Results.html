@@ -1,0 +1,57 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+<h2>Market Resolved</h2>
+
+{% if player.session.event_occurred %}
+<div class="alert alert-success">
+    <b>The event occurred.</b> Each <span class="badge bg-success">Yes</span> contract pays {{ 1 | fmtnum(pre="$", places=2) }}. <span class="badge bg-danger">No</span> contracts pay nothing.
+</div>
+{% else %}
+<div class="alert alert-danger">
+    <b>The event did not occur.</b> Each <span class="badge bg-danger">No</span> contract pays {{ 1 | fmtnum(pre="$", places=2) }}. <span class="badge bg-success">Yes</span> contracts pay nothing.
+</div>
+{% endif %}
+
+<h2 class="mt-5">Your Final Position</h2>
+
+<table class="table w-auto" style="font-variant-numeric: tabular-nums;">
+    <tbody>
+        <tr>
+            <td>Cash remaining</td>
+            <td class="text-end fw-bold">{{ player.cash | fmtnum(pre="$", places=2) }}</td>
+        </tr>
+        <tr>
+            <td><span class="badge bg-success">Yes</span> contracts held</td>
+            <td class="text-end">
+                {{ player.yes_shares }}
+                &times; {% if player.session.event_occurred %}{{ 1 | fmtnum(pre="$", places=2) }}{% else %}{{ 0 | fmtnum(pre="$", places=2) }}{% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td><span class="badge bg-danger">No</span> contracts held</td>
+            <td class="text-end">
+                {{ player.no_shares }}
+                &times; {% if player.session.event_occurred %}{{ 0 | fmtnum(pre="$", places=2) }}{% else %}{{ 1 | fmtnum(pre="$", places=2) }}{% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Contract payout</td>
+            <td class="text-end fw-bold">{{ player.contract_payout | fmtnum(pre="$", places=2) }}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr class="table-active">
+            <td><b>Total payoff</b></td>
+            <td class="text-end fw-bold">{{ player.payoff | fmtnum(pre="$", places=2) }}</td>
+        </tr>
+    </tfoot>
+</table>
+
+{% endblock main %}

@@ -62,6 +62,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `payment_data`                                    | Collecting payment data                                         | Easy       |
 | `pgg_punishment`                                  | Public goods game with third-party punishment                   | Easy       |
 | `ping`†                                           | WebSocket round-trip time benchmark                             | Easy       |
+| `prediction_market`                               | Prediction market with LMSR automated market maker              | Advanced   |
 | `prisoners_dilemma_apply`                         | Standard prisoner's dilemma                                     | Medium     |
 | `prisoners_dilemma_chat`                          | Prisoner's dilemma with continuous chat                         | Easy       |
 | `prisoners_dilemma_repeated`                      | Repeated prisoner's dilemma (history table and digest)          | Easy       |

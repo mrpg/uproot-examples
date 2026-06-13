@@ -1,0 +1,302 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Trading
+{% endblock title %}
+
+
+{% block head %}
+
+<style>
+.prob-bar {
+    height: 2.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+.prob-bar .progress-bar {
+    transition: width 0.3s ease;
+}
+.tabnum {
+    font-variant-numeric: tabular-nums;
+}
+</style>
+
+{% endblock head %}
+
+
+{% block main %}
+
+<div x-data="predictionMarket()">
+
+    <!-- Event Question & Probability -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="text-center mb-3">{{ C.EVENT_QUESTION }}</h5>
+
+            <div class="progress prob-bar mb-2">
+                <div class="progress-bar bg-success d-flex align-items-center justify-content-center"
+                     :style="'width: ' + (20 + priceYes * 60) + '%'">
+                    <span x-show="priceYes >= 0.12" x-text="'Yes $' + (priceYes).toFixed(4)"></span>
+                </div>
+                <div class="progress-bar bg-danger d-flex align-items-center justify-content-center"
+                     :style="'width: ' + (20 + priceNo * 60) + '%'">
+                    <span x-show="priceNo >= 0.12" x-text="'No $' + (priceNo).toFixed(4)"></span>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between text-muted small tabnum">
+                <span>Yes: <b x-text="'$' + priceYes.toFixed(4)"></b> per contract</span>
+                <span>No: <b x-text="'$' + priceNo.toFixed(4)"></b> per contract</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resolved banner -->
+    <div class="alert alert-info text-center" x-show="resolved" x-cloak>
+        <b>The market has been resolved.</b> Moving to results&hellip;
+    </div>
+
+    <div class="row g-4 mb-4" x-show="!resolved">
+        <!-- Portfolio -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h6 class="mb-0">Your Portfolio</h6>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm mb-0 tabnum">
+                        <tr>
+                            <td class="border-0">Cash</td>
+                            <td class="border-0 text-end fw-bold" x-text="'$' + cash.toFixed(2)"></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-success">Yes</span> contracts</td>
+                            <td class="text-end fw-bold" x-text="yesShares"></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-danger">No</span> contracts</td>
+                            <td class="text-end fw-bold" x-text="noShares"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trade Form -->
+        <div class="col-md-8">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h6 class="mb-0">Trade</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-sm-auto">
+                            <label class="form-label small mb-1">Contract</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="outcome" id="o-yes" value="yes" x-model="outcome">
+                                <label class="btn btn-outline-success" for="o-yes">Yes</label>
+                                <input type="radio" class="btn-check" name="outcome" id="o-no" value="no" x-model="outcome">
+                                <label class="btn btn-outline-danger" for="o-no">No</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-auto">
+                            <label class="form-label small mb-1">Action</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="action" id="a-buy" value="buy" x-model="action">
+                                <label class="btn btn-outline-primary" for="a-buy">Buy</label>
+                                <input type="radio" class="btn-check" name="action" id="a-sell" value="sell" x-model="action">
+                                <label class="btn btn-outline-secondary" for="a-sell">Sell</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-auto">
+                            <label class="form-label small mb-1">Shares</label>
+                            <input type="number" class="form-control" x-model.number="shares"
+                                   min="1" step="1" style="width: 80px;">
+                        </div>
+                        <div class="col-sm d-flex flex-column justify-content-end">
+                            <div class="small mb-1 tabnum" :class="preview.valid ? 'text-muted' : 'text-danger'">
+                                <template x-if="!preview.error">
+                                    <span x-text="preview.label + ': $' + Math.abs(preview.cost).toFixed(2)"></span>
+                                </template>
+                                <template x-if="preview.error">
+                                    <span x-text="preview.error"></span>
+                                </template>
+                            </div>
+                            <button class="btn btn-primary" @click="executeTrade()"
+                                    :disabled="submitting || !preview.valid">
+                                <span x-show="!submitting">Execute</span>
+                                <span x-show="submitting" class="spinner-border spinner-border-sm"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div x-show="error" class="mt-2">
+                        <span class="text-danger small" x-text="error"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trade History -->
+    <div class="card" x-show="!resolved">
+        <div class="card-header">
+            <h6 class="mb-0">Recent Trades</h6>
+        </div>
+        <div class="card-body p-0" style="max-height: 240px; overflow-y: auto;">
+            <template x-if="trades.length === 0">
+                <p class="text-muted small p-3 mb-0">No trades yet.</p>
+            </template>
+            <table class="table table-sm mb-0 tabnum" x-show="trades.length > 0">
+                <thead class="sticky-top table-light">
+                    <tr>
+                        <th>Contract</th>
+                        <th>Action</th>
+                        <th class="text-end">Shares</th>
+                        <th class="text-end">Amount</th>
+                        <th class="text-end">Yes Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template x-for="(trade, i) in [...trades].reverse()" :key="trades.length - i">
+                        <tr>
+                            <td>
+                                <span class="badge"
+                                      :class="trade.outcome === 'yes' ? 'bg-success' : 'bg-danger'"
+                                      x-text="trade.outcome[0].toUpperCase() + trade.outcome.slice(1)"></span>
+                            </td>
+                            <td x-text="trade.action"></td>
+                            <td class="text-end" x-text="trade.shares"></td>
+                            <td class="text-end" x-text="'$' + Math.abs(trade.total_cost).toFixed(2)"></td>
+                            <td class="text-end" x-text="(trade.price_yes).toFixed(4)"></td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock main %}
+
+
+{% block late %}
+
+<script>
+const LIQUIDITY = {{ C.LIQUIDITY }};
+
+function lmsrCost(qYes, qNo, b) {
+    const x = qYes / b, y = qNo / b;
+    const m = Math.max(x, y);
+
+    return b * (m + Math.log(Math.exp(x - m) + Math.exp(y - m)));
+}
+
+function predictionMarket() {
+    return {
+        priceYes: 0.5,
+        priceNo: 0.5,
+        qYes: 0,
+        qNo: 0,
+        cash: {{ C.ENDOWMENT }},
+        yesShares: 0,
+        noShares: 0,
+        outcome: "yes",
+        action: "buy",
+        shares: 1,
+        submitting: false,
+        error: "",
+        trades: [],
+        resolved: false,
+
+        get preview() {
+            const s = parseInt(this.shares) || 0;
+
+            if (s <= 0) {
+                return { cost: 0, label: "Cost", valid: false, error: "Enter a quantity" };
+            }
+
+            const isYes = this.outcome === "yes";
+            const base = lmsrCost(this.qYes, this.qNo, LIQUIDITY);
+
+            if (this.action === "buy") {
+                const after = isYes
+                    ? lmsrCost(this.qYes + s, this.qNo, LIQUIDITY)
+                    : lmsrCost(this.qYes, this.qNo + s, LIQUIDITY);
+                const cost = after - base;
+
+                return {
+                    cost: cost,
+                    label: "Cost",
+                    valid: cost <= this.cash + 0.01,
+                    error: cost > this.cash + 0.01 ? "Insufficient funds" : null,
+                };
+            }
+
+            const held = isYes ? this.yesShares : this.noShares;
+
+            if (s > held) {
+                return { cost: 0, label: "Revenue", valid: false, error: "You hold " + held };
+            }
+
+            const after = isYes
+                ? lmsrCost(this.qYes - s, this.qNo, LIQUIDITY)
+                : lmsrCost(this.qYes, this.qNo - s, LIQUIDITY);
+            const revenue = base - after;
+
+            return { cost: revenue, label: "Revenue", valid: true, error: null };
+        },
+
+        init() {
+            uproot.onReady(() => {
+                uproot.invoke("get_state").then((state) => {
+                    this.priceYes = state.price_yes;
+                    this.priceNo = state.price_no;
+                    this.qYes = state.q_yes;
+                    this.qNo = state.q_no;
+                    this.cash = state.cash;
+                    this.yesShares = state.yes_shares;
+                    this.noShares = state.no_shares;
+                    this.trades = state.trades;
+
+                    this.resolved = state.resolved;
+                });
+            });
+
+            uproot.onCustomEvent("PriceUpdate", (event) => {
+                const data = event.detail.data;
+                this.priceYes = data.price_yes;
+                this.priceNo = data.price_no;
+                this.qYes = data.q_yes;
+                this.qNo = data.q_no;
+                this.trades.push(data.trade);
+            });
+        },
+
+        executeTrade() {
+            this.error = "";
+            this.submitting = true;
+
+            uproot.invoke("trade", this.outcome, this.action, parseInt(this.shares))
+                .then((result) => {
+                    this.priceYes = result.price_yes;
+                    this.priceNo = result.price_no;
+                    this.cash = result.cash;
+                    this.yesShares = result.yes_shares;
+                    this.noShares = result.no_shares;
+                    this.shares = 1;
+                })
+                .catch((err) => {
+                    this.error = err.message || String(err);
+                })
+                .finally(() => {
+                    this.submitting = false;
+                });
+        },
+    };
+}
+</script>
+
+{% endblock late %}
