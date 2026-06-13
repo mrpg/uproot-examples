@@ -21,7 +21,16 @@ LANDING_PAGE = False
 class C:
     ENDOWMENT = 100
     LIQUIDITY = 100
-    EVENT_QUESTION = "Will the drawn number be greater than 50?"
+    DEFAULT_EVENT_QUESTION = "Will it rain tomorrow?"
+
+
+class Context(PlayerContext):
+    @property
+    def event_question(self):
+        return self.player.session.settings.get(
+            "event_question",
+            C.DEFAULT_EVENT_QUESTION,
+        )
 
 
 # --- Logarithmic Market Scoring Rule (Hanson, 2003) ---
@@ -311,7 +320,7 @@ def digest(session):
         )
 
     return {
-        "event_question": C.EVENT_QUESTION,
+        "event_question": session.get("event_question", C.DEFAULT_EVENT_QUESTION),
         "price_yes": round(p_yes, 4),
         "price_no": round(p_no, 4),
         "q_yes": q_yes,
