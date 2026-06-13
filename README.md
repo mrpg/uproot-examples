@@ -76,6 +76,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `second_price_auction`                            | Second-price sealed-bid auction (Vickrey, 1961)                 | Easy       |
 | `sound_recording`                                 | Record audio of yourself reading a sentence                     | Advanced   |
 | `stackelberg`                                     | Stackelberg quantity competition (2 players, sequential)        | Easy       |
+| `streaming`                                       | FastAPI StreamingResponse through api2()                        | Medium     |
 | `stroop`                                          | Stroop task                                                     | Advanced   |
 | `student_id`                                      | Have participants enter their Student ID                        | Easy       |
 | `sumhunt`                                         | Real effort task about finding sums in matrices                 | Medium     |

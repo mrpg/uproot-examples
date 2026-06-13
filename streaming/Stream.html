@@ -1,0 +1,64 @@
+{% extends "Base.html" %}
+
+{% block title %}
+StreamingResponse through api2()
+{% endblock title %}
+
+
+{% block main %}
+
+<p>
+    This page calls <code>api2()</code> with this player's name in the URL, then reads
+    a streaming response as events arrive.
+</p>
+
+<div class="mb-3">
+    <b id="counter">
+        {{ player.streaming_counter }}
+    </b>
+</div>
+
+<div class="mb-3">
+    <button type="button" class="btn btn-primary" id="start-stream">Start stream</button>
+    <span class="ms-3 text-body-secondary" id="stream-status">Idle</span>
+</div>
+
+<pre class="border rounded bg-body-tertiary p-3" id="stream-output" style="min-height: 14rem;"></pre>
+
+<script>
+    const startButton = I("start-stream");
+    const statusEl = I("stream-status");
+    const outputEl = I("stream-output");
+    const counter = I("counter");
+    const streamUrl = "/api2/streaming/{{ session.name }}/?uname={{ player.name }}";
+
+    function startStream() {
+        startButton.disabled = true;
+        statusEl.textContent = "Streaming";
+        outputEl.textContent = "";
+
+        const events = new EventSource(streamUrl);
+
+        events.onmessage = (event) => {
+            outputEl.textContent += event.data + "\n";
+            counter.textContent = event.data;
+        };
+
+        events.addEventListener("done", () => {
+            events.close();
+            statusEl.textContent = "Done";
+            startButton.disabled = false;
+        });
+
+        events.onerror = () => {
+            events.close();
+            statusEl.textContent = "Error";
+            startButton.disabled = false;
+        };
+    }
+
+    startButton.addEventListener("click", startStream);
+    startStream();
+</script>
+
+{% endblock main %}
