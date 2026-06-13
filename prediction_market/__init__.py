@@ -345,6 +345,7 @@ def resolve_event(session, event_value=None, refund=False):
     if refund:
         session.refunded = True
     else:
+        session.refunded = False
         session.event_occurred = event_value
 
     session.event_resolved = True
