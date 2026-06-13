@@ -58,13 +58,13 @@ Default fonts and font weights in uproot
     </div>
     {% endfor %}
     <h5 class="fw-600 mt-3">Special ligatures</h5>
-    <p>Inter offers ligatures for producing arrows and mathematical symbols. Testing the coverage:</p>
+    <p>Inter offers ligatures for producing arrows and mathematical symbols. This requires contextual alternates to be enabled. Testing the coverage:</p>
     {% for w in range(100, 1000, 100) %}
     <div class="fw-{{ w }} row">
-        <div class="col-12 col-xl-6">
+        <div class="col-12 col-xl-6 ffs-calt-on">
             <- -> <-> &nbsp; <-- --> <--> &nbsp; <=> &nbsp; <== ==> <==> &nbsp; << <= != >= >>
         </div>
-        <div class="col-12 col-xl-6 fst-italic">
+        <div class="col-12 col-xl-6 ffs-calt-on fst-italic">
             <- -> <-> &nbsp; <-- --> <--> &nbsp; <=> &nbsp; <== ==> <==> &nbsp; << <= != >= >>
         </div>
     </div>
