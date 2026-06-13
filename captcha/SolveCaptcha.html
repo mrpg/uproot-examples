@@ -1,0 +1,33 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Captcha
+{% endblock title %}
+
+
+{% block main %}
+
+<p>
+    This page loads a player-specific captcha image from <code>api2()</code>.
+</p>
+
+<div class="mb-4">
+    <img
+        src="/api2/captcha/{{ session.name }}/?uname={{ player.name }}"
+        width="{{ C.IMAGE_WIDTH }}"
+        height="{{ C.IMAGE_HEIGHT }}"
+        class="border rounded"
+        alt="Captcha image"
+        {% if _uproot_simulate %}data-captcha-answer="{{ player.captcha_code }}"{% endif %}
+    >
+</div>
+
+{{ field(form.captcha_answer) }}
+
+{% if player.captcha_attempts %}
+<p class="text-body-tertiary">
+    Invalid attempts so far: <b>{{ player.captcha_attempts }}</b>
+</p>
+{% endif %}
+
+{% endblock main %}

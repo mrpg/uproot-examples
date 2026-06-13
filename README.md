@@ -23,6 +23,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `bret`                                            | Bomb Risk Elicitation Task (Crosetto & Filippin, 2013)          | Medium     |
 | `button_placement`                                | Placing and customizing Next/Back buttons                       | Easy       |
 | `call_auction`                                    | Call auction (sealed-bid batch clearing)                        | Medium     |
+| `captcha`                                         | Captcha image generated through api2()                          | Easy       |
 | `chat`                                            | Chat                                                            | Easy       |
 | `chat_with_claude`                                | Chat with Claude                                                | Medium     |
 | `conjoint`                                        | Conjoint experiment with randomized profile pairs               | Medium     |

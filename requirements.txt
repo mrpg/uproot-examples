@@ -4,6 +4,7 @@ black
 find-eq @ git+https://github.com/mrpg/find-eq.git@master
 isort
 mini-exchange @ git+https://github.com/mrpg/mini-exchange.git@master
+pillow==12.2.0
 pre-commit
 pydub
 ruff

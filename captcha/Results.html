@@ -1,0 +1,20 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Captcha solved
+{% endblock title %}
+
+
+{% block main %}
+
+<p>
+    You entered the numbers correctly.
+</p>
+
+{% if player.captcha_attempts %}
+<p class="text-body-tertiary">
+    Invalid attempts: <b>{{ player.captcha_attempts }}</b>
+</p>
+{% endif %}
+
+{% endblock main %}
