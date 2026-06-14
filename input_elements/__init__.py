@@ -41,14 +41,14 @@ class ExampleInputsUprootFields(Page):
             "boolean_field": BooleanField(
                 description="Description for the <code class='text-black-50'>BooleanField</code>.",
                 label=safe(
-                    "Select the checkbox if you agree to participate in this study. <code class='ms-3 text-black-50'>BooleanField</code>"
+                    "Select the checkbox if you agree to participate in this study. <code class='fw-normal ms-3 text-black-50'>BooleanField</code>"
                 ),
                 render_kw={"class": "border-primary"},
             ),
             "date_field": DateField(
                 description="Description for the <code class='text-black-50'>DateField</code>.",
                 label=safe(
-                    "Specify the date at which you would like to participate in Part 2 of this study. <code class='ms-3 text-black-50'>DateField</code>"
+                    "Specify the date at which you would like to participate in Part 2 of this study. <code class='fw-normal ms-3 text-black-50'>DateField</code>"
                 ),
                 render_kw={"class": "w-auto"},
             ),
@@ -57,7 +57,7 @@ class ExampleInputsUprootFields(Page):
                 default=1.23,
                 description="Description for the <code class='text-black-50'>DecimalField</code>.",
                 label=safe(
-                    "Which amount of money are you willing to contribute to the group project? <code class='ms-3 text-black-50'>DecimalField</code>"
+                    "Which amount of money are you willing to contribute to the group project? <code class='fw-normal ms-3 text-black-50'>DecimalField</code>"
                 ),
                 max=C.BUDGET,
                 min=0,
@@ -72,7 +72,7 @@ class ExampleInputsUprootFields(Page):
                 default=3.45,
                 description="Description for the <code class='text-black-50'>DecimalRangeField</code> with <code class='text-black-50'>class_wrapper=\"w-75\"</code> and default labels left and right.",
                 label=safe(
-                    "Which amount of money (in €) are you willing to contribute to the group project? <code class='ms-3 text-black-50'>DecimalRangeField</code>"
+                    "Which amount of money (in €) are you willing to contribute to the group project? <code class='fw-normal ms-3 text-black-50'>DecimalRangeField</code>"
                 ),
                 max=C.BUDGET,
                 min=0,
@@ -85,7 +85,7 @@ class ExampleInputsUprootFields(Page):
                 description="Description for the <code class='text-black-50'>DecimalRangeField</code> with <code class='text-black-50'>hide_popover=True</code> and empty labels.",
                 hide_popover=True,
                 label=safe(
-                    "Position the slider as close to the middle as you can. <code class='ms-3 text-black-50'>DecimalRangeField</code>"
+                    "Position the slider as close to the middle as you can. <code class='fw-normal ms-3 text-black-50'>DecimalRangeField</code>"
                 ),
                 label_max="",
                 label_min="",
@@ -99,7 +99,7 @@ class ExampleInputsUprootFields(Page):
                 default=3.45,
                 description="Description for the <code class='text-black-50'>DecimalRangeField</code> with <code class='text-black-50'>anchoring=False</code> and custom labels left and right.",
                 label=safe(
-                    "What is your willingness to pay? <code class='ms-3 text-black-50'>DecimalRangeField</code>"
+                    "What is your willingness to pay? <code class='fw-normal ms-3 text-black-50'>DecimalRangeField</code>"
                 ),
                 label_max=safe(
                     "<span class='text-success fw-semibold'>My entire<br>budget</span>"
@@ -117,7 +117,7 @@ class ExampleInputsUprootFields(Page):
                 default=3.45,
                 description="Description for the <code class='text-black-50'>DecimalRangeField</code> with <code class='text-black-50'>anchoring=False</code> and a custom formatter.",
                 label=safe(
-                    "Which amount would you like to donate? <code class='ms-3 text-black-50'>DecimalRangeField</code>"
+                    "Which amount would you like to donate? <code class='fw-normal ms-3 text-black-50'>DecimalRangeField</code>"
                 ),
                 max=C.BUDGET,
                 min=-C.BUDGET,
@@ -127,7 +127,7 @@ class ExampleInputsUprootFields(Page):
             "email_field_top_complete": EmailField(
                 description="Description for the <code class='text-black-50'>EmailField</code> with both main (top) and floating label.",
                 label=safe(
-                    "Enter your e-mail address here to be informed as soon as your payoff has been transferred to your bank account. <code class='ms-3 text-black-50'>EmailField</code>"
+                    "Enter your e-mail address here to be informed as soon as your payoff has been transferred to your bank account. <code class='fw-normal ms-3 text-black-50'>EmailField</code>"
                 ),
                 label_floating="Your e-mail address",
                 render_kw={"class": "w-75"},
@@ -135,7 +135,7 @@ class ExampleInputsUprootFields(Page):
             "email_field_old_school": EmailField(
                 description="Description for the <code class='text-black-50'>EmailField</code> with empty floating label but a placeholder (AKA old-school styling).",
                 label=safe(
-                    "Enter your e-mail address here to be informed as soon as your payoff has been transferred to your bank account. <code class='ms-3 text-black-50'>EmailField</code>"
+                    "Enter your e-mail address here to be informed as soon as your payoff has been transferred to your bank account. <code class='fw-normal ms-3 text-black-50'>EmailField</code>"
                 ),
                 render_kw={"class": "w-75", "placeholder": "example@example.org"},
             ),
@@ -147,7 +147,7 @@ class ExampleInputsUprootFields(Page):
             "file_field": FileField(
                 description="Description for the <code class='text-black-50'>FileField</code>.",
                 label=safe(
-                    "Select the file that you wish to upload to the server. <code class='ms-3 text-black-50'>FileField</code>"
+                    "Select the file that you wish to upload to the server. <code class='fw-normal ms-3 text-black-50'>FileField</code>"
                 ),
                 render_kw={"class": "w-50"},
             ),
@@ -159,7 +159,7 @@ class ExampleInputsUprootFields(Page):
                 class_wrapper="mb-5 mt-5 card card-body bg-warning-subtle border-warning w-50",
                 description="Description for the <code class='text-black-50'>IntegerField</code>. This demonstrates the extent to which manual formatting can be applied.",
                 label=safe(
-                    "How would you rate <em>this</em> hotel? <code class='ms-3 text-black-50'>IntegerField</code>"
+                    "How would you rate <em>this</em> hotel? <code class='fw-normal ms-3 text-black-50'>IntegerField</code>"
                 ),
                 max=5,
                 min=0,
@@ -172,7 +172,7 @@ class ExampleInputsUprootFields(Page):
                 class_wrapper="border-primary card my-4 px-4 py-3 w-75",
                 description="Description for the <code class='text-black-50'>LikertField</code> with custom CSS classes set via <code class='text-black-50'>class_wrapper</code>.",
                 label=safe(
-                    "I like ice cream. <code class='ms-3 text-black-50'>LikertField</code>"
+                    "I like ice cream. <code class='fw-normal ms-3 text-black-50'>LikertField</code>"
                 ),
                 label_max="Agree strongly",
                 label_min="Disagree strongly",
@@ -183,7 +183,7 @@ class ExampleInputsUprootFields(Page):
             "likert_field_2": LikertField(
                 description="Description for the Bonn <code class='text-black-50'>LikertField</code>.",
                 label=safe(
-                    "Would you like to visit Bonn? <code class='ms-3 text-black-50'>LikertField</code>"
+                    "Would you like to visit Bonn? <code class='fw-normal ms-3 text-black-50'>LikertField</code>"
                 ),
                 label_max="Very much",
                 label_min="Not at all",
@@ -193,45 +193,66 @@ class ExampleInputsUprootFields(Page):
             "likert_field_3": LikertField(
                 description="Description for the Cologne <code class='text-black-50'>LikertField</code>.",
                 label=safe(
-                    "Would you like to visit Cologne? <code class='ms-3 text-black-50'>LikertField</code>"
+                    "Would you like to visit Cologne? <code class='fw-normal fw-normal ms-3 text-black-50'>LikertField</code>"
                 ),
                 label_max="Very much",
                 label_min="Not at all",
                 max=5,
                 min=-5,
             ),
-            "likert_field_4": LikertField(
+            "likert_field_4": LikertFieldResponsive(
+                description="Description for the Münster or Bonn or Cologne or Darmstadt or Seeheim-Jugenheim or Bielefeld or Berlin or Hamburg <code class='text-black-50'>LikertFieldResponsive</code>. By default, the breakpoint is 992 px (Bootstrap’s <code class='text-black-50'>-lg-</code> breaktpoint).",
                 label=safe(
-                    "Would you like to visit Münster or Bonn or Cologne or Darmstadt or Seeheim-Jugenheim or Bielefeld or Berlin or Hamburg?"
+                    "Would you like to visit Münster or Bonn or Cologne or Darmstadt or Seeheim-Jugenheim or Bielefeld or Berlin or Hamburg? <code class='fw-normal ms-3 text-black-50'>LikertFieldResponsive</code>"
                 ),
                 label_max="Very much",
                 label_min="Not at all",
                 max=5,
                 min=-5,
             ),
-            "likert_field_5": LikertField(
-                label=safe("Would you like to visit Melbourne?"),
+            "likert_field_5": LikertFieldResponsive(
+                breakpoint=768,
+                label=safe(
+                    "Would you like to visit Melbourne? <span class='fw-normal text-black-50'><code class='ms-3 text-black-50'>LikertFieldResponsive</code> with attribute <code class='text-black-50'>breakpoint=768</code> [px]</span>"
+                ),
                 label_max="Very much",
                 label_min="Not at all",
-                min=-5,
-                max=5,
+                min=1,
+                max=7,
             ),
             "radio_field": RadioField(
                 choices=[(True, "Yes"), (False, "No")],
                 description="Description for the <code class='text-black-50'>RadioField</code>, vertical.",
                 label=safe(
-                    "Would you be willing to serve as your group’s leader? <code class='ms-3 text-black-50'>RadioField</code>"
+                    "Would you be willing to serve as your group’s leader? <code class='fw-normal ms-3 text-black-50'>RadioField</code>"
                 ),
             ),
             "radio_field_inline": RadioField(
                 choices=[
-                    (1, safe("<b class='text-success'>Yes</b>")),
-                    (0, safe("<b class='text-danger'>No</b>")),
-                    (0.5, safe("<b class='text-warning'>Maybe</b>")),
+                    ("yes", safe("<b class='fw-600 text-success'>Yes.</b>")),
+                    ("no", safe("<b class='fw-600 text-danger'>No.</b>")),
+                    (
+                        "maybe",
+                        safe(
+                            "<b class='fw-600 text-warning'>Maybe—please randomize for me.</b>"
+                        ),
+                    ),
+                    (
+                        "more_info",
+                        safe(
+                            "<b class='fw-600 text-black-50'>I find it really difficult to decide and need more information.</b>"
+                        ),
+                    ),
+                    (
+                        "AI",
+                        safe(
+                            "<b class='fw-600 text-primary'>I wish to delegate the decision to an <span class='ffa-disambiguation'>AI</span> agent.</b>"
+                        ),
+                    ),
                 ],
                 description="Description for the <code class='text-black-50'>RadioField</code>, horizontal.",
                 label=safe(
-                    "Would you be willing to serve as your group’s leader? <code class='ms-3 text-black-50'>RadioField</code>"
+                    "Would you be willing to serve as your group’s leader? <code class='fw-normal ms-3 text-black-50'>RadioField</code>"
                 ),
                 layout="horizontal",
             ),
@@ -240,7 +261,7 @@ class ExampleInputsUprootFields(Page):
                 description="You can skip this question if you prefer not to answer.",
                 label=safe(
                     "What is your gender? "
-                    + "<span class='text-black-50'><code class='ms-3 text-black-50'>RadioField</code> with attribute "
+                    + "<span class='fw-normal text-black-50'><code class='ms-3 text-black-50'>RadioField</code> with attribute "
                     + "<code class='text-black-50'>optional=True</code></span>"
                 ),
                 optional=True,
@@ -257,7 +278,7 @@ class ExampleInputsUprootFields(Page):
                 default=0,
                 description="Description for the <code class='text-black-50'>SelectField</code>.",
                 label=safe(
-                    "Which of the following soccer teams would you like to win the German championship? <code class='ms-3 text-black-50'>SelectField</code>"
+                    "Which of the following soccer teams would you like to win the German championship? <code class='fw-normal ms-3 text-black-50'>SelectField</code>"
                 ),
                 render_kw={"class": "w-auto"},
             ),
@@ -267,7 +288,7 @@ class ExampleInputsUprootFields(Page):
                 class_addon_end="text-black-50",
                 description="Description for the <code class='text-black-50'>StringField</code> with both main (top) and floating label.",
                 label=safe(
-                    "Please state your primary field of study. <code class='ms-3 text-black-50'>StringField</code>"
+                    "Please state your primary field of study. <code class='fw-normal ms-3 text-black-50'>StringField</code>"
                 ),
                 label_floating="Your primary field of study",
             ),
@@ -275,7 +296,7 @@ class ExampleInputsUprootFields(Page):
                 addon_start="Test",
                 description="Description for the <code class='text-black-50'>TextAreaField</code> with empty floating label but a placeholder (AKA old-school styling).",
                 label=safe(
-                    "Please explain <i>in your own words</i> which criteria you used to make decisions in this study. <code class='ms-3 text-black-50'>TextAreaField</code>"
+                    "Please explain <i>in your own words</i> which criteria you used to make decisions in this study. <code class='fw-normal ms-3 text-black-50'>TextAreaField</code>"
                 ),
                 render_kw={
                     "placeholder": "Your description",
