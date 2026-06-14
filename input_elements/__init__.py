@@ -231,9 +231,24 @@ class ExampleInputsUprootFields(Page):
                 choices=[
                     ("yes", safe("<b class='fw-600 text-success'>Yes.</b>")),
                     ("no", safe("<b class='fw-600 text-danger'>No.</b>")),
-                    ("maybe", safe("<b class='fw-600 text-warning'>Maybe—please randomize for me.</b>")),
-                    ("more_info", safe("<b class='fw-600 text-black-50'>I find it really difficult to decide and need more information.</b>")),
-                    ("AI", safe("<b class='fw-600 text-primary'>I wish to delegate the decision to an <span class='ffa-disambiguation'>AI</span> agent.</b>")),
+                    (
+                        "maybe",
+                        safe(
+                            "<b class='fw-600 text-warning'>Maybe—please randomize for me.</b>"
+                        ),
+                    ),
+                    (
+                        "more_info",
+                        safe(
+                            "<b class='fw-600 text-black-50'>I find it really difficult to decide and need more information.</b>"
+                        ),
+                    ),
+                    (
+                        "AI",
+                        safe(
+                            "<b class='fw-600 text-primary'>I wish to delegate the decision to an <span class='ffa-disambiguation'>AI</span> agent.</b>"
+                        ),
+                    ),
                 ],
                 description="Description for the <code class='text-black-50'>RadioField</code>, horizontal.",
                 label=safe(
