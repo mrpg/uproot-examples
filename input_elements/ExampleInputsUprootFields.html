@@ -29,15 +29,14 @@ Input fields based on fields provided by uproot
 
 {{ fields() }}
 
-<p class="fw-bold">Example of a “Likert matrix”:</p>
+<p class="fw-bold">Example of a “Likert matrix”</p>
 
 {{ likert_matrix(form.likert_field_2, form.likert_field_3, form.likert_field_4) }}
 
-<p class="mt-4">
-    <b>Example of a “Likert grid”</b><br>
-    (responsive version of “Likert matrix”: row of radio buttons becomes column of radio buttons if viewport width is less than Bootstrap’s <code>lg</code> breakpoint):
-</p>
+<p class="fw-bold mt-4">Example of a “Likert grid”</p>
+<p class="text-black-50">The <code class="text-black-50">likert_grid()</code> macro is the responsive version of the <code class="text-black-50">likert_matrix()</code> macro. The rows of radio buttons turn into separate columns of radio buttons if the viewport width falls below a threshold.</p>
+<p class="text-black-50">The threshold defaults to Bootstrap’s <code class="text-black-50">lg</code> breakpoint, that is, 992 pixels. In the following example, the threshold is set to 1200 pixels using <code class="text-black-50">breakpoint=1200</code> for demonstration purposes.</p>
 
-{{ likert_grid(form.likert_field_2, form.likert_field_3, form.likert_field_4) }}
+{{ likert_grid(form.likert_field_2, form.likert_field_3, form.likert_field_4, breakpoint=1200) }}
 
 {% endblock main %}

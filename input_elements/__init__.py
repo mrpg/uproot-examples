@@ -201,7 +201,7 @@ class ExampleInputsUprootFields(Page):
                 min=-5,
             ),
             "likert_field_4": LikertFieldResponsive(
-                description="Description for the Münster or Bonn or Cologne or Darmstadt or Seeheim-Jugenheim or Bielefeld or Berlin or Hamburg <code class='text-black-50'>LikertFieldResponsive</code>. By default, the breakpoint is 992 px (Bootstrap’s <code class='text-black-50'>-lg-</code> breaktpoint).",
+                description="Description for the Münster or Bonn or Cologne or Darmstadt or Seeheim-Jugenheim or Bielefeld or Berlin or Hamburg <code class='text-black-50'>LikertFieldResponsive</code>. By default, the breakpoint is 992 pixels (Bootstrap’s <code class='text-black-50'>lg</code> breakpoint).",
                 label=safe(
                     "Would you like to visit Münster or Bonn or Cologne or Darmstadt or Seeheim-Jugenheim or Bielefeld or Berlin or Hamburg? <code class='fw-normal ms-3 text-black-50'>LikertFieldResponsive</code>"
                 ),
@@ -213,7 +213,7 @@ class ExampleInputsUprootFields(Page):
             "likert_field_5": LikertFieldResponsive(
                 breakpoint=768,
                 label=safe(
-                    "Would you like to visit Melbourne? <span class='fw-normal text-black-50'><code class='ms-3 text-black-50'>LikertFieldResponsive</code> with attribute <code class='text-black-50'>breakpoint=768</code> [px]</span>"
+                    "Would you like to visit Melbourne? <span class='fw-normal text-black-50'><code class='ms-3 text-black-50'>LikertFieldResponsive</code> with attribute <code class='text-black-50'>breakpoint=768</code> [pixels]</span>"
                 ),
                 label_max="Very much",
                 label_min="Not at all",
