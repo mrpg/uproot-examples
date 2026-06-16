@@ -212,13 +212,16 @@ class ExampleInputsUprootFields(Page):
             ),
             "likert_field_5": LikertFieldResponsive(
                 breakpoint=768,
+                choices = [
+                    (-2, "Disagree strongly"),
+                    (-1, "Disagree"),  #"Disagree a little",
+                    (0, "Neutral"),
+                    (1, "Agree"),  #"Agree a little",
+                    (2, "Agree strongly"),
+                ],
                 label=safe(
-                    "Would you like to visit Melbourne? <span class='fw-normal text-black-50'><code class='ms-3 text-black-50'>LikertFieldResponsive</code> with attribute <code class='text-black-50'>breakpoint=768</code> [pixels]</span>"
+                    "Would you like to visit Melbourne? <span class='fw-normal text-black-50'><code class='ms-3 text-black-50'>LikertFieldResponsive</code> with attribute <code class='text-black-50'>breakpoint=768</code> [pixels] and custom attribute <code class='text-black-50'>choices</code> </span>"
                 ),
-                label_max="Very much",
-                label_min="Not at all",
-                min=1,
-                max=7,
             ),
             "radio_field": RadioField(
                 choices=[(True, "Yes"), (False, "No")],
