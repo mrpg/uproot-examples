@@ -101,6 +101,7 @@ load_config(uproot_server, config="tullock_contest", apps=["tullock_contest"])
 load_config(uproot_server, config="twobytwo", apps=["twobytwo"])
 load_config(uproot_server, config="ultimatum_game", apps=["ultimatum_game"])
 load_config(uproot_server, config="upload", apps=["upload"])
+load_config(uproot_server, config="vcg", apps=["vcg"])
 # fmt: on
 
 # Create admin

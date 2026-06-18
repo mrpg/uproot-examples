@@ -97,6 +97,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `twobytwo`                                        | Generic 2×2 game with simulator                                 | Medium     |
 | `ultimatum_game`                                  | Standard ultimatum game                                         | Easy       |
 | `upload`                                          | Uploading files                                                 | Easy       |
+| `vcg`                                             | Public good provision via the VCG mechanism                     | Easy       |
 
 † Apps primarily for internal testing and benchmarking, but useful as simple examples of individual uproot features.
 

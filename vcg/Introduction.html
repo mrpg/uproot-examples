@@ -1,0 +1,28 @@
+{% extends "Base.html" %}
+
+{% block title %}
+How This Works
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Your group of {{ C.GROUP_SIZE }} is deciding whether to fund a shared project that costs <b>{{ C.COST | fmtnum(pre="$", places=2) }}</b>.</p>
+
+<p>If funded, every group member benefits — but each person benefits by a different amount. Your personal benefit from the project is <b>{{ player.true_value | fmtnum(pre="$", places=2) }}</b>. Only you know this number. The other members have their own personal benefits, which only they know.</p>
+
+<h5 class="mt-4">The rules</h5>
+
+<ol>
+    <li class="mb-2"><b>Report a value.</b> Each group member privately reports how much the project is worth to them. You may report any amount from $0 to {{ C.MAX_VALUE | fmtnum(pre="$", places=0) }}.</li>
+    <li class="mb-2"><b>The decision.</b> All reported values are added up. If the total is at least {{ C.COST | fmtnum(pre="$", places=2) }}, the project is funded. Otherwise, it is not.</li>
+    <li class="mb-2"><b>Your payment.</b> You pay something <b>only</b> if the project would not have been funded without you — that is, if the other members' reports alone do not cover the cost. In that case, you pay just the gap: {{ C.COST | fmtnum(pre="$", places=2) }} minus what the others reported. If the others' reports already cover the cost, you pay nothing.</li>
+    <li class="mb-2"><b>Your earnings.</b>
+        <ul>
+            <li>Project funded: your personal benefit minus your payment.</li>
+            <li>Project not funded: $0.</li>
+        </ul>
+    </li>
+</ol>
+
+{% endblock main %}

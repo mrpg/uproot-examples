@@ -1,0 +1,16 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Report Your Value
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Your personal benefit from the project is <b>{{ player.true_value | fmtnum(pre="$", places=2) }}</b>.</p>
+
+<p>The project is funded if the group's reported values total at least <b>{{ C.COST | fmtnum(pre="$", places=2) }}</b>. You may report any amount — it does not have to match your personal benefit.</p>
+
+{{ fields() }}
+
+{% endblock main %}
