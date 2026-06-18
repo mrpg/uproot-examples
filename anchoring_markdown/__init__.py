@@ -14,7 +14,7 @@ from statistics import median
 from uproot.fields import *
 from uproot.smithereens import *
 
-DESCRIPTION = "Anchoring effect (Tversky & Kahneman, 1974)"
+DESCRIPTION = "Anchoring effect (Tversky & Kahneman, 1974), implemented in Markdown"
 LANDING_PAGE = False
 
 
