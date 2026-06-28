@@ -70,6 +70,7 @@ load_config(uproot_server, config="prediction_market", apps=["prediction_market"
 load_config(uproot_server, config="prisoners_dilemma", apps=["prisoners_dilemma"])
 load_config(uproot_server, config="prisoners_dilemma_apply", apps=["prisoners_dilemma_apply"])
 load_config(uproot_server, config="prisoners_dilemma_chat", apps=["prisoners_dilemma_chat"])
+load_config(uproot_server, config="prisoners_dilemma_indefinite", apps=["prisoners_dilemma_indefinite"])
 load_config(uproot_server, config="prisoners_dilemma_repeated", apps=["prisoners_dilemma_repeated"])
 load_config(uproot_server, config="public_goods_game", apps=["public_goods_game"])
 load_config(uproot_server, config="quiz", apps=["quiz"])

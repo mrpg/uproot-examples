@@ -1,0 +1,24 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results (round {{ player.round }})
+{% endblock title %}
+
+
+{% block main %}
+
+{% if player.cooperate %}
+<p>You cooperated.</p>
+{% else %}
+<p>You did not cooperate.</p>
+{% endif %}
+
+{% if player.other_in_group.cooperate %}
+<p>Your partner cooperated.</p>
+{% else %}
+<p>Your partner did not cooperate.</p>
+{% endif %}
+
+<p>Your payoff this round is <b>{{ player.payoff }}</b>.</p>
+
+{% endblock main %}
