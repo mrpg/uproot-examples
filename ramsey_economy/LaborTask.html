@@ -1,0 +1,206 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Work (Round {{ player.round }})
+{% endblock title %}
+
+
+{% block head %}
+
+<script>
+const SESSION_NAME = {{ session.name | tojson | safe }};
+const PLAYER_NAME = {{ player.name | tojson | safe }};
+
+document.addEventListener("alpine:init", () => {
+    Alpine.store("labor", {
+        effort: 0,
+        done: false,
+        feedback: null,
+        loading: true,
+    });
+
+    uproot.onReady(() => {
+        loadCaptcha();
+    });
+});
+
+function captchaUrl() {
+    const query = new URLSearchParams({
+        uname: PLAYER_NAME,
+        t: Date.now(),
+    });
+
+    return `/api2/ramsey_economy/${encodeURIComponent(SESSION_NAME)}/?${query}`;
+}
+
+function loadCaptcha() {
+    const store = Alpine.store("labor");
+    store.loading = true;
+    store.feedback = null;
+
+    uproot.invoke("new_captcha").then((data) => {
+        store.effort = data.effort;
+        store.loading = false;
+
+        if (data.done) {
+            store.done = true;
+            return;
+        }
+
+        const img = I("captchaImage");
+
+        if (img) {
+            img.src = captchaUrl();
+        }
+
+        Alpine.nextTick(() => {
+            const input = I("captchaInput");
+
+            if (input) {
+                input.value = "";
+                input.focus();
+            }
+        });
+    });
+}
+
+function submitCaptcha() {
+    const input = I("captchaInput");
+    const answer = (input.value || "").trim();
+
+    if (answer.length !== C.CAPTCHA_LENGTH) {
+        return;
+    }
+
+    const store = Alpine.store("labor");
+    store.loading = true;
+
+    uproot.invoke("check_captcha", answer).then((data) => {
+        store.effort = data.effort;
+        store.loading = false;
+
+        if (data.done) {
+            store.done = true;
+            store.feedback = data.correct ? { type: "success" } : null;
+            return;
+        }
+
+        if (data.correct) {
+            store.feedback = { type: "success" };
+
+            const img = I("captchaImage");
+
+            if (img) {
+                img.src = captchaUrl();
+            }
+
+            Alpine.nextTick(() => {
+                input.value = "";
+                input.focus();
+            });
+        } else {
+            store.feedback = { type: "error" };
+            input.value = "";
+            input.focus();
+        }
+    });
+}
+
+function handleCaptchaKey(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        submitCaptcha();
+    }
+}
+
+function stopWorking() {
+    uproot.submit();
+}
+</script>
+
+<style>
+.ramsey-labor-card {
+    max-width: 28rem;
+}
+</style>
+
+{% endblock head %}
+
+
+{% block main %}
+
+<p>
+    Your capital this period: <b>{{ player.context.capital | fmtnum(places=2) }}</b>
+</p>
+
+<p>
+    Solve puzzles to earn labor income. Each correct answer adds one unit of labor
+    (maximum {{ C.L_BAR }}). You may stop working at any time.
+</p>
+
+<div class="card card-body mb-4 ramsey-labor-card">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="fs-5">
+            Effort: <b x-text="$store.labor.effort">0</b> / {{ C.L_BAR }}
+        </span>
+        <span x-show="$store.labor.done" class="badge bg-success">Maximum reached</span>
+    </div>
+
+    <div x-show="!$store.labor.done">
+        <div class="mb-3">
+            <img id="captchaImage"
+                 src=""
+                 width="{{ C.IMAGE_WIDTH }}"
+                 height="{{ C.IMAGE_HEIGHT }}"
+                 class="border rounded"
+                 alt="Captcha image">
+        </div>
+
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <input type="text"
+                   id="captchaInput"
+                   class="form-control font-monospace w-auto"
+                   maxlength="{{ C.CAPTCHA_LENGTH }}"
+                   placeholder="{{ '?' * C.CAPTCHA_LENGTH }}"
+                   inputmode="numeric"
+                   pattern="[0-9]*"
+                   autocomplete="off"
+                   @keydown="handleCaptchaKey(event)"
+                   :disabled="$store.labor.loading">
+            <button type="button"
+                    class="btn btn-uproot"
+                    @click="submitCaptcha()"
+                    :disabled="$store.labor.loading">
+                Submit
+            </button>
+        </div>
+
+        <div x-show="$store.labor.feedback?.type === 'success'" class="text-success fw-bold small">
+            Correct!
+        </div>
+        <div x-show="$store.labor.feedback?.type === 'error'" class="text-danger fw-bold small">
+            Incorrect. Try again.
+        </div>
+    </div>
+</div>
+
+<button type="button"
+        class="btn btn-lg btn-primary"
+        @click="stopWorking()"
+        :disabled="$store.labor.loading">
+    Stop working
+</button>
+<span class="text-muted ms-2">
+    Your current effort (<span x-text="$store.labor.effort">0</span>) will be your labor supply for this period.
+</span>
+
+{% if player.round > 1 %}
+
+<h2 class="mt-5">History</h2>
+
+{% include 'ramsey_economy/HistoryTable.html' %}
+
+{% endif %}
+
+{% endblock main %}

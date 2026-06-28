@@ -74,6 +74,7 @@ load_config(uproot_server, config="prisoners_dilemma_indefinite", apps=["prisone
 load_config(uproot_server, config="prisoners_dilemma_repeated", apps=["prisoners_dilemma_repeated"])
 load_config(uproot_server, config="public_goods_game", apps=["public_goods_game"])
 load_config(uproot_server, config="quiz", apps=["quiz"])
+load_config(uproot_server, config="ramsey_economy", apps=["ramsey_economy"])
 load_config(uproot_server, config="randomize_pages_allow_back", apps=["randomize_pages_allow_back"])
 load_config(uproot_server, config="randomize_pages", apps=["randomize_pages"])
 load_config(uproot_server, config="read_settings", apps=["read_settings"])

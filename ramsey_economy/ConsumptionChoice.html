@@ -1,0 +1,114 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Consumption and Saving (Round {{ player.round }})
+{% endblock title %}
+
+
+{% block main %}
+
+<h2>Economy</h2>
+
+{% if player.output == 0 %}
+<div class="alert alert-warning">
+    The economy has shut down this period (aggregate capital or labor is zero).
+    No output is produced and no income is earned.
+</div>
+{% endif %}
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <table class="table table-sm w-auto">
+            <tr>
+                <td>Aggregate capital (<i>K</i>)</td>
+                <td class="fw-bold text-end ps-4">{{ player.aggregate_capital | fmtnum(places=2) }}</td>
+            </tr>
+            <tr>
+                <td>Aggregate labor (<i>L</i>)</td>
+                <td class="fw-bold text-end ps-4">{{ player.aggregate_labor }}</td>
+            </tr>
+            <tr>
+                <td>Total output (<i>Y</i>)</td>
+                <td class="fw-bold text-end ps-4">{{ player.output | fmtnum(places=2) }}</td>
+            </tr>
+            <tr>
+                <td>Wage (<i>w</i>)</td>
+                <td class="fw-bold text-end ps-4">{{ player.wage | fmtnum(places=2) }}</td>
+            </tr>
+            <tr>
+                <td>Rental rate (<i>r</i>)</td>
+                <td class="fw-bold text-end ps-4">{{ player.rental_rate | fmtnum(places=2) }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<h2>Your income</h2>
+
+<table class="table table-sm w-auto">
+    <tr>
+        <td>Your labor (effort)</td>
+        <td class="fw-bold text-end ps-4">{{ player.effort }}</td>
+    </tr>
+    <tr>
+        <td>Your capital</td>
+        <td class="fw-bold text-end ps-4">{{ player.own_capital | fmtnum(places=2) }}</td>
+    </tr>
+    <tr>
+        <td>
+            After-tax labor income
+        </td>
+        <td class="fw-bold text-end ps-4">{{ player.labor_income | fmtnum(places=2) }}</td>
+    </tr>
+    <tr>
+        <td>
+            After-tax capital income
+        </td>
+        <td class="fw-bold text-end ps-4">{{ player.capital_return | fmtnum(places=2) }}</td>
+    </tr>
+    <tr>
+        <td>Undepreciated capital</td>
+        <td class="fw-bold text-end ps-4">{{ ((1 - C.DELTA) * player.own_capital) | fmtnum(places=2) }}</td>
+    </tr>
+    {% if player.context.settings.tau_l > 0 or player.context.settings.tau_k > 0 %}
+    <tr>
+        <td>Transfer</td>
+        <td class="fw-bold text-end ps-4">{{ player.transfer | fmtnum(places=2) }}</td>
+    </tr>
+    {% endif %}
+    <tr class="table-primary">
+        <td><b>Available resources</b></td>
+        <td class="fw-bold text-end ps-4">{{ player.resources | fmtnum(places=2) }}</td>
+    </tr>
+</table>
+
+<h2 class="mt-4">Consumption decision</h2>
+
+<p>
+    Choose how much to consume. The remainder ({{ player.resources | fmtnum(places=2) }} &minus; consumption)
+    will be your capital in the next period.
+</p>
+
+{{ fields() }}
+
+<div class="mt-3">
+    {% set sim_default_resources = player.resources %}
+    {% include 'ramsey_economy/Simulator.html' %}
+</div>
+
+<details class="mt-4">
+    <summary>Redemption value table</summary>
+    <div class="mt-2">
+        {% include 'ramsey_economy/RedemptionTable.html' %}
+    </div>
+</details>
+
+{% if player.round > 1 %}
+
+<h2 class="mt-5">History</h2>
+
+{% include 'ramsey_economy/HistoryTable.html' %}
+
+{% endif %}
+
+{% endblock main %}

@@ -1,0 +1,80 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results (Round {{ player.round }})
+{% endblock title %}
+
+
+{% block main %}
+
+<table class="table table-sm w-auto">
+    <tr>
+        <td>Consumption</td>
+        <td class="fw-bold text-end ps-4">{{ player.consumption | fmtnum(places=2) }}</td>
+    </tr>
+    <tr>
+        <td>Capital next period</td>
+        <td class="fw-bold text-end ps-4">{{ player.next_capital | fmtnum(places=2) }}</td>
+    </tr>
+    <tr>
+        <td>Redemption value</td>
+        <td class="fw-bold text-end ps-4">{{ player.redemption_value | fmtnum(places=2) }}</td>
+    </tr>
+    <tr class="table-primary">
+        <td><b>Cumulative earnings</b></td>
+        <td class="fw-bold text-end ps-4">{{ player.cumulative_earnings | fmtnum(places=2) }}</td>
+    </tr>
+</table>
+
+{% if player.add_round %}
+<p class="alert alert-success mt-4">
+    The economy continues to the next period.
+</p>
+{% else %}
+<p class="alert alert-warning mt-4">
+    The economy has ended.
+    Your total earnings across all periods: <b>{{ player.cumulative_earnings | fmtnum(places=2) }}</b>.
+</p>
+{% endif %}
+
+{% if player.round > 0 %}
+
+<h2 class="mt-4">History</h2>
+
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Round</th>
+                <th class="text-end">Labor</th>
+                <th class="text-end">Capital</th>
+                <th class="text-end">Wage</th>
+                <th class="text-end">Rental rate</th>
+                <th class="text-end">Resources</th>
+                <th class="text-end">Consumption</th>
+                <th class="text-end">Next capital</th>
+                <th class="text-end">Earnings</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in range(1, player.round + 1) %}
+            {% set rd = player.within(round=r) %}
+            <tr {% if r == player.round %}class="table-active"{% endif %}>
+                <th scope="row">{{ r }}</th>
+                <td class="text-end">{{ rd.effort }}</td>
+                <td class="text-end">{{ rd.own_capital | fmtnum(places=2) }}</td>
+                <td class="text-end">{{ rd.wage | fmtnum(places=2) }}</td>
+                <td class="text-end">{{ rd.rental_rate | fmtnum(places=2) }}</td>
+                <td class="text-end">{{ rd.resources | fmtnum(places=2) }}</td>
+                <td class="text-end">{{ rd.consumption | fmtnum(places=2) }}</td>
+                <td class="text-end">{{ rd.next_capital | fmtnum(places=2) }}</td>
+                <td class="text-end">{{ rd.redemption_value | fmtnum(places=2) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endif %}
+
+{% endblock main %}

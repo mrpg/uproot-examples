@@ -1,0 +1,114 @@
+{% set simulator_id = simulator_id | default("simulatorModal") %}
+
+<style>
+.ramsey-tabular {
+    font-variant-numeric: tabular-nums;
+}
+
+.ramsey-sim-output {
+    min-width: 5em;
+}
+</style>
+
+<button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#{{ simulator_id }}">
+    Open simulator
+</button>
+
+<div class="modal fade"
+     id="{{ simulator_id }}"
+     tabindex="-1"
+     aria-labelledby="{{ simulator_id }}Label"
+     aria-hidden="true"
+     data-ramsey-simulator>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title fs-5" id="{{ simulator_id }}Label">Consumption simulator</span>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ramsey-tabular">
+                <p class="text-muted small">
+                    Explore how different consumption choices affect your redemption value and savings.
+                </p>
+
+                <div class="mb-3">
+                    <div class="form-label fw-semibold mb-1">
+                        {{ sim_resources_label | default("Available resources") }}
+                    </div>
+                    <div data-sim-resources="{{ sim_default_resources | default(C.K_BAR) }}"
+                         class="font-monospace">
+                        {{ sim_default_resources | default(C.K_BAR) | fmtnum(places=2) }}
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="{{ simulator_id }}Consumption" class="form-label fw-semibold">Consumption</label>
+                    <div class="d-flex align-items-center gap-3">
+                        <input type="range"
+                               class="form-range flex-grow-1"
+                               id="{{ simulator_id }}Consumption"
+                               data-sim-consumption
+                               min="0" max="{{ sim_default_resources | default(C.K_BAR) }}" step="any"
+                               value="{{ (sim_default_resources | default(C.K_BAR)) / 2 }}">
+                        <span class="text-muted font-monospace d-inline-block ramsey-sim-output text-end"
+                              data-sim-consumption-label>
+                            &mdash;
+                        </span>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row text-center">
+                    <div class="col-6">
+                        <div class="text-muted small">Redemption value</div>
+                        <div class="fs-4 fw-bold text-success font-monospace d-inline-block ramsey-sim-output text-end"
+                             data-sim-redemption>&mdash;</div>
+                        <div class="text-muted small">u(c) = 2&radic;c</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-muted small">Capital next period</div>
+                        <div class="fs-4 fw-bold text-primary font-monospace d-inline-block ramsey-sim-output text-end"
+                             data-sim-next-capital>&mdash;</div>
+                        <div class="text-muted small">W &minus; c</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+uproot.onReady(() => {
+    document.querySelectorAll("[data-ramsey-simulator]").forEach((simulator) => {
+        if (simulator.dataset.simulatorReady) {
+            return;
+        }
+
+        simulator.dataset.simulatorReady = "true";
+
+        const resources = simulator.querySelector("[data-sim-resources]");
+        const slider = simulator.querySelector("[data-sim-consumption]");
+        const consumptionLabel = simulator.querySelector("[data-sim-consumption-label]");
+        const redemption = simulator.querySelector("[data-sim-redemption]");
+        const nextCapital = simulator.querySelector("[data-sim-next-capital]");
+
+        function updateSimulator() {
+            const W = Math.max(0, parseFloat(resources.dataset.simResources) || 0);
+            slider.max = W;
+
+            const c = Math.min(Math.max(0, parseFloat(slider.value) || 0), W);
+
+            consumptionLabel.textContent = c.toFixed(2);
+            redemption.textContent = (2 * Math.sqrt(c)).toFixed(2);
+            nextCapital.textContent = (W - c).toFixed(2);
+        }
+
+        slider.addEventListener("input", updateSimulator);
+        updateSimulator();
+    });
+});
+</script>

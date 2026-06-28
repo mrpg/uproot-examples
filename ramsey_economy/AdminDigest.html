@@ -1,0 +1,60 @@
+{% block main %}
+
+{% for group_name, latest_round, history, player_names in data %}
+
+<h4 class="mt-3">Group {{ group_name }} (round {{ latest_round }})</h4>
+<p class="text-muted small">Players: {{ player_names | join(", ") }}</p>
+
+<table class="table table-sm mb-5">
+    <thead>
+        <tr>
+            <th rowspan="2">Round</th>
+            {% for name in player_names %}
+            <th colspan="4" class="text-center border-start">{{ name }}</th>
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for name in player_names %}
+            <th class="text-end border-start small">Effort</th>
+            <th class="text-end small">Capital</th>
+            <th class="text-end small">Consumption</th>
+            <th class="text-end small">Earnings</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for round_num, round_data in history %}
+        <tr>
+            <th scope="row">{{ round_num }}</th>
+            {% for pd in round_data %}
+            <td class="text-end border-start">{{ pd.effort if pd.effort is not none else "—" }}</td>
+            <td class="text-end">
+                {% if pd.own_capital is not none %}
+                {{ pd.own_capital | fmtnum(places=1) }}
+                {% else %}
+                —
+                {% endif %}
+            </td>
+            <td class="text-end">
+                {% if pd.consumption is not none %}
+                {{ pd.consumption | fmtnum(places=1) }}
+                {% else %}
+                —
+                {% endif %}
+            </td>
+            <td class="text-end">
+                {% if pd.redemption_value is not none %}
+                {{ pd.redemption_value | fmtnum(places=2) }}
+                {% else %}
+                —
+                {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endfor %}
+
+{% endblock main %}

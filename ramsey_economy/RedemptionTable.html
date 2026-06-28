@@ -1,0 +1,18 @@
+<table class="table table-bordered table-sm w-auto">
+    <thead>
+        <tr>
+            <th>Consumption</th>
+            {% for c_val, u_val in C.REDEMPTION_TABLE %}
+            <th class="text-center">{{ c_val }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Redemption value</th>
+            {% for c_val, u_val in C.REDEMPTION_TABLE %}
+            <td class="text-center">{{ u_val | fmtnum(places=2) }}</td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>

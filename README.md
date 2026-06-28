@@ -70,6 +70,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `prisoners_dilemma`                               | Standard prisoner's dilemma                                     | Easy       |
 | `public_goods_game`                               | Standard public goods game                                      | Easy       |
 | `quiz`                                            | Quiz/comprehension check                                        | Easy       |
+| `ramsey_economy`                                  | A miniature laboratory economy (Ramsey model)                   | Advanced   |
 | `randomize_pages_allow_back`                      | Randomizing page order and allow going back                     | Easy       |
 | `randomize_pages`                                 | Randomizing page order                                          | Easy       |
 | `read_settings`†                                  | Read session settings                                           | Easy       |
