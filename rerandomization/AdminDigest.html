@@ -1,0 +1,43 @@
+{% block main %}
+
+{% if assignment_method %}
+<p>Assignment method: <code>{{ assignment_method }}</code></p>
+{% endif %}
+
+{% if summary %}
+<h5>Mean Values by Treatment</h5>
+<table class="table w-75">
+    <thead>
+        <tr>
+            <th scope="col">Treatment</th>
+            <th scope="col">N</th>
+            <th scope="col">Mean Age</th>
+            <th scope="col">Econ (proportion "Yes")</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for treatment, n, mean_age, econ_prop in summary %}
+        <tr>
+            <td>{{ treatment }}</td>
+            <td>{{ n }}</td>
+            <td>
+                {% if mean_age is none %}
+                <span class="text-muted">&ndash;</span>
+                {% else %}
+                {{ mean_age | fmtnum(places=1) }}
+                {% endif %}
+            </td>
+            <td>
+                {% if econ_prop is none %}
+                <span class="text-muted">&ndash;</span>
+                {% else %}
+                {{ econ_prop | fmtnum(places=2) }}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% endblock main %}

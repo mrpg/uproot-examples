@@ -65,7 +65,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `prediction_market`                               | Prediction market with LMSR automated market maker              | Advanced   |
 | `prisoners_dilemma_apply`                         | Standard prisoner's dilemma                                     | Medium     |
 | `prisoners_dilemma_chat`                          | Prisoner's dilemma with continuous chat                         | Easy       |
-| `prisoners_dilemma_indefinite`                     | Indefinitely repeated prisoner's dilemma (random stopping)      | Easy       |
+| `prisoners_dilemma_indefinite`                     | Indefinitely repeated prisoner's dilemma (random stopping)     | Easy       |
 | `prisoners_dilemma_repeated`                      | Repeated prisoner's dilemma (history table and digest)          | Easy       |
 | `prisoners_dilemma`                               | Standard prisoner's dilemma                                     | Easy       |
 | `public_goods_game`                               | Standard public goods game                                      | Easy       |
@@ -74,6 +74,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `randomize_pages_allow_back`                      | Randomizing page order and allow going back                     | Easy       |
 | `randomize_pages`                                 | Randomizing page order                                          | Easy       |
 | `read_settings`†                                  | Read session settings                                           | Easy       |
+| `rerandomization`                                 | Rerandomization/stratification on the fly                       | Medium     |
 | `revise`                                          | Revise decisions across rounds                                  | Medium     |
 | `rounds_nested`                                   | Using nested rounds                                             | Easy       |
 | `rounds`                                          | Using rounds (history table)                                    | Easy       |
