@@ -1,0 +1,19 @@
+{% block main %}
+
+{% if session.get('refunded') %}
+<div class="alert alert-secondary mb-0">
+    <b>Refunded:</b> Market voided. All contracts cancelled, net expenditures returned.
+</div>
+{% elif session.get('event_resolved') is true %}
+<div class="alert alert-{{ 'success' if session.get('event_occurred') else 'danger' }} mb-0">
+    <b>Resolved:</b> Event {{ 'occurred' if session.get('event_occurred') else 'did not occur' }}.
+</div>
+{% else %}
+<div class="alert alert-warning mb-0">
+    <b>Not yet resolved.</b>
+    Invoke with <code>{"event": true}</code> or <code>{"event": false}</code> to resolve.
+    Use <code>{"refund": true}</code> to void the market and refund all traders.
+</div>
+{% endif %}
+
+{% endblock main %}
