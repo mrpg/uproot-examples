@@ -902,15 +902,15 @@ wheels = [
 
 [[package]]
 name = "schwifty"
-version = "2026.7.0"
+version = "2026.7.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pycountry" },
     { name = "rstr" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/db/03/a6da2c5433faa91528b980b0b6bf0785a179020caa2fd3822dd4637cef13/schwifty-2026.7.0.tar.gz", hash = "sha256:7a3fe64a30025aa3359e6f331a181278ec421476ab965df0097500d9ddbe57c6", size = 846773, upload-time = "2026-07-02T15:55:24.636Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a8/fb/bec5f85190a688c5773a313c45e49d83fe61b54573c34f9ed54af9151a53/schwifty-2026.7.1.tar.gz", hash = "sha256:46ec749b93101b9681ac48900048da97175b69b616014df7a854ae37eadd7440", size = 864632, upload-time = "2026-07-06T07:27:11.409Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/70/67/266ea8d0b6272dd31e695d4d251adf9f997f651110763b21ae792035b04c/schwifty-2026.7.0-py3-none-any.whl", hash = "sha256:20e711fbf9d1d055dfc49659f427ec31ea3b79b1af0e82b8036141991c430791", size = 344697, upload-time = "2026-07-02T15:55:23.282Z" },
+    { url = "https://files.pythonhosted.org/packages/5f/eb/7584fd249315b7958bf933aa058194832993fe4e071cd09a4597a98618d6/schwifty-2026.7.1-py3-none-any.whl", hash = "sha256:80bb2c9d7c9fb76ec6d5129e5313675e1194fe5250d8e8b1115506da3cda64c2", size = 343857, upload-time = "2026-07-06T07:27:09.685Z" },
 ]
 
 [[package]]
@@ -1087,7 +1087,7 @@ provides-extras = ["pg"]
 [[package]]
 name = "uproot-science"
 version = "0.0.1"
-source = { git = "https://github.com/mrpg/uproot.git?rev=main#ece93c4a76d09a86ddcfbc5b6e711bd3ba498ae9" }
+source = { git = "https://github.com/mrpg/uproot.git?rev=main#0903bbfce0577f3397ddd4af9ea70d2f2ae891f5" }
 dependencies = [
     { name = "appendmuch" },
     { name = "click" },
