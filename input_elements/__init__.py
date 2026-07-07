@@ -210,20 +210,20 @@ class ExampleInputsUprootFields(Page):
                 max=5,
                 min=-5,
             ),
-            "likert_field_4": LikertFieldResponsive(
+            "likert_field_4": LikertField(
                 description="Description for the Münster or Bonn or Cologne or Darmstadt or Seeheim-Jugenheim or Bielefeld or Berlin or Hamburg "
-                + "<code class='text-black-50'>LikertFieldResponsive</code>. "
+                + "<code class='text-black-50'>LikertField</code>. "
                 + "By default, the breakpoint is 992 pixels (Bootstrap’s <code class='text-black-50'>lg</code> breakpoint).",
                 label=safe(
                     "Would you like to visit Münster or Bonn or Cologne or Darmstadt or Seeheim-Jugenheim or Bielefeld or Berlin or Hamburg? "
-                    + "<code class='fw-normal ms-3 text-black-50'>LikertFieldResponsive</code>"
+                    + "<code class='fw-normal ms-3 text-black-50'>LikertField</code>"
                 ),
                 label_max="Very much",
                 label_min="Not at all",
                 max=5,
                 min=-5,
             ),
-            "likert_field_5": LikertFieldResponsive(
+            "likert_field_5": LikertField(
                 breakpoint=768,
                 choices=[
                     (-2, "Disagree strongly"),
@@ -234,7 +234,7 @@ class ExampleInputsUprootFields(Page):
                 ],
                 label=safe(
                     "Would you like to visit Melbourne? "
-                    + "<span class='fw-normal text-black-50'><code class='ms-3 text-black-50'>LikertFieldResponsive</code> with attribute "
+                    + "<span class='fw-normal text-black-50'><code class='ms-3 text-black-50'>LikertField</code> with attribute "
                     + "<code class='text-black-50'>breakpoint=768</code> [pixels] and custom attribute <code class='text-black-50'>choices</code></span>"
                 ),
                 render_kw={"class": "text-black fw-normal"},
