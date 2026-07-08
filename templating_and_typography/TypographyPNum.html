@@ -1,3 +1,6 @@
+{% set normalnums = True %}
+
+
 {% extends "Base.html" %}
 
 
@@ -33,7 +36,7 @@ Default fonts and font weights in uproot
 {% block main %}
 
 <div class="card card-body font-sans-serif mb-4">
-    <h2 class="border-bottom fw-600 mb-3 pb-3">Default font (sans-serif): <em>Inter</em> <span class="fw-light">(with <em>tabular</em> figures enabled, uproot’s default)</span></h2>
+    <h2 class="border-bottom fw-600 mb-3 pb-3">Default font (sans-serif): <em>Inter</em> <span class="fw-light">(with <em>proportional</em> figures enabled, the font’s default)</span></h2>
     <p>The default font used by uproot is <a class="fw-semibold link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://rsms.me/inter/" target="_blank">Inter (v4.1)</a>. Inter is a sans-serif font distributed under the <a class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://raw.githubusercontent.com/rsms/inter/refs/heads/master/LICENSE.txt" target="_blank">SIL Open Font License 1.1</a>. It comes in nine different font weights. In addition to the Latin alphabet, Inter covers the Cyrillic and Greek alphabets.</p>
     <p class="text-primary bg-primary bg-opacity-10 border-bottom border-primary border-top pb-4 pt-3 px-4">
         {% for d in range(1, 7) %}<span class="display-{{ d }}">{% if not loop.first %} / {% endif %}Inter</span>{% endfor %}
@@ -69,7 +72,7 @@ Default fonts and font weights in uproot
         <div class="col-12 col-xl-6">
             <h5 class="fw-600 my-3">Proportional figures</h5>
             {% for w in range(100, 1000, 100) %}
-            <div class="col-12 col-xl-6 ffs-pnum fw-{{ w }} inter-normalnums" dir="ltr">
+            <div class="col-12 col-xl-6 ffs-pnum fw-{{ w }}" dir="ltr">
                 0123456789
             </div>
             {% endfor %}

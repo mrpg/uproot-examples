@@ -33,6 +33,12 @@ class Typography(Page):
     pass
 
 
+class TypographyPNum(Page):
+    """Showcase the default fonts used by uproot if webfonts are loaded"""
+
+    pass
+
+
 class TypographyNoWebfonts(Page):
     """Showcase the default fonts used by uproot if no webfonts are used"""
 
@@ -45,5 +51,6 @@ class TypographyNoWebfonts(Page):
 page_order = [
     Templating,
     Typography,
+    TypographyPNum,
     TypographyNoWebfonts,
 ]
