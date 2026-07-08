@@ -60,6 +60,24 @@ Default fonts and font weights in uproot if no web fonts are loaded
         </div>
     </div>
     {% endfor %}
+    <div class="row">
+        <div class="col-12 col-xl-6">
+            <h5 class="fw-600 my-3">Tabular figures</h5>
+            {% for w in range(100, 1000, 100) %}
+            <div class="col-12 col-xl-6 ffs-tnum fw-{{ w }}" dir="ltr">
+                0123456789
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-12 col-xl-6">
+            <h5 class="fw-600 my-3">Proportional figures</h5>
+            {% for w in range(100, 1000, 100) %}
+            <div class="col-12 col-xl-6 ffs-pnum fw-{{ w }} inter-normalnums" dir="ltr">
+                0123456789
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 
 <div class="card card-body font-serif mb-4">
