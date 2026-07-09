@@ -85,6 +85,9 @@ def generate_matrix(
     min_val: int = 0,
     max_val: int | None = None,
 ) -> list[int]:
+    if max_val is None:
+        max_val = target - (k - 1) * min_val
+
     while True:
         solution = random_k_sum(rng, k, target, min_val, max_val)
         matrix = solution + [rng.randint(min_val, max_val) for _ in range(length - k)]

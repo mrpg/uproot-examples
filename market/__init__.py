@@ -10,7 +10,7 @@
 
 from dataclasses import replace
 from decimal import Decimal
-from typing import Optional
+from typing import Any, Optional
 
 import uproot.models as um
 from mini_exchange import Exchange, Order
@@ -54,23 +54,25 @@ def reconstruct_exchange(session) -> Exchange:
         return exchange
 
     resting: dict[str, Order] = {}
-    for _, _, event in um.get_entries(session.book_model, BookEvent):
-        if event.action == "add":
+    for _, _, book_event in um.get_entries(session.book_model, BookEvent):
+        if book_event.action == "add":
             order = Order(
-                id=event.order_id,
-                price=Decimal(event.price),
-                quantity=Decimal(event.quantity),
-                buy=event.buy,
-                user=event.user,
-                time=event.time,
+                id=book_event.order_id,
+                price=Decimal(book_event.price),
+                quantity=Decimal(book_event.quantity),
+                buy=book_event.buy,
+                user=book_event.user,
+                time=book_event.time,
             )
-            resting[event.order_id] = order
-        elif event.action == "remove":
-            resting.pop(event.order_id, None)
-        elif event.action == "update":
-            if event.order_id in resting:
-                old = resting[event.order_id]
-                resting[event.order_id] = replace(old, quantity=Decimal(event.quantity))
+            resting[book_event.order_id] = order
+        elif book_event.action == "remove":
+            resting.pop(book_event.order_id, None)
+        elif book_event.action == "update":
+            if book_event.order_id in resting:
+                old = resting[book_event.order_id]
+                resting[book_event.order_id] = replace(
+                    old, quantity=Decimal(book_event.quantity)
+                )
 
     for order in resting.values():
         side = exchange.bids if order.buy else exchange.asks
@@ -78,14 +80,14 @@ def reconstruct_exchange(session) -> Exchange:
         exchange.orders[order.id] = order
 
     if session.get("trade_model") is not None:
-        for _, _, event in um.get_entries(session.trade_model, TradeEvent):
+        for _, _, trade_event in um.get_entries(session.trade_model, TradeEvent):
             exchange.trades.append(
                 METrade(
-                    buyer=event.buyer,
-                    seller=event.seller,
-                    price=Decimal(event.price),
-                    quantity=Decimal(event.quantity),
-                    timestamp=event.timestamp,
+                    buyer=trade_event.buyer,
+                    seller=trade_event.seller,
+                    price=Decimal(trade_event.price),
+                    quantity=Decimal(trade_event.quantity),
+                    timestamp=trade_event.timestamp,
                 )
             )
 
@@ -179,7 +181,7 @@ def update_portfolios(session, trades):
 
 
 def get_book_snapshot(exchange):
-    asks = {}
+    asks: dict[str, dict[str, Any]] = {}
     for order in exchange.asks:
         p = str(order.price)
         if p not in asks:
@@ -187,7 +189,7 @@ def get_book_snapshot(exchange):
         asks[p]["quantity"] += int(order.quantity)
         asks[p]["orders"].append({"id": order.id, "quantity": int(order.quantity)})
 
-    bids = {}
+    bids: dict[str, dict[str, Any]] = {}
     for order in exchange.bids:
         p = str(order.price)
         if p not in bids:

@@ -8,6 +8,8 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
+from types import EllipsisType
+
 from uproot.smithereens import *
 
 DESCRIPTION = "Test smithereens.notify"
@@ -18,6 +20,8 @@ class SendAndReceive(Page):
 
     @live
     def notify_(page, player, data: str, where_: str | None):
+        where: int | None | EllipsisType
+
         if where_ is None:
             where = None
         elif where_ == "...":

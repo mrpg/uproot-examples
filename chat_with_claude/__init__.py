@@ -18,8 +18,9 @@ DESCRIPTION = "Chat with Claude"
 
 async def _respond(chat_mid):
     import anthropic
+    from anthropic.types import MessageParam, TextBlock
 
-    messages = []
+    messages: list[MessageParam] = []
     for _, _, msg in chat.messages(chat_mid):
         if msg.sender == "Claude":
             messages.append({"role": "assistant", "content": msg.text})
@@ -49,7 +50,9 @@ async def _respond(chat_mid):
             messages=messages,
         )
 
-    response_text = response.content[0].text
+    response_text = "\n".join(
+        block.text for block in response.content if isinstance(block, TextBlock)
+    )
     msg_id = chat.add_message(chat_mid, "Claude", response_text)
 
     await chat.notify(chat_mid, msg_id, "Claude", None, response_text)

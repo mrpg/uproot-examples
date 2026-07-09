@@ -77,12 +77,11 @@ class Decision(Page):
     )
 
     @classmethod
-    def after_once(page, player):
+    def validate(page, player, data):
         actions = get_actions(player.session)
-        if player.choice not in actions:
-            raise page.error(
-                choice=f"Please select a valid action ({', '.join(actions)})."
-            )
+
+        if data.get("choice") not in actions:
+            return {"choice": f"Please select a valid action ({', '.join(actions)})."}
 
 
 def set_payoff(player):

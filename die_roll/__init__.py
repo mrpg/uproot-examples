@@ -41,7 +41,7 @@ class Results(Page):
 
 
 def digest(session):
-    counts = Counter()
+    counts: Counter[int] = Counter()
 
     for player in session.players:
         report = player.within(app=__name__).get("report")

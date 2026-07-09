@@ -85,7 +85,9 @@ class Results(Page):
 
 
 def digest(session):
-    by_treatment = {t: {"ages": [], "econs": []} for t in C.TREATMENTS}
+    by_treatment: dict[str, dict[str, list[float]]] = {
+        t: {"ages": [], "econs": []} for t in C.TREATMENTS
+    }
 
     for player in session.players:
         d = player.within(app=__name__)

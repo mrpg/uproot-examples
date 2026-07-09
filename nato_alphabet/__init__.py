@@ -13,7 +13,7 @@ import random
 import string
 from io import BytesIO
 
-from pydub import AudioSegment
+from pydub import AudioSegment  # type: ignore[import-untyped]
 from uproot.fields import *
 from uproot.smithereens import *
 

@@ -19,11 +19,13 @@ class C:
 
 
 class Decision(Page):
-    fields = dict(
-        number=IntegerField(
-            label="Please enter a number.",
-        ),
-    )
+    @classmethod
+    def fields(page, player):
+        return dict(
+            number=IntegerField(
+                label="Please enter a number.",
+            ),
+        )
 
     @classmethod
     def templatevars(page, player):

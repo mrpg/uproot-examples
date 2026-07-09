@@ -66,7 +66,9 @@ class Results(Page):
 
 def digest(session):
     data = []
-    estimates_by_treatment = {treatment: [] for treatment in C.TREATMENTS}
+    estimates_by_treatment: dict[str, list[float]] = {
+        treatment: [] for treatment in C.TREATMENTS
+    }
 
     for player in session.players:
         d = player.within(app=__name__)

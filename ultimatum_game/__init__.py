@@ -8,6 +8,8 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
+from decimal import Decimal
+
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -85,7 +87,7 @@ class Results(Page):
 
 def digest(session):
     data = []
-    summary_by_offer = {}
+    summary_by_offer: dict[Decimal, dict[str, int]] = {}
 
     for group in session.groups(app=__name__):
         players = group.players

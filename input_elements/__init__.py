@@ -9,7 +9,7 @@
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
 
-import wtforms
+import wtforms  # type: ignore[import-untyped]
 from uproot.fields import *
 from uproot.smithereens import *
 

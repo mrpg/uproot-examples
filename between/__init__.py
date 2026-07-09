@@ -76,10 +76,15 @@ class Results(Page):
             "between/TreatmentInfo": "Two-page bracketed treatment branch",
             "between/OpenResponse": "Single-page open-response branch",
         }
+        branch_name = (
+            branch_names.get(selected_page, "Unknown branch")
+            if selected_page is not None
+            else "Unknown branch"
+        )
 
         return {
             "selected_page": selected_page,
-            "branch_name": branch_names.get(selected_page, "Unknown branch"),
+            "branch_name": branch_name,
         }
 
 

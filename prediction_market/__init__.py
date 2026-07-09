@@ -285,7 +285,7 @@ def digest(session):
 
     price_history = [0.5]
     trades = []
-    net_payments = 0
+    net_payments = 0.0
 
     if session.get("trade_log") is not None:
         for _, _, entry in um.get_entries(session.trade_log, TradeEntry):
@@ -325,14 +325,14 @@ def digest(session):
     max_maker_loss = b * math.log(2)
 
     if session.get("refunded"):
-        maker_loss = 0
+        maker_loss = 0.0
     else:
         if session.get("event_resolved") is True:
             maker_payout = q_yes if session.get("event_occurred") else q_no
         else:
             maker_payout = max(q_yes, q_no)
 
-        maker_loss = max(0, maker_payout - net_payments)
+        maker_loss = max(0.0, maker_payout - net_payments)
 
     return {
         "event_question": session.get("event_question", C.DEFAULT_EVENT_QUESTION),

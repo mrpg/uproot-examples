@@ -103,7 +103,7 @@ class Response(Page):
 class Score(NoshowPage):
     @classmethod
     def after_always_once(page, player):
-        factors = {}
+        factors: dict[str, list[int]] = {}
 
         # Collect data
         for k, item in C.ITEMS.items():

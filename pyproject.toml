@@ -23,6 +23,11 @@ dependencies = [
 [tool.black]
 target-version = ["py313"]
 
+[tool.mypy]
+python_version = "3.13"
+check_untyped_defs = true
+ignore_missing_imports = true
+
 [project.optional-dependencies]
 pg = [
     "uproot-science[pg] @ git+https://github.com/mrpg/uproot.git@main",

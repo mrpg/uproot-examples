@@ -21,4 +21,4 @@ def new_player(player):
             setattr(player, f"field{i}", j)
 
 
-page_order = []
+page_order: list[type[Page]] = []

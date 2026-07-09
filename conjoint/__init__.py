@@ -131,16 +131,16 @@ class Choice(Page):
 
         left = None
         right = None
-        for _, _, entry in um.filter_entries(
+        for _, _, profile in um.filter_entries(
             player.session.profiles, Profile, pid=player.pid, pair_id=pair_id
         ):
-            if entry.side == 0:
-                left = entry
+            if profile.side == 0:
+                left = profile
             else:
-                right = entry
+                right = profile
 
-        def profile_dict(entry):
-            return {attr: getattr(entry, attr) for attr in C.PROFILE_ATTRS}
+        def profile_dict(profile):
+            return {attr: getattr(profile, attr) for attr in C.PROFILE_ATTRS}
 
         return {
             "type": "pair",
@@ -167,7 +167,7 @@ class Choice(Page):
             return {"type": "done"}
 
         # Check for duplicate submission
-        for _, _, entry in um.filter_entries(
+        for _, _, _ in um.filter_entries(
             player.session.preferences,
             Preference,
             pid=player.pid,
@@ -195,19 +195,19 @@ class Choice(Page):
 
         left = None
         right = None
-        for _, _, entry in um.filter_entries(
+        for _, _, profile in um.filter_entries(
             player.session.profiles,
             Profile,
             pid=player.pid,
             pair_id=player.current_pair,
         ):
-            if entry.side == 0:
-                left = entry
+            if profile.side == 0:
+                left = profile
             else:
-                right = entry
+                right = profile
 
-        def profile_dict(entry):
-            return {attr: getattr(entry, attr) for attr in C.PROFILE_ATTRS}
+        def profile_dict(profile):
+            return {attr: getattr(profile, attr) for attr in C.PROFILE_ATTRS}
 
         return {
             "type": "pair",
