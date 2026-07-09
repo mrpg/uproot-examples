@@ -24,7 +24,7 @@ The auction follows these principles:
 
 from decimal import Decimal
 from time import time
-from typing import Any, Optional
+from typing import Any, Optional, cast
 from uuid import UUID
 
 import uproot.models as um
@@ -56,14 +56,14 @@ def get_setting(session, key):
     return session.settings.get(key, getattr(C, "DEFAULT_" + key.upper()))
 
 
-def get_tax(session, key, round_num):
+def get_tax(session, key, round_num) -> int:
     """Get tax for a specific round. key is 'buyer_tax' or 'seller_tax'."""
     val = get_setting(session, key)
 
     if isinstance(val, list):
-        return val[round_num - 1]
+        return cast(int, val[round_num - 1])
 
-    return val
+    return cast(int, val)
 
 
 class Offer(metaclass=um.Entry):
@@ -297,11 +297,12 @@ def calculate_profit(
     Sellers: profit = price - cost - seller_tax
     """
     session = player.session
+    cost_or_value = cast(int, player.cost_or_value)
 
     if player.buyer:
-        return player.cost_or_value - price - get_tax(session, "buyer_tax", round_num)
+        return cost_or_value - price - get_tax(session, "buyer_tax", round_num)
     else:
-        return price - player.cost_or_value - get_tax(session, "seller_tax", round_num)
+        return price - cost_or_value - get_tax(session, "seller_tax", round_num)
 
 
 def player_active_offer(
@@ -410,9 +411,9 @@ def ensure_trading_open(player):
 def broadcast_market_diff(
     sender,
     session,
-    remove: list,
-    add: list,
-    txs: list,
+    remove: list[UUID],
+    add: list[dict[str, Any]],
+    txs: list[dict[str, Any]],
 ):
     """Send a minimal market diff to all participants."""
     notify(
@@ -602,7 +603,7 @@ class Trade(Page):
         return amount
 
     @live
-    def accept_offer(page, player, offer_ids: list):
+    def accept_offer(page, player, offer_ids: list[Any]):
         """
         Accept an existing market offer, executing a trade
 
