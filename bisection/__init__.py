@@ -27,7 +27,11 @@ class C:
     TOTAL_ROUNDS = len(LOTTERIES) * BISECTION_STEPS
 
 
-def bisection_state(player, lottery_index, up_to_step):
+def bisection_state(
+    player: PlayerType, lottery_index: int, up_to_step: int
+) -> tuple[float, float]:
+    low: float
+    high: float
     low, high = C.LOTTERIES[lottery_index]
     first_round = lottery_index * C.BISECTION_STEPS + 1
 
@@ -51,7 +55,7 @@ def bisection_state(player, lottery_index, up_to_step):
 def certainty_equivalent(player: PlayerType, lottery_index: int) -> float:
     low, high = bisection_state(player, lottery_index, C.BISECTION_STEPS)
 
-    return (low + high) / 2
+    return float((low + high) / 2)
 
 
 # PAGES
@@ -181,8 +185,8 @@ def pipeline(session: SessionType) -> list[dict[str, Any]]:
     return rows
 
 
-def digest(session: SessionType) -> dict[str, Any]:
-    data = []
+def digest(session: SessionType) -> list[dict[str, Any]]:
+    data: list[dict[str, Any]] = []
 
     for player in session.players:
         if player.within(app=__name__, round=1).get("prefer_certain") is None:

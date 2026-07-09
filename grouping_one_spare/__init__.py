@@ -25,7 +25,7 @@ class WaitForEveryone(SynchronizingWait):
     synchronize = "session"
 
     @classmethod
-    def all_here(page, session):
+    def all_here(page, session: SessionType) -> None:
         # Get all players and sort alphabetically by name
         all_players = sorted(session.players, key=lambda p: p.name)
         if len(all_players) == 1:

@@ -19,7 +19,7 @@ def new_player(player: PlayerType) -> None:
     watch_for_dropout(player, handle_dropout)
 
 
-async def handle_dropout(player):
+async def handle_dropout(player: PlayerType) -> None:
     player.dropout = True
     move_to_end(player)
 

@@ -13,7 +13,7 @@ import random
 import string
 from io import BytesIO
 
-from pydub import AudioSegment  # type: ignore[import-untyped]
+from pydub import AudioSegment
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -38,7 +38,7 @@ def new_player(player: PlayerType) -> None:
     player.solved = 0
 
 
-def generate_wav(letters: str):
+def generate_wav(letters: str) -> Any:
 
     intermediate = AudioSegment.silent(
         duration=1000
@@ -66,12 +66,12 @@ def generate_word(rng: random.Random) -> str:
 
 class Transcribe(Page):
     @live
-    def ensure_word(page, player):
+    def ensure_word(page, player: PlayerType) -> None:
         if player.get("current_word") is None:
             player.current_word = generate_word(player.rng)
 
     @live
-    def get_audio(page, player):
+    def get_audio(page, player: PlayerType) -> Any:
         buffer = BytesIO()
 
         result = generate_wav(player.current_word)
@@ -80,7 +80,7 @@ class Transcribe(Page):
         return data_uri(buffer.getvalue())
 
     @live
-    def submit_answer(page, player, answer: str):
+    def submit_answer(page, player: PlayerType, answer: str) -> Any:
         """Check the answer and return result."""
         if player.current_word is None:
             return {

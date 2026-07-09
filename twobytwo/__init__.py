@@ -50,7 +50,7 @@ class Decision(Page):
     )
 
 
-def set_payoff(player):
+def set_payoff(player: PlayerType) -> None:
     other = player.other_in_group
     cell = getattr(C, player.choice + other.choice)
     player.payoff = cell[0]

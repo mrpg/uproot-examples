@@ -31,7 +31,7 @@ class Dictate(Page):
 
     @classmethod
     def show(page, player: PlayerType) -> bool:
-        return player.dictator
+        return bool(player.dictator)
 
 
 class Sync(SynchronizingWait):

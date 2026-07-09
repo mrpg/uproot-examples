@@ -26,7 +26,7 @@ class Stream(Page):
     pass
 
 
-async def counter_stream(sname, uname):
+async def counter_stream(sname: str, uname: str) -> Any:
     for _ in range(10):
         await asyncio.sleep(1)
 
@@ -39,7 +39,7 @@ async def counter_stream(sname, uname):
     yield "event: done\ndata: done\n\n"
 
 
-async def api2(session, request):
+async def api2(session: SessionType, request: Any) -> Any:
     uname = request.query_params.get("uname")
 
     if uname not in {player.name for player in session.players}:

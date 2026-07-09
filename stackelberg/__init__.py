@@ -23,19 +23,19 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def leader_units(self):
+    def leader_units(self) -> Any:
         return self.player.group.players.find_one(first_mover=True).units
 
     @property
-    def follower_units(self):
+    def follower_units(self) -> Any:
         return self.player.group.players.find_one(first_mover=False).units
 
     @property
-    def total_units(self):
+    def total_units(self) -> Any:
         return self.leader_units + self.follower_units
 
     @property
-    def price(self):
+    def price(self) -> Any:
         return max(0, 100 - self.total_units)
 
 
@@ -65,7 +65,7 @@ class LeaderDecision(Page):
 
     @classmethod
     def show(page, player: PlayerType) -> bool:
-        return player.first_mover
+        return bool(player.first_mover)
 
 
 class WaitForLeader(SynchronizingWait):

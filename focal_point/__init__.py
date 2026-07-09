@@ -34,7 +34,7 @@ class Claim(Page):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def set_payoff(page, player):
+    def set_payoff(page, player: PlayerType) -> None:
         other = player.other_in_group
 
         if player.claim + other.claim <= 100:

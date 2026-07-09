@@ -30,7 +30,7 @@ class GroupPlease(GroupCreatingWait):
 
 class Watch(Page):
     @live
-    def typed(page, player, s: str):
+    def typed(page, player: PlayerType, s: str) -> None:
         notify(
             player,
             player.others_in_group,

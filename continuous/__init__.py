@@ -18,7 +18,7 @@ DESCRIPTION = "Do something in intervals"
 LANDING_PAGE = False
 
 
-async def increment_state(session):
+async def increment_state(session: SessionType) -> None:
     while True:
         with session:
             session.my_state += 1
@@ -28,7 +28,7 @@ async def increment_state(session):
         await asyncio.sleep(1)
 
 
-async def restart():
+async def restart() -> None:
     with Admin() as admin:
         for session in admin.sessions:
             with session:

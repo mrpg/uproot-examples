@@ -50,9 +50,11 @@ class TreatmentTask(Page):
         }
 
     @classmethod
-    def validate(page, player, data):
+    async def validate(page, player: PlayerType, data: dict[str, Any]) -> str | None:
         if data.get("treatment_code", "").strip().upper() != "BLUE":
             return "The code is BLUE."
+
+        return None
 
 
 class OpenResponse(Page):

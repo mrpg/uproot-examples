@@ -22,15 +22,15 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def sent(self):
+    def sent(self) -> Any:
         return self.player.group.players.find_one(trustor=True).sent
 
     @property
-    def received(self):
+    def received(self) -> Any:
         return self.player.group.players.find_one(trustor=True).sent * C.MULTIPLIER
 
     @property
-    def returned(self):
+    def returned(self) -> Any:
         return self.player.group.players.find_one(trustor=False).returned
 
 
@@ -54,7 +54,7 @@ class Send(Page):
 
     @classmethod
     def show(page, player: PlayerType) -> bool:
-        return player.trustor
+        return bool(player.trustor)
 
 
 class WaitForSend(SynchronizingWait):

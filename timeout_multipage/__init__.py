@@ -29,7 +29,7 @@ class PageWithCustomTimeout(Page):
     def timeout(page, player: PlayerType) -> float:
         from time import time
 
-        return max(0, player.custom_timeout_until - time())
+        return float(max(0, player.custom_timeout_until - time()))
 
     @classmethod
     def timeout_reached(page, player: PlayerType) -> None:

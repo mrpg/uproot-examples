@@ -26,24 +26,24 @@ ONE = Decimal("1")
 ZERO = Decimal("0")
 
 
-def decimal_value(value):
+def decimal_value(value: Any) -> Decimal:
     if isinstance(value, Decimal):
         return value
 
     return Decimal(str(value))
 
 
-def cents_floor(value):
+def cents_floor(value: Any) -> Decimal:
     """Largest cent value that does not exceed value."""
 
     return decimal_value(value).quantize(CENT, rounding=ROUND_FLOOR)
 
 
-def cents_round(value):
+def cents_round(value: Any) -> Decimal:
     return decimal_value(value).quantize(CENT, rounding=ROUND_HALF_UP)
 
 
-def redemption(c):
+def redemption(c: Any) -> Decimal:
     """Redemption value u(c) = 2 sqrt(c)."""
     c = decimal_value(c)
 
@@ -100,7 +100,7 @@ class C:
 # -- Helpers ---------------------------------------------------------------
 
 
-def unit_interval_setting(session, key, default):
+def unit_interval_setting(session: SessionType, key: str, default: float) -> float:
     try:
         value = float(session.settings.get(key, default))
     except (TypeError, ValueError):
@@ -109,7 +109,7 @@ def unit_interval_setting(session, key, default):
     return min(1.0, max(0.0, value))
 
 
-def get_capital(player):
+def get_capital(player: PlayerType) -> Any:
     """Return the player's capital at the start of the current round."""
 
     if player.round == 1:
@@ -120,7 +120,7 @@ def get_capital(player):
     return prev.get("next_capital", C.K_BAR)
 
 
-def get_settings(session):
+def get_settings(session: SessionType) -> dict[str, float]:
     """Read configurable parameters from session settings."""
 
     return {
@@ -130,7 +130,7 @@ def get_settings(session):
     }
 
 
-def get_cumulative_earnings(player):
+def get_cumulative_earnings(player: PlayerType) -> Any:
     """Sum of redemption values from all completed prior rounds."""
 
     if player.round <= 1:
@@ -143,28 +143,28 @@ def get_cumulative_earnings(player):
 
 class Context(PlayerContext):
     @property
-    def capital(self):
+    def capital(self) -> Any:
         return get_capital(self.player)
 
     @property
-    def cumulative_earnings(self):
+    def cumulative_earnings(self) -> Any:
         return get_cumulative_earnings(self.player)
 
     @property
-    def settings(self):
+    def settings(self) -> dict[str, float]:
         return get_settings(self.player.session)
 
 
 # -- Captcha ---------------------------------------------------------------
 
 
-def make_captcha_code():
+def make_captcha_code() -> str:
     r = rng()
 
     return "".join(r.choice(C.CAPTCHA_CHARACTERS) for _ in range(C.CAPTCHA_LENGTH))
 
 
-def captcha_png(code):
+def captcha_png(code: str) -> bytes:
     from random import Random as PyRandom
 
     r = PyRandom(code)
@@ -223,7 +223,7 @@ class LaborTask(Page):
         player.captcha_code = None
 
     @live
-    def new_captcha(page, player):
+    def new_captcha(page, player: PlayerType) -> Any:
         effort = player.get("effort")
 
         if effort is None:
@@ -238,7 +238,7 @@ class LaborTask(Page):
         return {"done": False, "effort": effort}
 
     @live
-    def check_captcha(page, player, answer: str):
+    def check_captcha(page, player: PlayerType, answer: str) -> Any:
         effort = min(max(0, player.get("effort") or 0), C.L_BAR)
 
         if effort >= C.L_BAR:
@@ -266,7 +266,7 @@ class LaborTask(Page):
         return {"correct": False, "done": False, "effort": effort}
 
     @live
-    def set_effort(page, player, effort: int):
+    def set_effort(page, player: PlayerType, effort: int) -> None:
         if not player.session._uproot_simulate:
             return
 
@@ -380,7 +380,7 @@ class RoundResults(Page):
 # -- Captcha image API -----------------------------------------------------
 
 
-async def api2(session, request):
+async def api2(session: SessionType, request: Any) -> Response:
     uname = request.query_params.get("uname")
 
     if uname not in {player.name for player in session.players}:
@@ -402,7 +402,7 @@ async def api2(session, request):
 # -- Data export ------------------------------------------------------------
 
 
-def played_rounds(*players):
+def played_rounds(*players: PlayerType) -> list[int]:
     return sorted(
         {
             round_num
@@ -412,7 +412,7 @@ def played_rounds(*players):
     )
 
 
-def digest(session: SessionType) -> dict[str, Any]:
+def digest(session: SessionType) -> list[Any]:
     data = []
 
     for group in session.groups(app=__name__):

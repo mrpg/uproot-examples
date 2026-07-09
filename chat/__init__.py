@@ -26,7 +26,7 @@ def new_session(session: SessionType) -> None:
 
 # This is just an example of how on_message could be used; it is by no means
 # mandatory or necessary for a working chat. You can safely remove it.
-def on_chat_message(chat, player, message):
+def on_chat_message(chat: Any, player: PlayerType, message: str) -> None:
     print(f"Chat message from {player.name}: {message}")
 
 

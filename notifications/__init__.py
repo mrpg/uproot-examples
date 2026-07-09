@@ -19,7 +19,7 @@ class SendAndReceive(Page):
     allow_back = True
 
     @live
-    def notify_(page, player, data: str, where_: str | None):
+    def notify_(page, player: PlayerType, data: str, where_: str | None) -> None:
         where: int | None | EllipsisType
 
         if where_ is None:

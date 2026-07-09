@@ -36,7 +36,7 @@ class C:
     __export__ = ["NUM_ITEMS", "ITEMS", "BUCKET_LABELS"]
 
 
-def item_field_name(index):
+def item_field_name(index: int) -> str:
     return f"item_{index}"
 
 

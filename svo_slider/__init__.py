@@ -30,7 +30,7 @@ class C:
     NUM_POSITIONS = 9
 
 
-def categorize(angle):
+def categorize(angle: float) -> str:
     if angle > 57.15:
         return "altruistic"
 

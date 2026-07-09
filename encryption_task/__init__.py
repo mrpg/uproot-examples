@@ -76,7 +76,7 @@ class Encryption(Page):
     timeout = C.DURATION
 
     @live
-    def get_puzzle(page, player):
+    def get_puzzle(page, player: PlayerType) -> Any:
         """Get the current puzzle (generates new table/word if needed)."""
         if player.table_letters is None or C.TABLE_MODE == "random":
             # Generate new table
@@ -98,7 +98,7 @@ class Encryption(Page):
         }
 
     @live
-    def submit_answer(page, player, answer: str):
+    def submit_answer(page, player: PlayerType, answer: str) -> Any:
         """Check the answer and return result."""
         if player.solution is None:
             return {"correct": False, "message": "No puzzle loaded"}

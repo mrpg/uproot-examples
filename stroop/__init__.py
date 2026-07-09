@@ -23,7 +23,7 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def results(self):
+    def results(self) -> dict[str, Any]:
         trials = [
             self.player.within(app=__name__, round=round_num)
             for round_num in range(1, C.NUM_TRIALS + C.NUM_TRIALS_NEUTRAL + 1)
@@ -99,7 +99,7 @@ def new_player(player: PlayerType) -> None:
     player.trial_sequence = make_trials()
 
 
-def make_trials():
+def make_trials() -> list[list[Any]]:
     import math
 
     trials = []
@@ -157,18 +157,20 @@ class Stroop(Page):
         elif player.ink_color == "yellow":
             player.hex_color = "#ffcc00"  # "#ffc107"
 
+        return {}
+
     @classmethod
-    def validate(page, player, data):
+    async def validate(page, player: PlayerType, data: dict[str, Any]) -> str | None:
         if data["response"] not in C.COLORS:
             return "Please choose one of the colors."
 
         if data["reaction_time_ms"] < 0:
             return "Reaction time must be non-negative."
 
-        return []
+        return None
 
     @classmethod
-    def before_form_save(page, player, data):
+    def before_form_save(page, player: PlayerType, data: dict[str, Any]) -> None:
         player.correct = data["response"] == player.ink_color
 
 
@@ -176,18 +178,18 @@ class Results(Page):
     pass
 
 
-def percent(numerator, denominator):
+def percent(numerator: int, denominator: int) -> float:
     if denominator == 0:
-        return 0
+        return 0.0
 
     return 100 * numerator / denominator
 
 
-def mean_rt(trials):
+def mean_rt(trials: list[Any]) -> float:
     reaction_times = [float(trial.get("reaction_time_ms")) for trial in trials]
 
     if not reaction_times:
-        return 0
+        return 0.0
 
     return round(sum(reaction_times) / len(reaction_times), 1)
 

@@ -59,10 +59,11 @@ class PageWithTimeLimit(Page):
         }
 
     @classmethod
-    def validate(page, player, data):
+    def validate(page, player: PlayerType, data: dict[str, Any]) -> str | None:
         if data.get("refuse"):
             player.withdrew_consent = True
             move_to_page(player, DropoutInfo)
+        return None
 
 
 class WaitForEveryone(SynchronizingWait):
@@ -132,10 +133,11 @@ class ShowGroup(Page):
         }
 
     @classmethod
-    def validate(page, player, data):
+    def validate(page, player: PlayerType, data: dict[str, Any]) -> str | None:
         if data.get("abort"):
             player.timed_out = True
             player.group.dropped_out = True
+        return None
 
     @classmethod
     def after_once(page, player: PlayerType) -> None:

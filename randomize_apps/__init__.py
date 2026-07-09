@@ -9,9 +9,9 @@
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
 # You MUST import all apps to be randomized:
-import app1  # type: ignore[import-not-found]
-import app2  # type: ignore[import-not-found]
-import app3  # type: ignore[import-not-found]
+import app1
+import app2
+import app3
 from uproot.fields import *
 from uproot.smithereens import *
 

@@ -26,23 +26,23 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def total_contribution(self):
+    def total_contribution(self) -> Any:
         return sum(
             p.contribution for p in self.player.group.players if not p.is_punisher
         )
 
     @property
-    def contributors(self):
+    def contributors(self) -> list[Any]:
         return [p for p in self.player.group.players if not p.is_punisher]
 
     @property
-    def punishment_received(self):
+    def punishment_received(self) -> Any:
         punisher = self.player.group.players.find_one(is_punisher=True)
         key = f"punish_{self.player.member_id}"
         return getattr(punisher, key, cu("0")) * C.PUNISHMENT_RATIO
 
     @property
-    def punishment_spent(self):
+    def punishment_spent(self) -> Any:
         return sum(
             getattr(self.player, f"punish_{p.member_id}", cu("0"))
             for p in self.player.group.players
@@ -71,7 +71,7 @@ class Contribute(Page):
 
     @classmethod
     def show(page, player: PlayerType) -> bool:
-        return not player.is_punisher
+        return bool(not player.is_punisher)
 
 
 class WaitForContributions(SynchronizingWait):
@@ -81,7 +81,7 @@ class WaitForContributions(SynchronizingWait):
 class Punish(Page):
     @classmethod
     def show(page, player: PlayerType) -> bool:
-        return player.is_punisher
+        return bool(player.is_punisher)
 
     @classmethod
     def fields(page, player: PlayerType) -> dict[str, Field]:
@@ -96,10 +96,11 @@ class Punish(Page):
         return result
 
     @classmethod
-    def validate(page, player, data):
+    def validate(page, player: PlayerType, data: dict[str, Any]) -> str | None:
         total = sum(data.values())
         if total > C.PUNISHER_ENDOWMENT:
             return f"Total punishment cost cannot exceed your endowment of {C.PUNISHER_ENDOWMENT}. You allocated {total}."
+        return None
 
 
 class WaitForPunisher(SynchronizingWait):
@@ -132,7 +133,7 @@ class Results(Page):
     pass
 
 
-def digest(session: SessionType) -> dict[str, Any]:
+def digest(session: SessionType) -> list[Any]:
     data = []
 
     for group in session.groups:

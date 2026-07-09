@@ -19,11 +19,11 @@ SUGGESTED_MULTIPLE = 2
 
 class Context(PlayerContext):
     @property
-    def offer(self):
+    def offer(self) -> Any:
         return self.player.group.players.find_one(proposer=True).offer
 
     @property
-    def accepted(self):
+    def accepted(self) -> Any:
         return self.player.group.players.find_one(proposer=False).accept
 
 
@@ -47,7 +47,7 @@ class Propose(Page):
 
     @classmethod
     def show(page, player: PlayerType) -> bool:
-        return player.proposer
+        return bool(player.proposer)
 
 
 class WaitForProposal(SynchronizingWait):

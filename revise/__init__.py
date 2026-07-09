@@ -41,7 +41,7 @@ class Revise(Decision):
 
     @classmethod
     def show(page, player: PlayerType) -> bool:
-        return player.get("revise_round")
+        return bool(player.get("revise_round"))
 
     @classmethod
     def fields(page, player: PlayerType) -> dict[str, Field]:
@@ -53,7 +53,7 @@ class Revise(Decision):
         )
 
     @classmethod
-    def before_form_save(page, player, data):
+    def before_form_save(page, player: PlayerType, data: dict[str, Any]) -> None:
         # This page is shown after all normal rounds are over. Before uproot saves
         # the form, we set player.round to the chosen old round so the new answer
         # is stored as a replacement for that round.
@@ -78,7 +78,7 @@ class Review(Page):
         return dict(round_data=round_data)
 
     @live
-    def revise(page, player, round_num: int):
+    def revise(page, player: PlayerType, round_num: int) -> None:
         if not 1 <= round_num <= C.ROUNDS:
             return
 

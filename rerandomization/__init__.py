@@ -45,7 +45,7 @@ class Wait(SynchronizingWait):
     synchronize = "session"
 
     @classmethod
-    def all_here(page, session):
+    def all_here(page, session: SessionType) -> None:
         players = list(session.players)
         n = len(players)
 

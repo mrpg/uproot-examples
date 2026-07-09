@@ -24,7 +24,7 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def total(self):
+    def total(self) -> Any:
         return sum(p.contribution for p in self.player.group.players)
 
 

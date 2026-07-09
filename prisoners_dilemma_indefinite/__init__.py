@@ -59,7 +59,7 @@ class Results(Page):
     pass
 
 
-def digest(session: SessionType) -> dict[str, Any]:
+def digest(session: SessionType) -> list[Any]:
     data = []
 
     for group in session.groups(app=__name__):
@@ -120,7 +120,7 @@ def pipeline(session: SessionType) -> list[dict[str, Any]]:
     return rows
 
 
-def played_rounds(*players):
+def played_rounds(*players: PlayerType) -> list[Any]:
     return sorted(
         {
             round_num

@@ -30,7 +30,7 @@ class Dilemma(Page):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def set_payoff(page, player):
+    def set_payoff(page, player: PlayerType) -> None:
         other = player.other_in_group
 
         match player.cooperate, other.cooperate:

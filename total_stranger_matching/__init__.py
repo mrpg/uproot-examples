@@ -26,7 +26,9 @@ def new_player(player: PlayerType) -> None:
     player.partner_history = []
 
 
-def find_stranger_groups(players, group_size, used_pairs):
+def find_stranger_groups(
+    players: list[Any], group_size: int, used_pairs: set[frozenset[str]]
+) -> list[list[Any]]:
     n = len(players)
     num_groups = n // group_size
     leftover = n % group_size
@@ -34,9 +36,9 @@ def find_stranger_groups(players, group_size, used_pairs):
     if num_groups == 0:
         return [[p] for p in players]
 
-    solution = None
+    solution: list[list[Any]] | None = None
 
-    def backtrack(idx, groups, sit_out):
+    def backtrack(idx: int, groups: list[list[Any]], sit_out: list[Any]) -> bool:
         nonlocal solution
 
         if idx == n:
@@ -88,7 +90,7 @@ class MatchStrangers(SynchronizingWait):
     synchronize = "session"
 
     @classmethod
-    def all_here(page, session):
+    def all_here(page, session: SessionType) -> None:
         all_players = list(session.players)
         rng().shuffle(all_players)
 

@@ -43,11 +43,11 @@ class TradeEvent(metaclass=um.Entry):
 _exchanges: dict[str, Exchange] = {}
 
 
-def _exchange_key(session):
+def _exchange_key(session: SessionType) -> str:
     return str(session.book_model)
 
 
-def reconstruct_exchange(session) -> Exchange:
+def reconstruct_exchange(session: SessionType) -> Exchange:
     exchange = Exchange()
 
     if session.get("book_model") is None:
@@ -94,7 +94,7 @@ def reconstruct_exchange(session) -> Exchange:
     return exchange
 
 
-def get_exchange(session) -> Exchange:
+def get_exchange(session: SessionType) -> Exchange:
     key = _exchange_key(session)
     if key not in _exchanges:
         _exchanges[key] = reconstruct_exchange(session)
@@ -106,12 +106,18 @@ def new_session(session: SessionType) -> None:
     session.trade_model = um.create_model(session, tag="trade_events")
 
 
-def store_book_changes(session, player, before_orders, after_orders, trades):
+def store_book_changes(
+    session: SessionType,
+    player: PlayerType,
+    before_orders: dict[str, Any],
+    after_orders: dict[str, Any],
+    trades: list[Any],
+) -> None:
     for oid in set(before_orders) - set(after_orders):
         o = before_orders[oid]
         um.add_entry(
             session.book_model,
-            player,
+            cast(PlayerIdentifier, player),
             BookEvent,
             action="remove",
             order_id=o.id,
@@ -127,7 +133,7 @@ def store_book_changes(session, player, before_orders, after_orders, trades):
             o = after_orders[oid]
             um.add_entry(
                 session.book_model,
-                player,
+                cast(PlayerIdentifier, player),
                 BookEvent,
                 action="update",
                 order_id=o.id,
@@ -142,7 +148,7 @@ def store_book_changes(session, player, before_orders, after_orders, trades):
         o = after_orders[oid]
         um.add_entry(
             session.book_model,
-            player,
+            cast(PlayerIdentifier, player),
             BookEvent,
             action="add",
             order_id=o.id,
@@ -156,7 +162,7 @@ def store_book_changes(session, player, before_orders, after_orders, trades):
     for trade in trades:
         um.add_entry(
             session.trade_model,
-            player,
+            cast(PlayerIdentifier, player),
             TradeEvent,
             buyer=trade.buyer,
             seller=trade.seller,
@@ -166,7 +172,7 @@ def store_book_changes(session, player, before_orders, after_orders, trades):
         )
 
 
-def update_portfolios(session, trades):
+def update_portfolios(session: SessionType, trades: list[Any]) -> None:
     players_by_name = {p.name: p for p in session.players}
     for trade in trades:
         amount = trade.price * trade.quantity
@@ -180,7 +186,7 @@ def update_portfolios(session, trades):
             seller.stock = int(seller.get("stock") or 0) - int(trade.quantity)
 
 
-def get_book_snapshot(exchange):
+def get_book_snapshot(exchange: Exchange) -> dict[str, Any]:
     asks: dict[str, dict[str, Any]] = {}
     for order in exchange.asks:
         p = str(order.price)
@@ -203,7 +209,7 @@ def get_book_snapshot(exchange):
     }
 
 
-def get_player_orders(exchange, player_name):
+def get_player_orders(exchange: Exchange, player_name: str) -> list[dict[str, Any]]:
     orders = []
     for oid, order in exchange.orders.items():
         if order.user == player_name:
@@ -218,7 +224,7 @@ def get_player_orders(exchange, player_name):
     return orders
 
 
-def get_recent_trades(exchange, limit=50):
+def get_recent_trades(exchange: Exchange, limit: int = 50) -> list[dict[str, Any]]:
     trades = []
     for trade in exchange.trades[-limit:]:
         trades.append(
@@ -230,7 +236,9 @@ def get_recent_trades(exchange, limit=50):
     return trades
 
 
-def broadcast_update(player, session, exchange):
+def broadcast_update(
+    player: PlayerType, session: SessionType, exchange: Exchange
+) -> None:
     book = get_book_snapshot(exchange)
     trades = get_recent_trades(exchange)
     notify(
@@ -250,7 +258,7 @@ class Trading(Page):
             player.stock = 0
 
     @live
-    def get_state(page, player):
+    def get_state(page, player: PlayerType) -> Any:
         exchange = get_exchange(player.session)
         book = get_book_snapshot(exchange)
         trades = get_recent_trades(exchange)
@@ -266,12 +274,12 @@ class Trading(Page):
     @live
     def submit_order(
         page,
-        player,
+        player: PlayerType,
         order_type: str,
         side: str,
         price: Optional[str],
         quantity: int,
-    ):
+    ) -> Any:
         if order_type not in ("limit", "market"):
             raise ValueError("order_type must be 'limit' or 'market'")
         if side not in ("buy", "sell"):
@@ -323,7 +331,7 @@ class Trading(Page):
         }
 
     @live
-    def cancel_order(page, player, order_id: str):
+    def cancel_order(page, player: PlayerType, order_id: str) -> Any:
         session = player.session
         exchange = get_exchange(session)
 

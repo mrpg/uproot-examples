@@ -74,7 +74,7 @@ class C:
 # up from both Python and JavaScript.
 
 
-def item_field_name(index):
+def item_field_name(index: int) -> str:
     """Return the form field name for item at the given index."""
     return f"item_{index}"
 

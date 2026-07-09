@@ -25,15 +25,15 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def wage(self):
+    def wage(self) -> Any:
         return self.player.group.players.find_one(employer=True).wage
 
     @property
-    def effort(self):
+    def effort(self) -> Any:
         return self.player.group.players.find_one(employer=False).effort
 
     @property
-    def effort_cost(self):
+    def effort_cost(self) -> Any:
         return (
             C.EFFORT_COST_MULTIPLIER
             * self.player.group.players.find_one(employer=False).effort
@@ -60,7 +60,7 @@ class SetWage(Page):
 
     @classmethod
     def show(page, player: PlayerType) -> bool:
-        return player.employer
+        return bool(player.employer)
 
 
 class WaitForWage(SynchronizingWait):
@@ -79,7 +79,7 @@ class ChooseEffort(Page):
 
     @classmethod
     def show(page, player: PlayerType) -> bool:
-        return not player.employer
+        return bool(not player.employer)
 
 
 class Sync(SynchronizingWait):
