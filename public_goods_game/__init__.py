@@ -24,7 +24,7 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def total(self):
+    def total(self) -> Any:
         return sum(p.contribution for p in self.player.group.players)
 
 
@@ -44,7 +44,7 @@ class Contribute(Page):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         total = sum(p.contribution for p in group.players)
 
         for player in group.players:
@@ -55,7 +55,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

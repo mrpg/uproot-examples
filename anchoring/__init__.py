@@ -25,7 +25,7 @@ class C:
 
 class AssignTreatment(NoshowPage):
     @classmethod
-    def after_always_once(page, player):
+    def after_always_once(page, player: PlayerType) -> None:
         counts = Counter(
             player.session.players.apply(
                 lambda p: p.get("treatment"),
@@ -39,7 +39,7 @@ class AssignTreatment(NoshowPage):
 
 class Estimate(Page):
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         anchor = fmtnum(C.ANCHORS[player.treatment], post="\xa0km", places=0)
 
         return {
@@ -64,7 +64,7 @@ class Results(Page):
     pass
 
 
-def digest(session):
+def digest(session: SessionType) -> dict[str, Any]:
     data = []
     estimates_by_treatment: dict[str, list[float]] = {
         treatment: [] for treatment in C.TREATMENTS
@@ -103,7 +103,7 @@ def digest(session):
     return {"data": data, "medians": medians}
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for player in session.players:

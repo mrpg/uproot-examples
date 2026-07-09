@@ -30,7 +30,7 @@ class Dilemma(Page):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def set_payoff(page, player):
+    def set_payoff(page, player: PlayerType) -> None:
         other = player.other_in_group
 
         match player.cooperate, other.cooperate:
@@ -44,7 +44,7 @@ class Sync(SynchronizingWait):
                 player.payoff = 3
 
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         group.players.apply(page.set_payoff)
 
 
@@ -52,7 +52,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

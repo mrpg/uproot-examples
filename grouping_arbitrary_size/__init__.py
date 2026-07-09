@@ -31,7 +31,7 @@ class C:
 # FUNCTIONS
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     """Initialize variables."""
 
     player.grouped = False
@@ -44,21 +44,21 @@ def new_player(player):
 
 class PageWithTimeout(Page):
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         return 60
 
     @classmethod
-    def timeout_reached(page, player):
+    def timeout_reached(page, player: PlayerType) -> None:
         player.timed_out = True
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "abort": BooleanField(label="Abort after this page."),
         }
 
     @classmethod
-    def validate(page, player, data):
+    async def validate(page, player: PlayerType, data: dict[str, Any]) -> str | None:
         if data.get("abort"):
             player.timed_out = True
             player.withdrew_consent = True
@@ -71,11 +71,11 @@ class WaitForEveryone(SynchronizingWait):
     synchronize = "session"
 
     @classmethod
-    def show(page, player):
-        return not player.timed_out
+    async def show(page, player: PlayerType) -> bool:
+        return bool(not player.timed_out)
 
     @classmethod
-    def all_here(page, session):
+    def all_here(page, session: SessionType) -> None:
         # Get all players who haven't timed out, and sort alphabetically by name
         players_not_timed_out = [p for p in session.players if not p.timed_out]
         all_players = sorted(players_not_timed_out, key=lambda p: p.name)
@@ -96,40 +96,42 @@ class WaitForEveryone(SynchronizingWait):
 
 class TimedOutBeforeGrouping(Page):
     @classmethod
-    def show(page, player):
-        return player.timed_out
+    async def show(page, player: PlayerType) -> bool:
+        return bool(player.timed_out)
 
     @classmethod
-    def after_once(page, player):
+    def after_once(page, player: PlayerType) -> None:
         move_to_end(player)
 
 
 class NoGroupAssigned(Page):
     @classmethod
-    def show(page, player):
-        return not player.grouped
+    async def show(page, player: PlayerType) -> bool:
+        return bool(not player.grouped)
 
     @classmethod
-    def after_once(page, player):
+    def after_once(page, player: PlayerType) -> None:
         move_to_end(player)
 
 
 class ShowGroup(Page):
     @classmethod
-    def show(page, player):
-        return player.grouped and not player.timed_out and not player.group.dropped_out
+    async def show(page, player: PlayerType) -> bool:
+        return bool(
+            player.grouped and not player.timed_out and not player.group.dropped_out
+        )
 
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         return 45
 
     @classmethod
-    def timeout_reached(page, player):
+    def timeout_reached(page, player: PlayerType) -> None:
         player.timed_out = True
         player.group.dropped_out = True
 
     @classmethod
-    def templatevars(page, player):
+    def templatevars(page, player: PlayerType) -> dict[str, Any]:
         num_groups = 0
         if player.group:
             group_members = sorted(player.group.players, key=lambda p: p.name)
@@ -149,13 +151,13 @@ class ShowGroup(Page):
         )
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "abort": BooleanField(label="Abort after this page."),
         }
 
     @classmethod
-    def validate(page, player, data):
+    async def validate(page, player: PlayerType, data: dict[str, Any]) -> str | None:
         if data.get("abort"):
             player.timed_out = True
             player.group.dropped_out = True
@@ -166,24 +168,26 @@ class ShowGroup(Page):
 
 class KeepGroupInSync(SynchronizingWait):
     @classmethod
-    def show(page, player):
-        return player.grouped
+    async def show(page, player: PlayerType) -> bool:
+        return bool(player.grouped)
 
 
 class TimedOutGroupPhase(Page):
     @classmethod
-    def show(page, player):
-        return player.grouped and (player.timed_out or player.group.dropped_out)
+    async def show(page, player: PlayerType) -> bool:
+        return bool(player.grouped and (player.timed_out or player.group.dropped_out))
 
     @classmethod
-    def after_once(page, player):
+    def after_once(page, player: PlayerType) -> None:
         move_to_end(player)
 
 
 class AllGood(Page):
     @classmethod
-    def show(page, player):
-        return player.grouped and not player.timed_out and not player.group.dropped_out
+    async def show(page, player: PlayerType) -> bool:
+        return bool(
+            player.grouped and not player.timed_out and not player.group.dropped_out
+        )
 
 
 # PAGE ORDER

@@ -25,15 +25,15 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def wage(self):
+    def wage(self) -> Any:
         return self.player.group.players.find_one(employer=True).wage
 
     @property
-    def effort(self):
+    def effort(self) -> Any:
         return self.player.group.players.find_one(employer=False).effort
 
     @property
-    def effort_cost(self):
+    def effort_cost(self) -> Any:
         return (
             C.EFFORT_COST_MULTIPLIER
             * self.player.group.players.find_one(employer=False).effort
@@ -44,7 +44,7 @@ class GroupPlease(GroupCreatingWait):
     group_size = 2
 
     @classmethod
-    def after_grouping(page, group):
+    def after_grouping(page, group: GroupType) -> None:
         for player, is_employer in zip(group.players, [True, False]):
             player.employer = is_employer
 
@@ -59,8 +59,8 @@ class SetWage(Page):
     )
 
     @classmethod
-    def show(page, player):
-        return player.employer
+    def show(page, player: PlayerType) -> bool:
+        return bool(player.employer)
 
 
 class WaitForWage(SynchronizingWait):
@@ -78,13 +78,13 @@ class ChooseEffort(Page):
     )
 
     @classmethod
-    def show(page, player):
-        return not player.employer
+    def show(page, player: PlayerType) -> bool:
+        return bool(not player.employer)
 
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         employer = group.players.find_one(employer=True)
         worker = group.players.find_one(employer=False)
 
@@ -101,7 +101,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

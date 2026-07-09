@@ -17,7 +17,7 @@ LANDING_PAGE = False
 
 class InitializeTimeout(NoshowPage):
     @classmethod
-    def after_always_once(page, player):
+    def after_always_once(page, player: PlayerType) -> None:
         from time import time
 
         player.custom_timeout_until = time() + C.TOTAL_TIMEOUT
@@ -26,13 +26,13 @@ class InitializeTimeout(NoshowPage):
 
 class PageWithCustomTimeout(Page):
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         from time import time
 
-        return max(0, player.custom_timeout_until - time())
+        return float(max(0, player.custom_timeout_until - time()))
 
     @classmethod
-    def timeout_reached(page, player):
+    def timeout_reached(page, player: PlayerType) -> None:
         if not player.failed:
             player.failed = True
 

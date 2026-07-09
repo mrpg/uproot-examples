@@ -14,12 +14,12 @@ from uproot.types import Page
 DESCRIPTION = "Watching for dropouts in uproot"
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.dropout = False
     watch_for_dropout(player, handle_dropout)
 
 
-async def handle_dropout(player):
+async def handle_dropout(player: PlayerType) -> None:
     player.dropout = True
     move_to_end(player)
 

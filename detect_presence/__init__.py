@@ -23,7 +23,7 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def present(self):
+    def present(self) -> list[Any]:
         return [p for p in self.player.session.players if p.get("present", False)]
 
 
@@ -33,39 +33,40 @@ class RaiseHands(Page):
     # You do not need to manually invoke RaiseHands.reset_session, however.
 
     @classmethod
-    def reset_session(page, player):
+    def reset_session(page, player: PlayerType) -> None:
         for p in player.session.players:
             p.present = False
 
     @classmethod
-    def ensure_detection(page, player):
+    def ensure_detection(page, player: PlayerType) -> None:
         if player.session.get("detection_period_until") is None:
             # This player was here first
             player.session.detection_period_until = now() + C.DETECTION_PERIOD
             page.reset_session(player)
 
     @classmethod
-    def show(page, player):
-        return player.session.get(
-            "detection_period_until"
-        ) is None or not page.may_proceed(player)
+    def show(page, player: PlayerType) -> bool:
+        return bool(
+            player.session.get("detection_period_until") is None
+            or not page.may_proceed(player)
+        )
 
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         page.ensure_detection(player)
 
-        return player.session.detection_period_until - now()
+        return float(player.session.detection_period_until - now())
 
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         page.ensure_detection(player)
 
     @classmethod
-    def may_proceed(page, player):
-        return now() >= player.session.detection_period_until
+    def may_proceed(page, player: PlayerType) -> bool:
+        return bool(now() >= player.session.detection_period_until)
 
     @live
-    def set_presence(page, player, new_value: bool):
+    def set_presence(page, player: PlayerType, new_value: bool) -> Any:
         if player.get("present", False):
             return True
 
@@ -88,21 +89,21 @@ class WaitForPresent(SynchronizingWait):
     synchronize = "session"
 
     @classmethod
-    def wait_for(page, player):
+    def wait_for(page, player: PlayerType) -> list[Any]:
         # If you define wait_for, it should return a list of PlayerIdentifiers,
         # NOT Players. This explains the use of identify(), which converts
         # Players to PlayerIdentifiers.
         return [identify(p) for p in player.context.present]
 
     @classmethod
-    async def show(page, player):
+    async def show(page, player: PlayerType) -> bool:
         if not player.get("present", False):
             return False
 
         return not await page.may_proceed(player)
 
     @classmethod
-    def all_here(page, session):
+    def all_here(page, session: SessionType) -> None:
         present = [p for p in session.players if p.get("present", False)]
         session.presence_group = create_group(session, present)
 

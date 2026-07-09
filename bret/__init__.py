@@ -33,7 +33,7 @@ class Choose(Page):
     )
 
     @classmethod
-    def after_once(page, player):
+    def after_once(page, player: PlayerType) -> None:
         player.bomb_position = rng().randint(1, C.NUM_BOXES)
         player.exploded = player.bomb_position <= player.collected
         player.payoff = cu(0) if player.exploded else cu(C.BOX_VALUE * player.collected)
@@ -43,7 +43,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for player in session.players:

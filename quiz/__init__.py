@@ -42,11 +42,11 @@ QUIZ = [
 ]
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.quiz_bad_attempts = 0
 
 
-def shuffled(iterable, *, seed=None):
+def shuffled(iterable: list[Any], *, seed: int | None = None) -> list[Any]:
     from random import Random
 
     result = list(iterable)
@@ -63,7 +63,7 @@ class Quiz(Page):
     stealth_fields = [f"q{i}" for i, _ in enumerate(QUIZ)]
 
     @classmethod
-    async def fields(page, player):
+    async def fields(page, player: PlayerType) -> dict[str, Field]:
         from uproot.types import sha256
 
         return {
@@ -81,7 +81,9 @@ class Quiz(Page):
         }
 
     @classmethod
-    async def handle_stealth_fields(page, player, data):
+    async def handle_stealth_fields(
+        page, player: PlayerType, data: dict[str, Any]
+    ) -> str | None:
         # This method was written in a highly verbose style so that
         # you can add custom logic by adapting the algorithm.
 
@@ -102,6 +104,8 @@ class Quiz(Page):
             player.quiz_bad_attempts += 1  # Add 1 to player's own counter
 
             return "Please try again."
+
+        return None
 
 
 page_order = [

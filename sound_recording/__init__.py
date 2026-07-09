@@ -30,7 +30,9 @@ class Record(Page):
     )
 
     @classmethod
-    async def handle_stealth_fields(page, player, data):
+    async def handle_stealth_fields(
+        page, player: PlayerType, data: dict[str, Any]
+    ) -> None:
         audio = data["audio"]
         contents = await audio.read()
 
@@ -45,7 +47,7 @@ class Playback(Page):
     allow_back = True
 
     @classmethod
-    async def templatevars(page, player):
+    async def templatevars(page, player: PlayerType) -> dict[str, Any]:
         return dict(
             audio_src=data_uri(player.audio),
         )

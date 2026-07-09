@@ -22,15 +22,15 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def sent(self):
+    def sent(self) -> Any:
         return self.player.group.players.find_one(trustor=True).sent
 
     @property
-    def received(self):
+    def received(self) -> Any:
         return self.player.group.players.find_one(trustor=True).sent * C.MULTIPLIER
 
     @property
-    def returned(self):
+    def returned(self) -> Any:
         return self.player.group.players.find_one(trustor=False).returned
 
 
@@ -38,7 +38,7 @@ class GroupPlease(GroupCreatingWait):
     group_size = 2
 
     @classmethod
-    def after_grouping(page, group):
+    def after_grouping(page, group: GroupType) -> None:
         for player, is_trustor in zip(group.players, [True, False]):
             player.trustor = is_trustor
 
@@ -53,8 +53,8 @@ class Send(Page):
     )
 
     @classmethod
-    def show(page, player):
-        return player.trustor
+    def show(page, player: PlayerType) -> bool:
+        return bool(player.trustor)
 
 
 class WaitForSend(SynchronizingWait):
@@ -63,11 +63,11 @@ class WaitForSend(SynchronizingWait):
 
 class Return(Page):
     @classmethod
-    def show(page, player):
+    def show(page, player: PlayerType) -> bool:
         return not player.trustor
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         trustor = player.group.players.find_one(trustor=True)
         received = trustor.sent * C.MULTIPLIER
         return dict(
@@ -81,7 +81,7 @@ class Return(Page):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         trustor = group.players.find_one(trustor=True)
         trustee = group.players.find_one(trustor=False)
 
@@ -95,7 +95,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

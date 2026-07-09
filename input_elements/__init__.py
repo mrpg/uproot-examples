@@ -9,7 +9,7 @@
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
 
-import wtforms  # type: ignore[import-untyped]
+import wtforms
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -36,7 +36,7 @@ class ExampleInputsUprootFields(Page):
     """
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "boolean_field": BooleanField(
                 description="Description for the <code class='text-black-50'>BooleanField</code>.",
@@ -351,7 +351,7 @@ class ExampleInputsWTForms(Page):
     """Examples of input fields provided by WTForms."""
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "boolean_field": wtforms.BooleanField(
                 description=safe(

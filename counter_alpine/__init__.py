@@ -13,22 +13,22 @@ from uproot.smithereens import *
 DESCRIPTION = "Counter (uses Alpine.js on frontend)"
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.counter = 0
 
 
 class Counter(Page):
     @live
-    def get(page, player):
-        return player.counter
+    def get(page, player: PlayerType) -> int:
+        return cast(int, player.counter)
 
     @live
-    def increment(page, player):
+    def increment(page, player: PlayerType) -> int:
         player.counter += 1
-        return player.counter
+        return cast(int, player.counter)
 
     @live
-    def reset(page, player):
+    def reset(page, player: PlayerType) -> None:
         player.counter = 0
 
 

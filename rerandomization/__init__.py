@@ -45,7 +45,7 @@ class Wait(SynchronizingWait):
     synchronize = "session"
 
     @classmethod
-    def all_here(page, session):
+    def all_here(page, session: SessionType) -> None:
         players = list(session.players)
         n = len(players)
 
@@ -84,7 +84,7 @@ class Results(Page):
     pass
 
 
-def digest(session):
+def digest(session: SessionType) -> dict[str, Any]:
     by_treatment: dict[str, dict[str, list[float]]] = {
         t: {"ages": [], "econs": []} for t in C.TREATMENTS
     }

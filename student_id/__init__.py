@@ -26,9 +26,10 @@ class EnterID(Page):
     )
 
     @classmethod
-    def validate(page, player, data):
+    async def validate(page, player: PlayerType, data: dict[str, Any]) -> str | None:
         if data["student_id"] != data["student_id2"]:
             return "Student IDs don’t match."
+        return None
 
 
 class Verification(Page):

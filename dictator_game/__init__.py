@@ -19,7 +19,7 @@ class GroupPlease(GroupCreatingWait):
     group_size = 2
 
     @classmethod
-    def after_grouping(page, group):
+    def after_grouping(page, group: GroupType) -> None:
         for player, is_dictator in zip(group.players, [True, False]):
             player.dictator = is_dictator
 
@@ -30,13 +30,13 @@ class Dictate(Page):
     )
 
     @classmethod
-    def show(page, player):
-        return player.dictator
+    def show(page, player: PlayerType) -> bool:
+        return bool(player.dictator)
 
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         dictator = group.players.find_one(dictator=True)
         recipient = group.players.find_one(dictator=False)
 
@@ -48,7 +48,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

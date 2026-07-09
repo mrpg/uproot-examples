@@ -43,7 +43,7 @@ class Dilemma(Page):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         prob = group.session.settings.get(
             "continuation_prob", C.DEFAULT_CONTINUATION_PROB
         )
@@ -59,7 +59,7 @@ class Results(Page):
     pass
 
 
-def digest(session):
+def digest(session: SessionType) -> list[Any]:
     data = []
 
     for group in session.groups(app=__name__):
@@ -89,7 +89,7 @@ def digest(session):
     return data
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):
@@ -120,7 +120,7 @@ def pipeline(session):
     return rows
 
 
-def played_rounds(*players):
+def played_rounds(*players: PlayerType) -> list[Any]:
     return sorted(
         {
             round_num

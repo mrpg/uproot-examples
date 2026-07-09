@@ -35,12 +35,12 @@ class Stroke(metaclass=um.Entry):
     lineWidth: int
 
 
-def new_session(session):
+def new_session(session: SessionType) -> None:
     """Initialize session with strokes model"""
     session.strokes = um.create_model(session, tag="strokes")
 
 
-def get_all_strokes(strokes_model):
+def get_all_strokes(strokes_model: ModelIdentifier) -> list[dict[str, Any]]:
     """
     Retrieve all strokes from the model
 
@@ -62,7 +62,7 @@ def get_all_strokes(strokes_model):
     return strokes
 
 
-def generate_visible_hex():
+def generate_visible_hex() -> str:
     color_rng = rng()
     hue = color_rng.random()
     saturation = color_rng.random()
@@ -74,22 +74,24 @@ def generate_visible_hex():
     )
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.color = generate_visible_hex()
 
 
 class Draw(Page):
     @classmethod
-    async def jsvars(page, player):
+    async def jsvars(page, player: PlayerType) -> dict[str, Any]:
         return dict(
             color=player.color,
             strokes=get_all_strokes(player.session.strokes),
         )
 
     @live
-    def stroke(page, player, points: list[dict[str, Any]], lineWidth: int, **kwargs):
+    def stroke(
+        page, player: PlayerType, points: list[dict[str, Any]], lineWidth: int
+    ) -> None:
         # Save stroke to the model
-        um.add_entry(
+        um.auto_add_entry(
             player.session.strokes,
             player,
             Stroke,

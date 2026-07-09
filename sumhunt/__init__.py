@@ -30,7 +30,7 @@ class C:
     __export__ = ["GRID", "TERMS"]
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.matrix = None
     player.solutions = 0
     player.rng = random.Random(C.SEED)
@@ -105,7 +105,7 @@ class Sumhunt(Page):
     timeout = 120
 
     @live
-    def get_matrix(page, player):
+    def get_matrix(page, player: PlayerType) -> Any:
         if player.matrix is None:
             player.matrix = generate_matrix(
                 player.rng,
@@ -119,7 +119,7 @@ class Sumhunt(Page):
         return player.matrix
 
     @live
-    def propose_solution(page, player, solution: list[int]):
+    def propose_solution(page, player: PlayerType, solution: list[int]) -> Any:
         if (
             player.matrix is not None
             and len(solution) == C.TERMS

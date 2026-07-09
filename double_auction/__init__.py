@@ -48,15 +48,15 @@ class C:
     DEFAULT_SELLER_CAN_OFFER = True
 
 
-def is_integer(value):
+def is_integer(value: Any) -> bool:
     return isinstance(value, int) and not isinstance(value, bool)
 
 
-def get_setting(session, key):
+def get_setting(session: SessionType, key: str) -> Any:
     return session.settings.get(key, getattr(C, "DEFAULT_" + key.upper()))
 
 
-def get_tax(session, key, round_num) -> int:
+def get_tax(session: SessionType, key: str, round_num: int) -> int:
     """Get tax for a specific round. key is 'buyer_tax' or 'seller_tax'."""
     val = get_setting(session, key)
 
@@ -100,7 +100,7 @@ class Transaction(metaclass=um.Entry):
     proposer: Optional[PlayerIdentifier] = None
 
 
-def new_session(session):
+def new_session(session: SessionType) -> None:
     """Initialize session with offer book and transaction ledger models"""
     num_rounds = get_setting(session, "num_rounds")
     duration = get_setting(session, "duration")
@@ -157,38 +157,38 @@ def new_session(session):
 
 class Context(PlayerContext):
     @property
-    def present(self):
+    def present(self) -> list[Any]:
         return [p for p in self.player.session.players if p.present]
 
 
 class RaiseHands(Page):
     @classmethod
-    def reset_session(page, player):
+    def reset_session(page, player: PlayerType) -> None:
         for p in player.session.players:
             p.present = False
 
     @classmethod
-    def ensure_detection(page, player):
+    def ensure_detection(page, player: PlayerType) -> None:
         if player.session.get("detection_period_until") is None:
             player.session.detection_period_until = time() + C.DETECTION_PERIOD
             page.reset_session(player)
 
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         page.ensure_detection(player)
 
-        return player.session.detection_period_until - time()
+        return float(player.session.detection_period_until - time())
 
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         page.ensure_detection(player)
 
     @classmethod
-    def may_proceed(page, player):
-        return time() >= player.session.detection_period_until
+    def may_proceed(page, player: PlayerType) -> bool:
+        return bool(time() >= player.session.detection_period_until)
 
     @live
-    def set_presence(page, player, new_value: bool):
+    def set_presence(page, player: PlayerType, new_value: bool) -> Any:
         player.present = new_value
 
         return new_value
@@ -196,7 +196,7 @@ class RaiseHands(Page):
 
 class Assignment(NoshowPage):
     @classmethod
-    def after_always_once(page, player):
+    def after_always_once(page, player: PlayerType) -> None:
         if not player.present:
             return
 
@@ -239,8 +239,8 @@ class Assignment(NoshowPage):
 
 
 def market_data(
-    offers_model,
-    txs_model,
+    offers_model: Any,
+    txs_model: Any,
     round: int,
 ) -> dict[str, list[dict[str, Any]]]:
     """
@@ -260,7 +260,7 @@ def market_data(
     traded_players = players_traded_in_round(txs_model, round)
 
     # Map each player to their latest offer (last one wins)
-    player_offers = {}
+    player_offers: dict[PlayerIdentifier, tuple[UUID, bool, Optional[int]]] = {}
 
     for entry_id, _, entry in um.filter_entries(offers_model, Offer, round=round):
         player_offers[entry.pid] = (entry_id, entry.buy, entry.price)
@@ -286,7 +286,7 @@ def market_data(
 
 
 def calculate_profit(
-    player,
+    player: PlayerType,
     price: int,
     round_num: int,
 ) -> int:
@@ -306,8 +306,8 @@ def calculate_profit(
 
 
 def player_active_offer(
-    offers_model,
-    txs_model,
+    offers_model: Any,
+    txs_model: Any,
     round: int,
     pid: PlayerIdentifier,
     *,
@@ -344,7 +344,7 @@ def transaction_players(transaction: Transaction) -> tuple[PlayerIdentifier, ...
     return (transaction.acceptor,)
 
 
-def players_traded_in_round(txs_model, round: int) -> set[PlayerIdentifier]:
+def players_traded_in_round(txs_model: Any, round: int) -> set[PlayerIdentifier]:
     traded: set[PlayerIdentifier] = set()
 
     for _, _, transaction in um.filter_entries(txs_model, Transaction, round=round):
@@ -354,7 +354,7 @@ def players_traded_in_round(txs_model, round: int) -> set[PlayerIdentifier]:
 
 
 def player_transaction_id(
-    txs_model, round: int, pid: PlayerIdentifier
+    txs_model: Any, round: int, pid: PlayerIdentifier
 ) -> Optional[UUID]:
     result = player_transaction(txs_model, round, pid)
 
@@ -362,7 +362,7 @@ def player_transaction_id(
 
 
 def player_transaction(
-    txs_model,
+    txs_model: Any,
     round: int,
     pid: PlayerIdentifier,
 ) -> Optional[tuple[UUID, Transaction]]:
@@ -373,7 +373,7 @@ def player_transaction(
     return None
 
 
-def player_has_traded(txs_model, round: int, pid: PlayerIdentifier) -> bool:
+def player_has_traded(txs_model: Any, round: int, pid: PlayerIdentifier) -> bool:
     for _, _, transaction in um.filter_entries(txs_model, Transaction, round=round):
         if pid in transaction_players(transaction):
             return True
@@ -381,7 +381,7 @@ def player_has_traded(txs_model, round: int, pid: PlayerIdentifier) -> bool:
     return False
 
 
-def player_profit_from_ledger(player) -> Optional[int]:
+def player_profit_from_ledger(player: PlayerType) -> Optional[int]:
     result = player_transaction(player.session.txs, player.round, player.pid)
 
     if result is None:
@@ -392,7 +392,7 @@ def player_profit_from_ledger(player) -> Optional[int]:
     return calculate_profit(player, transaction.price, player.round)
 
 
-def ensure_trading_open(player):
+def ensure_trading_open(player: PlayerType) -> None:
     """Start or verify the shared round timer, then reject stale live calls."""
     session = player.session
     now = time()
@@ -409,12 +409,12 @@ def ensure_trading_open(player):
 
 
 def broadcast_market_diff(
-    sender,
-    session,
+    sender: PlayerType,
+    session: SessionType,
     remove: list[UUID],
     add: list[dict[str, Any]],
     txs: list[dict[str, Any]],
-):
+) -> None:
     """Send a minimal market diff to all participants."""
     notify(
         sender,
@@ -425,8 +425,8 @@ def broadcast_market_diff(
 
 
 def create_offer_entry(
-    session,
-    player,
+    session: SessionType,
+    player: PlayerType | PlayerIdentifier,
     round: int,
     is_buy: bool,
     price: Optional[int],
@@ -434,7 +434,7 @@ def create_offer_entry(
     """Helper to create and store an offer, returns the entry UUID"""
     return um.add_entry(
         session.offers,
-        player,
+        cast(PlayerIdentifier, player),
         Offer,
         round=round,
         buy=is_buy,
@@ -450,16 +450,16 @@ class Instructions(Page):
     """
 
     @classmethod
-    def show(page, player):
-        return player.present
+    def show(page, player: PlayerType) -> bool:
+        return bool(player.present)
 
 
 class RoundInfo(Page):
     """Round-specific information shown at the start of each trading round."""
 
     @classmethod
-    def show(page, player):
-        return player.present
+    def show(page, player: PlayerType) -> bool:
+        return bool(player.present)
 
 
 class Trade(Page):
@@ -472,17 +472,17 @@ class Trade(Page):
     """
 
     @classmethod
-    def show(page, player):
-        return player.present
+    def show(page, player: PlayerType) -> bool:
+        return bool(player.present)
 
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         player.offer = None
         player.trade = None
         player.profit = 0
 
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         session = player.session
 
         if (
@@ -492,10 +492,10 @@ class Trade(Page):
             session.trade_until = time() + get_setting(session, "duration")
             session.trade_round = player.round
 
-        return session.trade_until - time()
+        return float(session.trade_until - time())
 
     @classmethod
-    async def jsvars(page, player):
+    async def jsvars(page, player: PlayerType) -> dict[str, Any]:
         can_offer_key = "buyer_can_offer" if player.buyer else "seller_can_offer"
         can_offer = get_setting(player.session, can_offer_key)
 
@@ -520,11 +520,11 @@ class Trade(Page):
         return dict(offer_amount=offer.price, can_offer=can_offer)
 
     @live
-    def get_market(page, player):
+    def get_market(page, player: PlayerType) -> dict[str, list[dict[str, Any]]]:
         return market_data(player.session.offers, player.session.txs, player.round)
 
     @live
-    def make_offer(page, player, amount: Optional[int]):
+    def make_offer(page, player: PlayerType, amount: Optional[int]) -> Optional[int]:
         """
         Submit a new bid (buyers) or ask (sellers) to the market
 
@@ -555,18 +555,15 @@ class Trade(Page):
                 raise ValueError(f"Bad amount: {amount}")
 
             session = player.session
+            cost_or_value = cast(int, player.cost_or_value)
 
             if player.buyer:
-                max_bid = player.cost_or_value - get_tax(
-                    session, "buyer_tax", player.round
-                )
+                max_bid = cost_or_value - get_tax(session, "buyer_tax", player.round)
 
                 if amount > max_bid:
                     raise ValueError("Bid cannot exceed your valuation minus tax")
             else:
-                min_ask = player.cost_or_value + get_tax(
-                    session, "seller_tax", player.round
-                )
+                min_ask = cost_or_value + get_tax(session, "seller_tax", player.round)
 
                 if amount < min_ask:
                     raise ValueError("Ask cannot be below your cost plus tax")
@@ -603,7 +600,7 @@ class Trade(Page):
         return amount
 
     @live
-    def accept_offer(page, player, offer_ids: list[Any]):
+    def accept_offer(page, player: PlayerType, offer_ids: list[Any]) -> int:
         """
         Accept an existing market offer, executing a trade
 
@@ -618,8 +615,8 @@ class Trade(Page):
         if player.pid in traded_players:
             raise ValueError(f"Player {player} already traded.")
 
-        offers_by_id = {}
-        player_latest = {}
+        player_latest: dict[PlayerIdentifier, UUID] = {}
+        offers_by_id: dict[UUID, Offer] = {}
 
         for entry_id, _, entry in um.filter_entries(
             player.session.offers, Offer, round=player.round
@@ -667,12 +664,12 @@ class Trade(Page):
         if player.buyer:
             tax = get_tax(session, "buyer_tax", player.round)
 
-            if offer_price > player.cost_or_value - tax:
+            if offer_price > cast(int, player.cost_or_value) - tax:
                 raise ValueError("Accepting this offer would result in negative profit")
         else:
             tax = get_tax(session, "seller_tax", player.round)
 
-            if offer_price < player.cost_or_value + tax:
+            if offer_price < cast(int, player.cost_or_value) + tax:
                 raise ValueError("Accepting this offer would result in negative profit")
 
         # Capture acceptor's active offer ID before cancellation.
@@ -718,7 +715,7 @@ class Trade(Page):
             # Record transaction
             tx_id = um.add_entry(
                 player.session.txs,
-                player,
+                cast(PlayerIdentifier, player),
                 Transaction,
                 round=player.round,
                 acceptor=player.pid,
@@ -740,40 +737,40 @@ class Trade(Page):
             txs=[{"price": offer_price}],
         )
 
-        return player.profit
+        return cast(int, player.profit)
 
 
-def digest(session):
+def digest(session: SessionType) -> dict[str, Any]:
     if session.get("offers") is None:
         return {"rounds_data": []}
 
-    demand_values = []
-    supply_costs = []
+    demand_values: list[int] = []
+    supply_costs: list[int] = []
 
     for player in session.players:
         if player.get("buyer") is None:
             continue
 
         if player.buyer:
-            demand_values.append(player.cost_or_value)
+            demand_values.append(cast(int, player.cost_or_value))
         else:
-            supply_costs.append(player.cost_or_value)
+            supply_costs.append(cast(int, player.cost_or_value))
 
     demand_values.sort(reverse=True)
     supply_costs.sort()
 
-    def eq_to_dict(eq):
+    def eq_to_dict(eq: Any) -> Optional[dict[str, int]]:
         if eq is None or eq.quantity == 0:
             return None
 
         return {
             "price_min": int(eq.price_min),
             "price_max": int(eq.price_max),
-            "quantity": eq.quantity,
+            "quantity": int(eq.quantity),
         }
 
-    rounds_data = []
-    num_rounds = get_setting(session, "num_rounds")
+    rounds_data: list[dict[str, Any]] = []
+    num_rounds = cast(int, get_setting(session, "num_rounds"))
 
     for round_num in range(1, num_rounds + 1):
         # Tax-adjusted curves (micro 101: demand shifts down, supply shifts up)
@@ -832,12 +829,12 @@ def digest(session):
     }
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     if session.get("offers") is None:
         return []
 
-    rows = []
-    num_rounds = get_setting(session, "num_rounds")
+    rows: list[dict[str, Any]] = []
+    num_rounds = cast(int, get_setting(session, "num_rounds"))
 
     for round_num in range(1, num_rounds + 1):
         transactions = transactions_by_id(session, round_num)
@@ -875,8 +872,13 @@ def pipeline(session):
     return rows
 
 
-def latest_offer_by_player(session, round_num, *, traded=None):
-    offers = {}
+def latest_offer_by_player(
+    session: SessionType,
+    round_num: int,
+    *,
+    traded: Optional[set[PlayerIdentifier]] = None,
+) -> dict[PlayerIdentifier, Offer]:
+    offers: dict[PlayerIdentifier, Offer] = {}
 
     if traded is None:
         traded = players_traded_in_round(session.txs, round_num)
@@ -891,7 +893,7 @@ def latest_offer_by_player(session, round_num, *, traded=None):
     }
 
 
-def transactions_by_id(session, round_num):
+def transactions_by_id(session: SessionType, round_num: int) -> dict[UUID, Transaction]:
     return {
         entry_id: transaction
         for entry_id, _, transaction in um.filter_entries(
@@ -902,7 +904,7 @@ def transactions_by_id(session, round_num):
     }
 
 
-def page_order(player):
+def page_order(player: PlayerType) -> list[Any]:
     return [
         RaiseHands,
         Assignment,

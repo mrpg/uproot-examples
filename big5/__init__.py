@@ -56,14 +56,14 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def itemtext(self):
+    def itemtext(self) -> str:
         itemhere = self.player.itemorder[str(self.player.round)]
         return f"I {C.ITEMS[itemhere][0].lower()}"
 
 
 class RandomlyOrderItems(NoshowPage):  # Note: NoshowPage hides a page
     @classmethod
-    def after_always_once(page, player):
+    def after_always_once(page, player: PlayerType) -> None:
         itemorder = {}
 
         itemkeys = list(C.ITEMS.keys())
@@ -79,7 +79,7 @@ class RandomlyOrderItems(NoshowPage):  # Note: NoshowPage hides a page
 
 class Response(Page):
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         itemhere = player.itemorder[str(player.round)]
 
         return {
@@ -102,7 +102,7 @@ class Response(Page):
 
 class Score(NoshowPage):
     @classmethod
-    def after_always_once(page, player):
+    def after_always_once(page, player: PlayerType) -> None:
         factors: dict[str, list[int]] = {}
 
         # Collect data

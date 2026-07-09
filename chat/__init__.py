@@ -14,7 +14,7 @@ from uproot.smithereens import *
 DESCRIPTION = "A session-level chat"
 
 
-def new_session(session):
+def new_session(session: SessionType) -> None:
     session.chat = chat.create(session)
 
     # Optionally, you can register a callback that fires whenever a message
@@ -26,13 +26,13 @@ def new_session(session):
 
 # This is just an example of how on_message could be used; it is by no means
 # mandatory or necessary for a working chat. You can safely remove it.
-def on_chat_message(chat, player, message):
+def on_chat_message(chat: Any, player: PlayerType, message: str) -> None:
     print(f"Chat message from {player.name}: {message}")
 
 
 class ChatHere(Page):
     @classmethod
-    async def before_once(page, player):
+    async def before_once(page, player: PlayerType) -> None:
         chat.add_player(
             player.session.chat,
             player,

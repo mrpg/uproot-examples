@@ -36,7 +36,7 @@ class InputValidationBasic(Page):
     """
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "share_min": IntegerField(
                 addon_end="%",
@@ -65,9 +65,10 @@ class InputValidationBasic(Page):
         }
 
     @classmethod
-    def validate(page, player, data):
-        if data.get("share_min") > data.get("share_max"):
+    def validate(page, player: PlayerType, data: dict[str, Any]) -> str | None:
+        if cast(int, data.get("share_min")) > cast(int, data.get("share_max")):
             return "The maximum share must be at least as large as the minimum share."
+        return None
 
 
 class InputValidationStealthField(Page):
@@ -80,7 +81,7 @@ class InputValidationStealthField(Page):
     stealth_fields = ["code_to_proceed"]
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "code_to_proceed": StringField(
                 label=safe(
@@ -91,9 +92,12 @@ class InputValidationStealthField(Page):
         }
 
     @classmethod
-    def handle_stealth_fields(page, player, data):
+    def handle_stealth_fields(
+        page, player: PlayerType, data: dict[str, Any]
+    ) -> str | None:
         if data.get("code_to_proceed") != C.CODE:
             return "The code you entered is incorrect. Please try again."
+        return None
 
 
 class InputValidationAdvanced(Page):
@@ -102,13 +106,13 @@ class InputValidationAdvanced(Page):
     """
 
     @classmethod
-    def before_always_once(page, player):
+    def before_always_once(page, player: PlayerType) -> None:
         # We use the before_always_once hook to initialize a counter for invalid inputs. This counter is then
         # incremented in the validate method every time the participant enters an incorrect value.
         player.input_errors = 0
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "share_safe_asset": IntegerField(
                 addon_end="%",
@@ -137,17 +141,24 @@ class InputValidationAdvanced(Page):
         }
 
     @classmethod
-    def validate(page, player, data):
-        if data.get("share_safe_asset") + data.get("share_risky_asset") != 100:
+    def validate(
+        page, player: PlayerType, data: dict[str, Any]
+    ) -> dict[str, Any] | None:
+        if (
+            cast(int, data.get("share_safe_asset"))
+            + cast(int, data.get("share_risky_asset"))
+            != 100
+        ):
             player.input_errors += 1
             return {
                 "share_safe_asset": safe(
-                    f"The sum of the two shares must equal 100%. You have to set this share to {100 - data.get('share_risky_asset')}% if you choose to invest {data.get('share_risky_asset')}% of your budget in the <em>risky</em> asset."
+                    f"The sum of the two shares must equal 100%. You have to set this share to {100 - cast(int, data.get('share_risky_asset'))}% if you choose to invest {data.get('share_risky_asset')}% of your budget in the <em>risky</em> asset."
                 ),
                 "share_risky_asset": safe(
-                    f"The sum of the two shares must equal 100%. You have to set this share to {100 - data.get('share_safe_asset')}% if you choose to invest {data.get('share_safe_asset')}% of your budget in the <em>safe</em> asset."
+                    f"The sum of the two shares must equal 100%. You have to set this share to {100 - cast(int, data.get('share_safe_asset'))}% if you choose to invest {data.get('share_safe_asset')}% of your budget in the <em>safe</em> asset."
                 ),
             }
+        return None
 
 
 class InputValidationBootstrapClasses(Page):
@@ -158,7 +169,7 @@ class InputValidationBootstrapClasses(Page):
     stealth_fields = ["conversion_rate", "group_size"]
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "group_size": RadioField(
                 choices=[1, 2, 3, 4, 5],
@@ -181,15 +192,17 @@ class InputValidationBootstrapClasses(Page):
         }
 
     @classmethod
-    def validate(page, player, data):
-        errors = {}
+    def validate(
+        page, player: PlayerType, data: dict[str, Any]
+    ) -> dict[str, str | list[str]] | None:
+        errors: dict[str, str | list[str]] = {}
         if data.get("group_size") != 1:
             errors["group_size"] = (
                 "This answer is incorrect. Please take another look at the instructions and try again."
             )
         if not (
-            data.get("conversion_rate") > 1.955829
-            and data.get("conversion_rate") < 1.955831
+            cast(float, data.get("conversion_rate")) > 1.955829
+            and cast(float, data.get("conversion_rate")) < 1.955831
         ):
             errors["conversion_rate"] = (
                 "This answer is incorrect. Please take another look at the instructions and try again."

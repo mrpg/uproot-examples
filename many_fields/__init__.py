@@ -15,7 +15,7 @@ DESCRIPTION = "Insert many fields"
 LANDING_PAGE = False
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     for i in range(50):
         for j in range(50):
             setattr(player, f"field{i}", j)

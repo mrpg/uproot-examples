@@ -38,7 +38,7 @@ class ChooseEffort(Page):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         efforts = [p.effort for p in group.players]
         minimum = min(efforts)
 
@@ -51,7 +51,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

@@ -40,19 +40,19 @@ class C:
     DIGIT_VERTICAL_JITTER = 4
 
 
-def make_captcha_code():
+def make_captcha_code() -> str:
     random = rng()
 
     return "".join(random.choice(C.CAPTCHA_CHARACTERS) for _ in range(C.CAPTCHA_LENGTH))
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.captcha_code = make_captcha_code()
     player.captcha_attempts = 0
     player.captcha_solved = False
 
 
-def captcha_png(code):
+def captcha_png(code: str) -> bytes:
     from random import Random as PyRandom
 
     random = PyRandom(code)
@@ -104,7 +104,7 @@ class SolveCaptcha(Page):
     stealth_fields = ["captcha_answer"]
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "captcha_answer": StringField(
                 label=C.PROMPT,
@@ -119,7 +119,9 @@ class SolveCaptcha(Page):
         }
 
     @classmethod
-    def handle_stealth_fields(page, player, data):
+    def handle_stealth_fields(
+        page, player: PlayerType, data: dict[str, Any]
+    ) -> None | str:
         submitted = data.get("captcha_answer", "").strip()
 
         if submitted != player.captcha_code:
@@ -128,17 +130,18 @@ class SolveCaptcha(Page):
             return C.ERROR_MESSAGE
 
         player.captcha_solved = True
+        return None  # Gee Whiz…
 
     @classmethod
-    def may_proceed(page, player):
-        return player.captcha_solved
+    def may_proceed(page, player: PlayerType) -> bool:
+        return cast(bool, player.captcha_solved)
 
 
 class Results(Page):
     pass
 
 
-async def api2(session, request):
+async def api2(session: SessionType, request: Any) -> Response:
     uname = request.query_params.get("uname")
 
     if uname not in {player.name for player in session.players}:

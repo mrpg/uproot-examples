@@ -26,7 +26,7 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def event_question(self):
+    def event_question(self) -> Any:
         return self.player.session.settings.get(
             "event_question",
             C.DEFAULT_EVENT_QUESTION,
@@ -36,14 +36,14 @@ class Context(PlayerContext):
 # --- Logarithmic Market Scoring Rule (Hanson, 2003) ---
 
 
-def lmsr_cost(q_yes, q_no, b):
+def lmsr_cost(q_yes: float, q_no: float, b: float) -> float:
     x, y = q_yes / b, q_no / b
     m = max(x, y)
 
     return b * (m + math.log(math.exp(x - m) + math.exp(y - m)))
 
 
-def lmsr_prices(q_yes, q_no, b):
+def lmsr_prices(q_yes: float, q_no: float, b: float) -> tuple[float, float]:
     x, y = q_yes / b, q_no / b
     m = max(x, y)
     ex = math.exp(x - m)
@@ -53,14 +53,18 @@ def lmsr_prices(q_yes, q_no, b):
     return ex / s, ey / s
 
 
-def compute_buy_cost(q_yes, q_no, b, is_yes, shares):
+def compute_buy_cost(
+    q_yes: float, q_no: float, b: float, is_yes: bool, shares: int
+) -> float:
     if is_yes:
         return lmsr_cost(q_yes + shares, q_no, b) - lmsr_cost(q_yes, q_no, b)
 
     return lmsr_cost(q_yes, q_no + shares, b) - lmsr_cost(q_yes, q_no, b)
 
 
-def compute_sell_revenue(q_yes, q_no, b, is_yes, shares):
+def compute_sell_revenue(
+    q_yes: float, q_no: float, b: float, is_yes: bool, shares: int
+) -> float:
     if is_yes:
         return lmsr_cost(q_yes, q_no, b) - lmsr_cost(q_yes - shares, q_no, b)
 
@@ -79,7 +83,7 @@ class TradeEntry(metaclass=um.Entry):
     price_no_after: float
 
 
-def new_session(session):
+def new_session(session: SessionType) -> None:
     session.q_yes = 0
     session.q_no = 0
     session.trade_log = um.create_model(session, tag="trades")
@@ -94,7 +98,7 @@ class Instructions(Page):
 
 class Trading(Page):
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         if player.get("cash") is None:
             player.cash = float(C.ENDOWMENT)
 
@@ -105,11 +109,11 @@ class Trading(Page):
             player.no_shares = 0
 
     @classmethod
-    def may_proceed(page, player):
+    def may_proceed(page, player: PlayerType) -> bool:
         return player.session.get("event_resolved") is True
 
     @live
-    def get_state(page, player):
+    def get_state(page, player: PlayerType) -> Any:
         session = player.session
         q_yes = session.get("q_yes") or 0
         q_no = session.get("q_no") or 0
@@ -142,7 +146,7 @@ class Trading(Page):
         }
 
     @live
-    def trade(page, player, outcome: str, action: str, shares: int):
+    def trade(page, player: PlayerType, outcome: str, action: str, shares: int) -> Any:
         if outcome not in ("yes", "no"):
             raise ValueError("Invalid outcome")
 
@@ -209,7 +213,7 @@ class Trading(Page):
 
         um.add_entry(
             session.trade_log,
-            player,
+            cast(PlayerIdentifier, player),
             TradeEntry,
             outcome=outcome,
             action=action,
@@ -247,7 +251,7 @@ class Trading(Page):
         }
 
 
-def settle_player(player):
+def settle_player(player: PlayerType) -> None:
     player.app = __name__  # HACK
 
     session = player.session
@@ -278,7 +282,7 @@ class Results(Page):
 # --- Digest ---
 
 
-def digest(session):
+def digest(session: SessionType) -> dict[str, Any]:
     q_yes = session.get("q_yes") or 0
     q_no = session.get("q_no") or 0
     p_yes, p_no = lmsr_prices(q_yes, q_no, C.LIQUIDITY)
@@ -355,7 +359,11 @@ def digest(session):
 # --- Pipeline ---
 
 
-def resolve_event(session, event_value=None, refund=False):
+def resolve_event(
+    session: SessionType,
+    event_value: bool | None = None,
+    refund: bool = False,
+) -> bool:
     if session.get("event_resolved"):
         return True
 
@@ -374,7 +382,9 @@ def resolve_event(session, event_value=None, refund=False):
     return True
 
 
-def pipeline(session, data=None):
+def pipeline(
+    session: SessionType, data: dict[str, Any] | None = None
+) -> list[dict[str, Any]]:
     if data:
         if data.get("refund") not in (
             None,
@@ -390,7 +400,7 @@ def pipeline(session, data=None):
         resolve_event(
             session,
             event_value=data.get("event"),
-            refund=data.get("refund"),
+            refund=bool(data.get("refund")),
         )
 
     rows = []

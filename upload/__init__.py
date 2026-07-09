@@ -23,7 +23,9 @@ class Upload(Page):
     )
 
     @classmethod
-    async def handle_stealth_fields(page, player, data):
+    async def handle_stealth_fields(
+        page, player: PlayerType, data: dict[str, Any]
+    ) -> str | None:
         # Please see https://www.starlette.io/requests/#request-files to learn about UploadFile
 
         # This method could write the uploaded file to a separate file, or do
@@ -39,6 +41,8 @@ class Upload(Page):
         # This is how you actually get the contents of the file:
         # contents = await cv.read()
         # You can use the resulting bytes in whatever way you want
+
+        return None
 
 
 page_order = [Upload]

@@ -23,7 +23,7 @@ class Templating(Page):
     """Showcase the template blocks provided by uproot"""
 
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         return 1200
 
 

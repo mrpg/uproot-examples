@@ -30,33 +30,33 @@ class C:
     ]
 
 
-def get_matrix(session):
-    return session.settings.get("matrix", C.DEFAULT_MATRIX)
+def get_matrix(session: SessionType) -> list[list[list[int]]]:
+    return cast(list[list[list[int]]], session.settings.get("matrix", C.DEFAULT_MATRIX))
 
 
-def get_n(session):
+def get_n(session: SessionType) -> int:
     return len(get_matrix(session))
 
 
-def get_actions(session):
+def get_actions(session: SessionType) -> list[str]:
     return ACTIONS_26[: get_n(session)]
 
 
 class Context(PlayerContext):
     @property
-    def actions(self):
+    def actions(self) -> list[str]:
         return get_actions(self.player.session)
 
     @property
-    def matrix(self):
+    def matrix(self) -> list[list[list[int]]]:
         return get_matrix(self.player.session)
 
     @property
-    def matrix_json(self):
+    def matrix_json(self) -> str:
         return json.dumps(get_matrix(self.player.session))
 
     @property
-    def actions_json(self):
+    def actions_json(self) -> str:
         return json.dumps(get_actions(self.player.session))
 
 
@@ -77,14 +77,18 @@ class Decision(Page):
     )
 
     @classmethod
-    def validate(page, player, data):
+    async def validate(
+        page, player: PlayerType, data: dict[str, Any]
+    ) -> str | list[str] | dict[str, str | list[str]] | None:
         actions = get_actions(player.session)
 
         if data.get("choice") not in actions:
             return {"choice": f"Please select a valid action ({', '.join(actions)})."}
 
+        return None
 
-def set_payoff(player):
+
+def set_payoff(player: PlayerType) -> None:
     matrix = get_matrix(player.session)
     actions = get_actions(player.session)
     other = player.other_in_group
@@ -96,7 +100,7 @@ def set_payoff(player):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         player = group.players[0]
         set_payoff(player)
 
@@ -105,7 +109,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

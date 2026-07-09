@@ -16,7 +16,7 @@ LANDING_PAGE = False
 TREATMENTS = [1, 2]  # These can have any supported type and there may be more than 2
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.treatment = rng().choice(TREATMENTS)
 
 

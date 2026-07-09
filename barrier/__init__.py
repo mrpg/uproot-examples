@@ -16,7 +16,7 @@ DESCRIPTION = "A page that players cannot move away from (only admins can)"
 
 class Barrier(Page):
     @classmethod
-    def may_proceed(page, player):
+    def may_proceed(page, player: PlayerType) -> bool:
         return False
 
 

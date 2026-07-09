@@ -32,7 +32,7 @@ class Roll(Page):
     )
 
     @classmethod
-    def after_once(page, player):
+    def after_once(page, player: PlayerType) -> None:
         player.payoff = cu(C.PAYOFFS[player.report])
 
 
@@ -40,7 +40,7 @@ class Results(Page):
     pass
 
 
-def digest(session):
+def digest(session: SessionType) -> dict[str, Any]:
     counts: Counter[int] = Counter()
 
     for player in session.players:
@@ -58,7 +58,7 @@ def digest(session):
     return {"distribution": distribution, "total": total}
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for player in session.players:

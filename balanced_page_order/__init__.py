@@ -36,7 +36,7 @@ WEIGHTS = [1] * len(ORDERINGS)  # Default: equal weights
 
 class End(Page):
     @classmethod
-    def templatevars(page, player):
+    def templatevars(page, player: PlayerType) -> dict[str, Any]:
         ordering = ORDERINGS[player.perm_index]
         return {
             "page_names": [p.__name__ for p in ordering],
@@ -44,7 +44,7 @@ class End(Page):
         }
 
 
-def page_order(player):
+def page_order(player: PlayerType) -> list[Any]:
     if player.get("perm_index") is None:
         assigned = [
             x

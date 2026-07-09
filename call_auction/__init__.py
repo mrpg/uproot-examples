@@ -11,7 +11,7 @@
 from decimal import Decimal
 from time import time
 
-from find_eq import find_equilibrium
+from find_eq import Equilibrium, find_equilibrium
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -26,13 +26,13 @@ class C:
     DEFAULT_COSTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 
-def get_setting(session, key):
+def get_setting(session: SessionType, key: str) -> Any:
     return session.settings.get(key, getattr(C, "DEFAULT_" + key.upper()))
 
 
 class Assignment(NoshowPage):
     @classmethod
-    def after_always_once(page, player):
+    def after_always_once(page, player: PlayerType) -> None:
         session = player.session
         values = get_setting(session, "values")
         costs = get_setting(session, "costs")
@@ -63,13 +63,13 @@ class Instructions(Page):
 
 class Submit(Page):
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         player.bid = None
         player.traded = False
         player.profit = 0
 
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         session = player.session
         if (
             session.get("submit_until") is None
@@ -77,10 +77,10 @@ class Submit(Page):
         ):
             session.submit_until = time() + get_setting(session, "duration")
             session.submit_round = player.round
-        return session.submit_until - time()
+        return cast(float, session.submit_until) - time()
 
     @live
-    def place_bid(page, player, amount: int):
+    def place_bid(page, player: PlayerType, amount: int) -> int:
         if amount < 0:
             raise ValueError("Price cannot be negative")
 
@@ -97,7 +97,7 @@ class Submit(Page):
 
 class Results(Page):
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         session = player.session
         round_num = player.round
         num_rounds = get_setting(session, "num_rounds")
@@ -131,7 +131,7 @@ class Results(Page):
                 player.profit = clearing_price - player.cost_or_value
 
 
-def digest(session):
+def digest(session: SessionType) -> dict[str, Any]:
     if not any(p.get("buyer") is not None for p in session.players):
         return {"rounds_data": []}
 
@@ -147,7 +147,7 @@ def digest(session):
         ],
     )
 
-    def eq_to_dict(eq):
+    def eq_to_dict(eq: None | Equilibrium) -> None | dict[str, Any]:
         if eq is None or eq.quantity == 0:
             return None
         return {
@@ -186,11 +186,11 @@ def digest(session):
     return {"rounds_data": rounds_data}
 
 
-def player_data_for_round(player, round_num):
+def player_data_for_round(player: PlayerType, round_num: int) -> Any:
     return player.within(app=__name__, round=round_num)
 
 
-def bids_and_asks(session, round_num):
+def bids_and_asks(session: SessionType, round_num: int) -> tuple[list[int], list[int]]:
     submitted_bids = []
     submitted_asks = []
 
@@ -198,7 +198,7 @@ def bids_and_asks(session, round_num):
         if player.get("buyer") is None:
             continue
 
-        bid = player_data_for_round(player, round_num).get("bid")
+        bid = cast(None | int, player_data_for_round(player, round_num).get("bid"))
 
         if bid is None:
             continue
@@ -211,7 +211,7 @@ def bids_and_asks(session, round_num):
     return sorted(submitted_bids, reverse=True), sorted(submitted_asks)
 
 
-def market_result(session, round_num):
+def market_result(session: SessionType, round_num: int) -> Any:
     for player in session.players:
         round_data = player_data_for_round(player, round_num)
 
@@ -223,7 +223,7 @@ def market_result(session, round_num):
     return None, 0
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
     num_rounds = get_setting(session, "num_rounds")
 

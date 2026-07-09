@@ -36,7 +36,7 @@ class C:
     __export__ = ["NUM_ITEMS", "ITEMS", "BUCKET_LABELS"]
 
 
-def item_field_name(index):
+def item_field_name(index: int) -> str:
     return f"item_{index}"
 
 
@@ -44,7 +44,7 @@ class Categorize(Page):
     # allow_back = True
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             item_field_name(i): RadioField(
                 label=item,

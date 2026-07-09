@@ -68,16 +68,16 @@ class Preference(metaclass=um.Entry):
     preferred_side: int  # 0 = left, 1 = right
 
 
-def new_session(session):
+def new_session(session: SessionType) -> None:
     session.profiles = um.create_model(session, tag="profiles")
     session.preferences = um.create_model(session, tag="preferences")
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.current_pair = 0
 
 
-def generate_profile(profile_rng):
+def generate_profile(profile_rng: Any) -> dict[str, Any]:
     return dict(
         has_beaches=profile_rng.choice(C.HAS_BEACHES),
         english=profile_rng.choice(C.ENGLISH),
@@ -91,14 +91,17 @@ def generate_profile(profile_rng):
 
 class Choice(Page):
     @classmethod
-    def may_proceed(page, player):
-        return player.current_pair >= player.session.settings.get(
-            "n_pairs",
-            C.DEFAULT_N_PAIR,
+    def may_proceed(page, player: PlayerType) -> bool:
+        return bool(
+            player.current_pair
+            >= player.session.settings.get(
+                "n_pairs",
+                C.DEFAULT_N_PAIR,
+            )
         )
 
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         """Generate all profile pairs for this player."""
         profile_rng = rng()
 
@@ -112,7 +115,7 @@ class Choice(Page):
                 attrs = generate_profile(profile_rng)
                 um.add_entry(
                     player.session.profiles,
-                    player,
+                    cast(PlayerIdentifier, player),
                     Profile,
                     pair_id=pair_id,
                     side=side,
@@ -120,7 +123,7 @@ class Choice(Page):
                 )
 
     @live
-    def get_pair(page, player):
+    def get_pair(page, player: PlayerType) -> Any:
         """Get the current pair of profiles, or signal done."""
         pair_id = player.current_pair
         if pair_id >= player.session.settings.get(
@@ -139,7 +142,7 @@ class Choice(Page):
             else:
                 right = profile
 
-        def profile_dict(profile):
+        def profile_dict(profile: Any) -> dict[str, Any]:
             return {attr: getattr(profile, attr) for attr in C.PROFILE_ATTRS}
 
         return {
@@ -154,7 +157,7 @@ class Choice(Page):
         }
 
     @live
-    def submit_choice(page, player, side: int):
+    def submit_choice(page, player: PlayerType, side: int) -> Any:
         """Record the player's choice and advance to the next pair."""
         if side not in (0, 1):
             return {"type": "error"}
@@ -178,7 +181,7 @@ class Choice(Page):
         else:
             um.add_entry(
                 player.session.preferences,
-                player,
+                cast(PlayerIdentifier, player),
                 Preference,
                 pair_id=pair_id,
                 preferred_side=side,
@@ -206,7 +209,7 @@ class Choice(Page):
             else:
                 right = profile
 
-        def profile_dict(profile):
+        def profile_dict(profile: Any) -> dict[str, Any]:
             return {attr: getattr(profile, attr) for attr in C.PROFILE_ATTRS}
 
         return {

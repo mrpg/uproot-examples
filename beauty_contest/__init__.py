@@ -37,7 +37,7 @@ class Guess(Page):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         guesses = [p.guess for p in group.players]
         average = sum(guesses) / len(guesses)
         target = C.P * average
@@ -58,7 +58,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

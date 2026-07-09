@@ -23,16 +23,16 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def other_price(self):
-        return self.player.other_in_group.price
+    def other_price(self) -> int:
+        return cast(int, self.player.other_in_group.price)
 
     @property
-    def market_price(self):
-        return min(self.player.price, self.other_price)
+    def market_price(self) -> int:
+        return cast(int, min(self.player.price, self.other_price))
 
     @property
-    def my_demand(self):
-        p, o = self.player.price, self.other_price
+    def my_demand(self) -> float:
+        p, o = cast(int, self.player.price), self.other_price
         if p < o:
             return max(0, 100 - p)
         if p > o:
@@ -62,7 +62,7 @@ class Decision(Page):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         p1, p2 = group.players
 
         if p1.price < p2.price:
@@ -80,7 +80,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

@@ -13,18 +13,18 @@ from uproot.smithereens import *
 DESCRIPTION = "Counter"
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.counter = 0
 
 
 class Counter(Page):
     @live
-    def increment(page, player):
+    def increment(page, player: PlayerType) -> Any:
         player.counter += 1
         return player.counter
 
     @live
-    def reset(page, player):
+    def reset(page, player: PlayerType) -> None:
         player.counter = 0
 
 

@@ -22,7 +22,7 @@ class Intro(Page):
 
 class ProductChoice(Page):
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "product_choice": RadioField(
                 choices=[
@@ -41,7 +41,7 @@ class TreatmentInfo(Page):
 
 class TreatmentTask(Page):
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "treatment_code": StringField(
                 label="Enter the code shown on the previous page.",
@@ -50,14 +50,16 @@ class TreatmentTask(Page):
         }
 
     @classmethod
-    def validate(page, player, data):
+    async def validate(page, player: PlayerType, data: dict[str, Any]) -> str | None:
         if data.get("treatment_code", "").strip().upper() != "BLUE":
             return "The code is BLUE."
+
+        return None
 
 
 class OpenResponse(Page):
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "open_response": TextAreaField(
                 label="What would make this product more useful?",
@@ -68,7 +70,7 @@ class OpenResponse(Page):
 
 class Results(Page):
     @classmethod
-    def templatevars(page, player):
+    def templatevars(page, player: PlayerType) -> dict[str, Any]:
         selected = player.get("between_showed", [])
         selected_page = selected[-1] if selected else None
         branch_names = {

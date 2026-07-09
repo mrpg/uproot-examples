@@ -26,23 +26,23 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def total_contribution(self):
+    def total_contribution(self) -> Any:
         return sum(
             p.contribution for p in self.player.group.players if not p.is_punisher
         )
 
     @property
-    def contributors(self):
+    def contributors(self) -> list[Any]:
         return [p for p in self.player.group.players if not p.is_punisher]
 
     @property
-    def punishment_received(self):
+    def punishment_received(self) -> Any:
         punisher = self.player.group.players.find_one(is_punisher=True)
         key = f"punish_{self.player.member_id}"
         return getattr(punisher, key, cu("0")) * C.PUNISHMENT_RATIO
 
     @property
-    def punishment_spent(self):
+    def punishment_spent(self) -> Any:
         return sum(
             getattr(self.player, f"punish_{p.member_id}", cu("0"))
             for p in self.player.group.players
@@ -54,7 +54,7 @@ class GroupPlease(GroupCreatingWait):
     group_size = C.GROUP_SIZE
 
     @classmethod
-    def after_grouping(page, group):
+    def after_grouping(page, group: GroupType) -> None:
         players = list(group.players)
         for i, player in enumerate(players):
             player.is_punisher = i == C.NUM_CONTRIBUTORS
@@ -70,8 +70,8 @@ class Contribute(Page):
     )
 
     @classmethod
-    def show(page, player):
-        return not player.is_punisher
+    def show(page, player: PlayerType) -> bool:
+        return bool(not player.is_punisher)
 
 
 class WaitForContributions(SynchronizingWait):
@@ -80,11 +80,11 @@ class WaitForContributions(SynchronizingWait):
 
 class Punish(Page):
     @classmethod
-    def show(page, player):
-        return player.is_punisher
+    def show(page, player: PlayerType) -> bool:
+        return bool(player.is_punisher)
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         contributors = [p for p in player.group.players if not p.is_punisher]
         result = {}
         for i, contributor in enumerate(contributors):
@@ -96,15 +96,16 @@ class Punish(Page):
         return result
 
     @classmethod
-    def validate(page, player, data):
+    def validate(page, player: PlayerType, data: dict[str, Any]) -> str | None:
         total = sum(data.values())
         if total > C.PUNISHER_ENDOWMENT:
             return f"Total punishment cost cannot exceed your endowment of {C.PUNISHER_ENDOWMENT}. You allocated {total}."
+        return None
 
 
 class WaitForPunisher(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         contributors = [p for p in group.players if not p.is_punisher]
         punisher = group.players.find_one(is_punisher=True)
 
@@ -132,7 +133,7 @@ class Results(Page):
     pass
 
 
-def digest(session):
+def digest(session: SessionType) -> list[Any]:
     data = []
 
     for group in session.groups:
@@ -181,7 +182,7 @@ def digest(session):
     return data
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups:

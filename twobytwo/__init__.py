@@ -50,7 +50,7 @@ class Decision(Page):
     )
 
 
-def set_payoff(player):
+def set_payoff(player: PlayerType) -> None:
     other = player.other_in_group
     cell = getattr(C, player.choice + other.choice)
     player.payoff = cell[0]
@@ -59,7 +59,7 @@ def set_payoff(player):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         player = group.players[0]
         set_payoff(player)
 
@@ -68,7 +68,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

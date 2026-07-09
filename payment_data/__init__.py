@@ -27,7 +27,9 @@ class PaymentForm(Page):
     stealth_fields = ["iban"]
 
     @classmethod
-    async def handle_stealth_fields(page, player, data):
+    async def handle_stealth_fields(
+        page, player: PlayerType, data: dict[str, Any]
+    ) -> str | None:
         append_to_csv(
             "payments.csv",
             {
@@ -39,6 +41,7 @@ class PaymentForm(Page):
 
         # Note: this function can stop the player from proceeding using the same return
         # value as validate().
+        return None
 
 
 page_order = [PaymentForm]
