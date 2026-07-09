@@ -54,7 +54,7 @@ class GroupPlease(GroupCreatingWait):
     group_size = C.GROUP_SIZE
 
     @classmethod
-    def after_grouping(page, group):
+    def after_grouping(page, group: GroupType) -> None:
         players = list(group.players)
         for i, player in enumerate(players):
             player.is_punisher = i == C.NUM_CONTRIBUTORS
@@ -70,7 +70,7 @@ class Contribute(Page):
     )
 
     @classmethod
-    def show(page, player):
+    def show(page, player: PlayerType) -> bool:
         return not player.is_punisher
 
 
@@ -80,11 +80,11 @@ class WaitForContributions(SynchronizingWait):
 
 class Punish(Page):
     @classmethod
-    def show(page, player):
+    def show(page, player: PlayerType) -> bool:
         return player.is_punisher
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         contributors = [p for p in player.group.players if not p.is_punisher]
         result = {}
         for i, contributor in enumerate(contributors):
@@ -104,7 +104,7 @@ class Punish(Page):
 
 class WaitForPunisher(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         contributors = [p for p in group.players if not p.is_punisher]
         punisher = group.players.find_one(is_punisher=True)
 
@@ -132,7 +132,7 @@ class Results(Page):
     pass
 
 
-def digest(session):
+def digest(session: SessionType) -> dict[str, Any]:
     data = []
 
     for group in session.groups:
@@ -181,7 +181,7 @@ def digest(session):
     return data
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups:

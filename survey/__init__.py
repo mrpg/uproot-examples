@@ -27,7 +27,7 @@ class C:
 
 class Survey(Page):
     @classmethod
-    async def fields(page, player):
+    async def fields(page, player: PlayerType) -> dict[str, Field]:
         return dict(
             age=IntegerField(
                 label=LABELS["age"],

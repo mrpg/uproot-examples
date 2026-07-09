@@ -44,7 +44,7 @@ class Categorize(Page):
     # allow_back = True
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             item_field_name(i): RadioField(
                 label=item,

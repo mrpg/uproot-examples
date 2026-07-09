@@ -84,7 +84,7 @@ class Results(Page):
     pass
 
 
-def digest(session):
+def digest(session: SessionType) -> dict[str, Any]:
     by_treatment: dict[str, dict[str, list[float]]] = {
         t: {"ages": [], "econs": []} for t in C.TREATMENTS
     }

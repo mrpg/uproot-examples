@@ -42,7 +42,7 @@ class C:
 
 class EnsureBackgroundTask(NoshowPage):
     @classmethod
-    async def after_always_once(page, player):
+    async def after_always_once(page, player: PlayerType) -> None:
         if player.session.get("my_state") is None:
             player.session.my_state = 0
             asyncio.create_task(increment_state(player.session))

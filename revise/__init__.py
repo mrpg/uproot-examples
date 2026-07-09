@@ -20,7 +20,7 @@ class C:
 
 class Decision(Page):
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return dict(
             number=IntegerField(
                 label="Please enter a number.",
@@ -28,7 +28,7 @@ class Decision(Page):
         )
 
     @classmethod
-    def templatevars(page, player):
+    def templatevars(page, player: PlayerType) -> dict[str, Any]:
         return dict(actual_round=player.round)
 
 
@@ -36,15 +36,15 @@ class Revise(Decision):
     template = f"{__name__}/Decision.html"
 
     @classmethod
-    def templatevars(page, player):
+    def templatevars(page, player: PlayerType) -> dict[str, Any]:
         return dict(actual_round=player.revise_round)
 
     @classmethod
-    def show(page, player):
+    def show(page, player: PlayerType) -> bool:
         return player.get("revise_round")
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         # Show the old answer as the starting value when a player revises a round.
         current = player.within(app=__name__, round=player.revise_round).get("number")
 
@@ -62,7 +62,7 @@ class Revise(Decision):
 
 class Review(Page):
     @classmethod
-    def templatevars(page, player):
+    def templatevars(page, player: PlayerType) -> dict[str, Any]:
         # Most history tables in these examples loop over the raw round history.
         # Here a revised round has more than one history entry, so loop over the
         # known round numbers instead. within(...) gives the current answer for

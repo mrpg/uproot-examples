@@ -48,7 +48,7 @@ def bisection_state(player, lottery_index, up_to_step):
     return low, high
 
 
-def certainty_equivalent(player, lottery_index):
+def certainty_equivalent(player: PlayerType, lottery_index: int) -> float:
     low, high = bisection_state(player, lottery_index, C.BISECTION_STEPS)
 
     return (low + high) / 2
@@ -63,7 +63,7 @@ class Instructions(Page):
 
 class Choice(Page):
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         lottery_index = (player.round - 1) // C.BISECTION_STEPS
         step = (player.round - 1) % C.BISECTION_STEPS
         low, high = bisection_state(player, lottery_index, step)
@@ -75,7 +75,7 @@ class Choice(Page):
         player.step = step
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         offer = player.offer
         lo = player.lottery_low
         hi = player.lottery_high
@@ -91,7 +91,7 @@ class Choice(Page):
         )
 
     @classmethod
-    def templatevars(page, player):
+    def templatevars(page, player: PlayerType) -> dict[str, Any]:
         return dict(
             lottery_num=player.lottery_index + 1,
             step_num=player.step + 1,
@@ -103,7 +103,7 @@ class Choice(Page):
 
 class Results(Page):
     @classmethod
-    def templatevars(page, player):
+    def templatevars(page, player: PlayerType) -> dict[str, Any]:
         premiums_exact = [0.0]
         results = [
             dict(
@@ -144,7 +144,7 @@ class Results(Page):
         )
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for player in session.players:
@@ -181,7 +181,7 @@ def pipeline(session):
     return rows
 
 
-def digest(session):
+def digest(session: SessionType) -> dict[str, Any]:
     data = []
 
     for player in session.players:

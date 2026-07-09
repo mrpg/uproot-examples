@@ -23,7 +23,7 @@ class GroupPlease(GroupCreatingWait):
     )
 
     @classmethod
-    def after_grouping(page, group):
+    def after_grouping(page, group: GroupType) -> None:
         for player, watched in zip(group.players, page.watch_values):
             player.watched = watched
 

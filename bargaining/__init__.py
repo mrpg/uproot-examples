@@ -26,7 +26,7 @@ class GroupPlease(GroupCreatingWait):
     group_size = 2
 
     @classmethod
-    def after_grouping(page, group):
+    def after_grouping(page, group: GroupType) -> None:
         group.agreed = False
         group.deadline = time() + C.DURATION
 
@@ -36,20 +36,20 @@ class GroupPlease(GroupCreatingWait):
 
 class Bargain(Page):
     @classmethod
-    def timeout(page, player):
-        return max(0.0, player.group.deadline - time())
+    def timeout(page, player: PlayerType) -> float:
+        return max(0.0, cast(float, player.group.deadline) - time())
 
     @classmethod
-    def timeout_reached(page, player):
+    def timeout_reached(page, player: PlayerType) -> None:
         if not player.group.agreed:
             player.payoff = cu(0)
 
     @classmethod
-    def may_proceed(page, player):
-        return player.group.agreed or time() >= player.group.deadline
+    def may_proceed(page, player: PlayerType) -> bool:
+        return cast(bool, player.group.agreed) or time() >= player.group.deadline
 
     @classmethod
-    def jsvars(page, player):
+    def jsvars(page, player: PlayerType) -> dict[str, Any]:
         return {
             "pie": C.PIE,
             "agreed": player.group.agreed,
@@ -58,7 +58,7 @@ class Bargain(Page):
         }
 
     @live
-    def propose(page, player, amount: float):
+    def propose(page, player: PlayerType, amount: float) -> None:
         if player.group.agreed or not 0 <= amount <= C.PIE:
             return
 
@@ -66,7 +66,7 @@ class Bargain(Page):
         notify(player, player.others_in_group, player.proposal, event="Proposal")
 
     @live
-    def accept(page, player):
+    def accept(page, player: PlayerType) -> None:
         group = player.group
 
         with group:
@@ -87,7 +87,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

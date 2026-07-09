@@ -24,7 +24,7 @@ class GroupPlease(GroupCreatingWait):
     group_size = C.GROUP_SIZE
 
     @classmethod
-    def after_grouping(page, group):
+    def after_grouping(page, group: GroupType) -> None:
         for player in group.players:
             player.value = cu(rng().randint(0, C.MAX_VALUE))
 
@@ -43,7 +43,7 @@ class Bid(Page):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         players = group.players
         bids = sorted((p.bid for p in players), reverse=True)
         high_bid, price = bids[0], bids[1]
@@ -60,7 +60,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

@@ -42,7 +42,7 @@ QUIZ = [
 ]
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.quiz_bad_attempts = 0
 
 
@@ -63,7 +63,7 @@ class Quiz(Page):
     stealth_fields = [f"q{i}" for i, _ in enumerate(QUIZ)]
 
     @classmethod
-    async def fields(page, player):
+    async def fields(page, player: PlayerType) -> dict[str, Field]:
         from uproot.types import sha256
 
         return {

@@ -31,7 +31,7 @@ class GroupPlease(GroupCreatingWait):
     group_size = 2
 
     @classmethod
-    def after_grouping(page, group):
+    def after_grouping(page, group: GroupType) -> None:
         for player, is_proposer in zip(group.players, [True, False]):
             player.proposer = is_proposer
 
@@ -46,7 +46,7 @@ class Propose(Page):
     )
 
     @classmethod
-    def show(page, player):
+    def show(page, player: PlayerType) -> bool:
         return player.proposer
 
 
@@ -63,13 +63,13 @@ class Respond(Page):
     )
 
     @classmethod
-    def show(page, player):
+    def show(page, player: PlayerType) -> bool:
         return not player.proposer
 
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         proposer = group.players.find_one(proposer=True)
         responder = group.players.find_one(proposer=False)
 
@@ -85,7 +85,7 @@ class Results(Page):
     pass
 
 
-def digest(session):
+def digest(session: SessionType) -> dict[str, Any]:
     data = []
     summary_by_offer: dict[Decimal, dict[str, int]] = {}
 
@@ -135,7 +135,7 @@ def digest(session):
     return {"data": data, "summary": summary}
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

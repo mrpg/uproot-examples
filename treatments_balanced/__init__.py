@@ -24,7 +24,7 @@ class C:
 
 class AssignTreatment(NoshowPage):
     @classmethod
-    def after_always_once(page, player):
+    def after_always_once(page, player: PlayerType) -> None:
         # Note: You can refine the group to which the count is applied by filtering.
         # For example, instead of player.session.players.apply(...), just do
         # player.session.players.filter(_.contribution > 10).apply(...), or

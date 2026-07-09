@@ -16,7 +16,7 @@ from uproot.smithereens import *
 DESCRIPTION = "Chat with Claude"
 
 
-async def _respond(chat_mid):
+async def _respond(chat_mid: ModelIdentifier) -> None:
     import anthropic
     from anthropic.types import MessageParam, TextBlock
 
@@ -58,14 +58,18 @@ async def _respond(chat_mid):
     await chat.notify(chat_mid, msg_id, "Claude", None, response_text)
 
 
-async def on_chat_message(chat, player, message):
+async def on_chat_message(
+    chat: ModelIdentifier,
+    player: None | PlayerType,
+    message: str,
+) -> None:
     if player is None:
         return
 
     asyncio.create_task(_respond(chat))
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.my_chat = chat.create(player.session)
     chat.add_player(player.my_chat, player)
     chat.on_message(player.my_chat, on_chat_message)

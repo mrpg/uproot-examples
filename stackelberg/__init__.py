@@ -43,7 +43,7 @@ class GroupPlease(GroupCreatingWait):
     group_size = 2
 
     @classmethod
-    def after_grouping(page, group):
+    def after_grouping(page, group: GroupType) -> None:
         for player, is_first in zip(group.players, [True, False]):
             player.first_mover = is_first
 
@@ -64,7 +64,7 @@ class LeaderDecision(Page):
     )
 
     @classmethod
-    def show(page, player):
+    def show(page, player: PlayerType) -> bool:
         return player.first_mover
 
 
@@ -74,11 +74,11 @@ class WaitForLeader(SynchronizingWait):
 
 class FollowerDecision(Page):
     @classmethod
-    def show(page, player):
+    def show(page, player: PlayerType) -> bool:
         return not player.first_mover
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         leader = player.group.players.find_one(first_mover=True)
         return dict(
             units=IntegerField(
@@ -93,7 +93,7 @@ class FollowerDecision(Page):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         leader = group.players.find_one(first_mover=True)
         follower = group.players.find_one(first_mover=False)
         total = leader.units + follower.units
@@ -106,7 +106,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

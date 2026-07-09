@@ -18,7 +18,7 @@ DESCRIPTION = "StreamingResponse through api2()"
 LANDING_PAGE = False
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.streaming_counter = 0
 
 

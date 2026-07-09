@@ -48,11 +48,11 @@ class C:
     DEFAULT_SELLER_CAN_OFFER = True
 
 
-def is_integer(value):
+def is_integer(value) -> bool:
     return isinstance(value, int) and not isinstance(value, bool)
 
 
-def get_setting(session, key):
+def get_setting(session, key: str) -> Any:
     return session.settings.get(key, getattr(C, "DEFAULT_" + key.upper()))
 
 
@@ -100,7 +100,7 @@ class Transaction(metaclass=um.Entry):
     proposer: Optional[PlayerIdentifier] = None
 
 
-def new_session(session):
+def new_session(session: SessionType) -> None:
     """Initialize session with offer book and transaction ledger models"""
     num_rounds = get_setting(session, "num_rounds")
     duration = get_setting(session, "duration")
@@ -174,17 +174,17 @@ class RaiseHands(Page):
             page.reset_session(player)
 
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         page.ensure_detection(player)
 
         return player.session.detection_period_until - time()
 
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         page.ensure_detection(player)
 
     @classmethod
-    def may_proceed(page, player):
+    def may_proceed(page, player: PlayerType) -> bool:
         return time() >= player.session.detection_period_until
 
     @live
@@ -196,7 +196,7 @@ class RaiseHands(Page):
 
 class Assignment(NoshowPage):
     @classmethod
-    def after_always_once(page, player):
+    def after_always_once(page, player: PlayerType) -> None:
         if not player.present:
             return
 
@@ -450,7 +450,7 @@ class Instructions(Page):
     """
 
     @classmethod
-    def show(page, player):
+    def show(page, player: PlayerType) -> bool:
         return player.present
 
 
@@ -458,7 +458,7 @@ class RoundInfo(Page):
     """Round-specific information shown at the start of each trading round."""
 
     @classmethod
-    def show(page, player):
+    def show(page, player: PlayerType) -> bool:
         return player.present
 
 
@@ -472,17 +472,17 @@ class Trade(Page):
     """
 
     @classmethod
-    def show(page, player):
+    def show(page, player: PlayerType) -> bool:
         return player.present
 
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         player.offer = None
         player.trade = None
         player.profit = 0
 
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         session = player.session
 
         if (
@@ -495,7 +495,7 @@ class Trade(Page):
         return session.trade_until - time()
 
     @classmethod
-    async def jsvars(page, player):
+    async def jsvars(page, player: PlayerType) -> dict[str, Any]:
         can_offer_key = "buyer_can_offer" if player.buyer else "seller_can_offer"
         can_offer = get_setting(player.session, can_offer_key)
 
@@ -520,11 +520,11 @@ class Trade(Page):
         return dict(offer_amount=offer.price, can_offer=can_offer)
 
     @live
-    def get_market(page, player):
+    def get_market(page, player: PlayerType) -> dict[str, list[dict[str, Any]]]:
         return market_data(player.session.offers, player.session.txs, player.round)
 
     @live
-    def make_offer(page, player, amount: Optional[int]):
+    def make_offer(page, player: PlayerType, amount: Optional[int]) -> int:
         """
         Submit a new bid (buyers) or ask (sellers) to the market
 
@@ -603,7 +603,7 @@ class Trade(Page):
         return amount
 
     @live
-    def accept_offer(page, player, offer_ids: list[Any]):
+    def accept_offer(page, player: PlayerType, offer_ids: list[Any]) -> int:
         """
         Accept an existing market offer, executing a trade
 
@@ -743,7 +743,7 @@ class Trade(Page):
         return player.profit
 
 
-def digest(session):
+def digest(session: SessionType) -> dict[str, Any]:
     if session.get("offers") is None:
         return {"rounds_data": []}
 
@@ -832,7 +832,7 @@ def digest(session):
     }
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     if session.get("offers") is None:
         return []
 

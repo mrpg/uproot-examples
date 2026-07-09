@@ -68,12 +68,12 @@ class Preference(metaclass=um.Entry):
     preferred_side: int  # 0 = left, 1 = right
 
 
-def new_session(session):
+def new_session(session: SessionType) -> None:
     session.profiles = um.create_model(session, tag="profiles")
     session.preferences = um.create_model(session, tag="preferences")
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.current_pair = 0
 
 
@@ -91,14 +91,14 @@ def generate_profile(profile_rng):
 
 class Choice(Page):
     @classmethod
-    def may_proceed(page, player):
+    def may_proceed(page, player: PlayerType) -> bool:
         return player.current_pair >= player.session.settings.get(
             "n_pairs",
             C.DEFAULT_N_PAIR,
         )
 
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         """Generate all profile pairs for this player."""
         profile_rng = rng()
 

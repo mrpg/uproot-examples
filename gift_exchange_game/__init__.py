@@ -44,7 +44,7 @@ class GroupPlease(GroupCreatingWait):
     group_size = 2
 
     @classmethod
-    def after_grouping(page, group):
+    def after_grouping(page, group: GroupType) -> None:
         for player, is_employer in zip(group.players, [True, False]):
             player.employer = is_employer
 
@@ -59,7 +59,7 @@ class SetWage(Page):
     )
 
     @classmethod
-    def show(page, player):
+    def show(page, player: PlayerType) -> bool:
         return player.employer
 
 
@@ -78,13 +78,13 @@ class ChooseEffort(Page):
     )
 
     @classmethod
-    def show(page, player):
+    def show(page, player: PlayerType) -> bool:
         return not player.employer
 
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         employer = group.players.find_one(employer=True)
         worker = group.players.find_one(employer=False)
 
@@ -101,7 +101,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

@@ -49,7 +49,7 @@ def set_payoff(player):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         for player in group.players:
             set_payoff(player)
 
@@ -58,7 +58,7 @@ class Results(Page):
     pass
 
 
-def digest(session):
+def digest(session: SessionType) -> dict[str, Any]:
     data = []
 
     for group in session.groups(app=__name__):
@@ -88,7 +88,7 @@ def digest(session):
     return data
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

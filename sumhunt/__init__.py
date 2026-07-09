@@ -30,7 +30,7 @@ class C:
     __export__ = ["GRID", "TERMS"]
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.matrix = None
     player.solutions = 0
     player.rng = random.Random(C.SEED)

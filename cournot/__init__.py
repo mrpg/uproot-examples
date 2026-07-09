@@ -22,15 +22,15 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def other_units(self):
-        return self.player.other_in_group.units
+    def other_units(self) -> int:
+        return cast(int, self.player.other_in_group.units)
 
     @property
-    def total_units(self):
-        return self.player.units + self.other_units
+    def total_units(self) -> int:
+        return cast(int, self.player.units + self.other_units)
 
     @property
-    def price(self):
+    def price(self) -> int:
         return max(0, 100 - self.total_units)
 
 
@@ -56,7 +56,7 @@ class Decision(Page):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         p1, p2 = group.players
         total = p1.units + p2.units
         price = max(0, 100 - total)
@@ -68,7 +68,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

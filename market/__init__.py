@@ -101,7 +101,7 @@ def get_exchange(session) -> Exchange:
     return _exchanges[key]
 
 
-def new_session(session):
+def new_session(session: SessionType) -> None:
     session.book_model = um.create_model(session, tag="book_events")
     session.trade_model = um.create_model(session, tag="trade_events")
 
@@ -243,7 +243,7 @@ def broadcast_update(player, session, exchange):
 
 class Trading(Page):
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         if player.get("cash") is None:
             player.cash = "0"
         if player.get("stock") is None:

@@ -95,7 +95,7 @@ class Context(PlayerContext):
         )
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.trial_sequence = make_trials()
 
 
@@ -143,7 +143,7 @@ class Stroop(Page):
     )
 
     @classmethod
-    def templatevars(page, player):
+    def templatevars(page, player: PlayerType) -> dict[str, Any]:
         player.word, player.ink_color, player.type, player.button_order = (
             player.trial_sequence[player.round - 1]
         )

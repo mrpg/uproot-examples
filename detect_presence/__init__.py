@@ -45,23 +45,23 @@ class RaiseHands(Page):
             page.reset_session(player)
 
     @classmethod
-    def show(page, player):
+    def show(page, player: PlayerType) -> bool:
         return player.session.get(
             "detection_period_until"
         ) is None or not page.may_proceed(player)
 
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         page.ensure_detection(player)
 
         return player.session.detection_period_until - now()
 
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         page.ensure_detection(player)
 
     @classmethod
-    def may_proceed(page, player):
+    def may_proceed(page, player: PlayerType) -> bool:
         return now() >= player.session.detection_period_until
 
     @live
@@ -95,7 +95,7 @@ class WaitForPresent(SynchronizingWait):
         return [identify(p) for p in player.context.present]
 
     @classmethod
-    async def show(page, player):
+    async def show(page, player: PlayerType) -> bool:
         if not player.get("present", False):
             return False
 

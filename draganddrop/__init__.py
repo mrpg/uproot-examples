@@ -92,7 +92,7 @@ class DragAndDrop(Page):
     """
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         # Build one hidden RadioField per item.
         # Value 1 = Bucket 1, value 2 = Bucket 2.
         # Items start unsorted, so no default is set — the participant must
@@ -122,7 +122,7 @@ class DragAndDrop(Page):
 #
 #   class DragAndDrop(Page):
 #       @classmethod
-#       def fields(page, player):
+#       def fields(page, player: PlayerType) -> dict[str, Field]:
 #           return dict(
 #               bucket1_count=IntegerField(
 #                   label="Items in Bucket 1",

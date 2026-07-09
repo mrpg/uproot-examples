@@ -45,7 +45,7 @@ def categorize(angle):
 
 class Allocate(Page):
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         result = {}
 
         for i, (own, other) in enumerate(C.ITEMS, 1):
@@ -65,13 +65,13 @@ class Allocate(Page):
         return result
 
     @classmethod
-    def jsvars(page, player):
+    def jsvars(page, player: PlayerType) -> dict[str, Any]:
         return {
             "items": [{"own": own, "other": other} for own, other in C.ITEMS],
         }
 
     @classmethod
-    def after_once(page, player):
+    def after_once(page, player: PlayerType) -> None:
         choices = [
             int(getattr(player, f"choice_{i}")) for i in range(1, len(C.ITEMS) + 1)
         ]
@@ -92,7 +92,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for player in session.players:

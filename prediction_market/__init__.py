@@ -79,7 +79,7 @@ class TradeEntry(metaclass=um.Entry):
     price_no_after: float
 
 
-def new_session(session):
+def new_session(session: SessionType) -> None:
     session.q_yes = 0
     session.q_no = 0
     session.trade_log = um.create_model(session, tag="trades")
@@ -94,7 +94,7 @@ class Instructions(Page):
 
 class Trading(Page):
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         if player.get("cash") is None:
             player.cash = float(C.ENDOWMENT)
 
@@ -105,7 +105,7 @@ class Trading(Page):
             player.no_shares = 0
 
     @classmethod
-    def may_proceed(page, player):
+    def may_proceed(page, player: PlayerType) -> bool:
         return player.session.get("event_resolved") is True
 
     @live
@@ -278,7 +278,7 @@ class Results(Page):
 # --- Digest ---
 
 
-def digest(session):
+def digest(session: SessionType) -> dict[str, Any]:
     q_yes = session.get("q_yes") or 0
     q_no = session.get("q_no") or 0
     p_yes, p_no = lmsr_prices(q_yes, q_no, C.LIQUIDITY)

@@ -36,7 +36,7 @@ class InputValidationBasic(Page):
     """
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "share_min": IntegerField(
                 addon_end="%",
@@ -80,7 +80,7 @@ class InputValidationStealthField(Page):
     stealth_fields = ["code_to_proceed"]
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "code_to_proceed": StringField(
                 label=safe(
@@ -108,7 +108,7 @@ class InputValidationAdvanced(Page):
         player.input_errors = 0
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "share_safe_asset": IntegerField(
                 addon_end="%",
@@ -158,7 +158,7 @@ class InputValidationBootstrapClasses(Page):
     stealth_fields = ["conversion_rate", "group_size"]
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "group_size": RadioField(
                 choices=[1, 2, 3, 4, 5],

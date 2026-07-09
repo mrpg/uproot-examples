@@ -32,7 +32,7 @@ class C:
     __export__ = ["WORD_LENGTH"]
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.rng = random.Random(C.SEED)
     player.current_word = None
     player.solved = 0

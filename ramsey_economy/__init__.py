@@ -218,7 +218,7 @@ class Instructions(Page):
 
 class LaborTask(Page):
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         player.effort = 0
         player.captcha_code = None
 
@@ -275,7 +275,7 @@ class LaborTask(Page):
 
 class SyncLabor(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         settings = get_settings(group.session)
         tau_l = settings["tau_l"]
         tau_k = settings["tau_k"]
@@ -338,7 +338,7 @@ class SyncLabor(SynchronizingWait):
 
 class ConsumptionChoice(Page):
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         max_c = max(ZERO, decimal_value(player.resources))
 
         return dict(
@@ -356,7 +356,7 @@ class ConsumptionChoice(Page):
 
 class SyncRound(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         settings = get_settings(group.session)
         beta = settings["beta"]
         continue_game = rng().random() < beta
@@ -412,7 +412,7 @@ def played_rounds(*players):
     )
 
 
-def digest(session):
+def digest(session: SessionType) -> dict[str, Any]:
     data = []
 
     for group in session.groups(app=__name__):
@@ -444,7 +444,7 @@ def digest(session):
     return data
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
     settings = get_settings(session)
 

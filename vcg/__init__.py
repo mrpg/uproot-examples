@@ -23,21 +23,21 @@ class C:
 
 class Context(PlayerContext):
     @property
-    def members(self):
-        return self.player.group.players
+    def members(self) -> list[PlayerType]:
+        return cast(list[PlayerType], self.player.group.players)
 
     @property
-    def group_total_reported(self):
-        return sum(p.reported_value for p in self.player.group.players)
+    def group_total_reported(self) -> cu:
+        return cast(cu, sum(p.reported_value for p in self.player.group.players))
 
     @property
-    def total_payments(self):
-        return sum(p.payment for p in self.player.group.players)
+    def total_payments(self) -> cu:
+        return cast(cu, sum(p.payment for p in self.player.group.players))
 
     @property
-    def deficit(self):
+    def deficit(self) -> cu:
         if self.player.provided:
-            return C.COST - sum(p.payment for p in self.player.group.players)
+            return C.COST - self.total_payments
 
         return cu(0)
 
@@ -46,7 +46,7 @@ class GroupPlease(GroupCreatingWait):
     group_size = C.GROUP_SIZE
 
     @classmethod
-    def after_grouping(page, group):
+    def after_grouping(page, group: GroupType) -> None:
         for player in group.players:
             player.true_value = cu(rng().randint(0, C.MAX_VALUE))
 
@@ -69,7 +69,7 @@ class Report(Page):
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         players = group.players
         total_reported = sum(p.reported_value for p in players)
         provided = total_reported >= C.COST
@@ -99,7 +99,7 @@ class Results(Page):
     pass
 
 
-def pipeline(session):
+def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
 
     for group in session.groups(app=__name__):

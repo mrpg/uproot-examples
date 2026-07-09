@@ -28,7 +28,7 @@ class C:
 # FUNCTIONS
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     """Initialize variables."""
 
     player.could_not_be_grouped = False
@@ -44,16 +44,16 @@ class PageWithTimeLimit(Page):
     """A page with a time limit, like you would use it in an online study with interaction between participants, so that active participants do not have to wait indefinitely for slow/inattentive/inactive participants"""
 
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         return 30
 
     @classmethod
-    def timeout_reached(page, player):
+    def timeout_reached(page, player: PlayerType) -> None:
         player.timed_out_before_grouping = True
         move_to_page(player, DropoutInfo)
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "refuse": BooleanField(label="Refuse to participate."),
         }
@@ -77,16 +77,16 @@ class CreateGroups(GroupCreatingWait):
     group_size = C.GROUP_SIZE
 
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         return 120  # Make sure this is long enough – in particular, if not using WaitForEveryone!
 
     @classmethod
-    def timeout_reached(page, player):
+    def timeout_reached(page, player: PlayerType) -> None:
         player.could_not_be_grouped = True
         move_to_page(player, DropoutInfo)
 
     @classmethod
-    def after_grouping(page, group):
+    def after_grouping(page, group: GroupType) -> None:
         group.dropped_out = False
 
 
@@ -94,21 +94,21 @@ class ShowGroup(Page):
     """Page shown only to grouped participants"""
 
     @classmethod
-    def before_once(page, player):
+    def before_once(page, player: PlayerType) -> None:
         if player.could_not_be_grouped or player.group.dropped_out:
             move_to_page(player, DropoutInfo)
 
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         return 60
 
     @classmethod
-    def timeout_reached(page, player):
+    def timeout_reached(page, player: PlayerType) -> None:
         player.timed_out = True
         player.group.dropped_out = True
 
     @classmethod
-    def templatevars(page, player):
+    def templatevars(page, player: PlayerType) -> dict[str, Any]:
         group_members = sorted(player.group.players, key=lambda p: p.name)
         num_groups = (
             len(
@@ -126,7 +126,7 @@ class ShowGroup(Page):
         )
 
     @classmethod
-    def fields(page, player):
+    def fields(page, player: PlayerType) -> dict[str, Field]:
         return {
             "abort": BooleanField(label="Abort after this page."),
         }
@@ -138,7 +138,7 @@ class ShowGroup(Page):
             player.group.dropped_out = True
 
     @classmethod
-    def after_once(page, player):
+    def after_once(page, player: PlayerType) -> None:
         if player.timed_out:
             move_to_page(player, DropoutInfo)
             for p in player.group.players:
@@ -156,7 +156,7 @@ class AllGood(Page):
     """Page shown after group phase has finished without any issues"""
 
     @classmethod
-    def after_once(page, player):
+    def after_once(page, player: PlayerType) -> None:
         move_to_end(player)
 
 
@@ -164,7 +164,7 @@ class DropoutInfo(Page):
     """Page shown to participants who dropped out for various reasons"""
 
     @classmethod
-    def after_once(page, player):
+    def after_once(page, player: PlayerType) -> None:
         move_to_end(player)
 
 

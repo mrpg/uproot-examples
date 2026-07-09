@@ -17,7 +17,7 @@ DESCRIPTION = """Wait for session, then create two groups of identical size and 
 
 class PageWithTimeout(Page):
     @classmethod
-    def timeout(page, player):
+    def timeout(page, player: PlayerType) -> float:
         return 20
 
 
@@ -44,7 +44,7 @@ class WaitForEveryone(SynchronizingWait):
 
 class ShowGroup(Page):
     @classmethod
-    def templatevars(page, player):
+    def templatevars(page, player: PlayerType) -> dict[str, Any]:
         if player.group:
             group_members = sorted(player.group.players, key=lambda p: p.name)
             group_name = player.group.name

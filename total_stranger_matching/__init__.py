@@ -21,7 +21,7 @@ class C:
 SUGGESTED_MULTIPLE = C.GROUP_SIZE * 2
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.partners = []
     player.partner_history = []
 
@@ -118,7 +118,7 @@ class MatchStrangers(SynchronizingWait):
 
 class ShowMatch(Page):
     @classmethod
-    def templatevars(page, player):
+    def templatevars(page, player: PlayerType) -> dict[str, Any]:
         return dict(
             group_members=sorted(player.group.players, key=lambda p: p.name),
             total_rounds=C.ROUNDS,

@@ -19,7 +19,7 @@ LANDING_PAGE = False
 load_all("multilanguage/")
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.language = "en"
 
 

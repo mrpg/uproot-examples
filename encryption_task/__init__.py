@@ -36,7 +36,7 @@ class C:
     __export__ = ["WORD_LENGTH", "DURATION", "TABLE_MODE"]
 
 
-def new_player(player):
+def new_player(player: PlayerType) -> None:
     player.table_letters = None  # Shuffled alphabet
     player.table_digits = None  # Corresponding digits
     player.puzzle = None  # Current word to decode

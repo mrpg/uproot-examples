@@ -14,7 +14,7 @@ from uproot.smithereens import *
 DESCRIPTION = "A session-level chat"
 
 
-def new_session(session):
+def new_session(session: SessionType) -> None:
     session.chat = chat.create(session)
 
     # Optionally, you can register a callback that fires whenever a message
@@ -32,7 +32,7 @@ def on_chat_message(chat, player, message):
 
 class ChatHere(Page):
     @classmethod
-    async def before_once(page, player):
+    async def before_once(page, player: PlayerType) -> None:
         chat.add_player(
             player.session.chat,
             player,
