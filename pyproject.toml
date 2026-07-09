@@ -12,6 +12,7 @@ dependencies = [
     "find-eq @ git+https://github.com/mrpg/find-eq.git@master",
     "isort",
     "mini-exchange @ git+https://github.com/mrpg/mini-exchange.git@master",
+    "mypy",
     "pillow==12.2.0",
     "pre-commit",
     "pydub",
