@@ -102,7 +102,7 @@ class C:
 
 def unit_interval_setting(session: SessionType, key: str, default: float) -> float:
     try:
-        value = float(session.settings.get(key, default))
+        value = float(get_setting(session, key, default))
     except (TypeError, ValueError):
         value = default
 
@@ -120,7 +120,7 @@ def get_capital(player: PlayerType) -> Any:
     return prev.get("next_capital", C.K_BAR)
 
 
-def get_settings(session: SessionType) -> dict[str, float]:
+def policy_settings(session: SessionType) -> dict[str, float]:
     """Read configurable parameters from session settings."""
 
     return {
@@ -152,7 +152,7 @@ class Context(PlayerContext):
 
     @property
     def settings(self) -> dict[str, float]:
-        return get_settings(self.player.session)
+        return policy_settings(self.player.session)
 
 
 # -- Captcha ---------------------------------------------------------------
@@ -276,7 +276,7 @@ class LaborTask(Page):
 class SyncLabor(SynchronizingWait):
     @classmethod
     def all_here(page, group: GroupType) -> None:
-        settings = get_settings(group.session)
+        settings = policy_settings(group.session)
         tau_l = settings["tau_l"]
         tau_k = settings["tau_k"]
         n = C.GROUP_SIZE
@@ -357,7 +357,7 @@ class ConsumptionChoice(Page):
 class SyncRound(SynchronizingWait):
     @classmethod
     def all_here(page, group: GroupType) -> None:
-        settings = get_settings(group.session)
+        settings = policy_settings(group.session)
         beta = settings["beta"]
         continue_game = rng().random() < beta
 
@@ -446,7 +446,7 @@ def digest(session: SessionType) -> list[Any]:
 
 def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
-    settings = get_settings(session)
+    settings = policy_settings(session)
 
     for group in session.groups(app=__name__):
         players = group.players

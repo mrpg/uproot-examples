@@ -52,13 +52,15 @@ def is_integer(value: Any) -> bool:
     return isinstance(value, int) and not isinstance(value, bool)
 
 
-def get_setting(session: SessionType, key: str) -> Any:
-    return session.settings.get(key, getattr(C, "DEFAULT_" + key.upper()))
+def session_setting(session: SessionType, key: str) -> Any:
+    default = getattr(C, "DEFAULT_" + key.upper())
+
+    return get_setting(session, key, default)
 
 
 def get_tax(session: SessionType, key: str, round_num: int) -> int:
     """Get tax for a specific round. key is 'buyer_tax' or 'seller_tax'."""
-    val = get_setting(session, key)
+    val = session_setting(session, key)
 
     if isinstance(val, list):
         return cast(int, val[round_num - 1])
@@ -102,10 +104,10 @@ class Transaction(metaclass=um.Entry):
 
 def new_session(session: SessionType) -> None:
     """Initialize session with offer book and transaction ledger models"""
-    num_rounds = get_setting(session, "num_rounds")
-    duration = get_setting(session, "duration")
-    values = get_setting(session, "values")
-    costs = get_setting(session, "costs")
+    num_rounds = session_setting(session, "num_rounds")
+    duration = session_setting(session, "duration")
+    values = session_setting(session, "values")
+    costs = session_setting(session, "costs")
 
     if (
         not isinstance(num_rounds, int)
@@ -132,13 +134,13 @@ def new_session(session: SessionType) -> None:
         raise ValueError("costs must be a non-empty integer list")
 
     for key in ("buyer_can_offer", "seller_can_offer"):
-        val = get_setting(session, key)
+        val = session_setting(session, key)
 
         if not isinstance(val, bool):
             raise ValueError(f"{key} must be a boolean")
 
     for key in ("buyer_tax", "seller_tax"):
-        val = get_setting(session, key)
+        val = session_setting(session, key)
 
         if isinstance(val, list):
             if len(val) != num_rounds:
@@ -207,8 +209,8 @@ class Assignment(NoshowPage):
             assignment = session.get("double_auction_assignment")
 
             if assignment is None:
-                values = get_setting(session, "values")
-                costs = get_setting(session, "costs")
+                values = session_setting(session, "values")
+                costs = session_setting(session, "costs")
 
                 master_buyer = [True for _ in values] + [False for _ in costs]
                 master_cost_or_value = values + costs
@@ -398,7 +400,7 @@ def ensure_trading_open(player: PlayerType) -> None:
     now = time()
 
     if session.get("trade_until") is None:
-        session.trade_until = now + get_setting(session, "duration")
+        session.trade_until = now + session_setting(session, "duration")
         session.trade_round = player.round
 
     if session.get("trade_round") != player.round:
@@ -489,7 +491,7 @@ class Trade(Page):
             session.get("trade_until") is None
             or session.get("trade_round") != player.round
         ):
-            session.trade_until = time() + get_setting(session, "duration")
+            session.trade_until = time() + session_setting(session, "duration")
             session.trade_round = player.round
 
         return float(session.trade_until - time())
@@ -497,7 +499,7 @@ class Trade(Page):
     @classmethod
     async def jsvars(page, player: PlayerType) -> dict[str, Any]:
         can_offer_key = "buyer_can_offer" if player.buyer else "seller_can_offer"
-        can_offer = get_setting(player.session, can_offer_key)
+        can_offer = session_setting(player.session, can_offer_key)
 
         traded_players = players_traded_in_round(player.session.txs, player.round)
 
@@ -541,7 +543,7 @@ class Trade(Page):
 
         can_offer_key = "buyer_can_offer" if player.buyer else "seller_can_offer"
 
-        if not get_setting(player.session, can_offer_key):
+        if not session_setting(player.session, can_offer_key):
             raise ValueError("Your role cannot make offers in this market")
 
         if player_has_traded(player.session.txs, player.round, player.pid):
@@ -770,7 +772,7 @@ def digest(session: SessionType) -> dict[str, Any]:
         }
 
     rounds_data: list[dict[str, Any]] = []
-    num_rounds = cast(int, get_setting(session, "num_rounds"))
+    num_rounds = cast(int, session_setting(session, "num_rounds"))
 
     for round_num in range(1, num_rounds + 1):
         # Tax-adjusted curves (micro 101: demand shifts down, supply shifts up)
@@ -834,7 +836,7 @@ def pipeline(session: SessionType) -> list[dict[str, Any]]:
         return []
 
     rows: list[dict[str, Any]] = []
-    num_rounds = cast(int, get_setting(session, "num_rounds"))
+    num_rounds = cast(int, session_setting(session, "num_rounds"))
 
     for round_num in range(1, num_rounds + 1):
         transactions = transactions_by_id(session, round_num)
@@ -912,6 +914,6 @@ def page_order(player: PlayerType) -> list[Any]:
         Rounds(
             RoundInfo,
             Trade,
-            n=get_setting(player.session, "num_rounds"),
+            n=session_setting(player.session, "num_rounds"),
         ),
     ]

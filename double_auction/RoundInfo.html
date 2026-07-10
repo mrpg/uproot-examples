@@ -2,7 +2,7 @@
 
 {% block main %}
 
-{% set num_rounds = app.get_setting(player.session, "num_rounds") %}
+{% set num_rounds = get_setting(player.session, "num_rounds", C.DEFAULT_NUM_ROUNDS) %}
 {% set buyer_tax = app.get_tax(player.session, "buyer_tax", player.round) %}
 {% set seller_tax = app.get_tax(player.session, "seller_tax", player.round) %}
 

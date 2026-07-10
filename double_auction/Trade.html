@@ -19,10 +19,14 @@
 
 {% block main %}
 
-{% set num_rounds = app.get_setting(player.session, "num_rounds") %}
+{% set num_rounds = get_setting(player.session, "num_rounds", C.DEFAULT_NUM_ROUNDS) %}
 {% set buyer_tax = app.get_tax(player.session, "buyer_tax", player.round) %}
 {% set seller_tax = app.get_tax(player.session, "seller_tax", player.round) %}
-{% set can_offer = app.get_setting(player.session, "buyer_can_offer") if player.buyer else app.get_setting(player.session, "seller_can_offer") %}
+{% if player.buyer %}
+    {% set can_offer = get_setting(player.session, "buyer_can_offer", C.DEFAULT_BUYER_CAN_OFFER) %}
+{% else %}
+    {% set can_offer = get_setting(player.session, "seller_can_offer", C.DEFAULT_SELLER_CAN_OFFER) %}
+{% endif %}
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h3>Round {{ player.round }} of {{ num_rounds }}</h3>

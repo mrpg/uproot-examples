@@ -26,16 +26,18 @@ class C:
     DEFAULT_COSTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 
-def get_setting(session: SessionType, key: str) -> Any:
-    return session.settings.get(key, getattr(C, "DEFAULT_" + key.upper()))
+def session_setting(session: SessionType, key: str) -> Any:
+    default = getattr(C, "DEFAULT_" + key.upper())
+
+    return get_setting(session, key, default)
 
 
 class Assignment(NoshowPage):
     @classmethod
     def after_always_once(page, player: PlayerType) -> None:
         session = player.session
-        values = get_setting(session, "values")
-        costs = get_setting(session, "costs")
+        values = session_setting(session, "values")
+        costs = session_setting(session, "costs")
 
         master_buyer = [True] * len(values) + [False] * len(costs)
         master_cv = values + costs
@@ -75,7 +77,7 @@ class Submit(Page):
             session.get("submit_until") is None
             or session.get("submit_round") != player.round
         ):
-            session.submit_until = time() + get_setting(session, "duration")
+            session.submit_until = time() + session_setting(session, "duration")
             session.submit_round = player.round
         return cast(float, session.submit_until) - time()
 
@@ -100,7 +102,7 @@ class Results(Page):
     def before_once(page, player: PlayerType) -> None:
         session = player.session
         round_num = player.round
-        num_rounds = get_setting(session, "num_rounds")
+        num_rounds = session_setting(session, "num_rounds")
         player.add_round = round_num < num_rounds
 
         bids, asks = bids_and_asks(session, round_num)
@@ -156,7 +158,7 @@ def digest(session: SessionType) -> dict[str, Any]:
             "quantity": eq.quantity,
         }
 
-    num_rounds = get_setting(session, "num_rounds")
+    num_rounds = session_setting(session, "num_rounds")
     rounds_data = []
 
     for round_num in range(1, num_rounds + 1):
@@ -225,7 +227,7 @@ def market_result(session: SessionType, round_num: int) -> Any:
 
 def pipeline(session: SessionType) -> list[dict[str, Any]]:
     rows = []
-    num_rounds = get_setting(session, "num_rounds")
+    num_rounds = session_setting(session, "num_rounds")
 
     for round_num in range(1, num_rounds + 1):
         clearing_price, market_quantity = market_result(session, round_num)

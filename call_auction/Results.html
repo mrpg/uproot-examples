@@ -2,7 +2,7 @@
 
 {% block main %}
 
-{% set num_rounds = app.get_setting(player.session, "num_rounds") %}
+{% set num_rounds = get_setting(player.session, "num_rounds", C.DEFAULT_NUM_ROUNDS) %}
 
 <h3>Round {{ player.round }} of {{ num_rounds }} &mdash; Results</h3>
 

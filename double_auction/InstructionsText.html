@@ -1,6 +1,10 @@
 <p>This is a <b>double auction market</b> where buyers and sellers can trade with each other. Trades occur when buyers and sellers agree on a price.</p>
 
-{% set can_offer = app.get_setting(player.session, "buyer_can_offer") if player.buyer else app.get_setting(player.session, "seller_can_offer") %}
+{% if player.buyer %}
+    {% set can_offer = get_setting(player.session, "buyer_can_offer", C.DEFAULT_BUYER_CAN_OFFER) %}
+{% else %}
+    {% set can_offer = get_setting(player.session, "seller_can_offer", C.DEFAULT_SELLER_CAN_OFFER) %}
+{% endif %}
 
 <h4>Your role</h4>
 
