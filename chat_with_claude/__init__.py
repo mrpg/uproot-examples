@@ -8,15 +8,13 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
-import asyncio
-
 from uproot.fields import *
 from uproot.smithereens import *
 
 DESCRIPTION = "Chat with Claude"
 
 
-async def _respond(chat_mid: ModelIdentifier) -> None:
+async def respond(chat_mid: ModelIdentifier) -> None:
     import anthropic
     from anthropic.types import MessageParam, TextBlock
 
@@ -66,7 +64,7 @@ async def on_chat_message(
     if player is None:
         return
 
-    asyncio.create_task(_respond(chat))
+    spawn(respond(chat))
 
 
 def new_player(player: PlayerType) -> None:

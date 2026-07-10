@@ -33,7 +33,7 @@ async def restart() -> None:
         for session in admin.sessions:
             with session:
                 if session.get("my_state") is not None:
-                    asyncio.create_task(increment_state(session))
+                    spawn(increment_state(session))
 
 
 class C:
@@ -45,7 +45,7 @@ class EnsureBackgroundTask(NoshowPage):
     async def after_always_once(page, player: PlayerType) -> None:
         if player.session.get("my_state") is None:
             player.session.my_state = 0
-            asyncio.create_task(increment_state(player.session))
+            spawn(increment_state(player.session))
 
 
 class FirstPage(Page):
