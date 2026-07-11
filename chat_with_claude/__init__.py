@@ -8,6 +8,7 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
+import anthropic
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -15,7 +16,6 @@ DESCRIPTION = "Chat with Claude"
 
 
 async def respond(chat_mid: ModelIdentifier) -> None:
-    import anthropic
     from anthropic.types import MessageParam, TextBlock
 
     messages: list[MessageParam] = []

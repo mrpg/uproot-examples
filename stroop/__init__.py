@@ -8,6 +8,8 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
+import math
+
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -100,8 +102,6 @@ def new_player(player: PlayerType) -> None:
 
 
 def make_trials() -> list[list[Any]]:
-    import math
-
     trials = []
     random = rng()
 
