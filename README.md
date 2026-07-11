@@ -26,6 +26,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `captcha`                                         | Captcha image generated through api2()                          | Easy       |
 | `chat`                                            | Chat                                                            | Easy       |
 | `chat_with_claude`                                | Chat with Claude                                                | Medium     |
+| `chat_with_gpt`                                   | Chat with GPT                                                   | Medium     |
 | `conjoint`                                        | Conjoint experiment with randomized profile pairs               | Medium     |
 | `continuous`                                      | Do something in intervals (background tasks)                    | Medium     |
 | `counter_alpine`                                  | Counter with live updates (Alpine.js)                           | Easy       |

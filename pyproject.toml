@@ -13,6 +13,7 @@ dependencies = [
     "isort",
     "mini-exchange @ git+https://github.com/mrpg/mini-exchange.git@master",
     "mypy",
+    "openai",
     "pillow==12.2.0",
     "pre-commit",
     "pydub",
