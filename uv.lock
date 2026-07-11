@@ -1246,15 +1246,15 @@ requires-dist = [
     { name = "pydub" },
     { name = "ruff" },
     { name = "schwifty" },
-    { name = "uproot-science", git = "https://github.com/mrpg/uproot.git?rev=main" },
-    { name = "uproot-science", extras = ["pg"], marker = "extra == 'pg'", git = "https://github.com/mrpg/uproot.git?rev=main" },
+    { name = "uproot-science", specifier = "<1" },
+    { name = "uproot-science", extras = ["pg"], marker = "extra == 'pg'", specifier = "<1" },
 ]
 provides-extras = ["pg"]
 
 [[package]]
 name = "uproot-science"
-version = "0.0.1"
-source = { git = "https://github.com/mrpg/uproot.git?rev=main#abb7cd71373b594bd47dbbfb15b7ff6ff503e278" }
+version = "0.1.0"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "appendmuch" },
     { name = "click" },
@@ -1275,6 +1275,9 @@ dependencies = [
     { name = "watchdog" },
     { name = "websockets" },
     { name = "wtforms" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c7/bc/ff9e7df11a8fcd781b7acff778f16649c896845843f1c0a3dc2e0dac6c04/uproot_science-0.1.0-py3-none-any.whl", hash = "sha256:2e4e5bad1c17b1c163bd56d5c17ce163ca29a44b1a7c046df1fdd28f6bd99146", size = 14880247, upload-time = "2026-07-11T06:59:17.525Z" },
 ]
 
 [package.optional-dependencies]
