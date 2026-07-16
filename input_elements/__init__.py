@@ -159,6 +159,25 @@ class ExampleInputsUprootFields(Page):
                 ),
                 render_kw={"class": "w-50"},
             ),
+            "float_field": FloatField(
+                default=3.14,
+                description="Description for the <code class='text-black-50'>FloatField</code>.",
+                label=safe(
+                    "Enter a floating-point number. <code class='fw-normal ms-3 text-black-50'>FloatField</code>"
+                ),
+                max=10.0,
+                min=0.0,
+            ),
+            "float_range_field": FloatRangeField(
+                default=0.5,
+                description="Description for the <code class='text-black-50'>FloatRangeField</code>.",
+                label=safe(
+                    "Select a floating-point number. <code class='fw-normal ms-3 text-black-50'>FloatRangeField</code>"
+                ),
+                max=1.0,
+                min=0.0,
+                step=0.000001,
+            ),
             "integer_field": IntegerField(
                 addon_start=safe("I would award <em>this</em> hotel"),
                 addon_end="★★.",
