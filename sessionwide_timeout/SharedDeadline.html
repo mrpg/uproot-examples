@@ -1,0 +1,16 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Shared deadline
+{% endblock title %}
+
+
+{% block main %}
+
+<p>
+    The first player to reach this page starts one {{ C.WAIT_SECONDS | fmtnum(places=0) }}-second
+    deadline for the whole session. Everyone advances when that shared deadline expires.
+</p>
+
+{% endblock main %}

@@ -1,0 +1,21 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Session-wide code complete
+{% endblock title %}
+
+
+{% block main %}
+
+<p>
+    <strong>{{ player.session.sessionwide_timeout_first_arrival }}</strong> reached this page first,
+    so that player’s request ran the session-wide code.
+</p>
+
+<p>
+    As a simple example, the code numbered all players once. You are player
+    <strong>{{ player.sessionwide_position }}</strong> of
+    <strong>{{ player.session.sessionwide_timeout_player_count }}</strong>.
+</p>
+
+{% endblock main %}

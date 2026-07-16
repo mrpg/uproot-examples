@@ -80,6 +80,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `rounds_nested`                                   | Using nested rounds                                             | Easy       |
 | `rounds`                                          | Using rounds (history table)                                    | Easy       |
 | `second_price_auction`                            | Second-price sealed-bid auction (Vickrey, 1961)                 | Easy       |
+| `sessionwide_timeout`                             | Session-wide timeout followed by code run by the first arrival  | Easy       |
 | `sound_recording`                                 | Record audio of yourself reading a sentence                     | Advanced   |
 | `stackelberg`                                     | Stackelberg quantity competition (2 players, sequential)        | Easy       |
 | `streaming`                                       | FastAPI StreamingResponse through api2()                        | Medium     |
