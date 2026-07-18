@@ -46,6 +46,11 @@ For example, with `values: [100, 100]` and `costs: [50, 50, 50]` (5 roles per ti
 
 All settings are optional. Configure them via `session.settings` (e.g., in a scenario file or the admin interface).
 
+`AdminSettings.html` demonstrates an app-owned custom settings form. It receives
+the current `config`, `appname`, `settings`, `C`, and `editor_id`, then registers
+a reader that validates and returns its contribution to the canonical settings
+object at submission.
+
 | Setting       | Type            | Default                          | Description |
 |---------------|-----------------|----------------------------------|-------------|
 | `values`      | list of int     | `[10, 9, 8, 7, 6, 5, 4, 3, 2, 1]` | Buyer valuations. One entry per buyer role. |
@@ -125,6 +130,7 @@ This allows the experimenter to compare theoretical predictions against observed
 | File                  | Purpose |
 |-----------------------|---------|
 | `__init__.py`         | All Python logic: constants, pages, models, live handlers, digest |
+| `AdminSettings.html`  | Custom new-session settings form and JSON-object serialization |
 | `RaiseHands.html`     | Attendance toggle (Alpine.js) |
 | `RoundInfo.html`      | Per-round role and profit info |
 | `RoundInfoText.html`  | Shared text fragment for role/tax display (included by RoundInfo and Trade) |

@@ -1,0 +1,115 @@
+{% set num_rounds = settings.get("num_rounds", C.DEFAULT_NUM_ROUNDS) %}
+{% set duration = settings.get("duration", C.DEFAULT_DURATION) %}
+{% set values = settings.get("values", C.DEFAULT_VALUES) %}
+{% set costs = settings.get("costs", C.DEFAULT_COSTS) %}
+{% set buyer_tax = settings.get("buyer_tax", C.DEFAULT_BUYER_TAX) %}
+{% set seller_tax = settings.get("seller_tax", C.DEFAULT_SELLER_TAX) %}
+{% set buyer_can_offer = settings.get("buyer_can_offer", C.DEFAULT_BUYER_CAN_OFFER) %}
+{% set seller_can_offer = settings.get("seller_can_offer", C.DEFAULT_SELLER_CAN_OFFER) %}
+
+<div class="border rounded p-3" id="{{ editor_id }}"
+    data-app="{{ appname }}" data-config="{{ config }}">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label" for="{{ editor_id }}-num-rounds">Number of rounds</label>
+            <input class="form-control" id="{{ editor_id }}-num-rounds"
+                data-setting="num-rounds" min="1" step="1" type="number" value="{{ num_rounds }}">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ editor_id }}-duration">Round duration (seconds)</label>
+            <input class="form-control" id="{{ editor_id }}-duration"
+                data-setting="duration" min="1" step="1" type="number" value="{{ duration }}">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ editor_id }}-values">Buyer values</label>
+            <input class="form-control font-monospace" id="{{ editor_id }}-values"
+                data-setting="values" type="text" value="{{ values | join(', ') }}">
+            <small class="form-text">Comma-separated integers</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ editor_id }}-costs">Seller costs</label>
+            <input class="form-control font-monospace" id="{{ editor_id }}-costs"
+                data-setting="costs" type="text" value="{{ costs | join(', ') }}">
+            <small class="form-text">Comma-separated integers</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ editor_id }}-buyer-tax">Buyer tax</label>
+            <input class="form-control font-monospace" id="{{ editor_id }}-buyer-tax"
+                data-setting="buyer-tax" type="text"
+                value="{% if buyer_tax is iterable and buyer_tax is not string %}{{ buyer_tax | join(', ') }}{% else %}{{ buyer_tax }}{% endif %}">
+            <small class="form-text">One integer, or one per round</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ editor_id }}-seller-tax">Seller tax</label>
+            <input class="form-control font-monospace" id="{{ editor_id }}-seller-tax"
+                data-setting="seller-tax" type="text"
+                value="{% if seller_tax is iterable and seller_tax is not string %}{{ seller_tax | join(', ') }}{% else %}{{ seller_tax }}{% endif %}">
+            <small class="form-text">One integer, or one per round</small>
+        </div>
+        <div class="col-12">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" id="{{ editor_id }}-buyer-can-offer"
+                    data-setting="buyer-can-offer" type="checkbox"{% if buyer_can_offer %} checked{% endif %}>
+                <label class="form-check-label" for="{{ editor_id }}-buyer-can-offer">Buyers can make offers</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" id="{{ editor_id }}-seller-can-offer"
+                    data-setting="seller-can-offer" type="checkbox"{% if seller_can_offer %} checked{% endif %}>
+                <label class="form-check-label" for="{{ editor_id }}-seller-can-offer">Sellers can make offers</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(() => {
+    function doubleAuctionIntegers(text, label) {
+        const values = text.split(",").map((value) => value.trim()).filter(Boolean).map(Number);
+
+        if (values.length === 0 || values.some((value) => !Number.isInteger(value))) {
+            throw new TypeError(`${label} must contain comma-separated integers.`);
+        }
+
+        return values;
+    }
+
+    function doubleAuctionTax(text, label, numRounds) {
+        const values = doubleAuctionIntegers(text, label);
+
+        if (values.length !== 1 && values.length !== numRounds) {
+            throw new TypeError(`${label} must contain one integer or one integer per round.`);
+        }
+
+        return values.length === 1 ? values[0] : values;
+    }
+
+    function doubleAuctionSettings(root) {
+        const field = (name) => root.querySelector(`[data-setting='${name}']`);
+        const numRounds = Number(field("num-rounds").value);
+        const duration = Number(field("duration").value);
+
+        if (!Number.isInteger(numRounds) || numRounds < 1) {
+            throw new TypeError("Number of rounds must be a positive integer.");
+        }
+
+        if (!Number.isInteger(duration) || duration < 1) {
+            throw new TypeError("Round duration must be a positive integer.");
+        }
+
+        return {
+            num_rounds: numRounds,
+            duration,
+            values: doubleAuctionIntegers(field("values").value, "Buyer values"),
+            costs: doubleAuctionIntegers(field("costs").value, "Seller costs"),
+            buyer_tax: doubleAuctionTax(field("buyer-tax").value, "Buyer tax", numRounds),
+            seller_tax: doubleAuctionTax(field("seller-tax").value, "Seller tax", numRounds),
+            buyer_can_offer: field("buyer-can-offer").checked,
+            seller_can_offer: field("seller-can-offer").checked
+        };
+    }
+
+    registerSessionSettingsEditor("{{ editor_id }}", () => {
+        return doubleAuctionSettings(document.getElementById("{{ editor_id }}"));
+    });
+})();
+</script>
