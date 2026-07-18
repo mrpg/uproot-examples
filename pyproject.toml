@@ -19,7 +19,7 @@ dependencies = [
     "pydub",
     "ruff",
     "schwifty",
-    "uproot-science<1",
+    "uproot-science @ git+https://github.com/mrpg/uproot.git@main",
 ]
 
 [tool.black]
@@ -48,7 +48,7 @@ extra_checks = true
 
 [project.optional-dependencies]
 pg = [
-    "uproot-science[pg]<1",
+    "uproot-science[pg] @ git+https://github.com/mrpg/uproot.git@main",
 ]
 
 [tool.ruff.lint]
