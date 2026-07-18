@@ -1,0 +1,71 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Roll the Die
+{% endblock title %}
+
+
+{% block head %}
+
+<style>
+    [x-cloak] {
+        display: none !important;
+    }
+</style>
+
+{% endblock head %}
+
+
+{% block main %}
+
+<p>Click the button below to roll the die.</p>
+
+{{ errors() }}
+
+<div x-data="die()">
+    <div class="my-4 text-center">
+        <div class="mb-3" style="font-size: 6rem; line-height: 1;">
+            <span x-show="face === null">&#x1F3B2;</span>
+            <span x-show="face !== null" x-text="faces[face - 1]"></span>
+        </div>
+
+        <button type="button" class="btn btn-uproot" id="roll-button" @click="roll" :disabled="rolling || rolled">
+            Roll the die
+        </button>
+    </div>
+
+    <div x-show="rolled" x-cloak>
+        {{ fields() }}
+    </div>
+</div>
+
+<script>
+    function die() {
+        return {
+            faces: ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"],
+            face: null,
+            rolled: false,
+            rolling: false,
+            roll() {
+                if (this.rolling || this.rolled) {
+                    return;
+                }
+
+                this.rolling = true;
+                let ticks = 0;
+
+                const timer = setInterval(() => {
+                    this.face = 1 + Math.floor(Math.random() * 6);
+
+                    if (++ticks >= 10) {
+                        clearInterval(timer);
+                        this.rolling = false;
+                        this.rolled = true;
+                    }
+                }, 80);
+            },
+        };
+    }
+</script>
+
+{% endblock main %}

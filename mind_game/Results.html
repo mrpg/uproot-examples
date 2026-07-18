@@ -1,0 +1,16 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+{% if player.correct_guess == 1 %}
+<p>You reported that you guessed correctly. You are eligible for the <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b> bonus.</p>
+{% else %}
+<p>You reported that you did not guess correctly. Thank you for participating.</p>
+{% endif %}
+
+{% endblock main %}

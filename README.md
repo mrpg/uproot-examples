@@ -53,6 +53,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `input_validation`                                | Validate inputs and show feedback before proceeding             | Easy       |
 | `many_fields`†                                    | Benchmark: insert many fields                                   | Easy       |
 | `market`                                          | Continuous market with a limit order book                       | Advanced   |
+| `mind_game`                                       | Mind game honesty task (Jiang, 2013; Kajackaite & Gneezy, 2017) | Easy       |
 | `minimum_effort_game`                             | Minimum effort / weakest link game (Van Huyck et al., 1990)     | Easy       |
 | `mpl`                                             | Multiple price list                                             | Medium     |
 | `multilanguage`                                   | App with language switcher                                      | Easy       |

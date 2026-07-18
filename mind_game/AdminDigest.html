@@ -1,0 +1,7 @@
+{% block main %}
+
+<p>Responses so far: <b>{{ n_total }}</b></p>
+<p>Reported correct guess: <b>{{ n_correct }}</b> ({{ (100 * rate) | fmtnum(post="%", places=1) }})</p>
+<p>Under truthful reporting, the expected rate of correct guesses is 16.7%.</p>
+
+{% endblock main %}
