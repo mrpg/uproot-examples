@@ -227,7 +227,7 @@ def _validated_covariates(covariates: list[list[float]]) -> list[list[float]]:
         clean_row = []
         for j, value in enumerate(row):
             if isinstance(value, bool) or not isinstance(value, (int, float)):
-                raise ValueError(f"covariate ({i}, {j}) is not numeric")
+                raise TypeError(f"covariate ({i}, {j}) is not numeric")
             value = float(value)
             if not math.isfinite(value):
                 raise ValueError(f"covariate ({i}, {j}) is not finite")

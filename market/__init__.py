@@ -10,7 +10,7 @@
 
 from dataclasses import replace
 from decimal import Decimal
-from typing import Any, Optional
+from typing import Any
 
 import uproot.models as um
 from mini_exchange import Exchange, Order
@@ -211,7 +211,7 @@ def get_book_snapshot(exchange: Exchange) -> dict[str, Any]:
 
 def get_player_orders(exchange: Exchange, player_name: str) -> list[dict[str, Any]]:
     orders = []
-    for oid, order in exchange.orders.items():
+    for order in exchange.orders.values():
         if order.user == player_name:
             orders.append(
                 {
@@ -277,7 +277,7 @@ class Trading(Page):
         player: PlayerType,
         order_type: str,
         side: str,
-        price: Optional[str],
+        price: str | None,
         quantity: int,
     ) -> Any:
         if order_type not in ("limit", "market"):

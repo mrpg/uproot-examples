@@ -22,8 +22,8 @@ SUGGESTED_MULTIPLE = 3
 
 
 CENT = Decimal("0.01")
-ONE = Decimal("1")
-ZERO = Decimal("0")
+ONE = Decimal(1)
+ZERO = Decimal(0)
 
 
 def decimal_value(value: Any) -> Decimal:
@@ -50,7 +50,7 @@ def redemption(c: Any) -> Decimal:
     if c <= ZERO:
         return ZERO
 
-    return cents_round(Decimal("2") * c.sqrt())
+    return cents_round(Decimal(2) * c.sqrt())
 
 
 class C:
@@ -70,7 +70,7 @@ class C:
     L_BAR = 10
 
     # Initial capital per player
-    K_BAR = Decimal("20")
+    K_BAR = Decimal(20)
 
     # Default tax rates (configurable via session settings keys "tau_l", "tau_k")
     DEFAULT_TAU_L = 0.0

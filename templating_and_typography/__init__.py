@@ -30,19 +30,13 @@ class Templating(Page):
 class Typography(Page):
     """Showcase the default fonts used by uproot if webfonts are loaded"""
 
-    pass
-
 
 class TypographyPNum(Page):
     """Showcase the default fonts used by uproot if webfonts are loaded"""
 
-    pass
-
 
 class TypographyNoWebfonts(Page):
     """Showcase the default fonts used by uproot if no webfonts are used"""
-
-    pass
 
 
 # PAGE ORDER

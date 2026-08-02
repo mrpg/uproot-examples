@@ -151,8 +151,6 @@ class ShowGroup(Page):
 class KeepGroupInSync(SynchronizingWait):
     """Let all players in a group proceed to the next round simultaneously"""
 
-    pass
-
 
 class AllGood(Page):
     """Page shown after group phase has finished without any issues"""

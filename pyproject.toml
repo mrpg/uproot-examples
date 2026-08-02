@@ -52,7 +52,7 @@ pg = [
 ]
 
 [tool.ruff.lint]
-ignore = ["F403", "F405"]
+ignore = ["F403", "F405", "RUF012", "C408", "BLE001"]
 
 [tool.isort]
 profile = "black"

@@ -24,7 +24,7 @@ The auction follows these principles:
 
 from decimal import Decimal
 from time import time
-from typing import Any, Optional, cast
+from typing import Any, cast
 from uuid import UUID
 
 import uproot.models as um
@@ -82,7 +82,7 @@ class Offer(metaclass=um.Entry):
     pid: PlayerIdentifier
     round: int
     buy: bool
-    price: Optional[int]  # None signifies offer withdrawal/invalidation
+    price: int | None  # None signifies offer withdrawal/invalidation
 
 
 class Transaction(metaclass=um.Entry):
@@ -99,7 +99,7 @@ class Transaction(metaclass=um.Entry):
     round: int
     acceptor: PlayerIdentifier
     price: int
-    proposer: Optional[PlayerIdentifier] = None
+    proposer: PlayerIdentifier | None = None
 
 
 def new_session(session: SessionType) -> None:
@@ -137,7 +137,7 @@ def new_session(session: SessionType) -> None:
         val = session_setting(session, key)
 
         if not isinstance(val, bool):
-            raise ValueError(f"{key} must be a boolean")
+            raise TypeError(f"{key} must be a boolean")
 
     for key in ("buyer_tax", "seller_tax"):
         val = session_setting(session, key)
@@ -262,7 +262,7 @@ def market_data(
     traded_players = players_traded_in_round(txs_model, round)
 
     # Map each player to their latest offer (last one wins)
-    player_offers: dict[PlayerIdentifier, tuple[UUID, bool, Optional[int]]] = {}
+    player_offers: dict[PlayerIdentifier, tuple[UUID, bool, int | None]] = {}
 
     for entry_id, _, entry in um.filter_entries(offers_model, Offer, round=round):
         player_offers[entry.pid] = (entry_id, entry.buy, entry.price)
@@ -313,8 +313,8 @@ def player_active_offer(
     round: int,
     pid: PlayerIdentifier,
     *,
-    traded_players: Optional[set[PlayerIdentifier]] = None,
-) -> Optional[tuple[UUID, Offer]]:
+    traded_players: set[PlayerIdentifier] | None = None,
+) -> tuple[UUID, Offer] | None:
     """Return the player's latest active offer from the durable offer ledger."""
     latest = None
 
@@ -357,7 +357,7 @@ def players_traded_in_round(txs_model: Any, round: int) -> set[PlayerIdentifier]
 
 def player_transaction_id(
     txs_model: Any, round: int, pid: PlayerIdentifier
-) -> Optional[UUID]:
+) -> UUID | None:
     result = player_transaction(txs_model, round, pid)
 
     return result[0] if result is not None else None
@@ -367,7 +367,7 @@ def player_transaction(
     txs_model: Any,
     round: int,
     pid: PlayerIdentifier,
-) -> Optional[tuple[UUID, Transaction]]:
+) -> tuple[UUID, Transaction] | None:
     for tx_id, _, transaction in um.filter_entries(txs_model, Transaction, round=round):
         if pid in transaction_players(transaction):
             return tx_id, transaction
@@ -383,7 +383,7 @@ def player_has_traded(txs_model: Any, round: int, pid: PlayerIdentifier) -> bool
     return False
 
 
-def player_profit_from_ledger(player: PlayerType) -> Optional[int]:
+def player_profit_from_ledger(player: PlayerType) -> int | None:
     result = player_transaction(player.session.txs, player.round, player.pid)
 
     if result is None:
@@ -431,7 +431,7 @@ def create_offer_entry(
     player: PlayerType | PlayerIdentifier,
     round: int,
     is_buy: bool,
-    price: Optional[int],
+    price: int | None,
 ) -> UUID:
     """Helper to create and store an offer, returns the entry UUID"""
     return um.add_entry(
@@ -526,7 +526,7 @@ class Trade(Page):
         return market_data(player.session.offers, player.session.txs, player.round)
 
     @live
-    def make_offer(page, player: PlayerType, amount: Optional[int]) -> Optional[int]:
+    def make_offer(page, player: PlayerType, amount: int | None) -> int | None:
         """
         Submit a new bid (buyers) or ask (sellers) to the market
 
@@ -761,7 +761,7 @@ def digest(session: SessionType) -> dict[str, Any]:
     demand_values.sort(reverse=True)
     supply_costs.sort()
 
-    def eq_to_dict(eq: Any) -> Optional[dict[str, int]]:
+    def eq_to_dict(eq: Any) -> dict[str, int] | None:
         if eq is None or eq.quantity == 0:
             return None
 
@@ -797,7 +797,7 @@ def digest(session: SessionType) -> dict[str, Any]:
             traded.update(transaction_players(transaction))
             tx_prices.append(transaction.price)
 
-        player_offers: dict[PlayerIdentifier, tuple[bool, Optional[int]]] = {}
+        player_offers: dict[PlayerIdentifier, tuple[bool, int | None]] = {}
 
         for _, _, entry in um.filter_entries(session.offers, Offer, round=round_num):
             player_offers[entry.pid] = (entry.buy, entry.price)
@@ -878,7 +878,7 @@ def latest_offer_by_player(
     session: SessionType,
     round_num: int,
     *,
-    traded: Optional[set[PlayerIdentifier]] = None,
+    traded: set[PlayerIdentifier] | None = None,
 ) -> dict[PlayerIdentifier, Offer]:
     offers: dict[PlayerIdentifier, Offer] = {}
 

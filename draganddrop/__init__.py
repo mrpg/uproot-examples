@@ -148,8 +148,6 @@ class Results(Page):
     Displays a summary of each item's placement.
     """
 
-    pass
-
 
 page_order = [
     DragAndDrop,

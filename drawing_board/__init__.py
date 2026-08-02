@@ -69,9 +69,7 @@ def generate_visible_hex() -> str:
     lightness = 0.6 * color_rng.random()
 
     rgb = colorsys.hls_to_rgb(hue, lightness, saturation)
-    return "#{:02x}{:02x}{:02x}".format(
-        int(rgb[0] * 255), int(rgb[1] * 255), int(rgb[2] * 255)
-    )
+    return f"#{int(rgb[0] * 255):02x}{int(rgb[1] * 255):02x}{int(rgb[2] * 255):02x}"
 
 
 def new_player(player: PlayerType) -> None:
