@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "uproot-project"
 version = "0.1.0"
@@ -21,6 +25,9 @@ dependencies = [
     "schwifty",
     "uproot-science @ git+https://github.com/mrpg/uproot.git@main",
 ]
+
+[tool.setuptools]
+packages = []
 
 [tool.black]
 target-version = ["py313"]
