@@ -748,21 +748,26 @@ def digest(session: SessionType) -> dict[str, Any]:
 
     demand_values: list[int] = []
     supply_costs: list[int] = []
+    player_info: dict[PlayerIdentifier, tuple[bool, int]] = {}
 
     for player in session.players:
         if player.get("buyer") is None:
             continue
 
-        if player.buyer:
-            demand_values.append(cast(int, player.cost_or_value))
+        is_buyer = bool(player.buyer)
+        cov = cast(int, player.cost_or_value)
+        player_info[player.pid] = (is_buyer, cov)
+
+        if is_buyer:
+            demand_values.append(cov)
         else:
-            supply_costs.append(cast(int, player.cost_or_value))
+            supply_costs.append(cov)
 
     demand_values.sort(reverse=True)
     supply_costs.sort()
 
     def eq_to_dict(eq: Any) -> dict[str, int] | None:
-        if eq is None or eq.quantity == 0:
+        if eq is None:
             return None
 
         return {
@@ -788,14 +793,26 @@ def digest(session: SessionType) -> dict[str, Any]:
             )
         )
 
+        maximum_profit = sum(
+            max(value - cost, 0)
+            for value, cost in zip(eff_demand, eff_supply, strict=False)
+        )
+
         traded: set[PlayerIdentifier] = set()
         tx_prices: list[int] = []
+        actual_profit = 0
 
         for _, _, transaction in um.filter_entries(
             session.txs, Transaction, round=round_num
         ):
             traded.update(transaction_players(transaction))
             tx_prices.append(transaction.price)
+            for pid in transaction_players(transaction):
+                is_buyer, cov = player_info[pid]
+                if is_buyer:
+                    actual_profit += cov - transaction.price - buyer_tax
+                else:
+                    actual_profit += transaction.price - cov - seller_tax
 
         player_offers: dict[PlayerIdentifier, tuple[bool, int | None]] = {}
 
@@ -819,10 +836,14 @@ def digest(session: SessionType) -> dict[str, Any]:
                 "round": round_num,
                 "demand_values": eff_demand,
                 "supply_costs": eff_supply,
+                "buyer_tax": buyer_tax,
+                "seller_tax": seller_tax,
                 "expected_eq": expected_eq,
                 "actual_bids": actual_bids,
                 "actual_asks": actual_asks,
                 "transactions": tx_prices,
+                "maximum_profit": maximum_profit,
+                "actual_profit": actual_profit,
             }
         )
 

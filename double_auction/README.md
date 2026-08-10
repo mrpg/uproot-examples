@@ -119,9 +119,10 @@ object at submission.
 
 The digest (shown in the admin interface after the session ends) provides per-round analysis:
 
-- **Expected equilibrium** -- Computed from the assigned values and costs (adjusted for taxes) using a competitive equilibrium solver. Reports the clearing price range and equilibrium quantity.
+- **Competitive benchmark** -- Computed from the assigned values and costs (adjusted for taxes) using a competitive equilibrium solver. Reports the clearing price range and equilibrium quantity.
+- **Trader profit and allocative efficiency** -- Compares realized buyer and seller profit, net of taxes, with the maximum profit available from the assigned traders.
 - **Supply and demand chart** -- Step-function curves of the (tax-adjusted) demand and supply schedules, with the equilibrium price and quantity annotated.
-- **Actual trades chart** -- Scatter plot of realized transaction prices in execution order, with the expected equilibrium price overlaid for comparison.
+- **Transaction price chart** -- Scatter plot of realized prices in execution order, with the competitive price range overlaid for comparison.
 
 This allows the experimenter to compare theoretical predictions against observed market outcomes.
 

@@ -12,17 +12,26 @@
 
 {% if rd.expected_eq %}
 <p>
-    <b>Expected equilibrium:</b>
+    <b>Competitive benchmark:</b>
     Price {{ rd.expected_eq.price_min | fmtnum(pre="$", places=2) }} to {{ rd.expected_eq.price_max | fmtnum(pre="$", places=2) }},
-    Quantity {{ rd.expected_eq.quantity }}
+    quantity {{ rd.expected_eq.quantity }}{% if rd.buyer_tax or rd.seller_tax %};
+    per-unit taxes: buyers {{ rd.buyer_tax | fmtnum(pre="$", places=2) }},
+    sellers {{ rd.seller_tax | fmtnum(pre="$", places=2) }}{% endif %}
 </p>
 {% endif %}
 
 <p><b>Trades:</b> {{ rd.transactions | length }}</p>
 
+<p>
+    <b>Total trader profit:</b>
+    {{ rd.actual_profit | fmtnum(pre="$", places=2) }} of
+    {{ rd.maximum_profit | fmtnum(pre="$", places=2) }} maximum{% if rd.maximum_profit > 0 %}
+    ({{ (rd.actual_profit / rd.maximum_profit * 100) | round(1) }}% allocative efficiency){% endif %}
+</p>
+
 <div class="row">
     <div class="col-md-6">
-        <h5>Expected (assigned values/costs)</h5>
+        <h5>{% if rd.buyer_tax or rd.seller_tax %}Tax-adjusted{% else %}Induced{% endif %} supply and demand</h5>
         <div style="display: flex; gap: 1rem; margin-bottom: 4px;">
             <span><span style="display: inline-block; width: 18px; height: 3px; background: rgb(54, 162, 235); vertical-align: middle;"></span> Demand</span>
             <span><span style="display: inline-block; width: 18px; height: 3px; background: rgb(255, 99, 132); vertical-align: middle;"></span> Supply</span>
@@ -30,7 +39,7 @@
         <canvas id="expected-{{ rd.round }}" height="250"></canvas>
     </div>
     <div class="col-md-6">
-        <h5>Actual trades</h5>
+        <h5>Transaction prices</h5>
         <div style="display: flex; gap: 1rem; margin-bottom: 4px;">
             <span><span style="display: inline-block; width: 10px; height: 10px; background: rgba(255, 200, 0, 0.9); border: 2px solid black; transform: rotate(45deg); vertical-align: middle;"></span> Transaction price</span>
         </div>
@@ -179,7 +188,7 @@ function createExpectedChart(canvasId, demandData, supplyData, eq, xMax, ceiling
                     ticks: { stepSize: 1 },
                 },
                 y: {
-                    title: { display: true, text: 'Price' },
+                    title: { display: true, text: 'Price ($)' },
                     min: 0,
                     max: ceiling,
                 },
@@ -228,13 +237,13 @@ function createActualChart(canvasId, txPrices, eq, xMax, yMax) {
             scales: {
                 x: {
                     type: 'linear',
-                    title: { display: true, text: 'Trade #' },
+                    title: { display: true, text: 'Trade in sequence' },
                     min: 0,
                     max: xMax,
                     ticks: { stepSize: 1 },
                 },
                 y: {
-                    title: { display: true, text: 'Price' },
+                    title: { display: true, text: 'Price ($)' },
                     min: 0,
                     max: yMax,
                 },
