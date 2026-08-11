@@ -20,7 +20,7 @@ LANDING_PAGE = False
 
 class C:
     ENDOWMENT = 100
-    LIQUIDITY = 100
+    LIQUIDITY = 3000
     DEFAULT_EVENT_QUESTION = "Will it rain tomorrow?"
 
 
