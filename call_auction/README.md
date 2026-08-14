@@ -40,7 +40,10 @@ Identical to the double auction: roles are assigned by tiling the configured `va
 
 ## Settings
 
-All settings are optional. Configure them via `session.settings`.
+All settings are optional. Configure them via `session.settings` (e.g., in a
+scenario file or the admin interface). `AdminSettings.html` provides an
+app-owned editor for these settings when creating a session in the admin
+interface.
 
 | Setting       | Type            | Default                             | Description                        |
 |---------------|-----------------|-------------------------------------|------------------------------------|
@@ -54,6 +57,7 @@ All settings are optional. Configure them via `session.settings`.
 | File                | Purpose                                                        |
 |---------------------|----------------------------------------------------------------|
 | `__init__.py`       | All Python logic: constants, pages, live handlers, digest      |
+| `AdminSettings.html` | Custom new-session settings form and settings serialization   |
 | `Instructions.html` | Auction rules, tailored to buyer/seller role                   |
 | `Submit.html`       | Bidding interface with input and timer                         |
 | `Results.html`      | Round results: clearing price, trade outcome, profit           |
