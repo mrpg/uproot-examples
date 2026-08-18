@@ -1,0 +1,16 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Unconditional Contribution
+{% endblock title %}
+
+
+{% block main %}
+
+<p>This is your <strong>unconditional contribution</strong>. Please state how many of your {{ C.ENDOWMENT }} tokens you want to contribute to the group project.</p>
+
+{{ fields() }}
+
+<p class="text-body-secondary mt-3">On the next page, you will fill out your contribution table.</p>
+
+{% endblock main %}

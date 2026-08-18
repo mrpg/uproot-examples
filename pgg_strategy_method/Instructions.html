@@ -1,0 +1,47 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Instructions
+{% endblock title %}
+
+
+{% block main %}
+
+<h5>Your group</h5>
+
+<p>You are in a group of <strong>{{ C.GROUP_SIZE }}</strong> members. Each member has an endowment of <strong>{{ C.ENDOWMENT }} tokens</strong>.</p>
+
+<h5>The contribution decision</h5>
+
+<p>Each group member decides how many of their {{ C.ENDOWMENT }} tokens to contribute to a <strong>group project</strong>. Tokens not contributed remain in your private account.</p>
+
+<p>All contributions to the group project are summed up. Each group member receives {{ C.MPCR }} times the total contributions, regardless of how much they personally contributed. Your payoff is:</p>
+
+<p class="text-center my-3"><strong>Payoff = {{ C.ENDOWMENT }} &minus; your contribution + {{ C.MPCR }} &times; total contributions of all {{ C.GROUP_SIZE }} members</strong></p>
+
+{% set ex_c = C.ENDOWMENT // 2 %}
+{% set ex_total = C.GROUP_SIZE * ex_c %}
+<p><em>Example:</em> If each of the {{ C.GROUP_SIZE }} members contributes {{ ex_c }} tokens, the total is {{ ex_total }}. Each member's payoff is {{ C.ENDOWMENT }} &minus; {{ ex_c }} + {{ C.MPCR }} &times; {{ ex_total }} = <strong>{{ (C.ENDOWMENT - ex_c + C.MPCR * ex_total) | fmtnum(places=0) }} tokens</strong>.</p>
+
+<h5>Your two decisions</h5>
+
+<p>Every group member makes the same two contribution decisions:</p>
+
+<ol>
+    <li class="mb-2"><strong>Unconditional contribution:</strong> You state how many tokens (0&ndash;{{ C.ENDOWMENT }}) you want to contribute to the group project.</li>
+    <li><strong>Contribution table:</strong> For each possible average unconditional contribution of the other {{ C.GROUP_SIZE - 1 }} group members &mdash; rounded to the nearest whole number (0, 1, 2, &hellip;, {{ C.ENDOWMENT }}) &mdash; you indicate how many tokens you would contribute.</li>
+</ol>
+
+<h5>How your payoff is determined</h5>
+
+<p>After all members have made both decisions, one member is <strong>randomly selected to use their contribution table</strong> (each has a 1 in {{ C.GROUP_SIZE }} chance). For the remaining {{ C.GROUP_SIZE - 1 }} members, their unconditional contribution becomes their actual contribution to the project.</p>
+
+<p>The average of those {{ C.GROUP_SIZE - 1 }} unconditional contributions, rounded to the nearest whole number, determines the row in the selected member's contribution table. The value in that row becomes the selected member's contribution.</p>
+
+<p>Only one row of your contribution table will be used, but you will not know in advance which one. Both your unconditional contribution and every entry in your table can become payoff-relevant. Please consider each decision carefully.</p>
+
+<h5>What happens next</h5>
+
+<p>On the next page, you will make your unconditional contribution. After that, you will fill out your contribution table. Once all group members have submitted both decisions, payoffs will be calculated and shown to you.</p>
+
+{% endblock main %}

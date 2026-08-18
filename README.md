@@ -63,6 +63,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `observed_diary`                                  | Observed diary/surveillance game                                | Medium     |
 | `payment_data`                                    | Collecting payment data                                         | Easy       |
 | `pgg_punishment`                                  | Public goods game with third-party punishment                   | Easy       |
+| `pgg_strategy_method`                             | Public goods game with strategy method                          | Easy       |
 | `ping`†                                           | WebSocket round-trip time benchmark                             | Easy       |
 | `prediction_market`                               | Prediction market with LMSR automated market maker              | Advanced   |
 | `prisoners_dilemma_apply`                         | Standard prisoner's dilemma                                     | Medium     |

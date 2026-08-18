@@ -1,0 +1,33 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Contribution Table
+{% endblock title %}
+
+
+{% block main %}
+
+<p>This is your <strong>contribution table</strong>. Each row represents a possible scenario: the average unconditional contribution of the other {{ C.GROUP_SIZE - 1 }} group members, rounded to the nearest whole number. For each scenario, indicate how many tokens (0&ndash;{{ C.ENDOWMENT }}) you would contribute to the group project.</p>
+
+{{ errors() }}
+
+<table class="table table-sm w-auto">
+    <thead>
+        <tr>
+            <th>Others' average contribution</th>
+            <th>Your contribution</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in levels %}
+        <tr>
+            <td class="align-middle text-center">{{ i }}</td>
+            <td>
+                <input type="number" name="cond_{{ i }}" min="0" max="{{ C.ENDOWMENT }}" class="form-control" style="width: 100px;" required>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock main %}

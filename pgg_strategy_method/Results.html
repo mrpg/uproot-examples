@@ -1,0 +1,20 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Results
+{% endblock title %}
+
+
+{% block main %}
+
+{% if player.is_table_player %}
+<p>You were <strong>randomly selected</strong> to use your contribution table. The average unconditional contribution of the other {{ C.GROUP_SIZE - 1 }} members was <strong>{{ player.others_avg }} tokens</strong>. According to your contribution table, your contribution is <strong>{{ player.contribution }} tokens</strong>.</p>
+{% else %}
+<p>Another group member was randomly selected to use their contribution table. Your unconditional contribution of <strong>{{ player.unconditional }} tokens</strong> was used as your actual contribution. The average unconditional contribution of all {{ C.GROUP_SIZE - 1 }} non-selected members (including you) was <strong>{{ player.others_avg }} tokens</strong>, which determined the selected member's table entry.</p>
+{% endif %}
+
+<p>Total group contribution: <strong>{{ player.total }} tokens</strong></p>
+
+<p>Your payoff: {{ C.ENDOWMENT }} &minus; {{ player.contribution }} + {{ C.MPCR }} &times; {{ player.total }} = <strong>{{ player.payoff | fmtnum(places=1) }} tokens</strong></p>
+
+{% endblock main %}
