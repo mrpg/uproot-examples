@@ -426,7 +426,7 @@ def digest(session: SessionType) -> list[Any]:
             round_data = []
 
             for p in players:
-                pd = p.within.strict(app=__name__, round=round_num)
+                pd = p.within(app=__name__, round=round_num, strict=True)
                 round_data.append(
                     {
                         "effort": pd.get("effort"),
@@ -454,7 +454,7 @@ def pipeline(session: SessionType) -> list[dict[str, Any]]:
 
         for member_id, player in enumerate(players):
             for round_num in rounds:
-                pd = player.within.strict(app=__name__, round=round_num)
+                pd = player.within(app=__name__, round=round_num, strict=True)
 
                 rows.append(
                     {
