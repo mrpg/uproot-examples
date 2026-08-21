@@ -63,17 +63,43 @@ Default fonts and font weights in uproot
     <div class="row">
         <div class="col-12 col-xl-6">
             <h5 class="fw-600 my-3">Tabular figures</h5>
+            <div class="row">
+                <div class="col-5 text-primary">
+                    “Open” digits (uproot’s default)
+                </div>
+                <div class="col-5 text-primary">
+                    “Close” digits (Inter’s default)
+                </div>
+            </div>
             {% for w in range(100, 1000, 100) %}
-            <div class="col-12 col-xl-6 ffs-tnum fw-{{ w }}" dir="ltr">
-                0123456789
+            <div class="row">
+                <div class="col-5 ffs-tnum fw-{{ w }}" dir="ltr">
+                    0123456789
+                </div>
+                <div class="col-5 ffs-tnum fw-{{ w }}" dir="ltr" style="font-feature-settings: 'ss01' 0;">
+                    0123456789
+                </div>
             </div>
             {% endfor %}
         </div>
         <div class="col-12 col-xl-6">
             <h5 class="fw-600 my-3">Proportional figures</h5>
+            <div class="row">
+                <div class="col-5 text-primary">
+                    “Open” digits (uproot’s default)
+                </div>
+                <div class="col-5 text-primary">
+                    “Close” digits (Inter’s default)
+                </div>
+            </div>
             {% for w in range(100, 1000, 100) %}
-            <div class="col-12 col-xl-6 ffs-pnum fw-{{ w }}" dir="ltr">
-                0123456789
+            <div class="row">
+                <div class="col-5 ffs-pnum fw-{{ w }} inter-normalnums" dir="ltr">
+                    0123456789
+                </div>
+                <div class="col-5 ffs-pnum fw-{{ w }} inter-normalnums" dir="ltr" style="font-feature-settings: 'ss01' 0;">
+                    0123456789
+                </div>
             </div>
             {% endfor %}
         </div>
