@@ -61,44 +61,36 @@ Default fonts and font weights in uproot
         <div class="col-12 col-xl-6">
             <h5 class="fw-600 my-3">Tabular figures</h5>
             <div class="row">
-                <div class="col-5 text-primary">
-                    “Open” digits (uproot’s default)
+                <div class="col-6 col-sm-5 col-lg-4 ffs-tnum inter-normalnums">
+                    <div class="text-primary">“Open” digits<br>(uproot’s default)</div>
+                    {% for w in range(100, 1000, 100) %}
+                    <div class="fw-{{ w }}" dir="ltr">0123456789</div>
+                    {% endfor %}
                 </div>
-                <div class="col-5 text-primary">
-                    “Close” digits (Inter’s default)
+                <div class="col-6 col-sm-5 col-lg-4 ffs-tnum inter-normalnums">
+                    <div class="text-primary">“Closed” digits<br>(Inter’s default)</div>
+                    {% for w in range(100, 1000, 100) %}
+                    <div class="fw-{{ w }}" dir="ltr" style="font-feature-settings: 'ss01' 0;">0123456789</div>
+                    {% endfor %}
                 </div>
-            </div>
-            {% for w in range(100, 1000, 100) %}
-            <div class="row">
-                <div class="col-5 fw-{{ w }}" dir="ltr">
-                    0123456789
-                </div>
-                <div class="col-5 fw-{{ w }}" dir="ltr" style="font-feature-settings: 'ss01' 0;">
-                    0123456789
-                </div>
-            </div>
-            {% endfor %}
+            </div>            
         </div>
         <div class="col-12 col-xl-6">
             <h5 class="fw-600 my-3">Proportional figures</h5>
             <div class="row">
-                <div class="col-5 text-primary">
-                    “Open” digits (uproot’s default)
+                <div class="col-6 col-sm-5 col-lg-4 ffs-pnum inter-normalnums">
+                    <div class="text-primary">“Open” digits<br>(uproot’s default)</div>
+                    {% for w in range(100, 1000, 100) %}
+                    <div class="fw-{{ w }}" dir="ltr">0123456789</div>
+                    {% endfor %}
                 </div>
-                <div class="col-5 text-primary">
-                    “Close” digits (Inter’s default)
+                <div class="col-6 col-sm-5 col-lg-4 ffs-pnum inter-normalnums">
+                    <div class="text-primary">“Closed” digits<br>(Inter’s default)</div>
+                    {% for w in range(100, 1000, 100) %}
+                    <div class="fw-{{ w }}" dir="ltr" style="font-feature-settings: 'ss01' 0;">0123456789</div>
+                    {% endfor %}
                 </div>
-            </div>
-            {% for w in range(100, 1000, 100) %}
-            <div class="row">
-                <div class="col-5 ffs-pnum fw-{{ w }} inter-normalnums" dir="ltr">
-                    0123456789
-                </div>
-                <div class="col-5 ffs-pnum fw-{{ w }} inter-normalnums" dir="ltr" style="font-feature-settings: 'ss01' 0;">
-                    0123456789
-                </div>
-            </div>
-            {% endfor %}
+            </div>            
         </div>
     </div>
     <h5 class="fw-600 mt-3">Special ligatures</h5>
