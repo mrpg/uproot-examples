@@ -12,6 +12,7 @@ Please transcribe
 document.addEventListener("alpine:init", () => {
     Alpine.store("task", {
         answer: "",
+        audioLoading: true,
         feedback: null,
         loading: false
     });
@@ -91,7 +92,13 @@ function submitAnswer() {
 
 {% block main %}
 
-<div id="audio-container" class="text-center"></div>
+<div class="text-center">
+    <div x-show="$store.task.audioLoading" class="py-2 text-muted" role="status">
+        <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+        Loading audio…
+    </div>
+    <div id="audio-container" x-show="!$store.task.audioLoading"></div>
+</div>
 
 {% include "nato_alphabet/Letters.html" %}
 
@@ -139,6 +146,9 @@ function submitAnswer() {
 
 <script>
     function reloadAudio() {
+        const store = Alpine.store("task");
+        store.audioLoading = true;
+
         return uproot.invoke("get_audio").then((dataUri) => {
             const container = I("audio-container");
             container.innerHTML = "";
@@ -153,6 +163,8 @@ function submitAnswer() {
 
             audio.appendChild(source);
             container.appendChild(audio);
+        }).finally(() => {
+            store.audioLoading = false;
         });
     }
 
