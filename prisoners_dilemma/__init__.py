@@ -24,6 +24,10 @@ class C:
     }
 
 
+class Instructions(Page):
+    pass
+
+
 class GroupPlease(GroupCreatingWait):
     group_size = 2
 
@@ -80,6 +84,7 @@ def pipeline(session: SessionType) -> list[dict[str, Any]]:
 
 
 page_order = [
+    Instructions,
     GroupPlease,
     Dilemma,
     Sync,

@@ -1,0 +1,257 @@
+{% extends "Base.html" %}
+
+{% set buttons = False %}
+
+
+{% block head %}
+
+<link rel="stylesheet" href="/static/_uproot/vendor/bootstrap-icons/bootstrap-icons.min.css" type="text/css">
+
+{% endblock %}
+
+
+{% block title %}
+
+Instructions
+
+{% endblock title %}
+
+
+{% block main %}
+
+<p>In this study, you will be paired with another participant.</p>
+
+<p>You will each make one private choice: to cooperate or not to cooperate.</p>
+
+<p>There is no opportunity to communicate with the other participant. Neither of you will learn the other's choice until both decisions have been
+    submitted. Please make your choice on the next page.</p>
+
+<p>The two decisions jointly determine both your payoff and the other participant’s payoff as follows:</p>
+
+<div class="mb-4 mx-xxl-5 px-1 px-lg-2 px-xl-4 px-xxl-5 pb-4 pt-1">
+  <svg viewBox="-25 0 1050 500" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker
+        id="arrowhead"
+        viewBox="0 0 10 10"
+        refX="8"
+        refY="5"
+        markerWidth="6"
+        markerHeight="6"
+        orient="auto"
+      >
+        <path d="M 0 0 L 10 5 L 0 10 Z" fill="context-stroke" />
+      </marker>
+    </defs>
+    <style>
+      :root {
+        --spot-color: var(--bs-primary);  /* blue */
+        --text-color: #000000;
+      }
+      .arrow {
+        stroke: var(--stroke, var(--spot-color));
+        stroke-width: 1.2;
+        marker-end: url(#arrowhead);
+      }
+      .participant-a {
+        font-weight: bold;
+      }
+      .participant-b {
+        fill: #0a58ca;  <!-- Bootstrap’s $blue-600 -->
+        font-weight: bold;
+      }
+      .box {
+        fill: var(--fill, var(--spot-color));
+        fill-opacity: var(--fill-opacity, 9.5%);
+        stroke: var(--stroke, var(--spot-color));
+        stroke-width: 0;
+      }
+      .box-lg {
+        width: 200px;
+        height: 90px;
+        x: -100px;
+        y: -45px;
+      }
+      .box-sm {
+        width: 200px;
+        height: 60px;
+        x: -100px;
+        y: -30px;
+      }
+      /* Use `rect` instead of `line` for callout borders, since x, y, height, and width can be set via CSS, while x1, x2, y1, y2 cannot */
+      .callout-border {
+        width: 6px;  /* Must have a unit */
+        fill:  var(--fill, var(--spot-color));
+      }
+      .callout-border-lg {
+        x: -104px;  /* Firefox requires a unit */
+        y: -45px;
+        height: 90px;
+      }
+      .callout-border-sm {
+        x: -104px;  /* Firefox requires a unit */
+        y: -30px;
+        height: 60px;
+      }
+      text {
+        font-size: 0.9rem;
+        fill: var(--fill, var(--text-color));
+      }
+    </style>
+    <!-- White background -->
+    <rect x="0" y="0" width="100%" height="100%" fill="white" />
+    <!-- Box row 1 -->
+    <g transform="translate(500 45)">
+      <rect class="box box-sm" />
+      <rect class="callout-border callout-border-sm" />
+      <text x="0" y="0" dominant-baseline="middle" text-anchor="middle">
+        <tspan x="0" y="-10">
+          <tspan class="participant-a">Your</tspan>
+        </tspan>
+        <tspan class="participant-a" x="0" dy="21">
+          decision
+        </tspan>
+      </text>
+    </g>
+    <!-- Arrows 1 -->
+    <g transform="translate(500 52)">
+      <line class="arrow" x1="-50" y1="25" x2="-267" y2="94" />
+      <text dominant-baseline="middle" text-anchor="middle">
+        <tspan x="-233" y="51">You cooperate</tspan>
+      </text>
+      <line class="arrow" x1="50" y1="25" x2="267" y2="94" />
+      <text dominant-baseline="middle" text-anchor="middle">
+        <tspan x="256" y="51">You do not cooperate</tspan>
+      </text>
+    </g>
+    <!-- Box row 2 -->
+    <g transform="translate(225 180)">
+      <rect class="box box-sm" />
+      <rect class="callout-border callout-border-sm" />
+      <text x="0" y="0" dominant-baseline="middle" text-anchor="middle">
+        <tspan class="participant-b" x="0" y="-9">
+          Other participant’s
+        </tspan>
+        <tspan class="participant-b" x="0" dy="21">
+          decision
+        </tspan>
+      </text>
+    </g>
+    <g transform="translate(775 180)">
+      <rect class="box box-sm" />
+      <rect class="callout-border callout-border-sm" />
+      <text x="0" y="0" dominant-baseline="middle" text-anchor="middle">
+        <tspan class="participant-b" x="0" y="-9">
+          Other participant’s
+        </tspan>
+        <tspan class="participant-b" dy="21" x="0">
+          decision
+        </tspan>
+      </text>
+    </g>
+    <!-- Arrows 2 -->
+    <g transform="translate(225 187)">
+      <line class="arrow" x1="-50" y1="25" x2="-120" y2="94" />
+      <text dominant-baseline="middle" text-anchor="middle">
+        <tspan x="-154" y="48">Other participant</tspan>
+        <tspan x="-154" dy="19">cooperates</tspan>
+      </text>
+      <line class="arrow" x1="50" y1="25" x2="120" y2="94" />
+      <text dominant-baseline="middle" text-anchor="middle">
+        <tspan x="175" y="48">Other participant does</tspan>
+        <tspan x="175" dy="19">not cooperate</tspan>
+      </text>
+    </g>
+    <g transform="translate(775 187)">
+      <line class="arrow" x1="-50" y1="25" x2="-120" y2="94" />
+      <text dominant-baseline="middle" text-anchor="middle">
+        <tspan x="-154" y="48">Other participant</tspan>
+        <tspan x="-154" dy="19">cooperates</tspan>
+      </text>
+      <line class="arrow" x1="50" y1="25" x2="120" y2="94" />
+      <text dominant-baseline="middle" text-anchor="middle">
+        <tspan x="175" y="48">Other participant does</tspan>
+        <tspan x="175" dy="19">not cooperate</tspan>
+      </text>
+    </g>
+    <!-- Box row 3 -->
+    <g transform="translate(105 330)">
+      <rect class="box box-lg" />
+      <rect class="callout-border callout-border-lg" />
+      <text x="0" y="0" dominant-baseline="middle" text-anchor="middle">
+        <tspan class="participant-a" x="0" y="-23">
+          You receive {{ C.PAYOFF_MATRIX[(True, True)] | fmtnum(places=0, pre="$") }}
+        </tspan>
+        <tspan class="participant-b" dy="28" x="0">
+          Other participant
+        </tspan>
+        <tspan class="participant-b" dy="21" x="0">
+          receives {{ C.PAYOFF_MATRIX[(True, True)] | fmtnum(places=0, pre="$") }}
+        </tspan>
+      </text>
+    </g>
+    <g transform="translate(345 330)">
+      <rect class="box box-lg" />
+      <rect class="callout-border callout-border-lg" />
+      <text x="0" y="0" dominant-baseline="middle" text-anchor="middle">
+        <tspan class="participant-a" x="0" y="-23">
+          You receive {{ C.PAYOFF_MATRIX[(True, False)] | fmtnum(places=0, pre="$") }}
+        </tspan>
+        <tspan class="participant-b" dy="28" x="0">
+          Other participant
+        </tspan>
+        <tspan class="participant-b" dy="21" x="0">
+          receives {{ C.PAYOFF_MATRIX[(False, True)] | fmtnum(places=0, pre="$") }}
+        </tspan>
+      </text>
+    </g>
+    <g transform="translate(655 330)">
+      <rect class="box box-lg" />
+      <rect class="callout-border callout-border-lg" />
+      <text x="0" y="0" dominant-baseline="middle" text-anchor="middle">
+        <tspan class="participant-a" x="0" y="-23">
+          You receive {{ C.PAYOFF_MATRIX[(False, True)] | fmtnum(places=0, pre="$") }}
+        </tspan>
+        <tspan class="participant-b" dy="28" x="0">
+          Other participant
+        </tspan>
+        <tspan class="participant-b" dy="21" x="0">
+          receives {{ C.PAYOFF_MATRIX[(True, False)] | fmtnum(places=0, pre="$") }}
+        </tspan>
+      </text>
+    </g>
+    <g transform="translate(895 330)">
+      <rect class="box box-lg" />
+      <rect class="callout-border callout-border-lg" />
+      <text x="0" y="0" dominant-baseline="middle" text-anchor="middle">
+        <tspan class="participant-a" x="0" y="-23">
+          You receive {{ C.PAYOFF_MATRIX[(False, False)] | fmtnum(places=0, pre="$") }}
+        </tspan>
+        <tspan class="participant-b" x="0" dy="28">
+          Other participant
+        </tspan>
+        <tspan class="participant-b" x="0" dy="21">
+          receives {{ C.PAYOFF_MATRIX[(False, False)] | fmtnum(places=0, pre="$") }}
+        </tspan>
+      </text>
+    </g>
+    <!-- Box row 4 -->
+    <g transform="translate(500 460)">
+      <rect class="box" height="66" width="610" style="--fill: var(--bs-danger); --fill-opacity: 10%;" transform="translate(-305 -33)" />
+      <rect class="callout-border" x="-309" y="-33" height="66" style="--fill: var(--bs-danger);" />
+      <text x="0" y="0" dominant-baseline="middle" text-anchor="middle">
+        <tspan x="0" y="-9">
+          <tspan fill="var(--bs-danger)" style="font-family: 'bootstrap-icons'; font-size: 1em;">&#xF33A;&#x202f;</tspan>
+          <tspan class="participant-a">Both participants make their decisions in private.</tspan>
+        </tspan>
+        <tspan x="0" dy="21" fill="var(--bs-danger)" style="font-weight: 500;">
+          You cannot observe the other participant’s decision, and they cannot observe yours.
+        </tspan>
+      </text>
+    </g>
+  </svg>
+</div>
+
+{{ button_next(label="Proceed to decision") }}
+
+{% endblock main %}
