@@ -1,17 +1,36 @@
-{% set room_names = settings.get("room_names", []) %}
+{% set room_names = [] if room_names_hidden else settings.get("room_names", []) %}
 
 <div class="border rounded p-3" id="{{ editor_id }}">
     <label class="form-label" for="{{ editor_id }}-room-names">Destination rooms</label>
     <textarea class="form-control font-monospace" id="{{ editor_id }}-room-names"
         placeholder="shore-a&#10;shore-b" rows="5">{{ room_names | join("\n") }}</textarea>
     <div class="form-text">
-        Enter one existing room name per line. Players cycle through the list in ID order.
+        Enter one room name per line. Players cycle through the list in ID order.
     </div>
+
+    {% if room_names_hidden %}
+        <div class="form-text">
+            Existing room names are hidden in public demo mode.
+        </div>
+    {% elif available_room_names %}
+        <div class="form-text">
+            Existing rooms:
+            {% for room_name in available_room_names %}
+                <code>{{ room_name }}</code>{% if not loop.last %}, {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning mb-0 mt-3" role="alert">
+            No rooms exist yet. Create them before creating this session.
+        </div>
+    {% endif %}
 </div>
 
 <script>
 (() => {
     const input = document.getElementById("{{ editor_id }}-room-names");
+    const availableRoomNames = new Set({{ available_room_names | tojson | safe }});
+    const roomNamesHidden = {{ room_names_hidden | tojson | safe }};
 
     registerSessionSettingsEditor("{{ editor_id }}", () => {
         const roomNames = input.value
@@ -25,6 +44,14 @@
 
         if (!roomNames.every(uproot.isValidToken)) {
             throw new TypeError("Room names may contain only A-Z, a-z, 0-9, hyphens, periods, and underscores.");
+        }
+
+        const missingRoomNames = roomNamesHidden
+            ? []
+            : roomNames.filter((roomName) => !availableRoomNames.has(roomName));
+
+        if (missingRoomNames.length > 0) {
+            throw new TypeError(`Destination rooms do not exist: ${[...new Set(missingRoomNames)].join(", ")}`);
         }
 
         return { room_names: roomNames };
