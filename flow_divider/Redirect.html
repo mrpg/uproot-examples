@@ -1,0 +1,31 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+{% set disable_connection_lost_modal = True %}
+
+{% block title %}
+Redirecting
+{% endblock title %}
+
+
+{% block main %}
+
+<div class="py-5 text-center">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Redirecting…</span>
+    </div>
+    <p class="mt-3">Redirecting you to your room…</p>
+    <a class="btn btn-primary" href="../../../room/{{ player.room_name }}/" id="room-link">
+        Continue to room {{ player.room_name }}
+    </a>
+</div>
+
+{% endblock main %}
+
+
+{% block late %}
+
+<script>
+window.location.replace(document.getElementById("room-link").getAttribute("href"));
+</script>
+
+{% endblock late %}

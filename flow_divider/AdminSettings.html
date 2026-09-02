@@ -1,0 +1,33 @@
+{% set room_names = settings.get("room_names", []) %}
+
+<div class="border rounded p-3" id="{{ editor_id }}">
+    <label class="form-label" for="{{ editor_id }}-room-names">Destination rooms</label>
+    <textarea class="form-control font-monospace" id="{{ editor_id }}-room-names"
+        placeholder="shore-a&#10;shore-b" rows="5">{{ room_names | join("\n") }}</textarea>
+    <div class="form-text">
+        Enter one existing room name per line. Players cycle through the list in ID order.
+    </div>
+</div>
+
+<script>
+(() => {
+    const input = document.getElementById("{{ editor_id }}-room-names");
+
+    registerSessionSettingsEditor("{{ editor_id }}", () => {
+        const roomNames = input.value
+            .split(/\r?\n/)
+            .map((roomName) => roomName.trim())
+            .filter(Boolean);
+
+        if (roomNames.length === 0) {
+            throw new TypeError("Enter at least one destination room name.");
+        }
+
+        if (!roomNames.every(uproot.isValidToken)) {
+            throw new TypeError("Room names may contain only A-Z, a-z, 0-9, hyphens, periods, and underscores.");
+        }
+
+        return { room_names: roomNames };
+    });
+})();
+</script>
