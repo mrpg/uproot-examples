@@ -34,14 +34,14 @@
     const headsUp = document.createElement("div");
     I("uproot-main").prepend(headsUp);
 
-    headsUp.className = "bg-uproot-light border border-uproot-light callout mb-4 px-3 py-3 text-uproot";
+    headsUp.className = "bg-uproot-light border-start border-uproot-light callout mb-4 px-3 py-3 text-uproot";
     headsUp.setAttribute("role", "status");
     headsUp.innerHTML =
         `<div class="align-items-start d-flex gap-3">
-            <i class="bi bi-info-circle flex-shrink-0 fs-5 lh-1 mt-1 text-uproot" aria-hidden="true"></i>
-            <div class="small lh-base">
-                <div class="fw-semibold text-uproot-dark">Public demo server</div>
-                <div class="mt-1 text-body-secondary">
+            <i class="bi bi-info-circle flex-shrink-0 fs-5 lh-1 text-uproot" aria-hidden="true" style="margin-top: 0.345rem;"></i>
+            <div class="lh-base">
+                <div class="fw-bold pt-1 text-uproot">Public demo server</div>
+                <div class="mb-1 mt-2 small text-body-secondary">
                     This is a public demo of
                     <a class="link-offset-2 link-underline-uproot link-underline-opacity-25 link-underline-opacity-100-hover link-uproot" href="https://uproot.science/">uproot</a>,
                     an open-source framework for deploying behavioral experiments and surveys in the social sciences.
