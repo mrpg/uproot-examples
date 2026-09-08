@@ -45,7 +45,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `first_price_auction`                             | First-price sealed-bid auction (private values)                 | Easy       |
 | `focal_point`                                     | Focal point game (like Schelling, 1957)                         | Easy       |
 | `flow_divider`                                    | Round-robin redirect to other rooms                             | Easy       |
-| `gift_exchange_game`                              | Gift exchange game (Fehr et al., 1993)                          | Easy       |
+| `gift_exchange`                                   | Gift exchange game (Fehr et al., 1993)                          | Easy       |
 | `grouping`                                        | Custom group creation                                           | Easy       |
 | `grouping_arbitrary_size`                         | Grouping with configurable size, timeouts, and dropout handling | Medium     |
 | `grouping_one_spare`                              | Two equal groups with one surplus participant                   | Easy       |
