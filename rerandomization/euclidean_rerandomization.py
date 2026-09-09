@@ -2,7 +2,7 @@
 
 Implements the Euclidean rerandomization scheme (A = I_d) from Schindl &
 Branson, "A Unified Framework for Rerandomization using Quadratic Forms."
-See here for the working paper: https://arxiv.org/abs/2403.12815
+Find the JASA paper here: https://doi.org/10.1080/01621459.2026.2702652
 Covariates are standardized to unit variance, then treatment is randomly
 assigned until the Euclidean balance metric falls below a finite-randomization
 threshold chosen to match a given acceptance probability alpha.

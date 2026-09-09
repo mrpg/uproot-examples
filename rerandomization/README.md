@@ -16,7 +16,7 @@ every player to a treatment arm using the rerandomization algorithm.
 
 The algorithm is based on the Euclidean rerandomization approach from Schindl
 and Branson's paper, ["A Unified Framework for Rerandomization using Quadratic
-Forms"](https://arxiv.org/abs/2403.12815). It standardizes the covariates,
+Forms"](https://doi.org/10.1080/01621459.2026.2702652). It standardizes the covariates,
 randomly proposes balanced-size assignments, and accepts the first assignment
 whose Euclidean covariate imbalance is below a Monte Carlo threshold.
 
