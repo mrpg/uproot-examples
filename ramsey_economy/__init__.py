@@ -380,20 +380,12 @@ class RoundResults(Page):
 # -- Captcha image API -----------------------------------------------------
 
 
-async def api2(session: SessionType, request: Any) -> Response:
-    uname = request.query_params.get("uname")
-
-    if uname not in {player.name for player in session.players}:
-        raise HTTPException(status_code=404, detail="Unknown player")
-
-    with Player(session.name, uname) as player:
-        code = player.captcha_code
-
-    if not code:
+async def api2(player: PlayerType, **kw: Any) -> Response:
+    if not player.captcha_code:
         raise HTTPException(status_code=404, detail="No captcha")
 
     return Response(
-        content=captcha_png(code),
+        content=captcha_png(player.captcha_code),
         media_type="image/png",
         headers={"Cache-Control": "no-store"},
     )

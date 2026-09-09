@@ -9,9 +9,6 @@ Work (Round {{ player.round }})
 {% block head %}
 
 <script>
-const SESSION_NAME = {{ session.name | tojson | safe }};
-const PLAYER_NAME = {{ player.name | tojson | safe }};
-
 document.addEventListener("alpine:init", () => {
     Alpine.store("labor", {
         effort: 0,
@@ -25,13 +22,14 @@ document.addEventListener("alpine:init", () => {
     });
 });
 
-function captchaUrl() {
-    const query = new URLSearchParams({
-        uname: PLAYER_NAME,
-        t: Date.now(),
-    });
+function loadCaptchaImage() {
+    uproot.api2("ramsey_economy").then(r => r.blob()).then(blob => {
+        const img = I("captchaImage");
 
-    return `/api2/ramsey_economy/${encodeURIComponent(SESSION_NAME)}/?${query}`;
+        if (img) {
+            img.src = URL.createObjectURL(blob);
+        }
+    });
 }
 
 function loadCaptcha() {
@@ -48,11 +46,7 @@ function loadCaptcha() {
             return;
         }
 
-        const img = I("captchaImage");
-
-        if (img) {
-            img.src = captchaUrl();
-        }
+        loadCaptchaImage();
 
         Alpine.nextTick(() => {
             const input = I("captchaInput");
@@ -88,12 +82,7 @@ function submitCaptcha() {
 
         if (data.correct) {
             store.feedback = { type: "success" };
-
-            const img = I("captchaImage");
-
-            if (img) {
-                img.src = captchaUrl();
-            }
+            loadCaptchaImage();
 
             Alpine.nextTick(() => {
                 input.value = "";

@@ -10,7 +10,6 @@
 
 from io import BytesIO
 
-from fastapi import HTTPException
 from fastapi.responses import Response
 from PIL import Image, ImageDraw, ImageFont
 from uproot.fields import *
@@ -141,17 +140,9 @@ class Results(Page):
     pass
 
 
-async def api2(session: SessionType, request: Any) -> Response:
-    uname = request.query_params.get("uname")
-
-    if uname not in {player.name for player in session.players}:
-        raise HTTPException(status_code=404, detail="Unknown player")
-
-    with Player(session.name, uname) as player:
-        code = player.captcha_code
-
+async def api2(player: PlayerType, **kw: Any) -> Response:
     return Response(
-        content=captcha_png(code),
+        content=captcha_png(player.captcha_code),
         media_type="image/png",
         headers={"Cache-Control": "no-store"},
     )

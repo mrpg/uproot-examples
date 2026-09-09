@@ -5,15 +5,30 @@ Captcha
 {% endblock title %}
 
 
+{% block head %}
+
+<script>
+uproot.onReady(() => {
+    uproot.api2("captcha").then(r => r.blob()).then(blob => {
+        I("captchaImage").src = URL.createObjectURL(blob);
+    });
+});
+</script>
+
+{% endblock head %}
+
+
 {% block main %}
 
 <p>
-    This page loads a player-specific captcha image from <code>api2()</code>.
+    This page loads a player-specific captcha image via <code>uproot.api2()</code>,
+    which authenticates the request automatically.
 </p>
 
 <div class="mb-4">
     <img
-        src="/api2/captcha/{{ session.name }}/?uname={{ player.name }}"
+        id="captchaImage"
+        src=""
         width="{{ C.IMAGE_WIDTH }}"
         height="{{ C.IMAGE_HEIGHT }}"
         class="border rounded"
