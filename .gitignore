@@ -27,6 +27,7 @@ __pycache__/
 .pytest_cache/
 .ropeproject/
 run.sh
+update.sh
 *.sqlite3*
 *.swo
 *.swp
