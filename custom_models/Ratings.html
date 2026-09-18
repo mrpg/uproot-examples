@@ -1,0 +1,149 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Custom models
+{% endblock title %}
+
+
+{% block main %}
+
+<p class="lead mb-4">
+    Append typed <code>Rating</code> entries to a session-level model.
+</p>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row g-3 align-items-end">
+            <div class="col-12 col-md-7">
+                <label for="item" class="form-label">Item</label>
+                <input type="text" class="form-control" id="item" maxlength="80" required
+                    placeholder="For example, coffee">
+            </div>
+            <div class="col-8 col-md-3">
+                <label for="score" class="form-label">Score</label>
+                <input type="number" class="form-control" id="score" min="1" max="10" step="1" value="5" required>
+            </div>
+            <div class="col-4 col-md-2 d-grid">
+                <button type="button" class="btn btn-uproot" id="add-rating" onclick="addRating()">
+                    Add
+                </button>
+            </div>
+        </div>
+        <div class="alert alert-danger d-none mt-3 mb-0" id="error" role="alert"></div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+        <span class="fw-semibold">Stored entries</span>
+        <span>
+            <span class="badge text-bg-primary"><span id="player-count">0</span> yours</span>
+            <span class="badge text-bg-secondary"><span id="session-count">0</span> in session</span>
+        </span>
+    </div>
+    <div class="card-body text-body-secondary" id="empty-state">
+        No ratings yet. Add one above.
+    </div>
+    <div class="table-responsive d-none" id="ratings-table">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Score</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">Entry ID</th>
+                </tr>
+            </thead>
+            <tbody id="ratings"></tbody>
+        </table>
+    </div>
+</div>
+
+<p class="small text-body-secondary">
+    The model is shared by the session. This table uses <code>filter_entries</code>
+    to show only entries whose automatically filled player identifier is yours.
+</p>
+
+{% endblock main %}
+
+
+{% block late %}
+
+<script>
+    function showError(message) {
+        const error = I("error");
+        error.textContent = message;
+        error.classList.toggle("d-none", !message);
+    }
+
+    function renderRatings(data) {
+        const tableBody = I("ratings");
+        const hasRatings = data.ratings.length > 0;
+
+        tableBody.replaceChildren();
+        I("player-count").textContent = data.ratings.length;
+        I("session-count").textContent = data.session_count;
+        I("empty-state").classList.toggle("d-none", hasRatings);
+        I("ratings-table").classList.toggle("d-none", !hasRatings);
+
+        for (const rating of data.ratings) {
+            const row = document.createElement("tr");
+            const item = document.createElement("td");
+            const score = document.createElement("td");
+            const created = document.createElement("td");
+            const id = document.createElement("td");
+            const scoreBadge = document.createElement("span");
+            const idCode = document.createElement("code");
+
+            item.textContent = rating.item;
+            scoreBadge.className = "badge rounded-pill text-bg-light border";
+            scoreBadge.textContent = rating.score;
+            score.appendChild(scoreBadge);
+            created.textContent = new Date(rating.created_at * 1000).toLocaleTimeString();
+            idCode.textContent = rating.id.slice(0, 8);
+            id.appendChild(idCode);
+
+            row.append(item, score, created, id);
+            tableBody.appendChild(row);
+        }
+    }
+
+    async function addRating() {
+        const item = I("item");
+        const score = I("score");
+        const button = I("add-rating");
+
+        if (!item.reportValidity() || !score.reportValidity()) {
+            return;
+        }
+
+        button.disabled = true;
+        showError("");
+
+        try {
+            const data = await uproot.invoke("add_rating", item.value, Number(score.value));
+
+            if (data.error) {
+                showError(data.error);
+                return;
+            }
+
+            item.value = "";
+            item.focus();
+            renderRatings(data);
+        } catch (error) {
+            showError("The rating could not be added.");
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    uproot.onCustomEvent("RatingAdded", () => {
+        uproot.invoke("get_rating_data").then(renderRatings);
+    });
+
+    uproot.onReady(() => renderRatings(uproot.vars.rating_data));
+</script>
+
+{% endblock late %}

@@ -32,6 +32,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `counter_alpine`                                  | Counter with live updates (Alpine.js)                           | Easy       |
 | `counter`                                         | Counter with live updates                                       | Easy       |
 | `cournot`                                         | Cournot quantity competition (2 players, simultaneous)          | Easy       |
+| `custom_models`                                   | Typed, append-only data with `uproot.models`                     | Easy       |
 | `detect_presence`                                 | Detect players’ actual presence (in classroom experiments)      | Medium     |
 | `dictator_game`                                   | Standard dictator game                                          | Easy       |
 | `die_roll`                                        | Die-roll honesty task (Fischbacher & Föllmi-Heusi, 2013)        | Easy       |
