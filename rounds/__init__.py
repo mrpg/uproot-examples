@@ -20,7 +20,13 @@ class NewRound(Page):
 
 class EnterData(Page):
     fields = dict(
-        number=IntegerField(label="Please enter a number."),
+        number=IntegerField(
+            label="Please enter a number.",
+            render_kw=dict(
+                autofocus=True,
+                style="flex: unset !important; width: fit-content !important;",
+            ),
+        ),
     )
 
 
