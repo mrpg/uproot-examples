@@ -1,0 +1,24 @@
+{% block main %}
+
+<p class="lead">
+    <b>{{ total }}</b> message{{ "s" if total != 1 else "" }} received.
+</p>
+
+{% if posts %}
+<div class="row g-3">
+    {% for post in posts %}
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <p class="card-text fs-5 mb-2">{{ post.body }}</p>
+                <small class="text-body-secondary">{{ post.player }}</small>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-body-secondary">No messages yet.</p>
+{% endif %}
+
+{% endblock main %}

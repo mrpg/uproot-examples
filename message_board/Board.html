@@ -1,0 +1,135 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Message Board
+{% endblock title %}
+
+
+{% block main %}
+
+<p class="lead mb-4">
+    Submit your message below.
+</p>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <label for="body" class="form-label">Your message</label>
+        <textarea class="form-control mb-3" id="body" maxlength="{{ C.MAX_LENGTH }}" rows="2"
+            placeholder="Type your message here…"></textarea>
+        <div class="d-flex justify-content-between align-items-center">
+            <small class="text-body-secondary"><span id="char-count">0</span>/{{ C.MAX_LENGTH }}</small>
+            <button type="button" class="btn btn-uproot" id="add-post" onclick="addPost()">
+                Send
+            </button>
+        </div>
+        <div class="alert alert-danger d-none mt-3 mb-0" id="error" role="alert"></div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+        <span class="fw-semibold" id="list-heading">Your messages</span>
+        <span class="badge text-bg-secondary"><span id="total-count">0</span> total in session</span>
+    </div>
+    <div class="card-body text-body-secondary" id="empty-state">
+        No messages yet. Send one above.
+    </div>
+    <div class="d-none" id="posts-container"></div>
+</div>
+
+{% endblock main %}
+
+
+{% block late %}
+
+<script>
+    const textarea = I("body");
+
+    textarea.addEventListener("input", () => {
+        I("char-count").textContent = textarea.value.length;
+    });
+
+    function showError(message) {
+        const error = I("error");
+        error.textContent = message;
+        error.classList.toggle("d-none", !message);
+    }
+
+    function renderPosts(data) {
+        const container = I("posts-container");
+        const items = data.show_to_others ? data.all : data.own;
+        const hasItems = items.length > 0;
+
+        I("total-count").textContent = data.total;
+        I("list-heading").textContent = data.show_to_others
+            ? "All messages"
+            : "Your messages";
+        I("empty-state").classList.toggle("d-none", hasItems);
+        container.classList.toggle("d-none", !hasItems);
+        container.replaceChildren();
+
+        for (const post of items) {
+            const card = document.createElement("div");
+            card.className = "card-body border-top";
+
+            const body = document.createElement("p");
+            body.className = "mb-1";
+            body.textContent = post.body;
+
+            const meta = document.createElement("small");
+            meta.className = "text-body-secondary";
+            const time = new Date(post.created_at * 1000).toLocaleTimeString();
+            meta.textContent = data.show_to_others && post.player
+                ? time + " · " + post.player
+                : time;
+
+            card.append(body, meta);
+            container.appendChild(card);
+        }
+    }
+
+    async function addPost() {
+        const button = I("add-post");
+
+        if (!textarea.value.trim()) {
+            showError("Please enter a message.");
+            return;
+        }
+
+        button.disabled = true;
+        showError("");
+
+        try {
+            const data = await uproot.invoke("add_post", textarea.value);
+
+            if (data.error) {
+                showError(data.error);
+                return;
+            }
+
+            textarea.value = "";
+            I("char-count").textContent = "0";
+            renderPosts(data);
+        } catch (error) {
+            showError("The message could not be sent.");
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    textarea.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            addPost();
+        }
+    });
+
+    uproot.onCustomEvent("PostAdded", () => {
+        uproot.invoke("get_board_data").then(renderPosts);
+    });
+
+    uproot.onReady(() => renderPosts(uproot.vars.board_data));
+</script>
+
+{% endblock late %}
