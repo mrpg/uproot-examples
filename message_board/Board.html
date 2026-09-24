@@ -80,8 +80,8 @@ Message Board
             const meta = document.createElement("small");
             meta.className = "text-body-secondary";
             const time = new Date(post.created_at * 1000).toLocaleTimeString();
-            meta.textContent = data.show_to_others && post.player
-                ? time + " · " + post.player
+            meta.textContent = data.show_to_others && post.player != null
+                ? time + " · Player " + post.player
                 : time;
 
             card.append(body, meta);

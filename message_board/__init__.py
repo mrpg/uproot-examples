@@ -37,16 +37,22 @@ def show_to_others(session: SessionType) -> bool:
 
 def all_posts(session: SessionType) -> list[dict[str, Any]]:
     entries = um.get_entries(session.board, Post)
+    result = []
 
-    return [
-        {
-            "id": str(entry_id),
-            "created_at": timestamp,
-            "body": post.body,
-            "player": str(post.player),
-        }
-        for entry_id, timestamp, post in entries
-    ]
+    for entry_id, timestamp, post in entries:
+        with materialize(post.player) as p:
+            player_id = p.id
+
+        result.append(
+            {
+                "id": str(entry_id),
+                "created_at": timestamp,
+                "body": post.body,
+                "player": player_id,
+            }
+        )
+
+    return result
 
 
 def player_posts(player: PlayerType) -> list[dict[str, Any]]:
