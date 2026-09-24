@@ -52,6 +52,8 @@ def all_posts(session: SessionType) -> list[dict[str, Any]]:
             }
         )
 
+    result.reverse()
+
     return result
 
 
@@ -65,7 +67,7 @@ def player_posts(player: PlayerType) -> list[dict[str, Any]]:
             "body": post.body,
         }
         for entry_id, timestamp, post in entries
-    ]
+    ][::-1]
 
 
 def board_data(player: PlayerType) -> dict[str, Any]:
