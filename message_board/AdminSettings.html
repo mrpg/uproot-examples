@@ -1,0 +1,21 @@
+{% set show_to_others = settings.get("show_to_others", false) %}
+
+<div class="border rounded p-3" id="{{ editor_id }}">
+    <div class="form-check">
+        <input class="form-check-input" id="{{ editor_id }}-show-to-others"
+            data-setting="show-to-others" type="checkbox"{% if show_to_others %} checked{% endif %}>
+        <label class="form-check-label" for="{{ editor_id }}-show-to-others">Show posts to other players</label>
+    </div>
+    <small class="form-text">When enabled, all players see each other’s messages in real time</small>
+</div>
+
+<script>
+(() => {
+    registerSessionSettingsEditor("{{ editor_id }}", () => {
+        const root = document.getElementById("{{ editor_id }}");
+        const field = (name) => root.querySelector(`[data-setting='${name}']`);
+
+        return { show_to_others: field("show-to-others").checked };
+    });
+})();
+</script>

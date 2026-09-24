@@ -1,0 +1,27 @@
+{% set event_question = settings.get("event_question", C.DEFAULT_EVENT_QUESTION) %}
+
+<div class="border rounded p-3" id="{{ editor_id }}">
+    <label class="form-label" for="{{ editor_id }}-event-question">Event question</label>
+    <input class="form-control" id="{{ editor_id }}-event-question"
+        data-setting="event-question" type="text" value="{{ event_question }}">
+    <small class="form-text">The yes/no question that traders will bet on</small>
+</div>
+
+<script>
+(() => {
+    function predictionMarketSettings(root) {
+        const field = (name) => root.querySelector(`[data-setting='${name}']`);
+        const eventQuestion = field("event-question").value.trim();
+
+        if (!eventQuestion) {
+            throw new TypeError("Event question must not be empty.");
+        }
+
+        return { event_question: eventQuestion };
+    }
+
+    registerSessionSettingsEditor("{{ editor_id }}", () => {
+        return predictionMarketSettings(document.getElementById("{{ editor_id }}"));
+    });
+})();
+</script>
