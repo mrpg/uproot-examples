@@ -308,14 +308,13 @@ class ExampleInputsUprootFields(Page):
             ),
             "select_field": SelectField(
                 choices=[
-                    ("N/A", "Please select an option"),
+                    ("", "Please select an option"),
                     ("B04", "Bayer 04 Leverkusen"),
                     ("VfB", "VfB Stuttgart"),
                     ("FCB", "Bayern München"),
                     ("RBL", "RB Leipzig"),
                     ("BVB", "BVB 09 Dortmund"),
                 ],
-                default=0,
                 description="Description for the <code class='text-black-50'>SelectField</code>.",
                 label=safe(
                     "Which of the following soccer teams would you like to win the German championship? "
@@ -473,14 +472,14 @@ class ExampleInputsWTForms(Page):
             ),
             "select_field": wtforms.SelectField(
                 choices=[
-                    (0, "Please select an option"),
+                    ("", "Please select an option"),
                     (1, "Bayer Leverkusen"),
                     (2, "VfB Stuttgart"),
                     (3, "Bayern München"),
                     (4, "RB Leipzig"),
                     (5, "BVB 09 Dortmund"),
                 ],
-                default=0,
+                validators=[wtforms.validators.InputRequired()],
                 description=safe(
                     "Description for the <code class='text-black-50'>wtforms.SelectField</code>."
                 ),
