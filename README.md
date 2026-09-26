@@ -11,6 +11,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | App                                               | Description                                                     | Difficulty |
 |---------------------------------------------------|-----------------------------------------------------------------|------------|
 | `anchoring`                                       | Anchoring effect (Tversky & Kahneman, 1974)                     | Easy       |
+| `anchoring_markdown`                              | Anchoring effect, implemented in Markdown                       | Easy       |
 | `balanced_page_order`                             | Balanced page order randomization                               | Easy       |
 | `bargaining`                                      | Unstructured real-time bargaining with a deadline               | Medium     |
 | `barrier`                                         | Force players to stay on a page                                 | Easy       |
