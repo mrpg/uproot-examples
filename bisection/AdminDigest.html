@@ -1,0 +1,44 @@
+{% block main %}
+
+{% if data %}
+<table class="table w-75">
+    <thead>
+        <tr>
+            <th scope="col">Participant</th>
+            <th scope="col">Lottery</th>
+            <th scope="col">Outcomes</th>
+            <th scope="col">CE</th>
+            <th scope="col">Risk premium</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for player in data %}
+        {% for r in player.results %}
+        <tr>
+            <td>{{ player.name }}</td>
+            <td>{{ r.lottery }}</td>
+            <td>{{ r.outcomes }}</td>
+            <td>
+                {% if r.ce is none %}
+                <span class="text-muted">Pending</span>
+                {% else %}
+                {{ r.ce | fmtnum(pre="€", places=2) }}
+                {% endif %}
+            </td>
+            <td>
+                {% if r.risk_premium is none %}
+                <span class="text-muted">Pending</span>
+                {% else %}
+                {{ r.risk_premium | fmtnum(pre="€", places=2) }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="text-muted">No responses yet.</p>
+{% endif %}
+
+{% endblock main %}
