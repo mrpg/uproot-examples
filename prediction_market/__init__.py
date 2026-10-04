@@ -373,11 +373,15 @@ def resolve_event(
         session.refunded = False
         session.event_occurred = event_value
 
-    session.event_resolved = True
-
     for player in session.players:
+        if player.within(app=__name__).get("cash") is None:
+            # This player never reached Trading (e.g., an unused slot)
+            continue
+
         settle_player(player)
         move_to_page(player, Results)
+
+    session.event_resolved = True
 
     return True
 
