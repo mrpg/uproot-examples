@@ -98,6 +98,10 @@ class Instructions(Page):
 
 class Trading(Page):
     @classmethod
+    def show(page, player: PlayerType) -> bool:
+        return player.session.get("event_resolved") is not True
+
+    @classmethod
     def before_once(page, player: PlayerType) -> None:
         if player.get("cash") is None:
             player.cash = float(C.ENDOWMENT)
@@ -276,7 +280,12 @@ def settle_player(player: PlayerType) -> None:
 
 
 class Results(Page):
-    pass
+    @classmethod
+    def before_once(page, player: PlayerType) -> None:
+        if player.within(app=__name__).get("contract_payout") is None:
+            # This player arrived after the market was resolved, so never traded
+            Trading.before_once(player)
+            settle_player(player)
 
 
 # --- Digest ---
