@@ -23,7 +23,7 @@ dependencies = [
     "pydub",
     "ruff",
     "schwifty",
-    "uproot-science @ git+https://github.com/mrpg/uproot.git@main",
+    "uproot-science @ git+https://github.com/mrpg/uproot.git@blocks",
 ]
 
 [tool.setuptools]
@@ -55,7 +55,7 @@ extra_checks = true
 
 [project.optional-dependencies]
 pg = [
-    "uproot-science[pg] @ git+https://github.com/mrpg/uproot.git@main",
+    "uproot-science[pg] @ git+https://github.com/mrpg/uproot.git@blocks",
 ]
 
 [tool.ruff.lint]

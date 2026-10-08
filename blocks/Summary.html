@@ -1,0 +1,41 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Blocks: results
+{% endblock title %}
+
+
+{% block main %}
+
+<p>
+    Red and blue both have a round 1. The pair <code>(block, round)</code>
+    identifies which answer belongs to which round.
+</p>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Block</th>
+            <th scope="col">Round</th>
+            <th scope="col">Number entered</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for block in ["red", "blue"] %}
+        {% for round, state in player.within(app="blocks", block=block).along("round") %}
+        <tr>
+            <td>{{ block }}</td>
+            <td>{{ round }}</td>
+            <td>{{ state.number }}</td>
+        </tr>
+        {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
+
+<p class="text-body-secondary">
+    Red should have rounds 1–4. Blue should also have rounds 1–4;
+    its last two rounds are nested inside blue round 2.
+</p>
+
+{% endblock main %}

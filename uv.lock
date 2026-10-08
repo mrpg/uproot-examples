@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = ">=3.13"
 resolution-markers = [
     "python_full_version >= '3.15'",
@@ -1597,15 +1597,15 @@ requires-dist = [
     { name = "pydub" },
     { name = "ruff" },
     { name = "schwifty" },
-    { name = "uproot-science", git = "https://github.com/mrpg/uproot.git?rev=main" },
-    { name = "uproot-science", extras = ["pg"], marker = "extra == 'pg'", git = "https://github.com/mrpg/uproot.git?rev=main" },
+    { name = "uproot-science", git = "https://github.com/mrpg/uproot.git?rev=blocks" },
+    { name = "uproot-science", extras = ["pg"], marker = "extra == 'pg'", git = "https://github.com/mrpg/uproot.git?rev=blocks" },
 ]
 provides-extras = ["pg"]
 
 [[package]]
 name = "uproot-science"
 version = "0.7.0"
-source = { git = "https://github.com/mrpg/uproot.git?rev=main#e1f8173446b875165a448cd1806a48c56641a52a" }
+source = { git = "https://github.com/mrpg/uproot.git?rev=blocks#dc5cb3f0404312f46685d22503d84907fc09e224" }
 dependencies = [
     { name = "appendmuch" },
     { name = "click" },
