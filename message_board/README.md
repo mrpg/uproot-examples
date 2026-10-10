@@ -126,4 +126,4 @@ from xmpp_notify import forward  # at the top of __init__.py
 forward(f"Player {player.id}: {body}")
 ```
 
-Use a dedicated XMPP account for the sender and set `XMPP_USER` and `XMPP_PASSWORD` in the environment. Keep these credentials out of version control. Your XMPP client already timestamps each message, and `player.id` matches the player number on the AdminDigest. The same pattern works for any app: call `forward()` wherever something happens that you want to hear about.
+Use a dedicated XMPP account for the sender and put `XMPP_USER=…` and `XMPP_PASSWORD=…` in your project's `.env`, which uproot loads automatically. Keep `.env` out of version control. Your XMPP client already timestamps each message, and `player.id` matches the player number on the AdminDigest. The same pattern works for any app: call `forward()` wherever something happens that you want to hear about.
