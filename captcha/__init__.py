@@ -9,6 +9,7 @@
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
 from io import BytesIO
+from random import Random
 
 from fastapi.responses import Response
 from PIL import Image, ImageDraw, ImageFont
@@ -52,9 +53,7 @@ def new_player(player: PlayerType) -> None:
 
 
 def captcha_png(code: str) -> bytes:
-    from random import Random as PyRandom
-
-    random = PyRandom(code)
+    random = Random(code)
     image = Image.new("RGB", (C.IMAGE_WIDTH, C.IMAGE_HEIGHT), C.BACKGROUND_COLOR)
     draw = ImageDraw.Draw(image)
 

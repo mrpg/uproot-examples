@@ -8,6 +8,8 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
+from random import Random
+
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -47,8 +49,6 @@ def new_player(player: PlayerType) -> None:
 
 
 def shuffled(iterable: list[Any], *, seed: int | None = None) -> list[Any]:
-    from random import Random
-
     result = list(iterable)
     Random(seed).shuffle(result)
 

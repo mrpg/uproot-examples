@@ -9,7 +9,7 @@ load_config(uproot_server, config="randomize_apps", apps=["randomize_apps"])
 
 `randomize_apps` is a “meta app” of sorts.
 
-It is *allowed but not required to* contain any pages or any logic besides (1) importation of the apps to be randomized and (2) using `Random(Bracket(*appX.page_order), …)` in its own `page_order`.
+It is *allowed but not required to* contain any pages or any logic besides (1) importation of the apps to be randomized and (2) using `RandomOrder(Bracket(*appX.page_order), …)` in its own `page_order`.
 
 This folder contains a minimal working example (MWE).
 

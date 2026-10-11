@@ -7,7 +7,7 @@ Each app directory typically contains:
 - `*.html` templates that match page class names
 - `README.md` with loading notes or extra context
 
-When looking for an implementation pattern, search the repo instead of guessing. Useful terms include `GroupCreatingWait`, `SynchronizingWait`, `Rounds(`, `fields = dict(`, `@live`, `notify(`, `Random(`, `timeout(`, and `um.create_model`.
+When looking for an implementation pattern, search the repo instead of guessing. Useful terms include `GroupCreatingWait`, `SynchronizingWait`, `Rounds(`, `fields = dict(`, `@live`, `notify(`, `RandomOrder(`, `timeout(`, and `um.create_model`.
 
 When adding a new app:
 - Copy the closest existing example as a starting point
