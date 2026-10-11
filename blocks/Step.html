@@ -1,0 +1,27 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Blocks
+{% endblock title %}
+
+
+{% block main %}
+
+<p>Each block has its own round counter. Returning to a block continues its count.</p>
+
+<dl class="row">
+    <dt class="col-sm-3">Current block</dt>
+    <dd class="col-sm-9"><code>{{ player.block }}</code></dd>
+    <dt class="col-sm-3">Round in this block</dt>
+    <dd class="col-sm-9"><code>{{ player.round }}</code></dd>
+    <dt class="col-sm-3">Nesting position</dt>
+    <dd class="col-sm-9"><code>{{ player.round_nested }}</code></dd>
+</dl>
+
+<p class="text-body-secondary">
+    The route is red 1, 2 → blue 1 → red 3, 4 → blue 2 (outer), 3, 4 (nested).
+</p>
+
+{{ field(form.number) }}
+
+{% endblock main %}
