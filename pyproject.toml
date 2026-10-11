@@ -23,7 +23,7 @@ dependencies = [
     "pydub",
     "ruff",
     "schwifty",
-    "uproot-science @ git+https://github.com/mrpg/uproot.git@blocks",
+    "uproot-science @ git+https://github.com/mrpg/uproot.git@main",
 ]
 
 [tool.setuptools]
@@ -52,11 +52,6 @@ disallow_untyped_decorators = true
 warn_unused_ignores = true
 no_implicit_reexport = true
 extra_checks = true
-
-[project.optional-dependencies]
-pg = [
-    "uproot-science[pg] @ git+https://github.com/mrpg/uproot.git@blocks",
-]
 
 [tool.ruff.lint]
 ignore = ["F403", "F405", "RUF012", "C408", "BLE001"]
