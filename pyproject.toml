@@ -23,7 +23,7 @@ dependencies = [
     "pydub",
     "ruff",
     "schwifty",
-    "uproot-science @ git+https://github.com/mrpg/uproot.git@blocks",
+    "uproot-science @ git+https://github.com/mrpg/uproot.git@main",
 ]
 
 [tool.setuptools]
