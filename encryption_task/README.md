@@ -20,7 +20,7 @@ The following parameters are configurable in `class C`:
 - `WORD_LENGTH` (default: 6) — Length of strings to decode
 - `DURATION` (default: 120) — Task duration in seconds
 - `TABLE_MODE` (default: `"fixed"`) — `"fixed"` keeps the same table throughout; `"random"` generates a new table for each puzzle
-- `SEED` (default: `None`) — Random seed; set to a value for reproducible sequences across participants
+- `SEED` (default: `0x1337`) — Random seed; set to a value for reproducible sequences across participants
 
 *Note*: Incorrect submissions do not advance participants to the next puzzle.
 
