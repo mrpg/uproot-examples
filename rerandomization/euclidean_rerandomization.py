@@ -244,6 +244,7 @@ def assign(
     max_iterations: int | None = None,
     n_mc: int = 10000,
     rng_seed: int | None = None,
+    rng: random.Random | None = None,
 ) -> list[str]:
     """Assign units to treatments via Euclidean rerandomization.
 
@@ -268,14 +269,18 @@ def assign(
         threshold.
     rng_seed : int or None
         Seed for the isolated random.Random instance.  If None, the
-        instance is initialized without a fixed seed.
+        instance is initialized without a fixed seed.  Ignored when *rng*
+        is given.
+    rng : random.Random or None
+        Generator to draw from instead of creating one from *rng_seed*.
 
     Returns
     -------
     list[str]
         Treatment label for each unit (length n).
     """
-    rng = random.Random(rng_seed)
+    if rng is None:
+        rng = random.Random(rng_seed)
 
     if isinstance(group_sizes, dict):
         treatments = list(group_sizes.keys())

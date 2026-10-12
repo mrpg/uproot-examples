@@ -66,6 +66,7 @@ class Wait(SynchronizingWait):
                 sizes_nonzero,
                 alpha=0.001,
                 max_iterations=100000,
+                rng=rng(),
             )
             assignment_method = "euclidean"
         except Exception:

@@ -8,8 +8,6 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
-from random import random
-
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -47,7 +45,7 @@ class Sync(SynchronizingWait):
         prob = group.session.settings.get(
             "continuation_prob", C.DEFAULT_CONTINUATION_PROB
         )
-        continue_game = random() < prob
+        continue_game = rng().random() < prob
 
         for player in group.players:
             other = player.other_in_group

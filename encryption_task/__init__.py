@@ -42,7 +42,7 @@ def new_player(player: PlayerType) -> None:
     player.puzzle = None  # Current word to decode
     player.solution = None  # Correct answer
     player.solved = 0
-    player.rng = random.Random(C.SEED)
+    player.rng = rng() if C.SEED is None else random.Random(C.SEED)
 
 
 def generate_table(rng: random.Random) -> tuple[str, str]:
