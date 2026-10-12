@@ -71,22 +71,21 @@ class OpenResponse(Page):
 class Results(Page):
     @classmethod
     def templatevars(page, player: PlayerType) -> dict[str, Any]:
+        # One entry per Between, listing the pages of the selected option
         selected = player.get("between_showed", [])
-        selected_page = selected[-1] if selected else None
+        selected_pages = selected[-1] if selected else []
         branch_names = {
-            "between/ProductChoice": "Single-page choice branch",
-            "between/TreatmentInfo": "Two-page bracketed treatment branch",
-            "between/OpenResponse": "Single-page open-response branch",
+            ("between/ProductChoice",): "Single-page choice branch",
+            (
+                "between/TreatmentInfo",
+                "between/TreatmentTask",
+            ): "Two-page bracketed treatment branch",
+            ("between/OpenResponse",): "Single-page open-response branch",
         }
-        branch_name = (
-            branch_names.get(selected_page, "Unknown branch")
-            if selected_page is not None
-            else "Unknown branch"
-        )
 
         return {
-            "selected_page": selected_page,
-            "branch_name": branch_name,
+            "selected_pages": selected_pages,
+            "branch_name": branch_names.get(tuple(selected_pages), "Unknown branch"),
         }
 
 

@@ -11,8 +11,8 @@ Results
     <dt class="col-sm-4">Selected branch</dt>
     <dd class="col-sm-8">{{ branch_name }}</dd>
 
-    <dt class="col-sm-4">Recorded page</dt>
-    <dd class="col-sm-8"><code>{{ selected_page }}</code></dd>
+    <dt class="col-sm-4">Recorded pages</dt>
+    <dd class="col-sm-8"><code>{{ selected_pages | join(", ") }}</code></dd>
 </dl>
 
 {% if player.get("product_choice") %}
