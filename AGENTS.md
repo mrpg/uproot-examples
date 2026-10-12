@@ -60,7 +60,7 @@ When looking for how to implement something specific, use grep/search across the
 - Forms: `fields = dict(`, field type names like `RadioField`, `DecimalField`
 - Real-time: `@live`, `notify(`, `uproot.invoke`
 - Sensitive data: `stealth_fields`, `handle_stealth_fields`
-- Randomization: `Random(`, `shuffled`
+- Randomization: `RandomOrder(`, `shuffled`
 - Timeouts: `timeout(`, `timeout_reached`
 - Constants/parameters: `C`
 - Custom models: `um.Entry`, `um.create_model`

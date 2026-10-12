@@ -19,7 +19,7 @@ DESCRIPTION = "This app randomizes app1, app2, app3."
 
 
 page_order = [
-    Random(
+    RandomOrder(
         Bracket(*app1.page_order),
         Bracket(*app2.page_order),
         Bracket(*app3.page_order),

@@ -10,6 +10,7 @@
 
 from decimal import ROUND_FLOOR, ROUND_HALF_UP, Decimal
 from io import BytesIO
+from random import Random
 
 from fastapi import HTTPException
 from fastapi.responses import Response
@@ -165,9 +166,7 @@ def make_captcha_code() -> str:
 
 
 def captcha_png(code: str) -> bytes:
-    from random import Random as PyRandom
-
-    r = PyRandom(code)
+    r = Random(code)
     image = Image.new("RGB", (C.IMAGE_WIDTH, C.IMAGE_HEIGHT), C.BACKGROUND_COLOR)
     draw = ImageDraw.Draw(image)
 

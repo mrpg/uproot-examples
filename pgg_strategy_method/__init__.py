@@ -8,8 +8,6 @@
 # Third-party dependencies:
 # - uproot: LGPL v3+, see ../uproot_license.txt
 
-import random
-
 from uproot.fields import *
 from uproot.smithereens import *
 
@@ -57,7 +55,7 @@ class Sync(SynchronizingWait):
     def all_here(page, group: GroupType) -> None:
         players = list(group.players)
 
-        table_idx = random.Random().randrange(C.GROUP_SIZE)
+        table_idx = rng().randrange(C.GROUP_SIZE)
 
         for i, player in enumerate(players):
             player.is_table_player = i == table_idx

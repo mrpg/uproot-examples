@@ -41,7 +41,7 @@ class E(Page):
 
 page_order = [
     Hello,
-    Random(
+    RandomOrder(
         A,
         Bracket(
             B,
