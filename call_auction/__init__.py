@@ -149,7 +149,7 @@ def digest(session: SessionType) -> dict[str, Any]:
         ],
     )
 
-    def eq_to_dict(eq: None | Equilibrium) -> None | dict[str, Any]:
+    def eq_to_dict(eq: None | Equilibrium[Decimal]) -> None | dict[str, Any]:
         if eq is None or eq.quantity == 0:
             return None
         return {
