@@ -852,7 +852,7 @@ def digest(session: SessionType) -> dict[str, Any]:
     }
 
 
-def pipeline(session: SessionType) -> list[dict[str, Any]]:
+def pipeline(session: SessionType, data: Any = None) -> list[dict[str, Any]]:
     if session.get("offers") is None:
         return []
 

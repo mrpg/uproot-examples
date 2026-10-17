@@ -225,7 +225,7 @@ def market_result(session: SessionType, round_num: int) -> Any:
     return None, 0
 
 
-def pipeline(session: SessionType) -> list[dict[str, Any]]:
+def pipeline(session: SessionType, data: Any = None) -> list[dict[str, Any]]:
     rows = []
     num_rounds = session_setting(session, "num_rounds")
 

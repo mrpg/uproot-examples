@@ -435,7 +435,7 @@ def digest(session: SessionType) -> list[Any]:
     return data
 
 
-def pipeline(session: SessionType) -> list[dict[str, Any]]:
+def pipeline(session: SessionType, data: Any = None) -> list[dict[str, Any]]:
     rows = []
     settings = policy_settings(session)
 
