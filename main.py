@@ -7,11 +7,6 @@ import uproot.deployment as upd
 from uproot.cli import cli
 from uproot.server import load_config, uproot_server
 
-upd.project_metadata(created="1970-01-01", uproot="*.*.*")
-
-# Load your app configs here
-# Examples are available at https://github.com/mrpg/uproot-examples
-
 # fmt: off
 load_config(uproot_server, config="anchoring", apps=["anchoring"])
 load_config(uproot_server, config="anchoring_markdown", apps=["anchoring_markdown"])
