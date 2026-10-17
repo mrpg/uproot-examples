@@ -89,7 +89,7 @@ class Draw(Page):
         page, player: PlayerType, points: list[dict[str, Any]], lineWidth: int
     ) -> None:
         # Save stroke to the model
-        um.auto_add_entry(
+        um.add_entry(
             player.session.strokes,
             player,
             Stroke,
