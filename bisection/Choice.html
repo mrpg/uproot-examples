@@ -9,15 +9,15 @@ Decision {{ player.round }} of {{ total_decisions }}
 
 {{ errors() }}
 
-<p class="text-body-secondary mb-3">
+<p class="fg-2 mb-5">
     Lottery {{ lottery_num }} of {{ total_lotteries }}
     &middot; Question {{ step_num }} of {{ total_steps }}
 </p>
 
-<div class="card mb-4">
+<div class="card mb-7">
     <div class="card-body text-center">
-        <h5 class="card-title mb-1">Lottery L{{ lottery_num }}</h5>
-        <p class="card-text fs-5 mb-0">
+        <h5 class="mb-1">Lottery L{{ lottery_num }}</h5>
+        <p class="fs-lg mb-0">
             50–50 chance of
             {{ player.lottery_low | fmtnum(pre="€", places=0) }}
             or

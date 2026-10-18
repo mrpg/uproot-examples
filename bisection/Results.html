@@ -45,16 +45,18 @@ Results
 </table>
 
 {% if consistent %}
-<div class="alert alert-success mt-3">
+<div class="alert theme-success mt-5">
     Your risk premiums are nonnegative and weakly increasing across the
     lottery chain — consistent with risk aversion in the Rothschild–Stiglitz
     sense.
 </div>
 {% else %}
-<div class="alert alert-warning mt-3">
-    Your risk premiums are <b>not</b> consistent with global risk aversion.
-    This may indicate risk-seeking preferences, context dependence, or noise in
-    the elicitation.
+<div class="alert theme-warning mt-5">
+    <div>
+        Your risk premiums are <b>not</b> consistent with global risk aversion.
+        This may indicate risk-seeking preferences, context dependence, or noise in
+        the elicitation.
+    </div>
 </div>
 {% endif %}
 

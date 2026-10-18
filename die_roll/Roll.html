@@ -25,17 +25,17 @@ Roll the die
 {{ errors() }}
 
 <div x-data="die()">
-    <div class="my-4 text-center">
-        <div class="mb-3" style="font-size: 6rem; line-height: 1;">
+    <div class="my-7 text-center">
+        <div class="mb-5" style="font-size: 6rem; line-height: 1;">
             <span x-show="face === null">&#x1F3B2;</span>
             <span x-show="face !== null" x-text="faces[face - 1]"></span>
         </div>
 
-        <button type="button" class="btn btn-uproot" id="roll-button" @click="roll" :disabled="rolling">
+        <button type="button" class="btn-solid theme-uproot" id="roll-button" @click="roll" :disabled="rolling">
             Roll the die
         </button>
 
-        <p class="mt-2 text-body-secondary" x-show="rolls > 0" x-cloak>
+        <p class="mt-3 fg-2" x-show="rolls > 0" x-cloak>
             Rolls so far: <span x-text="rolls"></span>
         </p>
     </div>

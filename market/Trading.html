@@ -35,82 +35,82 @@
 
 <div x-data="marketApp()" x-init="init()">
 
-<div class="row g-3 mb-3">
-    <div class="col-md-3">
+<div class="row g-5 mb-5">
+    <div class="md:col-3">
         <div class="card h-100">
-            <div class="card-header py-2">
-                <h6 class="card-title mb-0">Portfolio</h6>
+            <div class="card-header py-3">
+                <h6 class="mb-0">Portfolio</h6>
             </div>
-            <div class="card-body d-flex align-items-center">
+            <div class="card-body d-flex flex-row align-items-center">
                 <div class="row w-100 text-center">
                     <div class="col-6">
-                        <div class="text-muted small">Cash</div>
-                        <div class="fw-bold fs-5" :class="{'text-success': parseFloat(cash) > 0, 'text-danger': parseFloat(cash) < 0}">
+                        <div class="fg-3 small">Cash</div>
+                        <div class="fw-bold fs-lg" :class="{'fg-success': parseFloat(cash) > 0, 'fg-danger': parseFloat(cash) < 0}">
                             <span x-text="uproot.formatForInterface('price', cash)"></span>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="text-muted small">Stock</div>
-                        <div class="fw-bold fs-5" x-text="uproot.formatForInterface('quantity', stock)"></div>
+                        <div class="fg-3 small">Stock</div>
+                        <div class="fw-bold fs-lg" x-text="uproot.formatForInterface('quantity', stock)"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-9">
+    <div class="md:col-9">
         <div class="card h-100">
-            <div class="card-header py-2">
-                <h6 class="card-title mb-0">New Order</h6>
+            <div class="card-header py-3">
+                <h6 class="mb-0">New Order</h6>
             </div>
-            <div class="card-body d-flex align-items-center">
-                <div class="row g-2 align-items-end w-100">
-                    <div class="col-sm-auto">
+            <div class="card-body d-flex flex-row align-items-center">
+                <div class="row g-3 align-items-end w-100">
+                    <div class="sm:col-auto">
                         <label class="form-label small mb-1">Type</label>
-                        <select class="form-select form-select-sm" x-model="orderType">
+                        <select class="form-control form-control-sm" x-model="orderType">
                             <option value="limit">Limit</option>
                             <option value="market">Market</option>
                         </select>
                     </div>
-                    <div class="col-sm-auto">
+                    <div class="sm:col-auto">
                         <label class="form-label small mb-1">Side</label>
-                        <select class="form-select form-select-sm" x-model="orderSide">
+                        <select class="form-control form-control-sm" x-model="orderSide">
                             <option value="buy">Buy</option>
                             <option value="sell">Sell</option>
                         </select>
                     </div>
-                    <div class="col-sm-auto" x-show="orderType === 'limit'">
+                    <div class="sm:col-auto" x-show="orderType === 'limit'">
                         <label class="form-label small mb-1">Price ($)</label>
                         <input type="number" class="form-control form-control-sm" x-model="orderPrice" step="0.01" min="0.01" placeholder="0.00" style="width: 100px;">
                     </div>
-                    <div class="col-sm-auto">
+                    <div class="sm:col-auto">
                         <label class="form-label small mb-1">Quantity</label>
                         <input type="number" class="form-control form-control-sm" x-model="orderQty" min="1" step="1" placeholder="1" style="width: 80px;">
                     </div>
-                    <div class="col-sm-auto">
-                        <button class="btn btn-sm" :class="orderSide === 'buy' ? 'btn-success' : 'btn-danger'" @click="submitOrder()" :disabled="submitting">
+                    <div class="sm:col-auto">
+                        <button class="btn-solid btn-sm" :class="orderSide === 'buy' ? 'theme-success' : 'theme-danger'" @click="submitOrder()" :disabled="submitting">
                             <span x-show="!submitting" x-text="orderSide === 'buy' ? 'Buy' : 'Sell'"></span>
-                            <span x-show="submitting" class="spinner-border spinner-border-sm"></span>
+                            <span x-show="submitting" class="spinner-border spinner-sm"></span>
                         </button>
                     </div>
                 </div>
             </div>
             <div x-show="error" class="card-footer py-1">
-                <span class="text-danger small" x-text="error"></span>
+                <span class="fg-danger small" x-text="error"></span>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row g-3" style="height: 480px;">
-    <div class="col-md-7 h-100">
+<div class="row g-5" style="height: 480px;">
+    <div class="md:col-7 h-100">
         <div class="card h-100 d-flex flex-column">
-            <div class="card-header py-2">
-                <h6 class="card-title mb-0">Order Book</h6>
+            <div class="card-header py-3">
+                <h6 class="mb-0">Order Book</h6>
             </div>
             <div class="card-body p-0 overflow-auto flex-grow-1">
                 <table class="table table-sm mb-0" id="order-book-table">
                     <thead class="sticky-top">
-                        <tr class="table-light">
+                        <tr>
                             <th>Price</th>
                             <th>Quantity</th>
                         </tr>
@@ -132,7 +132,7 @@
                             </tr>
                         </template>
                         <template x-if="book.asks.length === 0 && book.bids.length === 0">
-                            <tr><td colspan="2" class="text-center text-muted py-3">No orders</td></tr>
+                            <tr><td colspan="2" class="text-center fg-3 py-5">No orders</td></tr>
                         </template>
                     </tbody>
                 </table>
@@ -140,24 +140,24 @@
         </div>
     </div>
 
-    <div class="col-md-5 h-100 d-flex flex-column">
-        <div class="card flex-grow-1 d-flex flex-column mb-3" style="min-height: 0;">
-            <div class="card-header py-2">
-                <h6 class="card-title mb-0">My Orders</h6>
+    <div class="md:col-5 h-100 d-flex flex-column">
+        <div class="card flex-grow-1 d-flex flex-column mb-5" style="min-height: 0;">
+            <div class="card-header py-3">
+                <h6 class="mb-0">My Orders</h6>
             </div>
             <div class="card-body overflow-auto flex-grow-1">
                 <template x-if="myOrders.length === 0">
-                    <p class="text-muted small mb-0">No active orders</p>
+                    <p class="fg-3 small mb-0">No active orders</p>
                 </template>
                 <div class="list-group list-group-flush">
                     <template x-for="order in myOrders" :key="order.id">
-                        <div class="list-group-item d-flex justify-content-between align-items-center px-0 py-2">
+                        <div class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
                             <span class="small">
-                                <span class="badge" :class="order.side === 'buy' ? 'bg-success' : 'bg-danger'" x-text="order.side.toUpperCase()"></span>
+                                <span class="badge" :class="order.side === 'buy' ? 'theme-success' : 'theme-danger'" x-text="order.side.toUpperCase()"></span>
                                 <span x-text="order.quantity"></span> @
                                 <span x-text="uproot.formatForInterface('price', order.price)"></span>
                             </span>
-                            <button class="btn btn-outline-secondary btn-sm py-0 px-1" @click="cancelOrder(order.id)" :disabled="cancelling === order.id">
+                            <button class="btn-outline theme-secondary btn-sm py-0 px-1" @click="cancelOrder(order.id)" :disabled="cancelling === order.id">
                                 &times;
                             </button>
                         </div>
@@ -167,12 +167,12 @@
         </div>
 
         <div class="card flex-grow-1 d-flex flex-column" style="min-height: 0;">
-            <div class="card-header py-2">
-                <h6 class="card-title mb-0">Recent Trades</h6>
+            <div class="card-header py-3">
+                <h6 class="mb-0">Recent Trades</h6>
             </div>
             <div class="card-body overflow-auto flex-grow-1">
                 <template x-if="trades.length === 0">
-                    <p class="text-muted small mb-0">No trades yet</p>
+                    <p class="fg-3 small mb-0">No trades yet</p>
                 </template>
                 <div id="trades-list">
                     <template x-for="(trade, i) in trades.slice().reverse()" :key="i">

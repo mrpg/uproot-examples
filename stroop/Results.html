@@ -22,7 +22,7 @@ Your Results
     }
     .table td:nth-child(2),
     .table th:nth-child(2) {
-        padding-left: 1.5rem;  /* like ps-4 */
+        padding-left: 1.5rem;  /* like ps-7 */
     }
     .w-0 {
         width: 0% !important;
@@ -33,8 +33,8 @@ Your Results
 
 {% block main %}
 
-<div class="gx-lg-5 my-4 row">
-    <div class="col-12 col-lg-6">
+<div class="lg:gx-12 my-7 row">
+    <div class="col-12 lg:col-6">
         <table class="table">
             <thead>
                 <tr class="border-primary">
@@ -67,18 +67,18 @@ Your Results
                     <td class="text-end" colspan="2">{{ results.neutral_accuracy | fmtnum(post="%", places=1) }}</td>
                 </tr>
                 <tr class="fw-bold">
-                    <td>Accuracy in congruent trials <span class="ms-1 text-success">&bull;</span></td>
+                    <td>Accuracy in congruent trials <span class="ms-1 fg-success">&bull;</span></td>
                     <td class="text-end" colspan="2">{{ results.congruent_accuracy | fmtnum(post="%", places=1) }}</td>
                 </tr>
                 <tr class="border-primary fw-bold">
-                    <td>Accuracy in incongruent trials <span class="ms-1 text-danger">&bull;</span></td>
+                    <td>Accuracy in incongruent trials <span class="ms-1 fg-danger">&bull;</span></td>
                     <td class="text-end" colspan="2">{{ results.incongruent_accuracy | fmtnum(post="%", places=1) }}</td>
                 </tr>
                 <tr class="border-primary">
-                    <td class="bg-body-secondary bg-opacity-75 text-primary">
-                        <b>Difference in accuracy</b> (<span class="text-success">&bull;</span> &minus; <span class="text-danger">&bull;</span>)
+                    <td class="bg-2 bg-80 fg-primary">
+                        <b>Difference in accuracy</b> (<span class="fg-success">&bull;</span> &minus; <span class="fg-danger">&bull;</span>)
                     </td>
-                    <td class="bg-primary fw-bold text-end text-white" colspan="2">
+                    <td class="bg-primary fw-bold text-end fg-white" colspan="2">
                         {{ results.delta_accuracy | fmtnum(post="%", places=1) }}
                     </td>
                 </tr>
@@ -100,7 +100,7 @@ Your Results
                         {% if results.neutral_incorrect_count > 0 %}
                         {{ results.neutral_incorrect_rt | fmtnum(post=" ms", places=1) }}
                         {% else %}
-                        <span class="text-body-tertiary">—</span>
+                        <span class="fg-3">—</span>
                         {% endif %}
                     </td>
                 </tr>
@@ -110,7 +110,7 @@ Your Results
                         {% if results.congruent_incorrect_count > 0 %}
                         {{ results.congruent_incorrect_rt | fmtnum(post=" ms", places=1) }}
                         {% else %}
-                        <span class="text-body-tertiary">—</span>
+                        <span class="fg-3">—</span>
                         {% endif %}
                     </td>
                 </tr>
@@ -120,7 +120,7 @@ Your Results
                         {% if results.incongruent_incorrect_count > 0 %}
                         {{ results.incongruent_incorrect_rt | fmtnum(post=" ms", places=1) }}
                         {% else %}
-                        <span class="text-body-tertiary">—</span>
+                        <span class="fg-3">—</span>
                         {% endif %}
                     </td>
                 </tr>
@@ -130,35 +130,35 @@ Your Results
                         {% if results.neutral_correct_count > 0 %}
                         {{ results.neutral_correct_rt | fmtnum(post=" ms", places=1) }}
                         {% else %}
-                        <span class="text-body-tertiary">—</span>
+                        <span class="fg-3">—</span>
                         {% endif %}
                     </td>
                 </tr>
                 <tr class="fw-bold">
-                    <td>Mean RT in correct congruent trials <span class="ms-1 text-success">&bull;</span></td>
+                    <td>Mean RT in correct congruent trials <span class="ms-1 fg-success">&bull;</span></td>
                     <td class="text-end" colspan="2">
                         {% if results.congruent_correct_count > 0 %}
                         {{ results.congruent_correct_rt | fmtnum(post=" ms", places=1) }}
                         {% else %}
-                        <span class="text-body-tertiary">—</span>
+                        <span class="fg-3">—</span>
                         {% endif %}
                     </td>
                 </tr>
                 <tr class="border-primary fw-bold">
-                    <td>Mean RT in correct incongruent trials <span class="ms-1 text-danger">&bull;</span></td>
+                    <td>Mean RT in correct incongruent trials <span class="ms-1 fg-danger">&bull;</span></td>
                     <td class="text-end" colspan="2">
                         {% if results.incongruent_correct_count > 0 %}
                         {{ results.incongruent_correct_rt | fmtnum(post=" ms", places=1) }}
                         {% else %}
-                        <span class="text-body-tertiary">—</span>
+                        <span class="fg-3">—</span>
                         {% endif %}
                     </td>
                 </tr>
                 <tr class="border-primary">
-                    <td class="bg-body-secondary bg-opacity-75 text-primary">
-                        <b>Stroop effect</b> (<span class="text-danger">&bull;</span> &minus; <span class="text-success">&bull;</span>)
+                    <td class="bg-2 bg-80 fg-primary">
+                        <b>Stroop effect</b> (<span class="fg-danger">&bull;</span> &minus; <span class="fg-success">&bull;</span>)
                     </td>
-                    <td class="bg-primary fw-bold text-end text-white" colspan="2">
+                    <td class="bg-primary fw-bold text-end fg-white" colspan="2">
                         {% if results.stroop_effect is not none %}
                         {{ results.stroop_effect | fmtnum(post=" ms", places=1) }}
                         {% else %}
@@ -170,17 +170,17 @@ Your Results
         </table>
     </div>
 
-    <div class="col-12 col-lg-6">
-        <p class="pt-2">
-            The first measure of interference from the word meaning is the <b class="text-primary">difference between the share of correct responses in congruent trials and the share of correct responses in incongruent trials</b>. A larger share of correct responses in congruent trials—that is, a larger share of errors in incongruent trials—indicates interference from the word meaning.
+    <div class="col-12 lg:col-6">
+        <p class="pt-3">
+            The first measure of interference from the word meaning is the <b class="fg-primary">difference between the share of correct responses in congruent trials and the share of correct responses in incongruent trials</b>. A larger share of correct responses in congruent trials—that is, a larger share of errors in incongruent trials—indicates interference from the word meaning.
         </p>
         <p class="mb-0">
-            The <b class="text-primary">Stroop effect</b> is the difference between the mean response time for correct responses in incongruent trials and the mean response time for correct responses in congruent trials. A positive value indicates interference from the word meaning.
+            The <b class="fg-primary">Stroop effect</b> is the difference between the mean response time for correct responses in incongruent trials and the mean response time for correct responses in congruent trials. A positive value indicates interference from the word meaning.
         </p>
     </div>
 </div>
 
-<button class="btn btn-primary" id="uproot-button-next">
+<button class="btn-solid theme-primary" id="uproot-button-next">
     End
 </button>
 

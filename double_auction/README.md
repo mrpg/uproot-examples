@@ -135,7 +135,7 @@ This allows the experimenter to compare theoretical predictions against observed
 | `RaiseHands.html`     | Attendance toggle (Alpine.js) |
 | `RoundInfo.html`      | Per-round role and profit info |
 | `RoundInfoText.html`  | Shared text fragment for role/tax display (included by RoundInfo and Trade) |
-| `InstructionsText.html` | Shared instructions text (included by Instructions page and the in-trade modal) |
+| `InstructionsText.html` | Shared instructions text (included by Instructions page and the in-trade dialog) |
 | `Trade.html`          | Trading interface with offer book, transaction log, and input controls |
 | `AdminDigest.html`    | Admin digest template with Chart.js supply/demand and transaction charts |
 | `_static/trade.js`    | Client-side trading logic: offer submission, acceptance, real-time market updates |

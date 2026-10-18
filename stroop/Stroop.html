@@ -71,7 +71,7 @@ Stroop Test
 
 {% block main %}
 
-<p class="text-center text-body-tertiary mb-5">Trial {{ player.round }} of {{ C.NUM_TRIALS + C.NUM_TRIALS_NEUTRAL }}</p>
+<p class="text-center fg-3 mb-12">Trial {{ player.round }} of {{ C.NUM_TRIALS + C.NUM_TRIALS_NEUTRAL }}</p>
 
 <div class="d-none">
     {{ form.response() }}
@@ -85,8 +85,8 @@ Stroop Test
 
 <!-- This block has full width, since it is placed after #uproot-main-container, which has class .container. -->
 
-<div id="stroop-arena" class="stroop-arena mb-5">
-    <div class="fw-light stroop-word text-body-tertiary d-none" id="fixation">+</div>
+<div id="stroop-arena" class="stroop-arena mb-12">
+    <div class="fw-light stroop-word fg-3 d-none" id="fixation">+</div>
     <div
         class="stroop-word d-none"
         id="stimulus"
@@ -98,7 +98,7 @@ Stroop Test
     {% set areas = ["top", "right", "bottom", "left"] %}
     {% for color in player.button_order %}
     <button
-        class="btn btn-outline-dark color-btn d-none p-0"
+        class="btn-outline theme-inverse color-btn d-none p-0"
         data-color="{{ color }}"
         disabled
         style="grid-area: {{ areas[loop.index0] }};"
@@ -109,7 +109,7 @@ Stroop Test
     {% endfor %}
 
     <a href="#stroop-arena" style="grid-area: center;">
-        <button class="btn btn-dark next-btn p-0" id="nextBtn" type="button">
+        <button class="btn-solid theme-inverse next-btn p-0" id="nextBtn" type="button">
             {% if player.round == 1 %}Start{% else %}Next{% endif %}
         </button>
     </a>

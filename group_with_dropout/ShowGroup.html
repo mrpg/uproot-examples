@@ -5,10 +5,10 @@
 
 <style>
     body {
-        background-color: rgba(var(--bs-success-rgb), 0.05);
+        background-color: color-mix(in oklch, var(--bs-success-base) 5%, transparent);
     }
     #uproot-title {
-        color: var(--bs-success);
+        color: var(--bs-success-base);
     }
 </style>
 
@@ -24,8 +24,8 @@ Page in group phase
 
 {% block main %}
 
-<p class="fs-3 fw-light">You are a member of group <strong class="font-monospace fw-semibold">{{ player.group.name }}</strong></p>
-<p class="fs-3 fw-light">This is <strong class="fw-semibold">round {{ player.round }}</strong>.</p>
+<p class="fs-2xl fw-light">You are a member of group <strong class="font-monospace fw-semibold">{{ player.group.name }}</strong></p>
+<p class="fs-2xl fw-light">This is <strong class="fw-semibold">round {{ player.round }}</strong>.</p>
 <p>Group size: {{ C.GROUP_SIZE }}.</p>
 <p>Number of groups created: <strong>{{ num_groups }}</strong>.</p>
 <p>Members of your group (sorted alphabetically):</p>

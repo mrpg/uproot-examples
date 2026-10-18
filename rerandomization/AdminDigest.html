@@ -22,14 +22,14 @@
             <td>{{ n }}</td>
             <td>
                 {% if mean_age is none %}
-                <span class="text-muted">&ndash;</span>
+                <span class="fg-3">&ndash;</span>
                 {% else %}
                 {{ mean_age | fmtnum(places=1) }}
                 {% endif %}
             </td>
             <td>
                 {% if econ_prop is none %}
-                <span class="text-muted">&ndash;</span>
+                <span class="fg-3">&ndash;</span>
                 {% else %}
                 {{ econ_prop | fmtnum(places=2) }}
                 {% endif %}

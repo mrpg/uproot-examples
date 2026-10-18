@@ -8,13 +8,13 @@ Counter
 {% block main %}
 
 <div x-data="counter()">
-    <div class="mb-3">
+    <div class="mb-5">
         <b x-text="value"></b>
     </div>
 
-    <div class="mb-3">
-        <button type="button" class="btn btn-primary" @click="increment">Increment</button>
-        <button type="button" class="btn btn-danger" @click="reset">Reset</button>
+    <div class="mb-5">
+        <button type="button" class="btn-solid theme-primary" @click="increment">Increment</button>
+        <button type="button" class="btn-solid theme-danger" @click="reset">Reset</button>
     </div>
 </div>
 

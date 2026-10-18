@@ -4,11 +4,11 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
 
 {% if not rounds_data %}
-<p class="text-muted">No data yet.</p>
+<p class="fg-3">No data yet.</p>
 {% else %}
 
 {% for rd in rounds_data %}
-<h4 class="mt-4">Round {{ rd.round }}</h4>
+<h4 class="mt-7">Round {{ rd.round }}</h4>
 
 {% if rd.expected_eq %}
 <p>
@@ -30,7 +30,7 @@
 </p>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="md:col-6">
         <h5>{% if rd.buyer_tax or rd.seller_tax %}Tax-adjusted{% else %}Induced{% endif %} supply and demand</h5>
         <div style="display: flex; gap: 1rem; margin-bottom: 4px;">
             <span><span style="display: inline-block; width: 18px; height: 3px; background: rgb(54, 162, 235); vertical-align: middle;"></span> Demand</span>
@@ -38,7 +38,7 @@
         </div>
         <canvas id="expected-{{ rd.round }}" height="250"></canvas>
     </div>
-    <div class="col-md-6">
+    <div class="md:col-6">
         <h5>Transaction prices</h5>
         <div style="display: flex; gap: 1rem; margin-bottom: 4px;">
             <span><span style="display: inline-block; width: 10px; height: 10px; background: rgba(255, 200, 0, 0.9); border: 2px solid black; transform: rotate(45deg); vertical-align: middle;"></span> Transaction price</span>

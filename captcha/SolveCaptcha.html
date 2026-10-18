@@ -25,7 +25,7 @@ uproot.onReady(() => {
     which authenticates the request automatically.
 </p>
 
-<div class="mb-4">
+<div class="mb-7">
     <img
         id="captchaImage"
         src=""
@@ -40,7 +40,7 @@ uproot.onReady(() => {
 {{ field(form.captcha_answer) }}
 
 {% if player.captcha_attempts %}
-<p class="text-body-tertiary">
+<p class="fg-3">
     Invalid attempts so far: <b>{{ player.captcha_attempts }}</b>
 </p>
 {% endif %}

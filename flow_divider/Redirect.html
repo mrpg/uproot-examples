@@ -9,12 +9,12 @@ Redirecting
 
 {% block main %}
 
-<div class="py-5 text-center">
+<div class="py-12 text-center">
     <div class="spinner-border" role="status">
         <span class="visually-hidden">Redirecting…</span>
     </div>
-    <p class="mt-3">Redirecting you to your room…</p>
-    <a class="btn btn-primary" href="../../../room/{{ player.room_name }}/" id="room-link">
+    <p class="mt-5">Redirecting you to your room…</p>
+    <a class="btn-solid theme-primary" href="../../../room/{{ player.room_name }}/" id="room-link">
         Continue to room {{ player.room_name }}
     </a>
 </div>

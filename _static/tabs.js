@@ -53,7 +53,7 @@
     const createButton = (direction) => {
         const button = document.createElement("button");
 
-        button.className = direction === "next" ? "btn btn-primary" : "btn btn-secondary";
+        button.className = direction === "next" ? "btn-solid theme-primary" : "btn-solid theme-secondary";
         button.dataset.tabDirection = direction;
         button.type = "button";
         button.textContent = direction === "next" ? "Next" : "Back";

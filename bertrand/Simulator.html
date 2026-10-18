@@ -1,8 +1,8 @@
-<button class="btn btn-outline-secondary btn-sm mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#simCollapse">
+<button class="btn-outline theme-secondary btn-sm mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#simCollapse">
     Try the simulator
 </button>
 
-<div class="collapse mt-2" id="simCollapse">
+<div class="collapse mt-3" id="simCollapse">
     <div class="card card-body" x-data="{
         me: '', other: '',
         get ready() { return this.me !== '' && this.other !== '' },
@@ -27,38 +27,38 @@
             return 'Demand is split equally.';
         }
     }">
-        <div class="row g-2 align-items-center mb-3">
+        <div class="row g-3 align-items-center mb-5">
             <div class="col-auto">
                 <label class="col-form-label fw-semibold">Your price</label>
             </div>
             <div class="col-auto">
                 <input class="form-control" type="number" x-model="me" min="0" max="100" style="width: 6rem;">
             </div>
-            <div class="col-auto ms-3">
+            <div class="col-auto ms-5">
                 <label class="col-form-label fw-semibold">Other’s price</label>
             </div>
             <div class="col-auto">
                 <input class="form-control" type="number" x-model="other" min="0" max="100" style="width: 6rem;">
             </div>
         </div>
-        <p class="text-muted small mb-2" x-text="ready ? outcome : ''"></p>
-        <hr class="my-2">
+        <p class="fg-3 small mb-3" x-text="ready ? outcome : ''"></p>
+        <hr class="my-3">
         <div class="row text-center">
             <div class="col">
-                <div class="text-muted small">Your demand</div>
-                <div class="fs-5 fw-bold" x-text="ready ? myDemand : '—'"></div>
+                <div class="fg-3 small">Your demand</div>
+                <div class="fs-lg fw-bold" x-text="ready ? myDemand : '—'"></div>
             </div>
             <div class="col">
-                <div class="text-muted small">Other’s demand</div>
-                <div class="fs-5 fw-bold" x-text="ready ? otherDemand : '—'"></div>
+                <div class="fg-3 small">Other’s demand</div>
+                <div class="fs-lg fw-bold" x-text="ready ? otherDemand : '—'"></div>
             </div>
             <div class="col">
-                <div class="text-muted small">Your earnings</div>
-                <div class="fs-5 fw-bold text-success" x-text="ready ? '$' + myEarnings : '—'"></div>
+                <div class="fg-3 small">Your earnings</div>
+                <div class="fs-lg fw-bold fg-success" x-text="ready ? '$' + myEarnings : '—'"></div>
             </div>
             <div class="col">
-                <div class="text-muted small">Other’s earnings</div>
-                <div class="fs-5 fw-bold" x-text="ready ? '$' + otherEarnings : '—'"></div>
+                <div class="fg-3 small">Other’s earnings</div>
+                <div class="fs-lg fw-bold" x-text="ready ? '$' + otherEarnings : '—'"></div>
             </div>
         </div>
     </div>

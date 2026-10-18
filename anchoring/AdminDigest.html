@@ -18,14 +18,14 @@
             <td>{{ anchor }}&nbsp;km</td>
             <td>
                 {% if comparison is none %}
-                <span class="text-muted">Pending</span>
+                <span class="fg-3">Pending</span>
                 {% else %}
                 {{ comparison }}
                 {% endif %}
             </td>
             <td>
                 {% if estimate is none %}
-                <span class="text-muted">Pending</span>
+                <span class="fg-3">Pending</span>
                 {% else %}
                 {{ estimate | fmtnum(places=0) }}&nbsp;km
                 {% endif %}
@@ -36,7 +36,7 @@
 </table>
 
 {% if medians %}
-<h5 class="mt-4">Median Estimate by Treatment</h5>
+<h5 class="mt-7">Median Estimate by Treatment</h5>
 <table class="table w-50">
     <thead>
         <tr>

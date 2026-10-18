@@ -10,7 +10,7 @@ Ping
 <p>This page allows you to send short messages to the server to measure round-trip time (RTT).</p>
 
 <div x-data="{ n: 1000 }">
-    <div class="mb-3">
+    <div class="mb-5">
         <table class="table table-sm w-auto">
             <tbody>
                 <tr>
@@ -37,18 +37,22 @@ Ping
         </table>
     </div>
 
-    <div class="mb-3">
+    <div class="mb-5">
         <div class="btn-group" role="group">
-            <input type="radio" class="btn-check" name="direct" id="direct1" value="direct" autocomplete="off" checked>
-            <label class="btn btn-sm btn-outline-success" for="direct1">Direct</label>
+            <label class="btn-check btn-sm btn-outline theme-success">
+                <input type="radio" name="direct" id="direct1" value="direct" autocomplete="off" checked>
+                Direct
+            </label>
 
-            <input type="radio" class="btn-check" name="direct" id="direct2" value="indirect" autocomplete="off">
-            <label class="btn btn-sm btn-outline-danger" for="direct2">Indirect</label>
+            <label class="btn-check btn-sm btn-outline theme-danger">
+                <input type="radio" name="direct" id="direct2" value="indirect" autocomplete="off">
+                Indirect
+            </label>
         </div>
     </div>
 
-    <div class="mb-3">
-        <button type="button" class="btn btn btn-primary" @click="ping(n)">Do it</button>
+    <div class="mb-5">
+        <button type="button" class="btn-solid theme-primary" @click="ping(n)">Do it</button>
     </div>
 </div>
 

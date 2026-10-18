@@ -57,8 +57,8 @@ function propose() {
 
 <style>
 .cell, .cells {
-    border-color: var(--bs-uproot);
-    color: var(--bs-uproot);
+    border-color: var(--bs-uproot-base);
+    color: var(--bs-uproot-base);
 }
 .cell {
     width: 64px;
@@ -90,7 +90,7 @@ function propose() {
                         <td
                             class="cell"
                             x-data="{ get n() { return $store.matrix.data?.[(row - 1) * grid[1] + (col - 1)] } }"
-                            :class="{ 'bg-uproot text-white': $store.matrix.selected.has(n) }"
+                            :class="{ 'bg-uproot fg-white': $store.matrix.selected.has(n) }"
                             @click="$store.matrix.toggle(n)"
                         >
                             <span x-text="n ?? 0"></span>
@@ -101,7 +101,7 @@ function propose() {
         </tbody>
     </table>
 
-    <button type="button" class="btn btn-lg btn-uproot mt-4" :disabled="$store.matrix.count !== C.TERMS" @click="propose()">
+    <button type="button" class="btn-lg btn-solid theme-uproot mt-7" :disabled="$store.matrix.count !== C.TERMS" @click="propose()">
         Submit
     </button>
 </div>

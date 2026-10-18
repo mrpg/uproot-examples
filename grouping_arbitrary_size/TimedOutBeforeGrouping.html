@@ -6,9 +6,9 @@
 {% block title %}
 
 {% if player.withdrew_consent %}
-<span class="text-primary">Consent withdrawn</span>
+<span class="fg-primary">Consent withdrawn</span>
 {% else %}
-<span class="text-info">Time limit violated before grouping</span>
+<span class="fg-info">Time limit violated before grouping</span>
 {% endif %}
 
 {% endblock title %}
@@ -18,15 +18,15 @@
 
 {% if player.withdrew_consent %}
 <p>You withdrew your consent to participate in this study.</p>
-<div class="d-flex justify-content-end my-3">
-    <button type="submit" id="uproot-button-next" class="btn btn-primary">
+<div class="d-flex justify-content-end my-5">
+    <button type="submit" id="uproot-button-next" class="btn-solid theme-primary">
         End
     </button>
 </div>
 {% else %}
 <p>You have violated the time limit on a previous page and can therefore no longer participate in this study.</p>
-<div class="d-flex justify-content-end my-3">
-    <button type="submit" id="uproot-button-next" class="btn btn-info">
+<div class="d-flex justify-content-end my-5">
+    <button type="submit" id="uproot-button-next" class="btn-solid theme-info">
         End
     </button>
 </div>

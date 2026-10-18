@@ -8,31 +8,31 @@ Message Board
 
 {% block main %}
 
-<p class="lead mb-4">
+<p class="fs-lg fw-light mb-7">
     Submit your message below.
 </p>
 
-<div class="card mb-4">
+<div class="card mb-7">
     <div class="card-body">
         <label for="body" class="form-label">Your message</label>
-        <textarea class="form-control mb-3" id="body" maxlength="{{ C.MAX_LENGTH }}" rows="2"
+        <textarea class="form-control mb-5" id="body" maxlength="{{ C.MAX_LENGTH }}" rows="2"
             placeholder="Type your message here…"></textarea>
         <div class="d-flex justify-content-between align-items-center">
-            <small class="text-body-secondary"><span id="char-count">0</span>/{{ C.MAX_LENGTH }}</small>
-            <button type="button" class="btn btn-uproot" id="add-post" onclick="addPost()">
+            <small class="fg-2"><span id="char-count">0</span>/{{ C.MAX_LENGTH }}</small>
+            <button type="button" class="btn-solid theme-uproot" id="add-post" onclick="addPost()">
                 Send
             </button>
         </div>
-        <div class="alert alert-danger d-none mt-3 mb-0" id="error" role="alert"></div>
+        <div class="alert theme-danger d-none mt-5 mb-0" id="error" role="alert"></div>
     </div>
 </div>
 
-<div class="card mb-4">
-    <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+<div class="card mb-7">
+    <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-3">
         <span class="fw-semibold" id="list-heading">Your messages</span>
-        <span class="badge text-bg-secondary"><span id="total-count">0</span> total in session</span>
+        <span class="badge theme-secondary"><span id="total-count">0</span> total in session</span>
     </div>
-    <div class="card-body text-body-secondary" id="empty-state">
+    <div class="card-body fg-2" id="empty-state">
         No messages yet. Send one above.
     </div>
     <div class="d-none" id="posts-container"></div>
@@ -78,7 +78,7 @@ Message Board
             body.textContent = post.body;
 
             const meta = document.createElement("small");
-            meta.className = "text-body-secondary";
+            meta.className = "fg-2";
             const time = new Date(post.created_at * 1000).toLocaleTimeString();
             meta.textContent = data.show_to_others && post.player != null
                 ? time + " · Player " + post.player

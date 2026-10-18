@@ -8,11 +8,11 @@ Results
 {% block main %}
 
 <dl class="row">
-    <dt class="col-sm-4">Selected branch</dt>
-    <dd class="col-sm-8">{{ branch_name }}</dd>
+    <dt class="sm:col-4">Selected branch</dt>
+    <dd class="sm:col-8">{{ branch_name }}</dd>
 
-    <dt class="col-sm-4">Recorded pages</dt>
-    <dd class="col-sm-8"><code>{{ selected_pages | join(", ") }}</code></dd>
+    <dt class="sm:col-4">Recorded pages</dt>
+    <dd class="sm:col-8"><code>{{ selected_pages | join(", ") }}</code></dd>
 </dl>
 
 {% if player.get("product_choice") %}

@@ -79,11 +79,11 @@ function submitAnswer() {
     width: 200px;
 }
 .feedback-success {
-    color: var(--bs-success);
+    color: var(--bs-success-base);
     font-weight: bold;
 }
 .feedback-error {
-    color: var(--bs-danger);
+    color: var(--bs-danger-base);
     font-weight: bold;
 }
 </style>
@@ -93,8 +93,8 @@ function submitAnswer() {
 {% block main %}
 
 <div class="text-center">
-    <div x-show="$store.task.audioLoading" class="py-2 text-muted" role="status">
-        <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+    <div x-show="$store.task.audioLoading" class="py-3 fg-3" role="status">
+        <span class="spinner-border spinner-sm me-3" aria-hidden="true"></span>
         Loading audio…
     </div>
     <div id="audio-container" x-show="!$store.task.audioLoading"></div>
@@ -102,7 +102,7 @@ function submitAnswer() {
 
 {% include "nato_alphabet/Letters.html" %}
 
-<div class="d-flex align-items-center justify-content-center gap-3">
+<div class="d-flex align-items-center justify-content-center gap-5">
     <input
         type="text"
         class="form-control answer-input"
@@ -118,20 +118,20 @@ function submitAnswer() {
     >
     <button
         type="button"
-        class="btn btn-lg btn-uproot"
+        class="btn-lg btn-solid theme-uproot"
         @click="submitAnswer()"
         :disabled="$store.task.answer.length !== C.WORD_LENGTH || $store.task.loading"
     >Submit</button>
 </div>
 
-<div class="text-center mb-5">
-    <p class="text-muted mt-3">Enter {{ C.WORD_LENGTH }} uppercase letters (A-Z) and press Enter or click “Submit.”</p>
+<div class="text-center mb-12">
+    <p class="fg-3 mt-5">Enter {{ C.WORD_LENGTH }} uppercase letters (A-Z) and press Enter or click “Submit.”</p>
 
-    <button type="button" class="btn btn-secondary btn-sm" onclick="uproot.submit()">
+    <button type="button" class="btn-solid theme-secondary btn-sm" onclick="uproot.submit()">
         Exit task
     </button>
 
-    <div class="mt-2" x-show="$store.task.feedback">
+    <div class="mt-3" x-show="$store.task.feedback">
         <span
             :class="$store.task.feedback?.type === 'success' ? 'feedback-success' : 'feedback-error'"
             x-text="$store.task.feedback?.message"

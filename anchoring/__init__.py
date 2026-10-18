@@ -49,7 +49,7 @@ class Estimate(Page):
                     ("less", f"Less than {anchor}"),
                     ("more", f"More than {anchor}"),
                 ],
-                class_wrapper="mb-5",
+                class_wrapper="mb-12",
             ),
             "estimate": DecimalField(
                 label="Your estimate:",

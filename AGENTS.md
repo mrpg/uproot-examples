@@ -77,9 +77,18 @@ When looking for how to implement something specific, use grep/search across the
 
 ### Frontend Libraries
 
-uproot includes **Bootstrap 5 CSS and JS** on every page, as well as **Alpine.js**. These are available out of the box—no need to add script tags or imports.
+uproot includes **Bootstrap 6 CSS and JS** on every page, as well as **Alpine.js**. These are available out of the box—no need to add script tags or imports.
 
-When writing HTML templates, always follow Bootstrap best practices for layout and components (e.g., use the grid system, proper form classes, responsive utilities).
+When writing HTML templates, always follow Bootstrap best practices for layout and components (e.g., use the grid system, proper form classes, responsive utilities). Bootstrap 6 differs substantially from Bootstrap 5, so do not write Bootstrap 5 markup. Consult the [Bootstrap 6 docs](https://getbootstrap.com/docs/6.0/) and its [migration guide](https://getbootstrap.com/docs/6.0/guides/migration/). In particular:
+
+- **Buttons, alerts, badges, and tables** combine a variant with a `.theme-*` class: `btn-solid theme-primary`, `btn-outline theme-secondary`, `alert theme-info`, `badge theme-success`, `<tr class="theme-success">`. There is no `.btn btn-primary`. Use `theme-uproot` for uproot’s brand color.
+- **Alerts are flex containers.** Wrap mixed text and inline elements in a single `<div>` inside the alert.
+- **Colors:** `fg-*` replaces `text-*` (e.g., `fg-danger`; `fg-2`/`fg-3` for secondary/muted text), and `bg-subtle-*`, `bg-1`, and `bg-2` replace `bg-*-subtle`, `bg-light`, and `bg-body-*`.
+- **Responsive and state classes use prefixes:** `md:col-6`, `lg:d-none`, `hover:underline-100`.
+- **The spacing scale changed:** `3` is 0.5rem, `5` is 1rem, `7` is 1.5rem, and `12` is 3rem (e.g., `mb-5` for 1rem).
+- **Font sizes** are `fs-xs` through `fs-6xl` (e.g., `fs-lg`, `fs-xl`). There are no `.lead` or `.display-*` classes.
+- **Components:** modals are native `<dialog class="dialog">` elements with `.dialog-header`, `.dialog-body`, and `.dialog-footer` (toggle with `data-bs-toggle="dialog"`), dropdowns are menus (`data-bs-toggle="menu"`, `.menu`, `.menu-item`), and checkboxes/radios use `<div class="form-field"><input class="check"> <label>…</label></div>` (or `class="radio"`). Use `.form-control` on `<select>` as well.
+- **JavaScript** is an ES module and there is no `window.bootstrap` global. Use data attributes where possible, or import components: `const { Dialog } = await import("bootstrap");`.
 
 Put repeating parts in separate HTML files, and include them with `{{ include "ACTUAL_APP_NAME/SEPARATE_TEMPLATE_FILE.html" }}`.
 

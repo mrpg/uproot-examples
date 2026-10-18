@@ -64,7 +64,7 @@ function refreshDisplay() {
 
     groupByPrice(market.asks).sort((a, b) => a.price - b.price).forEach(group => {
         const badge = document.createElement("span");
-        badge.className = "badge bg-danger me-1 mb-1";
+        badge.className = "badge theme-danger me-1 mb-1";
         const count = group.ids.length;
         const unitWord = count === 1 ? "unit" : "units";
         badge.innerHTML = `${fmt(group.price)}<br><span class="units">(${count}&thinsp;${unitWord})</span>`;
@@ -90,7 +90,7 @@ function refreshDisplay() {
 
     groupByPrice(market.bids).sort((a, b) => b.price - a.price).forEach(group => {
         const badge = document.createElement("span");
-        badge.className = "badge bg-success me-1 mb-1";
+        badge.className = "badge theme-success me-1 mb-1";
         const count = group.ids.length;
         const unitWord = count === 1 ? "unit" : "units";
         badge.innerHTML = `${fmt(group.price)}<br><span class="units">(${count}&thinsp;${unitWord})</span>`;
@@ -116,7 +116,7 @@ function refreshDisplay() {
 
     [...market.txs].reverse().forEach(tx => {
         const badge = document.createElement("span");
-        badge.className = "badge bg-uproot me-1 mb-1";
+        badge.className = "badge theme-uproot me-1 mb-1";
         badge.textContent = fmt(tx.price);
         badge.setAttribute("aria-label", `Transaction completed at price ${fmt(tx.price)}`);
 

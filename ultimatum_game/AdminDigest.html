@@ -14,14 +14,14 @@
             <td>{{ group }}</td>
             <td>
                 {% if offer is none %}
-                <span class="text-muted">Pending</span>
+                <span class="fg-3">Pending</span>
                 {% else %}
                 {{ offer | fmtnum(pre="$", places=2) }}
                 {% endif %}
             </td>
             <td>
                 {% if accepted is none %}
-                <span class="text-muted">Pending</span>
+                <span class="fg-3">Pending</span>
                 {% elif accepted %}
                 Accepted
                 {% else %}
@@ -34,7 +34,7 @@
 </table>
 
 {% if summary %}
-<h5 class="mt-4">Summary by Offer</h5>
+<h5 class="mt-7">Summary by Offer</h5>
 <table class="table w-75">
     <thead>
         <tr>

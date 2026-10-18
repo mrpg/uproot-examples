@@ -1,6 +1,6 @@
 {% set event_question = settings.get("event_question", C.DEFAULT_EVENT_QUESTION) %}
 
-<div class="border rounded p-3" id="{{ editor_id }}">
+<div class="border rounded p-5" id="{{ editor_id }}">
     <label class="form-label" for="{{ editor_id }}-event-question">Event question</label>
     <input class="form-control" id="{{ editor_id }}-event-question"
         data-setting="event-question" type="text" value="{{ event_question }}">

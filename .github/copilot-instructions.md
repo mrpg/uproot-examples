@@ -18,8 +18,8 @@ When adding a new app:
 - Add the app to the `README.md` apps table with a short description and difficulty
 
 Frontend notes:
-- Bootstrap 5 CSS/JS and Alpine.js are already available on every page
-- Follow Bootstrap layout and form conventions
+- Bootstrap 6 CSS/JS and Alpine.js are already available on every page
+- Follow Bootstrap 6 layout and form conventions, not Bootstrap 5 ones (see the “Frontend Libraries” section of `AGENTS.md`)
 - Put repeating markup in separate templates and include them with `{{ include "APP_NAME/file.html" }}`
 
 Validation and local run:

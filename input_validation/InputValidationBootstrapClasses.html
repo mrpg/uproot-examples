@@ -19,7 +19,7 @@
 {% block title %}
 
 Input validation and feedback using
-<a class="link-offset-1 link-underline link-underline-opacity-10 link-underline-opacity-100-hover" href="https://getbootstrap.com/docs/5.3/forms/validation/#server-side" target="_blank">Boostrap classes</a>
+<a class="underline-offset-1 underline-10 hover:underline-100" href="https://getbootstrap.com/docs/6.0/forms/validation/#server-side" target="_blank">Bootstrap classes</a>
 only
 
 {% endblock title %}
@@ -27,7 +27,7 @@ only
 
 {% block main %}
 
-<p class="text-primary">You can use this approach if you are fine with informing your particpants in detail about where their input is invalid.</p>
+<p class="fg-primary">You can use this approach if you are fine with informing your particpants in detail about where their input is invalid.</p>
 
 <div>
     {{ field(form.group_size) }}
@@ -69,6 +69,6 @@ only
     {% endif %}
 </div>
 
-<p class="text-primary">To test the validation and feedback mechanism, enter incorrect values.</p>
+<p class="fg-primary">To test the validation and feedback mechanism, enter incorrect values.</p>
 
 {% endblock main %}

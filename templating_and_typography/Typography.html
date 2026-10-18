@@ -7,19 +7,11 @@
 <meta name="chrome" content="nointentdetection" />
 
 <style>
-    :root {
-        --bs-code-color-rgb: 214, 51, 132;  /* From --bs-code-color: #d63384; */
-    }
-    /* Adapted from .link-danger */
     .link-code {
-        color: RGBA(var(--bs-code-color-rgb), var(--bs-link-opacity, 1)) !important;
-        -webkit-text-decoration-color: RGBA(var(--bs-code-color-rgb), var(--bs-link-underline-opacity, 1)) !important;
-        text-decoration-color: RGBA(var(--bs-code-color-rgb), var(--bs-link-underline-opacity, 1)) !important;
+        color: var(--bs-code-color);
     }
-    .link-code:hover, .link-code:focus {
-        color: RGBA(183, 43, 113, var(--bs-link-opacity, 1)) !important;
-        -webkit-text-decoration-color: RGBA(183, 43, 113, var(--bs-link-underline-opacity, 1)) !important;
-        text-decoration-color: RGBA(183, 43, 113, var(--bs-link-underline-opacity, 1)) !important;
+    .link-code:hover, .link-code:focus-visible {
+        color: color-mix(in oklch, var(--bs-code-color), black 15%);
     }
 </style>
 
@@ -35,60 +27,60 @@ Default fonts and font weights in uproot
 
 {% block main %}
 
-<div class="card card-body font-sans-serif mb-4">
-    <h2 class="border-bottom fw-600 mb-3 pb-3">Default font (sans-serif): <em>Inter</em> <span class="fw-light">(with <em>tabular</em> figures enabled, uproot’s default)</span></h2>
-    <p>The default font used by uproot is <a class="fw-semibold link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://rsms.me/inter/" target="_blank">Inter (v4.1)</a>. Inter is a sans-serif font distributed under the <a class="link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://raw.githubusercontent.com/rsms/inter/refs/heads/master/LICENSE.txt" target="_blank">SIL Open Font License 1.1</a>. It comes in nine different font weights. In addition to the Latin alphabet, Inter covers the Cyrillic and Greek alphabets.</p>
-    <p class="text-primary bg-primary bg-opacity-10 border-bottom border-primary border-top pb-4 pt-3 px-4">
+<div class="card card-body font-sans-serif mb-7">
+    <h2 class="border-bottom fw-600 mb-5 pb-5">Default font (sans-serif): <em>Inter</em> <span class="fw-light">(with <em>tabular</em> figures enabled, uproot’s default)</span></h2>
+    <p>The default font used by uproot is <a class="fw-semibold link-hover" href="https://rsms.me/inter/" target="_blank">Inter (v4.1)</a>. Inter is a sans-serif font distributed under the <a class="link-hover" href="https://raw.githubusercontent.com/rsms/inter/refs/heads/master/LICENSE.txt" target="_blank">SIL Open Font License 1.1</a>. It comes in nine different font weights. In addition to the Latin alphabet, Inter covers the Cyrillic and Greek alphabets.</p>
+    <p class="fg-primary bg-primary bg-10 border-bottom border-primary border-top pb-7 pt-5 px-7">
         {% for d in range(1, 7) %}<span class="display-{{ d }}">{% if not loop.first %} / {% endif %}Inter</span>{% endfor %}
         <!-- Loop in single line to prevent unwanted whitespace -->
     </p>
-    <h5 class="fw-600 mb-3">Disambiguation tests</h5>
+    <h5 class="fw-600 mb-5">Disambiguation tests</h5>
     <ol>
-        <li><span class="fw-500 text-primary">Digits, letters, and punctuation</span><br>
+        <li><span class="fw-500 fg-primary">Digits, letters, and punctuation</span><br>
             <span class="ffs-zero">0</span> 0 O <i>O</i>, 1 l I \ | / <i>\ | / I l 1</i>, <i>i</i> <i>j</i>, rn m, <i>&epsilon;</i> <i>&varepsilon;</i>, <i>&theta;</i> <i>&vartheta;</i> <i>&Theta;</i>, <i>&phi;</i> <i>&varphi;</i> <i>&psi;</i>, <i>&omega;</i> <i>&varpi;</i>, +&minus; –, —–-</li>
-        <li><span class="fw-500 text-primary">Latin vs. Greek characters</span><br>
+        <li><span class="fw-500 fg-primary">Latin vs. Greek characters</span><br>
             <i>a</i> <i>&alpha;</i>, <i>d</i> <i>&delta;</i>, <i>e</i> <i>&epsilon;</i>, <i>i</i> <i>&iota;</i>, <i>k</i> <i>&kappa;</i>, <i>n</i> <i>&eta;</i>, <i>o</i> <i>&sigma;</i>, <i>p</i> <i>&rho;</i>, <i>q</i> <i>&varrho;</i>, <i>ß</i> <i>&beta;</i>, <i>u</i> <i>&upsilon;</i>, <i>v</i> <i>&nu;</i>, <i>w</i> <i>&omega;</i>, <i>x</i> <i>&chi;</i>, <i>y</i> <i>&gamma;</i>, <i>A</i> <i>&Delta;</i> <i>&Lambda;</i>, <i>O</i> <i>&Theta;</i> <i>&Omega;</i>, <i>T</i> <i>&Gamma;</i>, <i>Y</i></i> <i>&Upsilon;</i> <i>&upsih;</i>.</li>
     </ol>
-    <h5 class="fw-600 mb-3">Font weights</h5>
+    <h5 class="fw-600 mb-5">Font weights</h5>
     {% for w in range(100, 1000, 100) %}
     <div class="fw-{{ w }} row">
-        <div class="col-12 col-xl-6" dir="ltr">
+        <div class="col-12 xl:col-6" dir="ltr">
             Testing font weight {{ w }}: “¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!”
         </div>
-        <div class="col-12 col-xl-6 fst-italic" dir="ltr">
+        <div class="col-12 xl:col-6 fst-italic" dir="ltr">
             Testing font weight {{ w }}: “¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!”
         </div>
     </div>
     {% endfor %}
     <div class="row">
-        <div class="col-12 col-xl-6">
-            <h5 class="fw-600 my-3">Tabular figures</h5>
+        <div class="col-12 xl:col-6">
+            <h5 class="fw-600 my-5">Tabular figures</h5>
             <div class="row">
-                <div class="col-6 col-sm-5 col-lg-4 ffs-tnum inter-normalnums">
-                    <div class="text-primary">“Open” digits<br>(uproot’s default)</div>
+                <div class="col-6 sm:col-5 lg:col-4 ffs-tnum inter-normalnums">
+                    <div class="fg-primary">“Open” digits<br>(uproot’s default)</div>
                     {% for w in range(100, 1000, 100) %}
                     <div class="fw-{{ w }}" dir="ltr">0123456789</div>
                     {% endfor %}
                 </div>
-                <div class="col-6 col-sm-5 col-lg-4 ffs-tnum inter-normalnums">
-                    <div class="text-primary">“Closed” digits<br>(Inter’s default)</div>
+                <div class="col-6 sm:col-5 lg:col-4 ffs-tnum inter-normalnums">
+                    <div class="fg-primary">“Closed” digits<br>(Inter’s default)</div>
                     {% for w in range(100, 1000, 100) %}
                     <div class="fw-{{ w }}" dir="ltr" style="font-feature-settings: 'ss01' 0;">0123456789</div>
                     {% endfor %}
                 </div>
             </div>            
         </div>
-        <div class="col-12 col-xl-6">
-            <h5 class="fw-600 my-3">Proportional figures</h5>
+        <div class="col-12 xl:col-6">
+            <h5 class="fw-600 my-5">Proportional figures</h5>
             <div class="row">
-                <div class="col-6 col-sm-5 col-lg-4 ffs-pnum inter-normalnums">
-                    <div class="text-primary">“Open” digits<br>(uproot’s default)</div>
+                <div class="col-6 sm:col-5 lg:col-4 ffs-pnum inter-normalnums">
+                    <div class="fg-primary">“Open” digits<br>(uproot’s default)</div>
                     {% for w in range(100, 1000, 100) %}
                     <div class="fw-{{ w }}" dir="ltr">0123456789</div>
                     {% endfor %}
                 </div>
-                <div class="col-6 col-sm-5 col-lg-4 ffs-pnum inter-normalnums">
-                    <div class="text-primary">“Closed” digits<br>(Inter’s default)</div>
+                <div class="col-6 sm:col-5 lg:col-4 ffs-pnum inter-normalnums">
+                    <div class="fg-primary">“Closed” digits<br>(Inter’s default)</div>
                     {% for w in range(100, 1000, 100) %}
                     <div class="fw-{{ w }}" dir="ltr" style="font-feature-settings: 'ss01' 0;">0123456789</div>
                     {% endfor %}
@@ -96,47 +88,47 @@ Default fonts and font weights in uproot
             </div>            
         </div>
     </div>
-    <h5 class="fw-600 mt-3">Special ligatures</h5>
+    <h5 class="fw-600 mt-5">Special ligatures</h5>
     <p>Inter offers ligatures for producing arrows and mathematical symbols. This requires contextual alternates to be enabled. Testing the coverage:</p>
     {% for w in range(100, 1000, 100) %}
     <div class="fw-{{ w }} row">
-        <div class="col-12 col-xl-6 ffs-calt-on">
+        <div class="col-12 xl:col-6 ffs-calt-on">
             <- -> <-> &nbsp; <-- --> <--> &nbsp; <=> &nbsp; <== ==> <==> &nbsp; << <= != >= >>
         </div>
-        <div class="col-12 col-xl-6 ffs-calt-on fst-italic">
+        <div class="col-12 xl:col-6 ffs-calt-on fst-italic">
             <- -> <-> &nbsp; <-- --> <--> &nbsp; <=> &nbsp; <== ==> <==> &nbsp; << <= != >= >>
         </div>
     </div>
     {% endfor %}
 </div>
 
-<div class="card card-body font-serif mb-4">
-    <h2 class="border-bottom fw-600 mb-3 pb-3">Serif and math font: <em>IBM Plex Serif/Math</em></h2>
-    <p>The default serif font used by uproot is <a class="fw-semibold link-danger link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://www.ibm.com/plex/specs/" target="_blank">IBM Plex Serif</a>. IBM Plex Serif is distributed under the <a class="link-danger link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://raw.githubusercontent.com/IBM/plex/refs/heads/master/LICENSE.txt" target="_blank">SIL Open Font License 1.1</a>. It comes in eight different font weights. In addition to the Latin alphabet, IBM Plex Serif covers the Cyrillic and Greek alphabets.</p>
-    <p class="text-danger bg-danger bg-opacity-10 border-bottom border-danger border-top pb-4 pt-3 px-4">
+<div class="card card-body font-serif mb-7">
+    <h2 class="border-bottom fw-600 mb-5 pb-5">Serif and math font: <em>IBM Plex Serif/Math</em></h2>
+    <p>The default serif font used by uproot is <a class="fw-semibold fg-danger link-hover" href="https://www.ibm.com/plex/specs/" target="_blank">IBM Plex Serif</a>. IBM Plex Serif is distributed under the <a class="fg-danger link-hover" href="https://raw.githubusercontent.com/IBM/plex/refs/heads/master/LICENSE.txt" target="_blank">SIL Open Font License 1.1</a>. It comes in eight different font weights. In addition to the Latin alphabet, IBM Plex Serif covers the Cyrillic and Greek alphabets.</p>
+    <p class="fg-danger bg-danger bg-10 border-bottom border-danger border-top pb-7 pt-5 px-7">
         {% for d in range(1, 7) %}<span class="display-{{ d }}">{% if not loop.first %} / {% endif %}IBM Plex Serif</span>{% endfor %}
         <!-- Loop in single line to prevent unwanted whitespace -->
     </p>
     <h5 class="fw-600">Disambiguation tests</h5>
     <ol>
-        <li><span class="fw-500 text-danger">Digits, letters, and punctuation</span><br>
+        <li><span class="fw-500 fg-danger">Digits, letters, and punctuation</span><br>
             <span class="ffs-zero">0</span> 0 O <i>O</i>, 1 l I \ | / <i>\ | / I l 1</i>, <i>i</i> <i>j</i>, rn m, <i>&epsilon;</i> <i>&varepsilon;</i>, <i>&theta;</i> <i>&vartheta;</i> <i>&Theta;</i>, <i>&phi;</i> <i>&varphi;</i> <i>&psi;</i>, <i>&omega;</i> <i>&varpi;</i>, +&minus; –, —–-</li>
-        <li><span class="fw-500 text-danger">Latin vs. Greek characters</span><br>
+        <li><span class="fw-500 fg-danger">Latin vs. Greek characters</span><br>
             <i>a</i> <i>&alpha;</i>, <i>d</i> <i>&delta;</i>, <i>e</i> <i>&epsilon;</i>, <i>i</i> <i>&iota;</i>, <i>k</i> <i>&kappa;</i>, <i>n</i> <i>&eta;</i>, <i>o</i> <i>&sigma;</i>, <i>p</i> <i>&rho;</i>, <i>q</i> <i>&varrho;</i>, <i>ß</i> <i>&beta;</i>, <i>u</i> <i>&upsilon;</i>, <i>v</i> <i>&nu;</i>, <i>w</i> <i>&omega;</i>, <i>x</i> <i>&chi;</i>, <i>y</i> <i>&gamma;</i>, <i>A</i> <i>&Delta;</i> <i>&Lambda;</i>, <i>O</i> <i>&Theta;</i> <i>&Omega;</i>, <i>T</i> <i>&Gamma;</i>, <i>Y</i></i> <i>&Upsilon;</i> <i>&upsih;</i>.</li>
     </ol>
     <h5 class="fw-600">Font weights</h5>
     {% for w in [100, 200, 300, 400, 450, 500, 600, 700] %}
     <div class="fw-{{ w }} row">
-        <div class="col-12 col-xl-6" dir="ltr">
+        <div class="col-12 xl:col-6" dir="ltr">
             Testing font weight {{ w }}: “¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!”
         </div>
-        <div class="col-12 col-xl-6 fst-italic" dir="ltr">
+        <div class="col-12 xl:col-6 fst-italic" dir="ltr">
             Testing font weight {{ w }}: “¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!”
         </div>
     </div>
     {% endfor %}
-    <h5 class="fw-600 mt-3">Mathematics</h5>
-    <p>The default font used by uproot for mathematics (MathML) is <a class="fw-semibold link-danger link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://github.com/ibm/plex/" target="_blank">IBM Plex Math</a>. IBM Plex Math is distributed under the <a class="link-danger link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://raw.githubusercontent.com/IBM/plex/refs/heads/master/LICENSE.txt" target="_blank">SIL Open Font License 1.1</a>. It comes in a single font weight.</p>
+    <h5 class="fw-600 mt-5">Mathematics</h5>
+    <p>The default font used by uproot for mathematics (MathML) is <a class="fw-semibold fg-danger link-hover" href="https://github.com/ibm/plex/" target="_blank">IBM Plex Math</a>. IBM Plex Math is distributed under the <a class="fg-danger link-hover" href="https://raw.githubusercontent.com/IBM/plex/refs/heads/master/LICENSE.txt" target="_blank">SIL Open Font License 1.1</a>. It comes in a single font weight.</p>
     <math class="font-math" display="block">
         <mrow>
             <mi>x</mi>
@@ -176,9 +168,9 @@ Default fonts and font weights in uproot
 </div>
 
 <div class="card card-body font-monospace">
-    <h2 class="border-bottom fw-600 mb-3 pb-3">Monospace font: <em>Cascadia Mono</em></h2>
-    <p>The default monospace (“typewriter”) font used by uproot is <a class="fw-semibold link-code link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://github.com/microsoft/cascadia-code/" target="_blank">Cascadia Mono</a>. Cascadia Mono is distributed under the <a class="link-code link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-100-hover" href="https://raw.githubusercontent.com/microsoft/cascadia-code/refs/heads/main/LICENSE" target="_blank">SIL Open Font License 1.1</a>. It comes in six different font weights. In addition to the Latin alphabet, Cascadia Mono covers the Arabic, Cyrillic, Greek, and Hebrew alphabets.</p>
-    <p class="border-bottom border-top pb-4 pt-3 px-4" style="background-color: rgb(from var(--bs-code-color) r g b / 0.1); border-color: var(--bs-code-color) !important; color: var(--bs-code-color);">
+    <h2 class="border-bottom fw-600 mb-5 pb-5">Monospace font: <em>Cascadia Mono</em></h2>
+    <p>The default monospace (“typewriter”) font used by uproot is <a class="fw-semibold link-code link-hover" href="https://github.com/microsoft/cascadia-code/" target="_blank">Cascadia Mono</a>. Cascadia Mono is distributed under the <a class="link-code link-hover" href="https://raw.githubusercontent.com/microsoft/cascadia-code/refs/heads/main/LICENSE" target="_blank">SIL Open Font License 1.1</a>. It comes in six different font weights. In addition to the Latin alphabet, Cascadia Mono covers the Arabic, Cyrillic, Greek, and Hebrew alphabets.</p>
+    <p class="border-bottom border-top pb-7 pt-5 px-7" style="background-color: rgb(from var(--bs-code-color) r g b / 0.1); border-color: var(--bs-code-color) !important; color: var(--bs-code-color);">
         {% for d in range(1, 7) %}<span class="display-{{ d }}">{% if not loop.first %} / {% endif %}Cascadia Mono</span>{% endfor %}
         <!-- Loop in single line to prevent unwanted whitespace -->
     </p>
@@ -192,22 +184,22 @@ Default fonts and font weights in uproot
     <h5 class="fw-600">Font weights</h5>
     {% for w in range(200, 800, 100) %}
     <div class="fw-{{ w }} row">
-        <div class="col-12 col-xl-6" dir="ltr">
+        <div class="col-12 xl:col-6" dir="ltr">
             Testing font weight {{ w }}: “¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!”
         </div>
-        <div class="col-12 col-xl-6 fst-italic" dir="ltr">
+        <div class="col-12 xl:col-6 fst-italic" dir="ltr">
             Testing font weight {{ w }}: “¡Peace εἰρήνη pokój barış мир <span lang="he">שלום</span> <span lang="ar">سلام</span>!”
         </div>
     </div>
     {% endfor %}
-    <h5 class="fw-600 mt-3">Special ligatures</h5>
+    <h5 class="fw-600 mt-5">Special ligatures</h5>
     <p>Cascadia Code (but not Cascadia Mono) offers ligatures for producing arrows and mathematical symbols. Testing the coverage:</p>
     {% for w in range(200, 800, 100) %}
     <div class="fw-{{ w }} row">
-        <div class="col-12 col-xl-6">
+        <div class="col-12 xl:col-6">
             <- -> <-> &nbsp; <-- --> <--> &nbsp; <=> &nbsp; <== ==> <==> &nbsp; << <= != >= >>
         </div>
-        <div class="col-12 col-xl-6 fst-italic">
+        <div class="col-12 xl:col-6 fst-italic">
             <- -> <-> &nbsp; <-- --> <--> &nbsp; <=> &nbsp; <== ==> <==> &nbsp; << <= != >= >>
         </div>
     </div>

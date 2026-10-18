@@ -7,8 +7,8 @@ Results
 
 {% block main %}
 
-<div class="row mb-5">
-    <div class="col-md-6">
+<div class="row mb-12">
+    <div class="md:col-6">
         {% if player.cooperate %}
         <p>You cooperated.</p>
         {% else %}
@@ -23,7 +23,7 @@ Results
 
         <p>Your payoff is <b>{{ player.payoff }}</b>.</p>
     </div>
-    <div class="col-md-6">
+    <div class="md:col-6">
         <h5>Chat</h5>
         {{ chat(player.group.chat) }}
     </div>

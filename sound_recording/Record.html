@@ -7,24 +7,24 @@ Audio Recording
 
 {% block main %}
 
-<div class="mb-4">
-    <p class="lead">Please read the following sentence aloud:</p>
-    <blockquote class="blockquote border-start border-4 ps-3">
+<div class="mb-7">
+    <p class="fs-lg fw-light">Please read the following sentence aloud:</p>
+    <blockquote class="blockquote border-start border-4 ps-5">
         <p>{{ C.SENTENCE }}</p>
     </blockquote>
 </div>
 
-<div class="mb-4">
-    <button type="button" id="recordBtn" class="btn btn-danger me-2">
+<div class="mb-7">
+    <button type="button" id="recordBtn" class="btn-solid theme-danger me-3">
         Record
     </button>
-    <button type="button" id="stopBtn" class="btn btn-secondary" disabled>
+    <button type="button" id="stopBtn" class="btn-solid theme-secondary" disabled>
         Stop
     </button>
-    <span id="status" class="ms-3 text-muted"></span>
+    <span id="status" class="ms-5 fg-3"></span>
 </div>
 
-<audio id="playback" class="w-100 mb-3" controls hidden></audio>
+<audio id="playback" class="w-100 mb-5" controls hidden></audio>
 
 <input type="file" id="audio" name="audio" hidden>
 

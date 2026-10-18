@@ -31,10 +31,10 @@ Collect boxes
 <p>You earn {{ C.BOX_VALUE | fmtnum(pre="$", places=0) }} for every box you collect. However, if the bomb turns out to be in one of your collected boxes, it explodes and you earn <b>nothing</b>.</p>
 
 <div x-data="bret()">
-    <div class="bret-grid my-4">
+    <div class="bret-grid my-7">
         {% for i in range(1, C.NUM_BOXES + 1) %}
-        <div class="bret-box border rounded d-flex align-items-center justify-content-center fs-4"
-             :class="{{ i }} <= n ? 'bg-warning-subtle border-warning' : 'bg-body-tertiary'"
+        <div class="bret-box border rounded d-flex align-items-center justify-content-center fs-xl"
+             :class="{{ i }} <= n ? 'bg-subtle-warning border-warning' : 'bg-1'"
              @click="pick({{ i }})"
              x-text="{{ i }} <= n ? '\u{1F4E6}' : ''"></div>
         {% endfor %}

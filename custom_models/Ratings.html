@@ -8,41 +8,41 @@ Custom models
 
 {% block main %}
 
-<p class="lead mb-4">
+<p class="fs-lg fw-light mb-7">
     Append typed <code>Rating</code> entries to a session-level model.
 </p>
 
-<div class="card mb-4">
+<div class="card mb-7">
     <div class="card-body">
-        <div class="row g-3 align-items-end">
-            <div class="col-12 col-md-7">
+        <div class="row g-5 align-items-end">
+            <div class="col-12 md:col-7">
                 <label for="item" class="form-label">Item</label>
                 <input type="text" class="form-control" id="item" maxlength="80" required
                     placeholder="For example, coffee">
             </div>
-            <div class="col-8 col-md-3">
+            <div class="col-8 md:col-3">
                 <label for="score" class="form-label">Score</label>
                 <input type="number" class="form-control" id="score" min="1" max="10" step="1" value="5" required>
             </div>
-            <div class="col-4 col-md-2 d-grid">
-                <button type="button" class="btn btn-uproot" id="add-rating" onclick="addRating()">
+            <div class="col-4 md:col-2 d-grid">
+                <button type="button" class="btn-solid theme-uproot" id="add-rating" onclick="addRating()">
                     Add
                 </button>
             </div>
         </div>
-        <div class="alert alert-danger d-none mt-3 mb-0" id="error" role="alert"></div>
+        <div class="alert theme-danger d-none mt-5 mb-0" id="error" role="alert"></div>
     </div>
 </div>
 
-<div class="card mb-4">
-    <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+<div class="card mb-7">
+    <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-3">
         <span class="fw-semibold">Stored entries</span>
         <span>
-            <span class="badge text-bg-primary"><span id="player-count">0</span> yours</span>
-            <span class="badge text-bg-secondary"><span id="session-count">0</span> in session</span>
+            <span class="badge theme-primary"><span id="player-count">0</span> yours</span>
+            <span class="badge theme-secondary"><span id="session-count">0</span> in session</span>
         </span>
     </div>
-    <div class="card-body text-body-secondary" id="empty-state">
+    <div class="card-body fg-2" id="empty-state">
         No ratings yet. Add one above.
     </div>
     <div class="table-responsive d-none" id="ratings-table">
@@ -60,7 +60,7 @@ Custom models
     </div>
 </div>
 
-<p class="small text-body-secondary">
+<p class="small fg-2">
     The model is shared by the session. This table uses <code>filter_entries</code>
     to show only entries whose automatically filled player identifier is yours.
 </p>
@@ -97,7 +97,7 @@ Custom models
             const idCode = document.createElement("code");
 
             item.textContent = rating.item;
-            scoreBadge.className = "badge rounded-pill text-bg-light border";
+            scoreBadge.className = "badge rounded-pill border";
             scoreBadge.textContent = rating.score;
             score.appendChild(scoreBadge);
             created.textContent = new Date(rating.created_at * 1000).toLocaleTimeString();

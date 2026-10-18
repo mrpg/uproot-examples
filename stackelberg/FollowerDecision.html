@@ -8,7 +8,7 @@
 
 <p>You are the <strong>second mover</strong>. Use the simulator below to plan your response.</p>
 
-<div class="collapse show mt-2 mb-3" id="simCollapse">
+<div class="collapse show mt-3 mb-5" id="simCollapse">
     <div class="card card-body" x-data="{
         leader: {{ player.other_in_group.units }},
         follower: '',
@@ -18,37 +18,37 @@
         get leaderEarnings() { return this.ready ? this.price * Number(this.leader) : null },
         get followerEarnings() { return this.ready ? this.price * Number(this.follower) : null }
     }">
-        <div class="row g-2 align-items-center mb-3">
+        <div class="row g-3 align-items-center mb-5">
             <div class="col-auto">
                 <label class="col-form-label fw-semibold">First mover’s units</label>
             </div>
             <div class="col-auto">
-                <input class="form-control bg-light" type="number" x-model.number="leader" min="0" max="100" style="width: 6rem;" readonly>
+                <input class="form-control bg-1" type="number" x-model.number="leader" min="0" max="100" style="width: 6rem;" readonly>
             </div>
-            <div class="col-auto ms-3">
+            <div class="col-auto ms-5">
                 <label class="col-form-label fw-semibold">Your units</label>
             </div>
             <div class="col-auto">
                 <input class="form-control" type="number" x-model.number="follower" min="0" max="100" style="width: 6rem;">
             </div>
         </div>
-        <hr class="my-2">
+        <hr class="my-3">
         <div class="row text-center">
             <div class="col">
-                <div class="text-muted small">Total units</div>
-                <div class="fs-5 fw-bold" x-text="ready ? total : '—'"></div>
+                <div class="fg-3 small">Total units</div>
+                <div class="fs-lg fw-bold" x-text="ready ? total : '—'"></div>
             </div>
             <div class="col">
-                <div class="text-muted small">Price</div>
-                <div class="fs-5 fw-bold" x-text="ready ? '$' + price : '—'"></div>
+                <div class="fg-3 small">Price</div>
+                <div class="fs-lg fw-bold" x-text="ready ? '$' + price : '—'"></div>
             </div>
             <div class="col">
-                <div class="text-muted small">First mover’s earnings</div>
-                <div class="fs-5 fw-bold" x-text="ready ? '$' + leaderEarnings : '—'"></div>
+                <div class="fg-3 small">First mover’s earnings</div>
+                <div class="fs-lg fw-bold" x-text="ready ? '$' + leaderEarnings : '—'"></div>
             </div>
             <div class="col">
-                <div class="text-muted small">Your earnings</div>
-                <div class="fs-5 fw-bold text-success" x-text="ready ? '$' + followerEarnings : '—'"></div>
+                <div class="fg-3 small">Your earnings</div>
+                <div class="fs-lg fw-bold fg-success" x-text="ready ? '$' + followerEarnings : '—'"></div>
             </div>
         </div>
     </div>

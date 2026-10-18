@@ -1,6 +1,6 @@
 {% if _uproot_internal.needlabel %}
 
-<div class="alert alert-info mb-4" role="alert">
+<div class="alert theme-info mb-7" role="alert">
     <p class="mb-0">Please enter your <strong>Student ID</strong> below. It will be used to identify you throughout this experiment.</p>
 </div>
 
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Create confirmation field
     const confirmDiv = document.createElement("div");
-    confirmDiv.className = "mb-3";
+    confirmDiv.className = "mb-5";
     confirmDiv.innerHTML =
         '<label for="label-confirm" class="form-label">Please confirm your Student ID.</label>' +
         '<input type="text" class="form-control form-control-lg font-monospace" ' +

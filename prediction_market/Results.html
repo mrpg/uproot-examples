@@ -11,11 +11,13 @@ Results
 
 <h2>Market Refunded</h2>
 
-<div class="alert alert-secondary">
-    <b>This market has been voided.</b> All contracts are cancelled and net expenditures have been refunded.
+<div class="alert theme-secondary">
+    <div>
+        <b>This market has been voided.</b> All contracts are cancelled and net expenditures have been refunded.
+    </div>
 </div>
 
-<h2 class="mt-5">Your Refund</h2>
+<h2 class="mt-12">Your Refund</h2>
 
 <table class="table w-auto" style="font-variant-numeric: tabular-nums;">
     <tbody>
@@ -24,12 +26,12 @@ Results
             <td class="text-end fw-bold">{{ player.cash | fmtnum(pre="$", places=2) }}</td>
         </tr>
         <tr>
-            <td><span class="badge bg-success">Yes</span> contracts held (voided)</td>
-            <td class="text-end text-muted">{{ player.yes_shares }} &times; {{ 0 | fmtnum(pre="$", places=2) }}</td>
+            <td><span class="badge theme-success">Yes</span> contracts held (voided)</td>
+            <td class="text-end fg-3">{{ player.yes_shares }} &times; {{ 0 | fmtnum(pre="$", places=2) }}</td>
         </tr>
         <tr>
-            <td><span class="badge bg-danger">No</span> contracts held (voided)</td>
-            <td class="text-end text-muted">{{ player.no_shares }} &times; {{ 0 | fmtnum(pre="$", places=2) }}</td>
+            <td><span class="badge theme-danger">No</span> contracts held (voided)</td>
+            <td class="text-end fg-3">{{ player.no_shares }} &times; {{ 0 | fmtnum(pre="$", places=2) }}</td>
         </tr>
         <tr>
             <td>Net expenditure refunded</td>
@@ -49,16 +51,20 @@ Results
 <h2>Market Resolved</h2>
 
 {% if player.session.event_occurred %}
-<div class="alert alert-success">
-    <b>The event occurred.</b> Each <span class="badge bg-success">Yes</span> contract pays {{ 1 | fmtnum(pre="$", places=2) }}. <span class="badge bg-danger">No</span> contracts pay nothing.
+<div class="alert theme-success">
+    <div>
+        <b>The event occurred.</b> Each <span class="badge theme-success">Yes</span> contract pays {{ 1 | fmtnum(pre="$", places=2) }}. <span class="badge theme-danger">No</span> contracts pay nothing.
+    </div>
 </div>
 {% else %}
-<div class="alert alert-danger">
-    <b>The event did not occur.</b> Each <span class="badge bg-danger">No</span> contract pays {{ 1 | fmtnum(pre="$", places=2) }}. <span class="badge bg-success">Yes</span> contracts pay nothing.
+<div class="alert theme-danger">
+    <div>
+        <b>The event did not occur.</b> Each <span class="badge theme-danger">No</span> contract pays {{ 1 | fmtnum(pre="$", places=2) }}. <span class="badge theme-success">Yes</span> contracts pay nothing.
+    </div>
 </div>
 {% endif %}
 
-<h2 class="mt-5">Your Final Position</h2>
+<h2 class="mt-12">Your Final Position</h2>
 
 <table class="table w-auto" style="font-variant-numeric: tabular-nums;">
     <tbody>
@@ -67,14 +73,14 @@ Results
             <td class="text-end fw-bold">{{ player.cash | fmtnum(pre="$", places=2) }}</td>
         </tr>
         <tr>
-            <td><span class="badge bg-success">Yes</span> contracts held</td>
+            <td><span class="badge theme-success">Yes</span> contracts held</td>
             <td class="text-end">
                 {{ player.yes_shares }}
                 &times; {% if player.session.event_occurred %}{{ 1 | fmtnum(pre="$", places=2) }}{% else %}{{ 0 | fmtnum(pre="$", places=2) }}{% endif %}
             </td>
         </tr>
         <tr>
-            <td><span class="badge bg-danger">No</span> contracts held</td>
+            <td><span class="badge theme-danger">No</span> contracts held</td>
             <td class="text-end">
                 {{ player.no_shares }}
                 &times; {% if player.session.event_occurred %}{{ 0 | fmtnum(pre="$", places=2) }}{% else %}{{ 1 | fmtnum(pre="$", places=2) }}{% endif %}

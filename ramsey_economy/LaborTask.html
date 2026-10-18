@@ -128,16 +128,16 @@ function stopWorking() {
     (maximum {{ C.L_BAR }}). You may stop working at any time.
 </p>
 
-<div class="card card-body mb-4 ramsey-labor-card">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <span class="fs-5">
+<div class="card card-body mb-7 ramsey-labor-card">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <span class="fs-lg">
             Effort: <b x-text="$store.labor.effort">0</b> / {{ C.L_BAR }}
         </span>
-        <span x-show="$store.labor.done" class="badge bg-success">Maximum reached</span>
+        <span x-show="$store.labor.done" class="badge theme-success">Maximum reached</span>
     </div>
 
     <div x-show="!$store.labor.done">
-        <div class="mb-3">
+        <div class="mb-5">
             <img id="captchaImage"
                  src=""
                  width="{{ C.IMAGE_WIDTH }}"
@@ -146,7 +146,7 @@ function stopWorking() {
                  alt="Captcha image">
         </div>
 
-        <div class="d-flex align-items-center gap-2 mb-2">
+        <div class="d-flex align-items-center gap-3 mb-3">
             <input type="text"
                    id="captchaInput"
                    class="form-control font-monospace w-auto"
@@ -158,35 +158,35 @@ function stopWorking() {
                    @keydown="handleCaptchaKey(event)"
                    :disabled="$store.labor.loading">
             <button type="button"
-                    class="btn btn-uproot"
+                    class="btn-solid theme-uproot"
                     @click="submitCaptcha()"
                     :disabled="$store.labor.loading">
                 Submit
             </button>
         </div>
 
-        <div x-show="$store.labor.feedback?.type === 'success'" class="text-success fw-bold small">
+        <div x-show="$store.labor.feedback?.type === 'success'" class="fg-success fw-bold small">
             Correct!
         </div>
-        <div x-show="$store.labor.feedback?.type === 'error'" class="text-danger fw-bold small">
+        <div x-show="$store.labor.feedback?.type === 'error'" class="fg-danger fw-bold small">
             Incorrect. Try again.
         </div>
     </div>
 </div>
 
 <button type="button"
-        class="btn btn-lg btn-primary"
+        class="btn-lg btn-solid theme-primary"
         @click="stopWorking()"
         :disabled="$store.labor.loading">
     Stop working
 </button>
-<span class="text-muted ms-2">
+<span class="fg-3 ms-3">
     Your current effort (<span x-text="$store.labor.effort">0</span>) will be your labor supply for this period.
 </span>
 
 {% if player.round > 1 %}
 
-<h2 class="mt-5">History</h2>
+<h2 class="mt-12">History</h2>
 
 {% include 'ramsey_economy/HistoryTable.html' %}
 

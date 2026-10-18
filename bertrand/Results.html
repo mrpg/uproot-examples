@@ -10,7 +10,7 @@
         <tr><th>Other’s price</th><td>{{ player.context.other_price | fmtnum(pre="$", places=2) }}</td></tr>
         <tr><th>Market price</th><td>{{ player.context.market_price | fmtnum(pre="$", places=2) }}</td></tr>
         <tr><th>Your demand</th><td>{{ player.context.my_demand }} units</td></tr>
-        <tr class="table-success"><th>Your earnings</th><td><strong>{{ player.payoff | fmtnum(pre="$", places=2) }}</strong></td></tr>
+        <tr class="theme-success"><th>Your earnings</th><td><strong>{{ player.payoff | fmtnum(pre="$", places=2) }}</strong></td></tr>
     </tbody>
 </table>
 

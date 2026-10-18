@@ -9,7 +9,7 @@ Results
 {% if player.is_punisher %}
 
 <h5>Contributions</h5>
-<table class="table w-auto mb-4">
+<table class="table w-auto mb-7">
     <thead>
         <tr>
             <th>Contributor</th>
@@ -40,6 +40,6 @@ Results
 
 {% endif %}
 
-<p class="mt-3">Your final payoff is <strong>{{ player.payoff | fmtnum(pre="$", places=2) }}</strong>.</p>
+<p class="mt-5">Your final payoff is <strong>{{ player.payoff | fmtnum(pre="$", places=2) }}</strong>.</p>
 
 {% endblock main %}

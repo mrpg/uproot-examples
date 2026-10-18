@@ -10,36 +10,38 @@ Results (Round {{ player.round }})
 <table class="table table-sm w-auto">
     <tr>
         <td>Consumption</td>
-        <td class="fw-bold text-end ps-4">{{ player.consumption | fmtnum(places=2) }}</td>
+        <td class="fw-bold text-end ps-7">{{ player.consumption | fmtnum(places=2) }}</td>
     </tr>
     <tr>
         <td>Capital next period</td>
-        <td class="fw-bold text-end ps-4">{{ player.next_capital | fmtnum(places=2) }}</td>
+        <td class="fw-bold text-end ps-7">{{ player.next_capital | fmtnum(places=2) }}</td>
     </tr>
     <tr>
         <td>Redemption value</td>
-        <td class="fw-bold text-end ps-4">{{ player.redemption_value | fmtnum(places=2) }}</td>
+        <td class="fw-bold text-end ps-7">{{ player.redemption_value | fmtnum(places=2) }}</td>
     </tr>
-    <tr class="table-primary">
+    <tr class="theme-primary">
         <td><b>Cumulative earnings</b></td>
-        <td class="fw-bold text-end ps-4">{{ player.cumulative_earnings | fmtnum(places=2) }}</td>
+        <td class="fw-bold text-end ps-7">{{ player.cumulative_earnings | fmtnum(places=2) }}</td>
     </tr>
 </table>
 
 {% if player.add_round %}
-<p class="alert alert-success mt-4">
+<p class="alert theme-success mt-7">
     The economy continues to the next period.
 </p>
 {% else %}
-<p class="alert alert-warning mt-4">
-    The economy has ended.
-    Your total earnings across all periods: <b>{{ player.cumulative_earnings | fmtnum(places=2) }}</b>.
-</p>
+<div class="alert theme-warning mt-7">
+    <p>
+        The economy has ended.
+        Your total earnings across all periods: <b>{{ player.cumulative_earnings | fmtnum(places=2) }}</b>.
+    </p>
+</div>
 {% endif %}
 
 {% if player.round > 0 %}
 
-<h2 class="mt-4">History</h2>
+<h2 class="mt-7">History</h2>
 
 <div class="table-responsive">
     <table class="table table-sm">

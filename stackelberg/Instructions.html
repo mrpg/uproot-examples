@@ -10,8 +10,8 @@
 
 <p class="fw-semibold">P &nbsp;=&nbsp; 100 &minus; Q<sub>total</sub></p>
 
-<table class="table table-bordered table-sm w-auto mb-3">
-    <thead class="table-light">
+<table class="table table-bordered table-sm w-auto mb-5">
+    <thead>
         <tr>
             <th>Total units (Q<sub>total</sub>)</th>
             <th>Price (P)</th>
@@ -29,9 +29,13 @@
 <p>Your <strong>earnings ($)</strong> = Price ($) &times; your units. There are no production costs.</p>
 
 {% if player.first_mover %}
-<div class="alert alert-info">You are the <strong>first mover</strong>. You will decide first; the other participant will then see your choice before deciding.</div>
+<div class="alert theme-info">
+    <div>You are the <strong>first mover</strong>. You will decide first; the other participant will then see your choice before deciding.</div>
+</div>
 {% else %}
-<div class="alert alert-info">You are the <strong>second mover</strong>. You will see the first mover’s choice before making your own decision.</div>
+<div class="alert theme-info">
+    <div>You are the <strong>second mover</strong>. You will see the first mover’s choice before making your own decision.</div>
+</div>
 {% endif %}
 
 <p>You may use the simulator to explore different scenarios before making your decision.</p>

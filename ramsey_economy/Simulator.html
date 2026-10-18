@@ -10,76 +10,69 @@
 }
 </style>
 
-<button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#{{ simulator_id }}">
+<button type="button" class="btn-outline theme-secondary btn-sm" data-bs-toggle="dialog" data-bs-target="#{{ simulator_id }}">
     Open simulator
 </button>
 
-<div class="modal fade"
-     id="{{ simulator_id }}"
-     tabindex="-1"
-     aria-labelledby="{{ simulator_id }}Label"
-     aria-hidden="true"
-     data-ramsey-simulator>
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="modal-title fs-5" id="{{ simulator_id }}Label">Consumption simulator</span>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<dialog class="dialog" id="{{ simulator_id }}" aria-labelledby="{{ simulator_id }}Label" data-ramsey-simulator>
+    <div class="dialog-header">
+        <span class="dialog-title fs-lg" id="{{ simulator_id }}Label">Consumption simulator</span>
+        <button type="button" class="btn-close" data-bs-dismiss="dialog" aria-label="Close"></button>
+    </div>
+    <div class="dialog-body ramsey-tabular">
+        <p class="fg-3 small">
+            Explore how different consumption choices affect your redemption value and savings.
+        </p>
+
+        <div class="mb-5">
+            <div class="form-label fw-semibold mb-1">
+                {{ sim_resources_label | default("Available resources") }}
             </div>
-            <div class="modal-body ramsey-tabular">
-                <p class="text-muted small">
-                    Explore how different consumption choices affect your redemption value and savings.
-                </p>
-
-                <div class="mb-3">
-                    <div class="form-label fw-semibold mb-1">
-                        {{ sim_resources_label | default("Available resources") }}
-                    </div>
-                    <div data-sim-resources="{{ sim_default_resources | default(C.K_BAR) }}"
-                         class="font-monospace">
-                        {{ sim_default_resources | default(C.K_BAR) | fmtnum(places=2) }}
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <label for="{{ simulator_id }}Consumption" class="form-label fw-semibold">Consumption</label>
-                    <div class="d-flex align-items-center gap-3">
-                        <input type="range"
-                               class="form-range flex-grow-1"
-                               id="{{ simulator_id }}Consumption"
-                               data-sim-consumption
-                               min="0" max="{{ sim_default_resources | default(C.K_BAR) }}" step="any"
-                               value="{{ (sim_default_resources | default(C.K_BAR)) / 2 }}">
-                        <span class="text-muted font-monospace d-inline-block ramsey-sim-output text-end"
-                              data-sim-consumption-label>
-                            &mdash;
-                        </span>
-                    </div>
-                </div>
-
-                <hr>
-
-                <div class="row text-center">
-                    <div class="col-6">
-                        <div class="text-muted small">Redemption value</div>
-                        <div class="fs-4 fw-bold text-success font-monospace d-inline-block ramsey-sim-output text-end"
-                             data-sim-redemption>&mdash;</div>
-                        <div class="text-muted small">u(c) = 2&radic;c</div>
-                    </div>
-                    <div class="col-6">
-                        <div class="text-muted small">Capital next period</div>
-                        <div class="fs-4 fw-bold text-primary font-monospace d-inline-block ramsey-sim-output text-end"
-                             data-sim-next-capital>&mdash;</div>
-                        <div class="text-muted small">W &minus; c</div>
-                    </div>
-                </div>
+            <div data-sim-resources="{{ sim_default_resources | default(C.K_BAR) }}"
+                 class="font-monospace">
+                {{ sim_default_resources | default(C.K_BAR) | fmtnum(places=2) }}
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+
+        <div class="mb-7">
+            <label for="{{ simulator_id }}Consumption" class="form-label fw-semibold">Consumption</label>
+            <div class="d-flex align-items-center gap-5">
+                <div class="form-range flex-grow-1">
+                    <input type="range"
+                           class="form-range-input"
+                           id="{{ simulator_id }}Consumption"
+                           data-sim-consumption
+                           min="0" max="{{ sim_default_resources | default(C.K_BAR) }}" step="any"
+                           value="{{ (sim_default_resources | default(C.K_BAR)) / 2 }}">
+                </div>
+                <span class="fg-3 font-monospace d-inline-block ramsey-sim-output text-end"
+                      data-sim-consumption-label>
+                    &mdash;
+                </span>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row text-center">
+            <div class="col-6">
+                <div class="fg-3 small">Redemption value</div>
+                <div class="fs-xl fw-bold fg-success font-monospace d-inline-block ramsey-sim-output text-end"
+                     data-sim-redemption>&mdash;</div>
+                <div class="fg-3 small">u(c) = 2&radic;c</div>
+            </div>
+            <div class="col-6">
+                <div class="fg-3 small">Capital next period</div>
+                <div class="fs-xl fw-bold fg-primary font-monospace d-inline-block ramsey-sim-output text-end"
+                     data-sim-next-capital>&mdash;</div>
+                <div class="fg-3 small">W &minus; c</div>
             </div>
         </div>
     </div>
-</div>
+    <div class="dialog-footer">
+        <button type="button" class="btn-solid theme-secondary" data-bs-dismiss="dialog">Close</button>
+    </div>
+</dialog>
 
 <script>
 uproot.onReady(() => {

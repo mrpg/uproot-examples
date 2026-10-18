@@ -9,14 +9,14 @@ Decision
 
 {% include 'n_by_n/PayoffTable.html' %}
 
-<p class="mb-4">{% include 'n_by_n/Simulator.html' %}</p>
+<p class="mb-7">{% include 'n_by_n/Simulator.html' %}</p>
 
-<fieldset class="mb-3">
+<fieldset class="mb-5">
     <legend>Please select your choice:</legend>
     {% for action in player.context.actions %}
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="choice" id="choice_{{ action }}" value="{{ action }}">
-        <label class="form-check-label" for="choice_{{ action }}">Action {{ action }}</label>
+    <div class="form-field">
+        <input class="radio" type="radio" name="choice" id="choice_{{ action }}" value="{{ action }}">
+        <label for="choice_{{ action }}">Action {{ action }}</label>
     </div>
     {% endfor %}
 </fieldset>

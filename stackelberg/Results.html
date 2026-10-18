@@ -12,7 +12,7 @@
         <tr><th>Second mover’s units</th><td>{{ player.context.follower_units }}</td></tr>
         <tr><th>Total units</th><td>{{ player.context.total_units }}</td></tr>
         <tr><th>Market price</th><td>{{ player.context.price | fmtnum(pre="$", places=2) }}</td></tr>
-        <tr class="table-success"><th>Your earnings</th><td><strong>{{ player.payoff | fmtnum(pre="$", places=2) }}</strong></td></tr>
+        <tr class="theme-success"><th>Your earnings</th><td><strong>{{ player.payoff | fmtnum(pre="$", places=2) }}</strong></td></tr>
     </tbody>
 </table>
 

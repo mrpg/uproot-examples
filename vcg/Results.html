@@ -8,18 +8,18 @@ Results
 {% block main %}
 
 {% if player.provided %}
-<div class="alert alert-success">
+<div class="alert theme-success">
     <b>The project was funded.</b>
 </div>
 {% else %}
-<div class="alert alert-secondary">
+<div class="alert theme-secondary">
     <b>The project was not funded.</b>
 </div>
 {% endif %}
 
 <h5>Group Reports</h5>
 
-<table class="table w-auto mb-4">
+<table class="table w-auto mb-7">
     <thead>
         <tr>
             <th>Member</th>
@@ -46,7 +46,7 @@ Results
 
 {% if player.provided %}
 
-<h5 class="mt-4">Your Outcome</h5>
+<h5 class="mt-7">Your Outcome</h5>
 
 <p>Your personal benefit: {{ player.true_value | fmtnum(pre="$", places=2) }}</p>
 <p>You reported: {{ player.reported_value | fmtnum(pre="$", places=2) }}</p>
@@ -59,37 +59,37 @@ Results
 <p>Your payment: <b>{{ player.payment | fmtnum(pre="$", places=2) }}</b></p>
 {% endif %}
 
-<div class="card border-primary my-4">
+<div class="card border-primary my-7">
     <div class="card-body">
-        <h5 class="card-title">How payoffs are calculated</h5>
+        <h5>How payoffs are calculated</h5>
         <p>Because the project was funded, every member's payoff has the same composition:</p>
 
-        <p class="fs-5 text-center fw-semibold">
+        <p class="fs-lg text-center fw-semibold">
             Payoff &equals;<br>
             Personal benefit from the project &minus; VCG payment
         </p>
 
         <hr>
 
-        <p class="mb-2">For you, this means:</p>
-        <div class="row align-items-center justify-content-center g-2 text-center">
-            <div class="col-12 col-md">
-                <div class="text-body-secondary small">Your personal benefit</div>
-                <div class="fs-4 fw-bold">{{ player.true_value | fmtnum(pre="$", places=2) }}</div>
+        <p class="mb-3">For you, this means:</p>
+        <div class="row align-items-center justify-content-center g-3 text-center">
+            <div class="col-12 md:col">
+                <div class="fg-2 small">Your personal benefit</div>
+                <div class="fs-xl fw-bold">{{ player.true_value | fmtnum(pre="$", places=2) }}</div>
             </div>
-            <div class="col-12 col-md-auto fs-3" aria-label="minus">&minus;</div>
-            <div class="col-12 col-md">
-                <div class="text-body-secondary small">Your VCG payment</div>
-                <div class="fs-4 fw-bold">{{ player.payment | fmtnum(pre="$", places=2) }}</div>
+            <div class="col-12 md:col-auto fs-2xl" aria-label="minus">&minus;</div>
+            <div class="col-12 md:col">
+                <div class="fg-2 small">Your VCG payment</div>
+                <div class="fs-xl fw-bold">{{ player.payment | fmtnum(pre="$", places=2) }}</div>
             </div>
-            <div class="col-12 col-md-auto fs-3" aria-label="equals">&equals;</div>
-            <div class="col-12 col-md">
-                <div class="text-body-secondary small">Your payoff</div>
-                <div class="fs-4 fw-bold text-primary">{{ player.payoff | fmtnum(pre="$", places=2) }}</div>
+            <div class="col-12 md:col-auto fs-2xl" aria-label="equals">&equals;</div>
+            <div class="col-12 md:col">
+                <div class="fg-2 small">Your payoff</div>
+                <div class="fs-xl fw-bold fg-primary">{{ player.payoff | fmtnum(pre="$", places=2) }}</div>
             </div>
         </div>
 
-        <p class="mt-3 mb-0 text-center">
+        <p class="mt-5 mb-0 text-center">
             {{ player.true_value | fmtnum(pre="$", places=2) }}
             &minus;
             {{ player.payment | fmtnum(pre="$", places=2) }}
@@ -99,7 +99,7 @@ Results
     </div>
 </div>
 
-<h5 class="mt-4">Group Summary</h5>
+<h5 class="mt-7">Group Summary</h5>
 <p>Total group payments: {{ player.context.total_payments | fmtnum(pre="$", places=2) }}</p>
 
 {% if player.context.deficit > 0 %}
@@ -116,7 +116,7 @@ Results
 
 <p>The total reported values ({{ player.context.group_total_reported | fmtnum(pre="$", places=2) }}) did not reach the project cost of {{ C.COST | fmtnum(pre="$", places=2) }}. Nobody pays anything.</p>
 
-<p class="mt-3 fs-5">Your earnings: <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b></p>
+<p class="mt-5 fs-lg">Your earnings: <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b></p>
 
 {% endif %}
 

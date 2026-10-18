@@ -17,7 +17,7 @@ Instructions
 
 <p>All contributions to the group project are summed up. Each group member receives {{ C.MPCR }} times the total contributions, regardless of how much they personally contributed. Your payoff is:</p>
 
-<p class="text-center my-3"><strong>Payoff = {{ C.ENDOWMENT }} &minus; your contribution + {{ C.MPCR }} &times; total contributions of all {{ C.GROUP_SIZE }} members</strong></p>
+<p class="text-center my-5"><strong>Payoff = {{ C.ENDOWMENT }} &minus; your contribution + {{ C.MPCR }} &times; total contributions of all {{ C.GROUP_SIZE }} members</strong></p>
 
 {% set ex_c = C.ENDOWMENT // 2 %}
 {% set ex_total = C.GROUP_SIZE * ex_c %}
@@ -28,7 +28,7 @@ Instructions
 <p>Every group member makes the same two contribution decisions:</p>
 
 <ol>
-    <li class="mb-2"><strong>Unconditional contribution:</strong> You state how many tokens (0&ndash;{{ C.ENDOWMENT }}) you want to contribute to the group project.</li>
+    <li class="mb-3"><strong>Unconditional contribution:</strong> You state how many tokens (0&ndash;{{ C.ENDOWMENT }}) you want to contribute to the group project.</li>
     <li><strong>Contribution table:</strong> For each possible average unconditional contribution of the other {{ C.GROUP_SIZE - 1 }} group members &mdash; rounded to the nearest whole number (0, 1, 2, &hellip;, {{ C.ENDOWMENT }}) &mdash; you indicate how many tokens you would contribute.</li>
 </ol>
 

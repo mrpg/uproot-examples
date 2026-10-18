@@ -24,7 +24,7 @@ Multiple price list
 
 {{ errors() }}
 
-<table class="mb-5 mpl mx-auto table table-hover">
+<table class="mb-12 mpl mx-auto table table-hover">
     <thead>
         <tr>
             <th scope="col" class="text-end" style="width: 40%;">Option&nbsp;A</th>
@@ -41,11 +41,11 @@ Multiple price list
             </td>
 
             <td class="text-center">
-                <input class="form-check-input mx-2" type="radio" name="choseA{{ i }}" id="choseA{{ i }}A" value="True" required>
-                <input class="form-check-input mx-2" type="radio" name="choseA{{ i }}" id="choseA{{ i }}B" value="False" required>
+                <input class="radio mx-3" type="radio" name="choseA{{ i }}" id="choseA{{ i }}A" value="True" required>
+                <input class="radio mx-3" type="radio" name="choseA{{ i }}" id="choseA{{ i }}B" value="False" required>
 
-                <label class="form-check-label visually-hidden" for="choseA{{ i }}A">Choose Option A</label>
-                <label class="form-check-label visually-hidden" for="choseA{{ i }}B">Choose Option B</label>
+                <label class="visually-hidden" for="choseA{{ i }}A">Choose Option A</label>
+                <label class="visually-hidden" for="choseA{{ i }}B">Choose Option B</label>
             </td>
 
             <td class="text-start">

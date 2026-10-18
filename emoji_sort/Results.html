@@ -7,9 +7,9 @@ All done!
 
 {% block main %}
 
-<p class="fs-5">Thank you! Here is how you sorted the emojis:</p>
+<p class="fs-lg">Thank you! Here is how you sorted the emojis:</p>
 
-<table class="table w-auto fs-4">
+<table class="table w-auto fs-xl">
     <thead>
         <tr>
             <th>Emoji</th>
@@ -24,11 +24,11 @@ All done!
             <td>{{ safe(item) }}</td>
             <td>
                 {% if value == 1 %}
-                <span class="badge text-bg-success">{{ app.C.BUCKET_LABELS[0] }}</span>
+                <span class="badge theme-success">{{ app.C.BUCKET_LABELS[0] }}</span>
                 {% elif value == 2 %}
-                <span class="badge text-bg-danger">{{ app.C.BUCKET_LABELS[1] }}</span>
+                <span class="badge theme-danger">{{ app.C.BUCKET_LABELS[1] }}</span>
                 {% else %}
-                <span class="text-muted">Not placed</span>
+                <span class="fg-3">Not placed</span>
                 {% endif %}
             </td>
         </tr>

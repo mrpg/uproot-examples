@@ -28,22 +28,22 @@ Results
 <p>You collected <b>{{ player.collected }}</b> of the {{ C.NUM_BOXES }} boxes.</p>
 <p>The bomb was in box <b>{{ player.bomb_position }}</b>.</p>
 
-<div class="bret-grid my-4">
+<div class="bret-grid my-7">
     {% for i in range(1, C.NUM_BOXES + 1) %}
     {% if i == player.bomb_position %}
-    <div class="bret-box border rounded d-flex align-items-center justify-content-center fs-4 {{ 'bg-danger-subtle border-danger' if player.exploded else 'bg-body-tertiary' }}">&#x1F4A3;</div>
+    <div class="bret-box border rounded d-flex align-items-center justify-content-center fs-xl {{ 'bg-subtle-danger border-danger' if player.exploded else 'bg-1' }}">&#x1F4A3;</div>
     {% elif i <= player.collected %}
-    <div class="bret-box border rounded d-flex align-items-center justify-content-center fs-4 bg-warning-subtle border-warning">&#x1F4E6;</div>
+    <div class="bret-box border rounded d-flex align-items-center justify-content-center fs-xl bg-subtle-warning border-warning">&#x1F4E6;</div>
     {% else %}
-    <div class="bret-box border rounded d-flex align-items-center justify-content-center fs-4 bg-body-tertiary"></div>
+    <div class="bret-box border rounded d-flex align-items-center justify-content-center fs-xl bg-1"></div>
     {% endif %}
     {% endfor %}
 </div>
 
 {% if player.exploded %}
-<p class="text-danger"><b>The bomb was among your collected boxes and exploded.</b></p>
+<p class="fg-danger"><b>The bomb was among your collected boxes and exploded.</b></p>
 {% else %}
-<p class="text-success"><b>The bomb was not among your collected boxes.</b></p>
+<p class="fg-success"><b>The bomb was not among your collected boxes.</b></p>
 {% endif %}
 
 <p>Your payoff is <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b>.</p>

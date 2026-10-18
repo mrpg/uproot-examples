@@ -85,7 +85,7 @@ class InputValidationStealthField(Page):
         return {
             "code_to_proceed": StringField(
                 label=safe(
-                    f"Please enter the code provided to you by the experimenter to proceed to the next page. <span class='fw-normal ms-2 text-body-tertiary'>(The code is <span class='font-monospace'>{C.CODE}</span>.)</span>"
+                    f"Please enter the code provided to you by the experimenter to proceed to the next page. <span class='fw-normal ms-3 fg-3'>(The code is <span class='font-monospace'>{C.CODE}</span>.)</span>"
                 ),
                 render_kw={"autofocus": True, "class": "font-monospace w-auto"},
             ),
@@ -174,14 +174,14 @@ class InputValidationBootstrapClasses(Page):
             "group_size": RadioField(
                 choices=[1, 2, 3, 4, 5],
                 label=safe(
-                    "What is the group size in this study? <span class='fw-normal ms-2 text-body-tertiary'>(The correct answer is <span class='font-monospace'>1</span>.)</span>"
+                    "What is the group size in this study? <span class='fw-normal ms-3 fg-3'>(The correct answer is <span class='font-monospace'>1</span>.)</span>"
                 ),
                 layout="horizontal",
             ),
             "conversion_rate": DecimalField(
                 addon_end="€/ECU",
                 label=safe(
-                    "What is the conversion rate between real money (€) and experimental currency units (ECU) in this study? <span class='fw-normal ms-2 text-body-tertiary'>(The correct answer is <span class='font-monospace'>1.95583</span>.)</span>"
+                    "What is the conversion rate between real money (€) and experimental currency units (ECU) in this study? <span class='fw-normal ms-3 fg-3'>(The correct answer is <span class='font-monospace'>1.95583</span>.)</span>"
                 ),
                 step=0.00001,
                 render_kw={

@@ -12,18 +12,18 @@ StreamingResponse through api2()
     a streaming response as events arrive.
 </p>
 
-<div class="mb-3">
+<div class="mb-5">
     <b id="counter">
         {{ player.streaming_counter }}
     </b>
 </div>
 
-<div class="mb-3">
-    <button type="button" class="btn btn-primary" id="start-stream">Start stream</button>
-    <span class="ms-3 text-body-secondary" id="stream-status">Idle</span>
+<div class="mb-5">
+    <button type="button" class="btn-solid theme-primary" id="start-stream">Start stream</button>
+    <span class="ms-5 fg-2" id="stream-status">Idle</span>
 </div>
 
-<pre class="border rounded bg-body-tertiary p-3" id="stream-output" style="min-height: 14rem;"></pre>
+<pre class="border rounded bg-1 p-5" id="stream-output" style="min-height: 14rem;"></pre>
 
 <script>
     const startButton = I("start-stream");

@@ -96,15 +96,15 @@ function handleKeydown(event) {
     height: 42px;
     font-size: 1.4rem;
     font-weight: bold;
-    border: 2px solid var(--bs-uproot);
+    border: 2px solid var(--bs-uproot-base);
 }
 .encryption-table .letter-row td {
-    background-color: var(--bs-uproot);
+    background-color: var(--bs-uproot-base);
     color: white;
 }
 .encryption-table .digit-row td {
     background-color: white;
-    color: var(--bs-uproot);
+    color: var(--bs-uproot-base);
 }
 .encryption-table .separator td {
     height: 12px;
@@ -116,7 +116,7 @@ function handleKeydown(event) {
     font-size: 2.5rem;
     letter-spacing: 0.75rem;
     font-weight: bold;
-    color: var(--bs-uproot);
+    color: var(--bs-uproot-base);
 }
 .answer-input {
     font-family: monospace;
@@ -126,11 +126,11 @@ function handleKeydown(event) {
     width: 220px;
 }
 .feedback-success {
-    color: var(--bs-success);
+    color: var(--bs-success-base);
     font-weight: bold;
 }
 .feedback-error {
-    color: var(--bs-danger);
+    color: var(--bs-danger-base);
     font-weight: bold;
 }
 </style>
@@ -141,10 +141,10 @@ function handleKeydown(event) {
 {% block main %}
 
 <div class="text-center">
-    <p class="lead">Use the encryption table to decode the letters into numbers.</p>
+    <p class="fs-lg fw-light">Use the encryption table to decode the letters into numbers.</p>
 
-    <h5 class="mt-4">Encryption table</h5>
-    <table class="encryption-table mb-4">
+    <h5 class="mt-7">Encryption table</h5>
+    <table class="encryption-table mb-7">
         <tbody>
             <!-- First row of letters (A-M equivalent) -->
             <tr class="letter-row">
@@ -177,10 +177,10 @@ function handleKeydown(event) {
         </tbody>
     </table>
 
-    <h5 class="mt-5">Decode this word:</h5>
-    <div class="puzzle-display mb-4" x-text="$store.task.puzzle"></div>
+    <h5 class="mt-12">Decode this word:</h5>
+    <div class="puzzle-display mb-7" x-text="$store.task.puzzle"></div>
 
-    <div class="d-flex align-items-center justify-content-center gap-3">
+    <div class="d-flex align-items-center justify-content-center gap-5">
         <input
             type="text"
             class="form-control answer-input"
@@ -194,7 +194,7 @@ function handleKeydown(event) {
         >
         <button
             type="button"
-            class="btn btn-lg btn-uproot"
+            class="btn-lg btn-solid theme-uproot"
             @click="submitAnswer()"
             :disabled="$store.task.answer.length !== C.WORD_LENGTH"
         >
@@ -202,9 +202,9 @@ function handleKeydown(event) {
         </button>
     </div>
 
-    <p class="text-muted mt-3">Enter {{ C.WORD_LENGTH }} digits and press Enter or click Submit.</p>
+    <p class="fg-3 mt-5">Enter {{ C.WORD_LENGTH }} digits and press Enter or click Submit.</p>
 
-    <div class="mt-2" x-show="$store.task.feedback">
+    <div class="mt-3" x-show="$store.task.feedback">
         <span
             :class="$store.task.feedback?.type === 'success' ? 'feedback-success' : 'feedback-error'"
             x-text="$store.task.feedback?.message"

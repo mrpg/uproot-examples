@@ -34,7 +34,7 @@ class Survey(Page):
                 description="Full years only, please.",
                 default=player.get("age"),
                 addon_end="years",
-                class_wrapper="col-12 col-md-3",  # Scale down on desktop
+                class_wrapper="col-12 md:col-3",  # Scale down on desktop
                 min=0,
                 max=120,
             ),
