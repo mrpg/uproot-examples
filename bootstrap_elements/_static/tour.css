@@ -1,0 +1,29 @@
+/* Styles for tour.js: a transparent backdrop, a spotlight, and a slightly wider popover */
+
+/* Catches clicks on the page while the tour runs (Bootstrap’s modals use 1055) */
+.tour-backdrop {
+    inset: 0;
+    position: fixed;
+    z-index: 1060;
+}
+
+/* The huge shadow dims everything except the spotlight itself */
+.tour-spotlight {
+    border-radius: var(--bs-border-radius-lg);
+    box-shadow: 0 0 0 200vmax rgba(0, 0, 0, 0.55);
+    pointer-events: none;
+    position: absolute;
+    transition: top 0.3s ease, left 0.3s ease, width 0.3s ease, height 0.3s ease;
+    z-index: 1061;
+}
+
+/* Popovers use z-index 1070, so they appear above the spotlight */
+.tour-popover {
+    --bs-popover-max-width: 340px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tour-spotlight {
+        transition: none;
+    }
+}

@@ -1,0 +1,246 @@
+{% extends "bootstrap_elements/Chapter.html" %}
+
+
+{% block chapter %}
+
+<p>Long pages overwhelm participants. The components in this chapter keep a page short by showing content only on request: details behind a button, answers in an accordion, sections in tabs, or instructions in a side panel. They all work with <code>data-bs-*</code> attributes alone, without writing JavaScript.</p>
+
+<div class="alert alert-warning callout" role="note">
+    <i class="bi bi-exclamation-triangle me-1" aria-hidden="true"></i><strong>Pitfall.</strong> Participants skip what they do not see. Never hide information that everyone must read, and remember that hidden content may differ in how often it is read across treatments. If that matters, record what participants open; the accordion below shows how to listen for it.
+</div>
+
+
+<section class="wt-section" id="collapse">
+    <h2>Collapse</h2>
+
+    <p>A collapse shows or hides one element. The trigger, a button with <code>data-bs-toggle="collapse"</code>, points to the element with <code>data-bs-target</code>. <code>aria-expanded</code> and <code>aria-controls</code> tell screen readers what the button does; Bootstrap keeps <code>aria-expanded</code> up to date.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes and attributes: <code>.collapse</code>, <code>.show</code> (initially open), <code>data-bs-toggle="collapse"</code>, <code>data-bs-target</code></p>
+
+    <div class="wt-example">
+        <p>Your payoff is your endowment minus your contribution plus your share of the group account.</p>
+        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#example-calculation" aria-expanded="false" aria-controls="example-calculation">
+            <i class="bi bi-calculator me-1" aria-hidden="true"></i>Show an example calculation
+        </button>
+        <div class="collapse" id="example-calculation">
+            <div class="card card-body mt-3">
+                <p class="mb-0">Suppose you contribute $5 and the group account contains $40 in total. With an MPCR of 0.4, your payoff is $20 − $5 + 0.4 × $40 = $31.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="accordion">
+    <h2>Accordions</h2>
+
+    <p>An accordion is a stack of collapsible items, ideal for frequently asked questions. With <code>data-bs-parent</code> on each item’s collapse, opening one item closes the others; without it, items open independently. <code>.accordion-flush</code> removes the outer borders.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.accordion</code>, <code>.accordion-item</code>, <code>.accordion-header</code>, <code>.accordion-button</code>, <code>.accordion-collapse</code>, <code>.accordion-body</code>, <code>.accordion-flush</code></p>
+
+    <div class="wt-example">
+        <div class="accordion" id="faq">
+            {% for question, answer in [
+                ("How is my payment determined?", "One round is drawn at random at the end of the study. You receive your payoff from that round plus a show-up fee."),
+                ("Will other participants learn who I am?", "No. All decisions are anonymous. Participants only see labels like “Participant B”."),
+                ("Can I change my decision?", "No. Once you submit a decision, it is final. Take your time before you click."),
+            ] %}
+            <div class="accordion-item">
+                <h3 class="accordion-header">
+                    <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq-{{ loop.index }}" aria-expanded="false" aria-controls="faq-{{ loop.index }}">
+                        {{ question }}
+                    </button>
+                </h3>
+                <div id="faq-{{ loop.index }}" class="accordion-collapse collapse" data-bs-parent="#faq">
+                    <div class="accordion-body">{{ answer }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <p class="small text-body-secondary mt-3 mb-0">
+            <i class="bi bi-eye me-1" aria-hidden="true"></i>Questions opened so far: <strong id="faq-count">0</strong> of 3. The count comes from Bootstrap’s <code>shown.bs.collapse</code> event (see the <code>late</code> block of this template). Send such data to the server with a live method if you want to analyze it.
+        </p>
+    </div>
+</section>
+
+
+<section class="wt-section" id="tabs">
+    <h2>Tabs and pills</h2>
+
+    <p>Tabs show one of several panes. Each tab is a button with <code>data-bs-toggle="tab"</code> (or <code>"pill"</code>) that points to a <code>.tab-pane</code>. Pills are tabs that look like buttons. <code>.nav-fill</code> stretches the tabs across the full width. If questions are spread over tabs and must all be answered, use the approach of the <code>tabs</code> app, which takes participants to the tab with an error.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.nav</code>, <code>.nav-tabs</code>, <code>.nav-pills</code>, <code>.nav-fill</code>, <code>.nav-link</code>, <code>.tab-content</code>, <code>.tab-pane</code>, <code>.fade</code>, <code>.show</code>, <code>.active</code></p>
+
+    <div class="wt-example vstack gap-4">
+        <div>
+            <ul class="nav nav-tabs" role="tablist">
+                {% for key, label, icon in [("task", "Your task", "list-check"), ("payment", "Payment", "cash-coin"), ("example", "Example", "lightbulb")] %}
+                <li class="nav-item" role="presentation">
+                    <button type="button" class="nav-link{% if loop.first %} active{% endif %}" id="tab-{{ key }}" data-bs-toggle="tab" data-bs-target="#pane-{{ key }}" role="tab" aria-controls="pane-{{ key }}" aria-selected="{{ 'true' if loop.first else 'false' }}">
+                        <i class="bi bi-{{ icon }} me-1" aria-hidden="true"></i>{{ label }}
+                    </button>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="tab-content border border-top-0 rounded-bottom p-3">
+                <div class="tab-pane fade show active" id="pane-task" role="tabpanel" aria-labelledby="tab-task" tabindex="0">
+                    In each round, you decide how much of your endowment to contribute to a group account.
+                </div>
+                <div class="tab-pane fade" id="pane-payment" role="tabpanel" aria-labelledby="tab-payment" tabindex="0">
+                    One round is paid out at random, in addition to a show-up fee.
+                </div>
+                <div class="tab-pane fade" id="pane-example" role="tabpanel" aria-labelledby="tab-example" tabindex="0">
+                    If everyone contributes {{ 10 | fmtnum(pre="$", places=2) }}, each participant earns {{ 26 | fmtnum(pre="$", places=2) }}.
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <ul class="nav nav-pills nav-fill mb-3" role="tablist">
+                {% for key, label in [("week", "This week"), ("month", "This month"), ("year", "This year")] %}
+                <li class="nav-item" role="presentation">
+                    <button type="button" class="nav-link{% if loop.first %} active{% endif %}" id="pill-{{ key }}" data-bs-toggle="pill" data-bs-target="#pill-pane-{{ key }}" role="tab" aria-controls="pill-pane-{{ key }}" aria-selected="{{ 'true' if loop.first else 'false' }}">{{ label }}</button>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="tab-content">
+                {% for key, text in [("week", "Pills with .nav-fill: first pane."), ("month", "Second pane."), ("year", "Third pane.")] %}
+                <div class="tab-pane fade{% if loop.first %} show active{% endif %}" id="pill-pane-{{ key }}" role="tabpanel" aria-labelledby="pill-{{ key }}" tabindex="0">{{ text }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="carousel">
+    <h2>Carousels</h2>
+
+    <p>A carousel shows one slide at a time, for example instructions as a slideshow. For experiments, do not let it advance on its own: participants should control the pace. Bootstrap only autoplays with <code>data-bs-ride="carousel"</code>, so simply leave that attribute out. <code>data-bs-wrap="false"</code> stops at the last slide instead of starting over, and <code>data-bs-theme="dark"</code> darkens the controls for slides with a light background.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes and attributes: <code>.carousel</code>, <code>.slide</code>, <code>.carousel-inner</code>, <code>.carousel-item</code>, <code>.carousel-indicators</code>, <code>.carousel-control-prev</code>, <code>.carousel-control-next</code>, <code>data-bs-wrap</code></p>
+
+    <div class="wt-example">
+        {% set slides = [
+            ("1", "people-fill", "You are in a group of four", "The other three members are randomly selected participants in this session."),
+            ("2", "coin", "Everyone receives $20", "Each member decides how much to contribute to a group account."),
+            ("3", "graph-up-arrow", "Contributions grow", "The group account is multiplied by 1.6 and split equally among all four members."),
+        ] %}
+        {# The light background sits on a wrapper: inside data-bs-theme="dark", it would turn dark, too #}
+        <div class="bg-body-tertiary rounded">
+            <div id="instructions-carousel" class="carousel slide" data-bs-theme="dark" data-bs-wrap="false">
+                <div class="carousel-indicators">
+                    {% for number, icon, heading, text in slides %}
+                    <button type="button" data-bs-target="#instructions-carousel" data-bs-slide-to="{{ loop.index0 }}"{% if loop.first %} class="active" aria-current="true"{% endif %} aria-label="Slide {{ number }}"></button>
+                    {% endfor %}
+                </div>
+                <div class="carousel-inner">
+                    {% for number, icon, heading, text in slides %}
+                    <div class="carousel-item{% if loop.first %} active{% endif %}">
+                        <div class="text-center px-5 pt-4 pb-5">
+                            <i class="bi bi-{{ icon }} display-5 text-primary" aria-hidden="true"></i>
+                            <h3 class="h5 mt-2">{{ heading }}</h3>
+                            <p class="mx-auto mb-3" style="max-width: 32rem;">{{ text }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="button" class="carousel-control-prev" data-bs-target="#instructions-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button type="button" class="carousel-control-next" data-bs-target="#instructions-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="offcanvas">
+    <h2>Offcanvas panels</h2>
+
+    <p>An offcanvas panel slides in from the edge of the screen. It is a good place for instructions that participants may want to look up again on later pages, without cluttering those pages. Choose the edge with <code>.offcanvas-start</code>, <code>.offcanvas-end</code>, <code>.offcanvas-top</code>, or <code>.offcanvas-bottom</code>.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes and attributes: <code>.offcanvas</code>, <code>.offcanvas-end</code>, <code>.offcanvas-header</code>, <code>.offcanvas-title</code>, <code>.offcanvas-body</code>, <code>data-bs-toggle="offcanvas"</code>, <code>data-bs-dismiss="offcanvas"</code></p>
+
+    <div class="wt-example">
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="offcanvas" data-bs-target="#instructions-offcanvas" aria-controls="instructions-offcanvas">
+            <i class="bi bi-book me-1" aria-hidden="true"></i>Show instructions
+        </button>
+    </div>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="instructions-offcanvas" aria-labelledby="instructions-offcanvas-title">
+        <div class="offcanvas-header border-bottom">
+            <h3 class="offcanvas-title h5" id="instructions-offcanvas-title"><i class="bi bi-book me-2" aria-hidden="true"></i>Instructions</h3>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <p>You are in a group of four. Everyone receives {{ C.ENDOWMENT | fmtnum(pre="$", places=2) }} per round and decides how much to contribute to a group account.</p>
+            <p>The group account is multiplied by 1.6 and split equally among all members.</p>
+            <p class="mb-0 text-body-secondary small">The page behind this panel stays as it is. Press <kbd>Esc</kbd> or click outside the panel to close it.</p>
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="breadcrumb">
+    <h2>Breadcrumbs</h2>
+
+    <p>On websites, breadcrumbs are links to the parent pages. In a study, where participants cannot jump between pages, plain text items still show where they are among the parts of the study. The separator can be changed with the CSS variable <code>--bs-breadcrumb-divider</code>.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.breadcrumb</code>, <code>.breadcrumb-item</code>, <code>.active</code></p>
+
+    <div class="wt-example">
+        <nav aria-label="Parts of the study">
+            <ol class="breadcrumb mb-0" style="--bs-breadcrumb-divider: '›';">
+                <li class="breadcrumb-item"><i class="bi bi-check2 me-1" aria-hidden="true"></i>Consent</li>
+                <li class="breadcrumb-item"><i class="bi bi-check2 me-1" aria-hidden="true"></i>Instructions</li>
+                <li class="breadcrumb-item active fw-semibold" aria-current="step">Decisions</li>
+                <li class="breadcrumb-item">Questionnaire</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+
+<section class="wt-section" id="pagination">
+    <h2>Pagination</h2>
+
+    <p>Bootstrap’s <code>.pagination</code> is just the look of page numbers. uproot comes with a small helper that does the work: give a container the class <code>.uproot-pagination</code> and its direct children the class <code>.uproot-pagination-item</code>, and uproot shows them in pages and adds the controls. <code>data-items-per-page</code> sets the page size (default 8).</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes and attributes: <code>.uproot-pagination</code>, <code>.uproot-pagination-item</code>, <code>data-items-per-page</code>; for the looks: <code>.pagination</code>, <code>.page-item</code>, <code>.page-link</code>, <code>.pagination-sm</code></p>
+
+    <div class="wt-example">
+        <div class="uproot-pagination" data-items-per-page="4">
+            {% for i in range(1, 13) %}
+            <div class="uproot-pagination-item border-bottom py-2">
+                <span class="badge text-bg-light border me-2">{{ i }}</span>Statement number {{ i }} of a long list of statements to read
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="alert alert-warning callout" role="note">
+        <i class="bi bi-exclamation-triangle me-1" aria-hidden="true"></i><strong>Pitfall.</strong> Use the helper for content to read, not for questions: browsers cannot show a validation message for a required field that sits on a hidden page. Spread questions over separate uproot pages instead.
+    </div>
+</section>
+
+{% endblock chapter %}
+
+
+{% block late %}
+
+<script>
+    // Bootstrap fires events when components change. Here we count which FAQ items were opened.
+    const openedQuestions = new Set();
+
+    I("faq").addEventListener("shown.bs.collapse", (event) => {
+        openedQuestions.add(event.target.id);
+        I("faq-count").textContent = openedQuestions.size;
+    });
+</script>
+
+{% endblock late %}

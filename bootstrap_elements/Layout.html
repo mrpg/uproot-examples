@@ -1,0 +1,208 @@
+{% extends "bootstrap_elements/Chapter.html" %}
+
+
+{% block chapter %}
+
+<p>Layout decides where things go on the screen. Bootstrap’s layout tools are <em>mobile first</em>: you describe the layout for small screens and then add changes for larger screens. This matters for online experiments, where many participants use phones. The light-blue boxes in this chapter (<code>.wt-cell</code>) only make the otherwise invisible columns visible.</p>
+
+
+<section class="wt-section" id="containers">
+    <h2>Containers</h2>
+
+    <p>A container centers content and limits its width. You rarely need to add one yourself: uproot already wraps the <code>main</code>, <code>main2</code>, and <code>main3</code> blocks in a <code>.container</code>, whose maximum width grows with the screen. For content that should span the whole window, such as a colored band, use the <code>main_full_width</code> block and put a <code>.container</code> inside to keep its text aligned with the rest of the page:</p>
+
+    <pre class="wt-code"><code>{% raw %}{% block main_full_width %}
+&lt;div class="bg-primary-subtle py-4"&gt;
+    &lt;div class="container"&gt;Full-width band with aligned text&lt;/div&gt;
+&lt;/div&gt;
+{% endblock main_full_width %}{% endraw %}</code></pre>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.container</code>, <code>.container-fluid</code> (always full width), <code>.container-md</code> (full width below the <code>md</code> breakpoint)</p>
+</section>
+
+
+<section class="wt-section" id="grid">
+    <h2>The grid</h2>
+
+    <p>The grid divides a row into twelve columns. Put columns (<code>.col</code>, <code>.col-*</code>) directly inside a <code>.row</code>. Columns with plain <code>.col</code> share the space equally; <code>.col-4</code> takes four of twelve columns; <code>.col-auto</code> is only as wide as its content.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.row</code>, <code>.col</code>, <code>.col-1</code> to <code>.col-12</code>, <code>.col-auto</code></p>
+
+    <div class="wt-example vstack gap-3">
+        <div class="row">
+            <div class="col"><div class="wt-cell">.col</div></div>
+            <div class="col"><div class="wt-cell">.col</div></div>
+            <div class="col"><div class="wt-cell">.col</div></div>
+        </div>
+        <div class="row">
+            <div class="col-8"><div class="wt-cell">.col-8</div></div>
+            <div class="col-4"><div class="wt-cell">.col-4</div></div>
+        </div>
+        <div class="row">
+            <div class="col-auto"><div class="wt-cell">.col-auto</div></div>
+            <div class="col"><div class="wt-cell">.col takes the rest</div></div>
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="breakpoints">
+    <h2>Responsive breakpoints</h2>
+
+    <p>Add a breakpoint to a class to apply it only from a certain screen width upwards. <code>.col-12 .col-md-6 .col-lg-3</code> means: full width on phones, half width from tablets (<code>md</code>), and a quarter from laptops (<code>lg</code>). Resize your browser window to see the example below rearrange itself. Breakpoints work with most classes, not only with columns: <code>.d-md-none</code>, <code>.text-lg-end</code>, and so on.</p>
+
+    <table class="table table-sm w-auto">
+        <thead>
+            <tr>
+                <th scope="col">Infix</th>
+                <th scope="col">Applies from</th>
+                <th scope="col">Typical device</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><em>none</em></td><td class="text-end">0 px</td><td>All devices</td></tr>
+            <tr><td><code>sm</code></td><td class="text-end">576 px</td><td>Large phones</td></tr>
+            <tr><td><code>md</code></td><td class="text-end">768 px</td><td>Tablets</td></tr>
+            <tr><td><code>lg</code></td><td class="text-end">992 px</td><td>Laptops</td></tr>
+            <tr><td><code>xl</code></td><td class="text-end">1,200 px</td><td>Desktops</td></tr>
+            <tr><td><code>xxl</code></td><td class="text-end">1,400 px</td><td>Large desktops</td></tr>
+        </tbody>
+    </table>
+
+    <div class="wt-example">
+        <div class="row g-2">
+            {% for i in range(4) %}
+            <div class="col-12 col-md-6 col-lg-3"><div class="wt-cell">.col-12 .col-md-6 .col-lg-3</div></div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="alert alert-info callout" role="note">
+        <i class="bi bi-lightbulb me-1" aria-hidden="true"></i><strong>Tip.</strong> Two options side by side on a laptop become two options stacked on a phone. Participants on phones may then see Option A long before Option B. If position matters for your design, test your pages on a phone (most browsers’ developer tools can simulate one).
+    </div>
+</section>
+
+
+<section class="wt-section" id="gutters">
+    <h2>Gutters</h2>
+
+    <p>Gutters are the gaps between columns. Set them on the row with <code>.g-0</code> to <code>.g-5</code> (both directions), <code>.gx-*</code> (horizontal), or <code>.gy-*</code> (vertical, useful when columns wrap). <code>.row-cols-*</code> sets the number of columns per row on the row itself, which is handy for grids of cards.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.g-*</code>, <code>.gx-*</code>, <code>.gy-*</code>, <code>.row-cols-*</code></p>
+
+    <div class="wt-example vstack gap-4">
+        <div class="row g-0">
+            <div class="col"><div class="wt-cell">.g-0</div></div>
+            <div class="col"><div class="wt-cell">no gaps</div></div>
+        </div>
+        <div class="row row-cols-2 row-cols-md-4 g-4">
+            {% for i in range(4) %}
+            <div class="col"><div class="wt-cell">.row-cols-2 .row-cols-md-4 .g-4</div></div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="alignment">
+    <h2>Alignment, offsets, and order</h2>
+
+    <p>Rows are flex containers, so they align columns with flexbox classes: <code>.justify-content-*</code> horizontally and <code>.align-items-*</code> vertically. <code>.offset-md-2</code> leaves two columns empty, and <code>.order-*</code> changes the visual order.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.justify-content-center</code>, <code>.align-items-center</code>, <code>.offset-*</code>, <code>.order-first</code>, <code>.order-last</code>, <code>.order-md-*</code></p>
+
+    <div class="wt-example vstack gap-3">
+        <div class="row justify-content-center">
+            <div class="col-4"><div class="wt-cell">centered .col-4</div></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3"><div class="wt-cell">.col-md-6 .offset-md-3</div></div>
+        </div>
+        <div class="row">
+            <div class="col"><div class="wt-cell">First in the HTML</div></div>
+            <div class="col order-first"><div class="wt-cell">Second in the HTML, but .order-first</div></div>
+        </div>
+    </div>
+
+    <div class="alert alert-warning callout" role="note">
+        <i class="bi bi-exclamation-triangle me-1" aria-hidden="true"></i><strong>Pitfall.</strong> It is tempting to counterbalance the left/right position of options with <code>.order-*</code>. But screen readers and the <kbd>Tab</kbd> key follow the order in the HTML, not the visual order. Randomize the order in Python instead (see the <code>randomize_pages</code> and <code>conjoint</code> apps).
+    </div>
+</section>
+
+
+<section class="wt-section" id="flexbox">
+    <h2>Flexbox and stacks</h2>
+
+    <p>Not everything needs a grid. For a single line of items, use <code>.d-flex</code> with <code>.gap-*</code>; <code>.ms-auto</code> on an item pushes it (and everything after it) to the right. Stacks are shortcuts: <code>.hstack</code> is a horizontal, vertically centered flex row; <code>.vstack</code> a vertical one. <code>.vr</code> draws a vertical rule.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.d-flex</code>, <code>.flex-wrap</code>, <code>.flex-column</code>, <code>.gap-*</code>, <code>.ms-auto</code>, <code>.hstack</code>, <code>.vstack</code>, <code>.vr</code></p>
+
+    <div class="wt-example vstack gap-4">
+        <div class="hstack gap-3">
+            <div class="wt-cell">Round 3</div>
+            <div class="vr"></div>
+            <div class="wt-cell">Group 2</div>
+            <div class="wt-cell ms-auto">.ms-auto: Budget $20.00</div>
+        </div>
+        <div class="vstack gap-2 col-md-5 mx-auto">
+            <div class="wt-cell">.vstack .gap-2</div>
+            <div class="wt-cell">.col-md-5 .mx-auto centers the stack</div>
+            <div class="wt-cell">Third item</div>
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="spacing">
+    <h2>Spacing</h2>
+
+    <p>Margin (<code>m</code>) and padding (<code>p</code>) classes follow one pattern: property, side, size. Sides are <code>t</code> (top), <code>b</code> (bottom), <code>s</code> (start, i.e., left), <code>e</code> (end, i.e., right), <code>x</code> (left and right), <code>y</code> (top and bottom), or nothing (all sides). Sizes go from 0 to 5; uproot adds <code>4-5</code> (2.25rem). <code>.mx-auto</code> centers a block with a set width.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Examples: <code>.mt-3</code> (margin-top 1rem), <code>.px-2</code> (horizontal padding 0.5rem), <code>.mb-0</code>, <code>.p-4</code>, <code>.mx-auto</code></p>
+
+    <div class="wt-example vstack gap-2">
+        {% for size, rem in [(0, "0"), (1, "0.25rem"), (2, "0.5rem"), (3, "1rem"), (4, "1.5rem"), (5, "3rem")] %}
+        <div class="d-flex align-items-center gap-3">
+            <code class="text-nowrap" style="width: 3rem;">p-{{ size }}</code>
+            <div class="border border-primary rounded p-{{ size }}">
+                <div class="bg-primary-subtle rounded px-2">content</div>
+            </div>
+            <span class="small text-body-secondary">{{ rem }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+
+<section class="wt-section" id="sizing">
+    <h2>Sizing</h2>
+
+    <p>Width classes set a width relative to the parent: <code>.w-25</code>, <code>.w-50</code>, <code>.w-75</code>, <code>.w-100</code>, and <code>.w-auto</code>. uproot adds <code>.w-fit-content</code>, which makes an element exactly as wide as its content. <code>.mw-100</code> prevents an element from becoming wider than its parent. Heights work the same with <code>.h-*</code>; <code>.h-100</code> is useful to give cards in a row equal height.</p>
+
+    <div class="wt-example vstack gap-2">
+        {% for width in [25, 50, 75, 100] %}
+        <div class="wt-cell w-{{ width }}">.w-{{ width }}</div>
+        {% endfor %}
+        <div class="wt-cell w-fit-content">.w-fit-content</div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="ratio">
+    <h2>Aspect ratios</h2>
+
+    <p>Embedded videos and iframes do not scale on their own. Wrap them in <code>.ratio</code> with <code>.ratio-16x9</code>, <code>.ratio-4x3</code>, <code>.ratio-1x1</code>, or <code>.ratio-21x9</code>, and they keep their shape at every width. The example uses a placeholder instead of a real video to avoid loading external content.</p>
+
+    <div class="wt-example">
+        <div class="col-md-8 mx-auto">
+            <div class="ratio ratio-16x9">
+                <div class="d-flex flex-column align-items-center justify-content-center bg-body-tertiary border rounded">
+                    <i class="bi bi-play-circle display-3 text-body-secondary" aria-hidden="true"></i>
+                    <span class="text-body-secondary">.ratio .ratio-16x9: an instruction video would go here</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock chapter %}
