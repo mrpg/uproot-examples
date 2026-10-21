@@ -18,6 +18,8 @@ document.addEventListener("alpine:init", () => {
     });
 });
 
+let feedbackTimer = null;
+
 function handleKeydown(event) {
     if (event.key === "Enter") {
         event.preventDefault();
@@ -45,13 +47,14 @@ function submitAnswer() {
     }
 
     store.loading = true;
+    window.clearTimeout(feedbackTimer);
 
     uproot.invoke("submit_answer", answer).then((response) => {
         store.loading = false;
         if (response.correct) {
             store.feedback = { type: "success", message: "Correct!" };
             store.answer = "";
-            window.setInterval(() => Alpine.store("task").feedback = null, 1000);
+            feedbackTimer = window.setTimeout(() => store.feedback = null, 1000);
 
             reloadAudio().then(playAudio);
         } else {
@@ -91,6 +94,8 @@ function submitAnswer() {
 {% endblock head %}
 
 {% block main %}
+
+<div x-data>
 
 <div class="text-center">
     <div x-show="$store.task.audioLoading" class="py-3 fg-3" role="status">
@@ -137,6 +142,8 @@ function submitAnswer() {
             x-text="$store.task.feedback?.message"
         ></span>
     </div>
+</div>
+
 </div>
 
 {% endblock main %}

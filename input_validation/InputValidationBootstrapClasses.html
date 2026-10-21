@@ -7,9 +7,6 @@
   .uproot-main-error {
     display: none;
   }
-  .mt-n3 {
-    margin-top: -1rem !important;
-  }
 </style>
 
 {% endblock head %}
@@ -29,44 +26,37 @@ only
 
 <p class="fg-primary">You can use this approach if you are fine with informing your particpants in detail about where their input is invalid.</p>
 
-<div>
-    {{ field(form.group_size) }}
-    {% if "group_size" in _uproot_field_errors %}
-    <p class="invalid-feedback d-block font-sans-serif mt-n3">{{ _uproot_field_errors.group_size[0] }}</p>
-    <script>
-        {% for options in form.group_size.choices %}
-        document.getElementById("group_size-{{ loop.index0 }}").classList.add("is-invalid");
-        document.getElementById("group_size-{{ loop.index0 }}").classList.add("border-danger");
-        {% endfor %}
-    </script>
+{# Bootstrap’s validation state of a field, once the form has been submitted with errors #}
+{% macro state(name, invalid="is-invalid", valid="is-valid") %}{% if form[name].errors %}{{ invalid }}{% elif _uproot_field_errors %}{{ valid }}{% endif %}{% endmacro %}
+
+{% macro feedback(name) %}
+    {% if form[name].errors %}
+    <div class="invalid-feedback d-block">{{ form[name].errors[0] }}</div>
+    {% elif _uproot_field_errors %}
+    <div class="valid-feedback d-block">This answer is correct.</div>
     {% endif %}
-    {% if _uproot_field_errors and "group_size" not in _uproot_field_errors %}
-    <p class="valid-feedback d-block font-sans-serif mt-n3">This answer is correct.</p>
-    <script>
-        {% for options in form.group_size.choices %}
-        document.getElementById("group_size-{{ loop.index0 }}").classList.add("is-valid");
-        document.getElementById("group_size-{{ loop.index0 }}").classList.add("border-success");
+{% endmacro %}
+
+<div class="uproot-form-group">
+    <span class="form-label uproot-form-label" id="group_size-label">{{ form.group_size.label.text }}</span>
+    <div class="d-flex flex-wrap column-gap-7 row-gap-3" role="radiogroup" aria-labelledby="group_size-label">
+        {% for option in form.group_size %}
+        <div class="form-field">
+            {{ option(class_="radio " ~ state("group_size")) }}
+            {{ option.label() }}
+        </div>
         {% endfor %}
-    </script>
-    {% endif %}
+    </div>
+    {{ feedback("group_size") }}
 </div>
 
-<div>
-    {{ field(form.conversion_rate) }}
-    {% if "conversion_rate" in _uproot_field_errors %}
-    <p class="invalid-feedback d-block font-sans-serif mt-n3">{{ _uproot_field_errors.conversion_rate[0] }}</p>
-    <script>
-       document.getElementById("conversion_rate").classList.add("is-invalid");
-       document.getElementById("conversion_rate").nextElementSibling.classList.add("border-danger");
-    </script>
-    {% endif %}
-    {% if _uproot_field_errors and "conversion_rate" not in _uproot_field_errors %}
-    <p class="valid-feedback d-block font-sans-serif mt-n3">This answer is correct.</p>
-    <script>
-       document.getElementById("conversion_rate").classList.add("is-valid");
-       document.getElementById("conversion_rate").nextElementSibling.classList.add("border-success");
-    </script>
-    {% endif %}
+<div class="uproot-form-group">
+    {{ form.conversion_rate.label(class_="form-label uproot-form-label") }}
+    <div class="input-group">
+        {{ form.conversion_rate(class_="form-control flex-grow-0 text-end " ~ state("conversion_rate")) }}
+        <span class="input-group-text {{ state('conversion_rate', 'border-danger', 'border-success') }}">€/ECU</span>
+    </div>
+    {{ feedback("conversion_rate") }}
 </div>
 
 <p class="fg-primary">To test the validation and feedback mechanism, enter incorrect values.</p>

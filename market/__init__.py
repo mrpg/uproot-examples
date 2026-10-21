@@ -10,6 +10,7 @@
 
 from dataclasses import replace
 from decimal import Decimal
+from time import time
 from typing import Any
 
 import uproot.models as um
@@ -20,6 +21,10 @@ from uproot.smithereens import *
 
 DESCRIPTION = "Continuous market (limit order book)"
 LANDING_PAGE = False
+
+
+class C:
+    DURATION = 300.0
 
 
 class BookEvent(metaclass=um.Entry):
@@ -236,6 +241,18 @@ def get_recent_trades(exchange: Exchange, limit: int = 50) -> list[dict[str, Any
     return trades
 
 
+def ensure_market_deadline(session: SessionType) -> None:
+    if session.get("market_until") is None:
+        session.market_until = time() + C.DURATION
+
+
+def ensure_market_open(session: SessionType) -> None:
+    ensure_market_deadline(session)
+
+    if time() >= session.market_until:
+        raise ValueError("The market is closed")
+
+
 def broadcast_update(
     player: PlayerType, session: SessionType, exchange: Exchange
 ) -> None:
@@ -256,6 +273,18 @@ class Trading(Page):
             player.cash = "0"
         if player.get("stock") is None:
             player.stock = 0
+
+    @classmethod
+    def timeout(page, player: PlayerType) -> float:
+        ensure_market_deadline(player.session)
+
+        return float(max(0, player.session.market_until - time()))
+
+    @classmethod
+    def may_proceed(page, player: PlayerType) -> bool:
+        ensure_market_deadline(player.session)
+
+        return bool(time() >= player.session.market_until)
 
     @live
     def get_state(page, player: PlayerType) -> Any:
@@ -288,6 +317,7 @@ class Trading(Page):
             raise ValueError("quantity must be positive")
 
         session = player.session
+        ensure_market_open(session)
         exchange = get_exchange(session)
         is_buy = side == "buy"
 
@@ -333,6 +363,7 @@ class Trading(Page):
     @live
     def cancel_order(page, player: PlayerType, order_id: str) -> Any:
         session = player.session
+        ensure_market_open(session)
         exchange = get_exchange(session)
 
         if order_id not in exchange.orders:

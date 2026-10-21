@@ -138,7 +138,7 @@ Trading
                                     <span x-text="preview.error"></span>
                                 </template>
                             </div>
-                            <button class="btn-solid theme-primary" @click="executeTrade()"
+                            <button type="button" class="btn-solid theme-primary" @click="executeTrade()"
                                     :disabled="submitting || !preview.valid">
                                 <span x-show="!submitting">Execute</span>
                                 <span x-show="submitting" class="spinner-border spinner-sm"></span>
