@@ -12,9 +12,6 @@
   .uproot-error .input-group-text {
     border-color: var(--bs-danger) !important;
   }
-.mt-n3 {
-    margin-top: -1rem !important;
-  }
 </style>
 
 {% endblock head %}
@@ -30,22 +27,12 @@ Input validation and feedback with bells and whistles
 
 {% block main %}
 
-<div {% if "share_safe_asset" in _uproot_field_errors %}class="bg-danger-subtle border-5 border-danger border-start pb-1 ps-4 pt-1 uproot-error"{% endif %}>
-    {{ field(form.share_safe_asset) }}
-    {% if "share_safe_asset" in _uproot_field_errors %}
-    <p class="invalid-feedback d-block font-sans-serif mt-n3">{{ _uproot_field_errors.share_safe_asset[0] }}</p>
-    {% endif %}
-</div>
+{{ field(form.share_safe_asset) }}
 
-<div {% if "share_risky_asset" in _uproot_field_errors %}class="bg-danger-subtle border-5 border-danger border-start pb-1 ps-4 pt-1 uproot-error"{% endif %}>
-    {{ field(form.share_risky_asset) }}
-    {% if "share_risky_asset" in _uproot_field_errors %}
-    <p class="invalid-feedback d-block font-sans-serif mt-n3">{{ _uproot_field_errors.share_risky_asset[0] }}</p>
-    {% endif %}
-</div>
+{{ field(form.share_risky_asset) }}
 
 <p class="text-primary">To test the validation and feedback mechanism, enter numbers that do not sum to 100.</p>
 
-<p class="text-body-tertiary">Invalid attempts so far: {{ player.input_errors }}.</span>
+<p class="text-body-tertiary">Invalid attempts so far: {{ player.input_errors }}.</p>
 
 {% endblock main %}
