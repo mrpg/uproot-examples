@@ -10,7 +10,7 @@ A continuous limit order book where participants can submit limit and market ord
 
 ## How it works
 
-Players stay on a single live trading page. Limit orders rest in the book until they trade or are cancelled. Market orders sweep the currently available opposite side of the book up to the submitted quantity, then discard any unfilled remainder.
+Players stay on a single live trading page until the market closes. The first player to reach the page starts a session-wide clock of `C.DURATION` seconds; once it expires, orders and cancellations are rejected and everyone advances. Limit orders rest in the book until they trade or are cancelled. Market orders sweep the currently available opposite side of the book up to the submitted quantity, then discard any unfilled remainder.
 
 The app stores book and trade events in uproot models so the in-memory exchange can be reconstructed after a restart.
 

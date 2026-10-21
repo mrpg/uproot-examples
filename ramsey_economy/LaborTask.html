@@ -119,6 +119,8 @@ function stopWorking() {
 
 {% block main %}
 
+<div x-data>
+
 <p>
     Your capital this period: <b>{{ player.context.capital | fmtnum(places=2) }}</b>
 </p>
@@ -191,5 +193,7 @@ function stopWorking() {
 {% include 'ramsey_economy/HistoryTable.html' %}
 
 {% endif %}
+
+</div>
 
 {% endblock main %}

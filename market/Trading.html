@@ -87,7 +87,7 @@
                         <input type="number" class="form-control form-control-sm" x-model="orderQty" min="1" step="1" placeholder="1" style="width: 80px;">
                     </div>
                     <div class="col-sm-auto">
-                        <button class="btn btn-sm" :class="orderSide === 'buy' ? 'btn-success' : 'btn-danger'" @click="submitOrder()" :disabled="submitting">
+                        <button type="button" class="btn btn-sm" :class="orderSide === 'buy' ? 'btn-success' : 'btn-danger'" @click="submitOrder()" :disabled="submitting">
                             <span x-show="!submitting" x-text="orderSide === 'buy' ? 'Buy' : 'Sell'"></span>
                             <span x-show="submitting" class="spinner-border spinner-border-sm"></span>
                         </button>
@@ -157,7 +157,7 @@
                                 <span x-text="order.quantity"></span> @
                                 <span x-text="uproot.formatForInterface('price', order.price)"></span>
                             </span>
-                            <button class="btn btn-outline-secondary btn-sm py-0 px-1" @click="cancelOrder(order.id)" :disabled="cancelling === order.id">
+                            <button type="button" class="btn btn-outline-secondary btn-sm py-0 px-1" @click="cancelOrder(order.id)" :disabled="cancelling === order.id">
                                 &times;
                             </button>
                         </div>

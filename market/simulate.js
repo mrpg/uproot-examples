@@ -22,7 +22,6 @@ if (uproot.currentPage === "Trading") {
 
         if (attempts >= maxAttempts) {
             clearInterval(interval);
-            setTimeout(() => uproot.submit(), 500);
         }
     }, 1000);
 }
