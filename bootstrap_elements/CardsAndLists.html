@@ -9,21 +9,21 @@
 <section class="wt-section" id="anatomy">
     <h2>Anatomy of a card</h2>
 
-    <p>A card is a <code>.card</code> with up to three parts: an optional <code>.card-header</code>, a <code>.card-body</code>, and an optional <code>.card-footer</code>. Inside the body, <code>.card-title</code>, <code>.card-subtitle</code>, and <code>.card-text</code> fix the spacing of the typical elements. For a card without header and footer, uproot’s examples often use the shortcut <code>class="card card-body"</code>.</p>
+    <p>A card is a <code>.card</code> with up to three parts: an optional <code>.card-header</code>, a <code>.card-body</code>, and an optional <code>.card-footer</code>. The body arranges its children in a column with even gaps, so headings and paragraphs need no margin classes. <code>.card-subtitle</code> reduces the gap above a subtitle; <code>.card-title</code> and <code>.card-text</code> add no styles but are useful names to find elements by. For a card without header and footer, use the shortcut <code>class="card card-body"</code>.</p>
 
-    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.card</code>, <code>.card-header</code>, <code>.card-body</code>, <code>.card-title</code>, <code>.card-subtitle</code>, <code>.card-text</code>, <code>.card-footer</code></p>
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.card</code>, <code>.card-header</code>, <code>.card-body</code>, <code>.card-subtitle</code>, <code>.card-footer</code></p>
 
     <div class="wt-example">
-        <div class="card col-md-8 mx-auto">
+        <div class="card md:col-8 mx-auto">
             <div class="card-header">
-                <i class="bi bi-puzzle me-1" aria-hidden="true"></i>Part 2 of 3
+                <span><i class="bi bi-puzzle me-1" aria-hidden="true"></i>Part 2 of 3</span>
             </div>
             <div class="card-body">
                 <h3 class="card-title h5">Investment task</h3>
-                <p class="card-subtitle mb-2 text-body-secondary">Individual decisions, no interaction</p>
+                <p class="card-subtitle fg-2">Individual decisions, no interaction</p>
                 <p class="card-text">You will decide how much of your endowment to invest in a risky asset. One of your decisions will be paid out.</p>
             </div>
-            <div class="card-footer text-body-secondary small">
+            <div class="card-footer fg-2 small">
                 <i class="bi bi-clock me-1" aria-hidden="true"></i>About 5 minutes
             </div>
         </div>
@@ -32,41 +32,41 @@
 
 
 <section class="wt-section" id="colors">
-    <h2>Colors and borders</h2>
+    <h2>Colors</h2>
 
-    <p>Cards take border and background utilities. <code>.text-bg-*</code> sets a background together with a readable text color. The subtle variants (<code>.bg-*-subtle</code> with <code>.border-*-subtle</code>) are calmer and good for status. A transparent header (<code>.bg-transparent</code>) keeps a colored border card light.</p>
+    <p>A theme class colors a whole card: <code>.card .theme-primary</code> gets a colored border and a solid header. Add <code>.card-subtle</code> for calmer colors, which are good for status. Borders and backgrounds can also be set individually with utilities such as <code>.border-success</code>.</p>
 
-    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.border-success</code>, <code>.text-bg-primary</code>, <code>.bg-secondary-subtle</code>, <code>.border-secondary-subtle</code>, <code>.bg-transparent</code></p>
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.theme-*</code>, <code>.card-subtle</code>, <code>.border-*</code></p>
 
     <div class="wt-example">
-        <div class="row row-cols-1 row-cols-md-3 g-3">
+        <div class="row row-cols-1 md:row-cols-3 g-5">
             <div class="col">
-                <div class="card border-success h-100">
-                    <div class="card-header bg-transparent border-success text-success fw-semibold">
-                        <i class="bi bi-check-circle-fill me-1" aria-hidden="true"></i>Completed
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">Part 1: Questionnaire</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card text-bg-primary h-100">
+                <div class="card card-subtle theme-success h-100">
                     <div class="card-header fw-semibold">
-                        <i class="bi bi-play-circle-fill me-1" aria-hidden="true"></i>Current
+                        <span><i class="bi bi-check-circle-fill me-1" aria-hidden="true"></i>Completed</span>
                     </div>
                     <div class="card-body">
-                        <p class="card-text">Part 2: Public goods game</p>
+                        <p>Part 1: Questionnaire</p>
                     </div>
                 </div>
             </div>
             <div class="col">
-                <div class="card bg-secondary-subtle border-secondary-subtle h-100">
-                    <div class="card-header bg-transparent border-secondary-subtle text-body-secondary fw-semibold">
-                        <i class="bi bi-lock-fill me-1" aria-hidden="true"></i>Upcoming
+                <div class="card theme-primary h-100">
+                    <div class="card-header fw-semibold">
+                        <span><i class="bi bi-play-circle-fill me-1" aria-hidden="true"></i>Current</span>
                     </div>
                     <div class="card-body">
-                        <p class="card-text text-body-secondary">Part 3: Risk elicitation</p>
+                        <p>Part 2: Public goods game</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card card-subtle theme-secondary h-100">
+                    <div class="card-header fw-semibold">
+                        <span><i class="bi bi-lock-fill me-1" aria-hidden="true"></i>Upcoming</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="fg-2">Part 3: Risk elicitation</p>
                     </div>
                 </div>
             </div>
@@ -78,25 +78,25 @@
 <section class="wt-section" id="grids">
     <h2>Grids of cards with equal heights</h2>
 
-    <p>To show options side by side, put cards into a grid: <code>.row-cols-1 .row-cols-md-3</code> stacks them on phones and shows three per row from tablets on. Cards in a row only have equal heights with <code>.h-100</code>. <code>.card-footer</code> then sits at the bottom of each card, even if the bodies have different lengths.</p>
+    <p>To show options side by side, put cards into a grid: <code>.row-cols-1 .md:row-cols-3</code> stacks them on phones and shows three per row from tablets on. Cards in a row only have equal heights with <code>.h-100</code>. <code>.card-footer</code> then sits at the bottom of each card, even if the bodies have different lengths.</p>
 
     <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.row-cols-*</code>, <code>.g-*</code>, <code>.h-100</code></p>
 
     <div class="wt-example">
-        <div class="row row-cols-1 row-cols-md-3 g-3">
+        <div class="row row-cols-1 md:row-cols-3 g-5">
             {% for lottery in C.LOTTERIES %}
             <div class="col">
-                <div class="card h-100 border-{{ lottery.color }}-subtle">
+                <div class="card h-100 border-{{ lottery.color }}">
                     <div class="card-body text-center">
-                        <i class="bi bi-{{ lottery.icon }} display-6 text-{{ lottery.color }}" aria-hidden="true"></i>
-                        <h3 class="card-title h5 mt-2">{{ lottery.name }}</h3>
-                        <ul class="list-unstyled card-text mb-0">
+                        <i class="bi bi-{{ lottery.icon }} fs-3xl fg-{{ lottery.color }}" aria-hidden="true"></i>
+                        <h3 class="card-title h5">{{ lottery.name }}</h3>
+                        <ul class="list-unstyled mb-0">
                             {% for outcome in lottery.outcomes %}
                             <li>{{ outcome }}</li>
                             {% endfor %}
                         </ul>
                     </div>
-                    <div class="card-footer bg-transparent text-center small text-body-secondary">
+                    <div class="card-footer text-center small fg-2">
                         Lottery {{ loop.index }} of {{ loop.length }}
                     </div>
                 </div>
@@ -110,21 +110,19 @@
 <section class="wt-section" id="horizontal">
     <h2>Horizontal cards</h2>
 
-    <p>A grid inside a card puts a picture or an avatar beside the text. <code>.g-0</code> removes the gutters, so that the left column touches the card’s border.</p>
+    <p><code>.card-row</code> arranges the parts of a card side by side, for example an image (with <code>.card-img-start</code>) or an avatar next to the text. <code>.overflow-hidden</code> clips a colored panel to the card’s rounded corners.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.card-row</code>, <code>.card-img-start</code>, <code>.card-img-end</code></p>
 
     <div class="wt-example">
-        <div class="card col-md-8 mx-auto overflow-hidden">
-            <div class="row g-0">
-                <div class="col-4 col-sm-3 d-flex align-items-center justify-content-center bg-success-subtle text-success-emphasis">
-                    <i class="bi bi-person-fill display-4" aria-hidden="true"></i>
-                </div>
-                <div class="col">
-                    <div class="card-body">
-                        <h3 class="card-title h5">Your partner: Participant C</h3>
-                        <p class="card-text mb-1">Role: Responder</p>
-                        <p class="card-text small text-body-secondary">You are matched for all ten rounds.</p>
-                    </div>
-                </div>
+        <div class="card card-row md:col-8 mx-auto overflow-hidden">
+            <div class="d-flex align-items-center justify-content-center flex-shrink-0 px-9 bg-subtle-success fg-emphasis-success">
+                <i class="bi bi-person-fill fs-5xl" aria-hidden="true"></i>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title h5">Your partner: Participant C</h3>
+                <p class="card-text">Role: Responder</p>
+                <p class="card-text small fg-2">You are matched for all ten rounds.</p>
             </div>
         </div>
     </div>
@@ -134,30 +132,30 @@
 <section class="wt-section" id="list-groups">
     <h2>List groups</h2>
 
-    <p>A list group is a bordered list. Items can carry a badge on the right (with <code>.d-flex .justify-content-between</code>), be numbered (<code>.list-group-numbered</code> on an <code>&lt;ol&gt;</code>), be colored, or be marked as active or disabled. <code>.list-group-flush</code> removes the outer borders, so that a list fits seamlessly into a card.</p>
+    <p>A list group is a bordered list. Items can carry a badge on the right (with <code>.d-flex .justify-content-between</code>), be numbered (<code>.list-group-numbered</code> on an <code>&lt;ol&gt;</code>), be colored with a theme class, or be marked as active or disabled. <code>.list-group-flush</code> removes the outer borders, so that a list fits seamlessly into a card.</p>
 
-    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.list-group</code>, <code>.list-group-item</code>, <code>.list-group-numbered</code>, <code>.list-group-flush</code>, <code>.list-group-item-success</code> (and other colors), <code>.active</code>, <code>.disabled</code>, <code>.list-group-horizontal-md</code></p>
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.list-group</code>, <code>.list-group-item</code>, <code>.list-group-numbered</code>, <code>.list-group-flush</code>, <code>.theme-*</code>, <code>.active</code>, <code>.disabled</code>, <code>.md:list-group-horizontal</code>, <code>.contains-inline</code></p>
 
     <div class="wt-example">
-        <div class="row g-4">
-            <div class="col-md-6">
+        <div class="row g-7">
+            <div class="md:col-6">
                 <h3 class="h6">Earnings with badges, inside a card</h3>
                 <div class="card">
                     <ul class="list-group list-group-flush">
                         {% for part, amount in C.EARNINGS %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             {{ part }}
-                            <span class="badge text-bg-light border">{{ amount | fmtnum(pre="$", places=2) }}</span>
+                            <span class="badge badge-outline theme-secondary">{{ amount | fmtnum(pre="$", places=2) }}</span>
                         </li>
                         {% endfor %}
-                        <li class="list-group-item list-group-item-success d-flex justify-content-between align-items-center fw-semibold">
+                        <li class="list-group-item theme-success d-flex justify-content-between align-items-center fw-semibold">
                             Total
-                            <span class="badge text-bg-success">{{ C.EARNINGS | sum(attribute=1) | fmtnum(pre="$", places=2) }}</span>
+                            <span class="badge theme-success">{{ C.EARNINGS | sum(attribute=1) | fmtnum(pre="$", places=2) }}</span>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="md:col-6">
                 <h3 class="h6">Numbered steps with states</h3>
                 <ol class="list-group list-group-numbered">
                     <li class="list-group-item">Read the instructions</li>
@@ -167,12 +165,15 @@
                 </ol>
             </div>
             <div class="col-12">
-                <h3 class="h6">A horizontal checklist (horizontal from <code>md</code> on)</h3>
-                <ul class="list-group list-group-horizontal-md">
-                    <li class="list-group-item list-group-item-success flex-fill"><i class="bi bi-check-lg me-1" aria-hidden="true"></i>Quiet room</li>
-                    <li class="list-group-item list-group-item-success flex-fill"><i class="bi bi-check-lg me-1" aria-hidden="true"></i>Stable connection</li>
-                    <li class="list-group-item list-group-item-warning flex-fill"><i class="bi bi-exclamation-lg me-1" aria-hidden="true"></i>Phone muted?</li>
-                </ul>
+                <h3 class="h6">A horizontal checklist (horizontal once its container is at least <code>md</code> wide)</h3>
+                <p class="small fg-2">Like responsive stacks, responsive list groups look at the width of a surrounding container, which <code>.contains-inline</code> marks.</p>
+                <div class="contains-inline">
+                    <ul class="list-group md:list-group-horizontal">
+                        <li class="list-group-item theme-success flex-fill"><i class="bi bi-check-lg me-1" aria-hidden="true"></i>Quiet room</li>
+                        <li class="list-group-item theme-success flex-fill"><i class="bi bi-check-lg me-1" aria-hidden="true"></i>Stable connection</li>
+                        <li class="list-group-item theme-warning flex-fill"><i class="bi bi-exclamation-lg me-1" aria-hidden="true"></i>Phone muted?</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

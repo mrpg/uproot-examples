@@ -1,5 +1,5 @@
 /*
- * A small guided tour, built only on Bootstrap’s own Popover component.
+ * A small guided tour, styled with Bootstrap’s popover classes.
  *
  * Usage:
  *
@@ -9,16 +9,23 @@
  *     ]);
  *
  * Each step highlights its target with a “spotlight” (a box with a huge shadow
- * that dims the rest of the page) and attaches a popover with Back/Next buttons
- * to it. Keyboard: ← and → navigate, Esc ends the tour. Steps whose target does
- * not exist or is invisible are skipped. Content is inserted as text, never as HTML.
+ * that dims the rest of the page) and explains it in a popover with Back and
+ * Next buttons. Before anything moves, the tour works out where the page will
+ * scroll to and where the popover ends up: on the step’s placement if it fits
+ * there, otherwise on the side with the most room. Spotlight and popover then
+ * glide there together.
+ *
+ * While the tour runs, the rest of the page is inert. Keyboard: ← and → navigate,
+ * Esc ends the tour. Steps whose target does not exist or is invisible are
+ * skipped. Content is inserted as text, never as HTML.
  */
 
 window.Tour = (() => {
     "use strict";
 
     const PADDING = 8;  // Space between target and spotlight edge in pixels
-    const OFFSET = 12;  // Space between spotlight and popover in pixels
+    const GAP = 12;  // Space between spotlight and popover, leaving room for the arrow
+    const MARGIN = 8;  // Minimum space between popover and window edge
     const SIDES = ["top", "right", "bottom", "left"];
 
     let steps = [];
@@ -26,10 +33,13 @@ window.Tour = (() => {
     let backdrop = null;
     let spotlight = null;
     let popover = null;
+    let parts = null;  // The popover’s arrow, texts, and buttons
+    let inert = [];  // Page elements made inert while the tour runs
     let returnFocus = null;
-    let frame = 0;
 
     const isVisible = (el) => el !== null && el.getClientRects().length > 0;
+
+    const clamp = (value, min, max) => Math.max(min, Math.min(value, max));
 
     const element = (tag, className, text) => {
         const el = document.createElement(tag);
@@ -46,127 +56,171 @@ window.Tour = (() => {
     const button = (className, text, onClick) => {
         const el = element("button", className, text);
 
-        el.type = "button";  // Never submit uproot’s form
+        el.type = "button";  // Never submit a form
         el.addEventListener("click", onClick);
 
         return el;
     };
 
-    // Move the spotlight over the current target (in page coordinates, so it scrolls along)
-    const placeSpotlight = () => {
-        const rect = document.querySelector(steps[index].target).getBoundingClientRect();
+    // Build the popover once, with Bootstrap’s markup; each step only changes its texts
+    const createPopover = () => {
+        const el = element("div", "popover bs-popover-auto tour-popover");
+        const header = element("div", "popover-header d-flex align-items-center justify-content-between gap-5");
+        const body = element("div", "popover-body");
+        const footer = element("div", "d-flex align-items-center justify-content-between gap-3 mt-5");
+        const controls = element("div", "d-flex gap-3");
+        const close = button("btn-close", undefined, end);
 
-        spotlight.style.top = `${rect.top + window.scrollY - PADDING}px`;
-        spotlight.style.left = `${rect.left + window.scrollX - PADDING}px`;
-        spotlight.style.width = `${rect.width + 2 * PADDING}px`;
-        spotlight.style.height = `${rect.height + 2 * PADDING}px`;
-    };
-
-    // Choose the popover’s side once, from the target’s final position in the window: the
-    // step’s own placement if the popover fits there, otherwise the side with the most room
-    const chooseSide = (step, rect, tip) => {
-        const room = {
-            top: rect.top - tip.offsetHeight,
-            right: window.innerWidth - rect.right - tip.offsetWidth,
-            bottom: window.innerHeight - rect.bottom - tip.offsetHeight,
-            left: rect.left - tip.offsetWidth,
+        parts = {
+            arrow: element("div", "popover-arrow"),
+            title: element("span", "fw-semibold"),
+            text: element("p", "mb-0"),
+            counter: element("small", "fg-2"),
+            back: button("btn-outline theme-secondary btn-sm", "Back", () => show(index - 1)),
+            next: button("btn-solid theme-primary btn-sm", "Next", () => (index < steps.length - 1 ? show(index + 1) : end())),
         };
 
-        if (room[step.placement] >= PADDING + OFFSET) {
+        parts.title.id = "tour-step-title";
+        parts.text.id = "tour-step-text";
+        parts.text.setAttribute("aria-live", "polite");  // Screen readers announce each new step
+        close.setAttribute("aria-label", "End tour");
+
+        el.setAttribute("role", "dialog");
+        el.setAttribute("aria-modal", "true");
+        el.setAttribute("aria-labelledby", parts.title.id);
+        el.setAttribute("aria-describedby", parts.text.id);
+
+        header.append(parts.title, close);
+        controls.append(parts.back, parts.next);
+        footer.append(parts.counter, controls);
+        body.append(parts.text, footer);
+        el.append(parts.arrow, header, body);
+
+        return el;
+    };
+
+    // The spotlight around a target, in page coordinates (which do not change when the page scrolls)
+    const spotlightRect = (target) => {
+        const rect = target.getBoundingClientRect();
+
+        return new DOMRect(
+            rect.left + window.scrollX - PADDING,
+            rect.top + window.scrollY - PADDING,
+            rect.width + 2 * PADDING,
+            rect.height + 2 * PADDING,
+        );
+    };
+
+    // Where the page should scroll to: center the spotlight, but show tall ones from their top
+    const scrollTopFor = (spot) => {
+        const { clientHeight, scrollHeight } = document.documentElement;
+        const top = spot.height > 0.6 * clientHeight ? spot.top - MARGIN : spot.top - (clientHeight - spot.height) / 2;
+
+        return clamp(top, 0, scrollHeight - clientHeight);
+    };
+
+    // Choose a side from the spotlight’s position in the window once the page has scrolled to
+    // scrollTop: the step’s own placement if the popover fits there, otherwise the side with
+    // the most room
+    const chooseSide = (step, spot, scrollTop) => {
+        const { clientWidth, clientHeight } = document.documentElement;
+        const top = spot.top - scrollTop;
+        const left = spot.left - window.scrollX;
+        const room = {
+            top: top - popover.offsetHeight,
+            right: clientWidth - left - spot.width - popover.offsetWidth,
+            bottom: clientHeight - top - spot.height - popover.offsetHeight,
+            left: left - popover.offsetWidth,
+        };
+
+        if (room[step.placement] >= GAP + MARGIN) {
             return step.placement;
         }
 
         return SIDES.reduce((best, side) => (room[side] > room[best] ? side : best));
     };
 
-    // While the spotlight glides to a new target, re-align the popover with it on every frame
-    const follow = () => {
-        popover?.update();
-        frame = spotlight.getAnimations().length > 0 ? requestAnimationFrame(follow) : 0;
+    const placeSpotlight = (spot) => {
+        Object.assign(spotlight.style, {
+            top: `${spot.top}px`,
+            left: `${spot.left}px`,
+            width: `${spot.width}px`,
+            height: `${spot.height}px`,
+        });
     };
 
-    const header = (step) => {
-        const el = element("div", "d-flex align-items-center justify-content-between gap-3");
+    // Put the popover next to the spotlight, on the chosen side, but always inside the window
+    const placePopover = (step, spot, scrollTop) => {
+        const { clientWidth, clientHeight } = document.documentElement;
+        const { offsetWidth: width, offsetHeight: height } = popover;
+        const side = chooseSide(step, spot, scrollTop);
+        const vertical = side === "top" || side === "bottom";
+        const centerX = spot.left + spot.width / 2;
+        const centerY = spot.top + spot.height / 2;
+        const [x, y] = {
+            top: [centerX - width / 2, spot.top - GAP - height],
+            right: [spot.right + GAP, centerY - height / 2],
+            bottom: [centerX - width / 2, spot.bottom + GAP],
+            left: [spot.left - GAP - width, centerY - height / 2],
+        }[side];
+        const left = clamp(x, window.scrollX + MARGIN, window.scrollX + clientWidth - MARGIN - width);
+        const top = clamp(y, scrollTop + MARGIN, scrollTop + clientHeight - MARGIN - height);
+        const { arrow } = parts;
 
-        el.append(
-            element("span", "", step.title),
-            button("btn-close", undefined, end),
-        );
-        el.lastChild.setAttribute("aria-label", "End tour");
+        popover.dataset.bsPlacement = side;  // Bootstrap’s CSS draws the arrow on this side
+        popover.style.left = `${left}px`;
+        popover.style.top = `${top}px`;
 
-        return el;
-    };
+        // The arrow points at the spotlight’s center, unless the popover had to cover the target
+        arrow.hidden = vertical ? top !== y : left !== x;
 
-    const body = (step) => {
-        const el = element("div", "");
-        const footer = element("div", "d-flex align-items-center justify-content-between gap-2 mt-3");
-        const controls = element("div", "d-flex gap-2");
-        const last = index === steps.length - 1;
-
-        if (index > 0) {
-            controls.append(button("btn btn-sm btn-outline-secondary", "Back", () => show(index - 1)));
+        if (arrow.hidden) {
+            return;
         }
 
-        controls.append(
-            button("btn btn-sm btn-primary", last ? "Done" : "Next", () => (last ? end() : show(index + 1))),
-        );
+        // The arrow is positioned within the popover’s border, and kept clear of its rounded corners
+        const radius = parseFloat(getComputedStyle(popover).borderTopLeftRadius);
 
-        footer.append(element("small", "text-body-secondary", `${index + 1} of ${steps.length}`), controls);
-        el.append(element("div", "", step.content), footer);
+        if (vertical) {
+            arrow.style.left = `${clamp(centerX - left - popover.clientLeft - arrow.offsetWidth / 2, radius, popover.clientWidth - radius - arrow.offsetWidth)}px`;
+            arrow.style.top = "";
+        }
+        else {
+            arrow.style.left = "";
+            arrow.style.top = `${clamp(centerY - top - popover.clientTop - arrow.offsetHeight / 2, radius, popover.clientHeight - radius - arrow.offsetHeight)}px`;
+        }
+    };
 
-        return el;
+    // Position spotlight and popover for the current step, scrolling the page there if asked to
+    const layout = (scroll) => {
+        const step = steps[index];
+        const spot = spotlightRect(document.querySelector(step.target));
+        const scrollTop = scroll ? scrollTopFor(spot) : window.scrollY;
+
+        placeSpotlight(spot);
+        placePopover(step, spot, scrollTop);
+
+        if (scroll) {
+            // Bootstrap makes this smooth, unless the participant prefers reduced motion
+            window.scrollTo({ top: scrollTop });
+        }
     };
 
     const show = (newIndex) => {
         index = newIndex;
 
         const step = steps[index];
-        const target = document.querySelector(step.target);
 
-        if (popover !== null) {
-            popover.dispose();
-        }
+        parts.title.textContent = step.title;
+        parts.text.textContent = step.content;
+        parts.counter.textContent = `${index + 1} of ${steps.length}`;
+        parts.back.hidden = index === 0;
+        parts.next.textContent = index === steps.length - 1 ? "Done" : "Next";
 
-        // Center small targets; show tall ones from their top
-        const tall = target.getBoundingClientRect().height > 0.6 * window.innerHeight;
-        const block = tall ? "start" : "center";
-        const { scrollX, scrollY } = window;
+        layout(true);
 
-        // Find out where the target ends up by scrolling there instantly and back again
-        // (nothing is drawn in between), then let the page scroll there smoothly
-        target.scrollIntoView({ block, behavior: "instant" });
-        const rect = target.getBoundingClientRect();
-        window.scrollTo({ left: scrollX, top: scrollY, behavior: "instant" });
-
-        target.scrollIntoView({ block });
-        placeSpotlight();
-
-        // The popover is attached to the spotlight, not to the target, so that the
-        // target’s own tooltips or popovers (if any) are left untouched
-        popover = new bootstrap.Popover(spotlight, {
-            container: "body",
-            content: body(step),
-            customClass: "tour-popover",
-            html: true,  // Allows passing DOM elements; their text is still set via textContent
-            offset: [0, OFFSET],
-            placement: (_, tip) => chooseSide(step, rect, tip),
-            // Never switch sides while gliding, and keep the popover inside the window,
-            // even if it then overlaps a tall target
-            popperConfig: (config) => ({
-                ...config,
-                modifiers: [
-                    ...config.modifiers,
-                    { name: "flip", enabled: false },
-                    { name: "preventOverflow", options: { altAxis: true, padding: 8, tether: false } },
-                ],
-            }),
-            title: header(step),
-            trigger: "manual",
-        });
-        popover.show();
-
-        cancelAnimationFrame(frame);
-        frame = requestAnimationFrame(follow);
+        // Focus the main button of each step, so that keyboard users can simply press Enter
+        parts.next.focus({ preventScroll: true });
     };
 
     const onKeydown = (event) => {
@@ -179,16 +233,15 @@ window.Tour = (() => {
         else if (event.key === "ArrowLeft" && index > 0) {
             show(index - 1);
         }
+        else {
+            return;
+        }
+
+        event.preventDefault();
     };
 
     const onResize = () => {
-        placeSpotlight();
-        popover.update();
-    };
-
-    // Focus the main button of each step, so that keyboard users can simply press Enter
-    const onShown = () => {
-        document.querySelector(".tour-popover .btn-primary")?.focus({ preventScroll: true });
+        layout(false);
     };
 
     const end = () => {
@@ -196,11 +249,16 @@ window.Tour = (() => {
             return;
         }
 
-        cancelAnimationFrame(frame);
-        popover.dispose();
-        popover = null;
-        spotlight.remove();
         backdrop.remove();
+        spotlight.remove();
+        popover.remove();
+        backdrop = spotlight = popover = parts = null;
+
+        for (const el of inert) {
+            el.inert = false;
+        }
+
+        inert = [];
         document.removeEventListener("keydown", onKeydown);
         window.removeEventListener("resize", onResize);
         returnFocus?.focus();
@@ -217,17 +275,30 @@ window.Tour = (() => {
 
         returnFocus = document.activeElement;
 
+        // While the tour runs, the page can be neither clicked nor focused, and screen readers skip it
+        inert = [...document.body.children].filter((el) => !el.inert);
+
+        for (const el of inert) {
+            el.inert = true;
+        }
+
         // The backdrop catches clicks on the dimmed page (ending the tour)
         backdrop = element("div", "tour-backdrop");
         backdrop.addEventListener("click", end);
         spotlight = element("div", "tour-spotlight");
-        spotlight.addEventListener("shown.bs.popover", onShown);
-        document.body.append(backdrop, spotlight);
+        popover = createPopover();
+        document.body.append(backdrop, spotlight, popover);
 
         document.addEventListener("keydown", onKeydown);
         window.addEventListener("resize", onResize);
 
         show(0);
+
+        // Commit the first position before turning on the transitions, so that spotlight and
+        // popover glide from step to step, but do not glide in from the corner of the page
+        popover.getBoundingClientRect();
+        spotlight.classList.add("tour-glide");
+        popover.classList.add("tour-glide", "show");  // .show fades the popover in
     };
 
     return { start, end };

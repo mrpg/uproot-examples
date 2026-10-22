@@ -21,7 +21,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `big5`                                            | Short Big 5 questionnaire with scoring                          | Medium     |
 | `bisection`                                       | CE elicitation over mean-preserving spreads                     | Medium     |
 | `blocks`†                                         | Named round blocks, resumed counters, and nesting               | Easy       |
-| `bootstrap_elements`                              | Guided walkthrough of Bootstrap 5 and Bootstrap Icons           | Easy       |
+| `bootstrap_elements`                              | Guided walkthrough of Bootstrap 6 and Bootstrap Icons           | Easy       |
 | `bounded_choice`                                  | Examples for the BoundedChoiceField                             | Easy       |
 | `bret`                                            | Bomb Risk Elicitation Task (Crosetto & Filippin, 2013)          | Medium     |
 | `button_placement`                                | Placing and customizing Next/Back buttons                       | Easy       |

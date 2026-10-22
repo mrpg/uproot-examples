@@ -12,9 +12,9 @@
 
 {% block chapter %}
 
-<p>The framed screen below is a decision screen as participants might see it. It combines badges, a progress bar, an offcanvas panel, selectable cards, a striped table, and a confirmation modal. A guided tour explains it step by step. The choice is real: it is stored in the field <code>option</code>, defined in <code>__init__.py</code>. To finish the walkthrough, make a choice and submit it.</p>
+<p>The framed screen below is a decision screen as participants might see it. It combines badges, a progress bar, a drawer, selectable cards, a striped table, and a confirmation dialog. A guided tour explains it step by step. The choice is real: it is stored in the field <code>option</code>, defined in <code>__init__.py</code>. To finish the walkthrough, make a choice and submit it.</p>
 
-<button type="button" class="btn btn-uproot" id="start-tour">
+<button type="button" class="btn-solid theme-uproot" id="start-tour">
     <i class="bi bi-signpost-2 me-1" aria-hidden="true"></i>Start the guided tour
 </button>
 
@@ -24,40 +24,39 @@
 
     <div class="wt-example" id="decision-screen">
         <div id="tour-status">
-            <div class="hstack gap-2 flex-wrap">
-                <span class="badge text-bg-secondary">Round {{ C.CURRENT_ROUND }} of {{ C.ROUNDS }}</span>
-                <span class="badge bg-uproot-subtle text-uproot border border-uproot-subtle"><i class="bi bi-person-fill me-1" aria-hidden="true"></i>Individual decision</span>
-                <button type="button" class="btn btn-sm btn-outline-secondary ms-auto" id="tour-instructions" data-bs-toggle="offcanvas" data-bs-target="#instructions-offcanvas" aria-controls="instructions-offcanvas">
+            <div class="hstack gap-3 flex-wrap">
+                <span class="badge theme-secondary">Round {{ C.CURRENT_ROUND }} of {{ C.ROUNDS }}</span>
+                <span class="badge badge-subtle theme-uproot"><i class="bi bi-person-fill me-1" aria-hidden="true"></i>Individual decision</span>
+                <button type="button" class="btn-outline theme-secondary btn-sm ms-auto" id="tour-instructions" data-bs-toggle="drawer" data-bs-target="#instructions-drawer" aria-controls="instructions-drawer">
                     <i class="bi bi-book me-1" aria-hidden="true"></i>Instructions
                 </button>
             </div>
-            <div class="progress mt-2" role="progressbar" aria-label="Rounds completed" aria-valuenow="{{ C.CURRENT_ROUND - 1 }}" aria-valuemin="0" aria-valuemax="{{ C.ROUNDS }}" style="height: 4px;">
+            <div class="progress mt-3" role="progressbar" aria-label="Rounds completed" aria-valuenow="{{ C.CURRENT_ROUND - 1 }}" aria-valuemin="0" aria-valuemax="{{ C.ROUNDS }}" style="height: 4px;">
                 <div class="progress-bar bg-secondary" style="width: {{ 100 * (C.CURRENT_ROUND - 1) / C.ROUNDS }}%;"></div>
             </div>
         </div>
 
-        <h3 class="h5 mt-4 mb-3" id="option-label">Which option do you choose?</h3>
+        <h3 class="h5 mt-7 mb-5" id="option-label">Which option do you choose?</h3>
 
         {#
-            Each option is a radio button with .btn-check (which hides it) followed by a
-            <label> styled as a card. Clicking the card checks the radio button. The radio
-            buttons carry the name of the field "option", so uproot validates and stores them.
-            The selected look is defined in walkthrough.css (.wt-choice).
+            Each option is a <label> styled as a card, with a radio button inside.
+            Clicking anywhere on the card checks the radio button. The radio buttons
+            carry the name of the field "option", so uproot validates and stores them.
+            The selected look is defined in walkthrough.css (.wt-choice:has(:checked)).
         #}
-        <div class="row row-cols-1 row-cols-md-2 g-3" id="tour-options" role="radiogroup" aria-labelledby="option-label">
+        <div class="row row-cols-1 md:row-cols-2 g-5" id="tour-options" role="radiogroup" aria-labelledby="option-label">
             {% for option in C.OPTIONS %}
             <div class="col">
-                <input type="radio" class="btn-check" name="option" id="option-{{ option.value }}" value="{{ option.value }}" data-name="{{ option.name }}" autocomplete="off" required>
-                <label class="card wt-choice h-100" for="option-{{ option.value }}">
+                <label class="card wt-choice h-100">
                     <span class="card-body">
-                        <span class="d-flex align-items-center gap-3">
-                            <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-{{ option.color }}-subtle text-{{ option.color }}-emphasis fs-4 flex-shrink-0" style="width: 3rem; height: 3rem;">
+                        <span class="d-flex align-items-center gap-5">
+                            <span class="d-inline-flex align-items-center justify-content-center flex-shrink-0 w-3 ratio-1x1 rounded-circle bg-subtle-{{ option.color }} fg-emphasis-{{ option.color }} fs-xl">
                                 <i class="bi bi-{{ option.icon }}" aria-hidden="true"></i>
                             </span>
-                            <span class="fs-5 fw-semibold">{{ option.name }}</span>
-                            <i class="bi bi-check-circle-fill text-primary fs-4 ms-auto wt-choice-mark" aria-hidden="true"></i>
+                            <span class="fs-lg fw-semibold">{{ option.name }}</span>
+                            <input type="radio" class="radio ms-auto" name="option" value="{{ option.value }}" data-name="{{ option.name }}" required>
                         </span>
-                        <span class="d-block mt-3">
+                        <span>
                             {% for outcome in option.outcomes %}
                             <span class="d-block">{{ outcome }}</span>
                             {% endfor %}
@@ -70,11 +69,11 @@
 
         {{ error(form.option) }}
 
-        <div class="alert alert-danger border-danger callout d-none mt-3 mb-0" id="choice-missing" role="alert">
-            Please choose one of the options first.
+        <div class="alert theme-danger callout mt-5 mb-0" id="choice-missing" role="alert" hidden>
+            <p>Please choose one of the options first.</p>
         </div>
 
-        <div class="mt-4" id="tour-history">
+        <div class="mt-7" id="tour-history">
             <h3 class="h6">Your previous rounds</h3>
             <table class="table table-sm table-striped table-hover mb-0">
                 <thead>
@@ -96,54 +95,51 @@
             </table>
         </div>
 
-        <div class="d-grid d-md-flex justify-content-md-end mt-4">
-            <button type="button" class="btn btn-primary btn-lg" id="submit-decision">
+        <div class="d-grid md:d-flex md:justify-content-end mt-7">
+            <button type="button" class="btn-solid theme-primary btn-lg" id="submit-decision">
                 <i class="bi bi-send me-1" aria-hidden="true"></i>Submit decision
             </button>
         </div>
     </div>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="instructions-offcanvas" aria-labelledby="instructions-offcanvas-title">
-        <div class="offcanvas-header border-bottom">
-            <h3 class="offcanvas-title h5" id="instructions-offcanvas-title"><i class="bi bi-book me-2" aria-hidden="true"></i>Instructions</h3>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <dialog class="drawer drawer-end" id="instructions-drawer" aria-labelledby="instructions-drawer-title">
+        <div class="drawer-header">
+            <h3 class="drawer-title h5" id="instructions-drawer-title"><i class="bi bi-book me-3" aria-hidden="true"></i>Instructions</h3>
+            <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
+        <div class="drawer-body">
             <p>In each of {{ C.ROUNDS }} rounds, you choose between two options. Option A pays a fixed amount. Option B is a lottery: a computer flips a fair coin to decide whether you receive the high or the low amount.</p>
             <p class="mb-0">At the end, one round is drawn at random and paid out.</p>
         </div>
-    </div>
+    </dialog>
 
-    <div class="modal fade" id="confirm-modal" tabindex="-1" aria-labelledby="confirm-modal-title" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title h5" id="confirm-modal-title">Confirm your decision</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p class="mb-0">You chose <strong id="confirm-choice"></strong>. Your decision is final once you confirm it.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Go back</button>
-                    {# A real submit button: it submits uproot’s form, which contains this modal #}
-                    {{ button_next(label="Confirm and finish") }}
-                </div>
-            </div>
+    <dialog class="dialog" id="confirm-dialog" aria-labelledby="confirm-dialog-title">
+        <div class="dialog-header">
+            <h3 class="dialog-title h5" id="confirm-dialog-title">Confirm your decision</h3>
+            <button type="button" class="btn-close" data-bs-dismiss="dialog" aria-label="Close"></button>
         </div>
-    </div>
+        <div class="dialog-body">
+            <p class="mb-0">You chose <strong id="confirm-choice"></strong>. Your decision is final once you confirm it.</p>
+        </div>
+        <div class="dialog-footer">
+            <button type="button" class="btn-outline theme-secondary" data-bs-dismiss="dialog">Go back</button>
+            {# A real submit button: it submits uproot’s form, which contains this dialog #}
+            {{ button_next(label="Confirm and finish") }}
+        </div>
+    </dialog>
 </section>
 
 
 <section class="wt-section" id="how-tour">
     <h2>How the guided tour works</h2>
 
-    <p>The tour is not a library: it is about 200 lines in <code>_static/tour.js</code> and a few lines in <code>_static/tour.css</code>, built entirely on Bootstrap. Copy both files into your app’s <code>_static</code> folder to use it.</p>
+    <p>The tour is not a library: it is about 300 lines in <code>_static/tour.js</code> and a few lines in <code>_static/tour.css</code>, without third-party code. Copy both files into your app’s <code>_static</code> folder to use it.</p>
 
-    <ul class="vstack gap-2">
-        <li>The <strong>spotlight</strong> is an empty box placed over the current element. Its huge <code>box-shadow</code> darkens everything else on the page. A CSS transition lets it glide from step to step.</li>
-        <li>The <strong>explanation</strong> is a regular Bootstrap popover, attached to the spotlight and opened with <code>trigger: "manual"</code>. Its Back, Next, and Done buttons are built as DOM elements, and all texts are inserted with <code>textContent</code>, so they are never interpreted as HTML.</li>
-        <li>A transparent <strong>backdrop</strong> catches clicks on the page, which end the tour. So do the <kbd>Esc</kbd> key and the close button; <kbd>←</kbd> and <kbd>→</kbd> navigate.</li>
+    <ul class="vstack gap-3">
+        <li>The <strong>spotlight</strong> is an empty box placed over the current element. Its huge <code>box-shadow</code> darkens everything else on the page.</li>
+        <li>The <strong>explanation</strong> uses the markup and classes of a Bootstrap popover (<code>.popover</code>, <code>.popover-header</code>, <code>.popover-body</code>, and <code>.popover-arrow</code>), but the tour positions it itself. Its Back, Next, and Done buttons are built as DOM elements, and all texts are inserted with <code>textContent</code>, so they are never interpreted as HTML.</li>
+        <li>Before anything moves, the tour works out where the page will scroll to and where the popover ends up: on the step’s placement if there is room, otherwise on the side with the most room, and always inside the window. Spotlight and popover then <strong>glide</strong> there together with a CSS transition (unless the participant prefers reduced motion).</li>
+        <li>While the tour runs, the rest of the page is <strong>inert</strong>: it can be neither clicked nor focused, and screen readers skip it. A click on the dimmed page ends the tour, as do the <kbd>Esc</kbd> key and the close button; <kbd>←</kbd> and <kbd>→</kbd> navigate.</li>
         <li>Steps whose element does not exist or is hidden (for example on a phone) are <strong>skipped</strong>.</li>
     </ul>
 
@@ -154,7 +150,7 @@
         target: "#tour-options",
         title: "Make your choice",
         content: "Click on a card to select it.",
-        placement: "top",  // Optional: "top", "right", "bottom", "left", or "auto" (default)
+        placement: "top",  // Optional: "top", "right", "bottom", or "left"
     },
     // ...
 ];
@@ -168,10 +164,16 @@ I("start-tour").addEventListener("click", () => Tour.start(steps));</code></pre>
 <section class="wt-section" id="how-confirm">
     <h2>How the confirmation works</h2>
 
-    <p>The Submit decision button has <code>type="button"</code>, so it does not submit anything by itself. Its click handler (in the <code>late</code> block) checks whether an option is selected. If not, it reveals the red callout. If so, it writes the name of the option into the modal and opens it. The modal’s Confirm button is uproot’s own Next button, placed with <code>button_next(label=…)</code>. Because the modal sits inside uproot’s form, this button submits the page as usual, and uproot validates and stores the field <code>option</code>.</p>
+    <p>The Submit decision button has <code>type="button"</code>, so it does not submit anything by itself. Its click handler (in the <code>late</code> block) checks whether an option is selected. If not, it reveals the red callout by removing its <code>hidden</code> attribute. If so, it writes the name of the option into the dialog and opens it. The dialog’s Confirm button is uproot’s own Next button, placed with <code>button_next(label=…)</code>. Because the <code>&lt;dialog&gt;</code> sits inside uproot’s form, this button submits the page as usual, and uproot validates and stores the field <code>option</code>.</p>
 
-    <div class="alert alert-info callout" role="note">
-        <i class="bi bi-lightbulb me-1" aria-hidden="true"></i><strong>Tip.</strong> The selectable cards are a pattern worth reusing: a hidden radio button (<code>.btn-check</code>) followed by a <code>&lt;label&gt;</code> that looks like a card. They remain real radio buttons, so they work with the keyboard (<kbd>Tab</kbd> and the arrow keys) and with screen readers.
+    <p>Bootstrap 6 has no global <code>bootstrap</code> object. To use a component from JavaScript, import it in a <code>&lt;script type="module"&gt;</code>, as this page does:</p>
+
+    <pre class="wt-code"><code>import { Dialog } from "bootstrap";
+
+Dialog.getOrCreateInstance(I("confirm-dialog")).show();</code></pre>
+
+    <div class="alert theme-info callout" role="note">
+        <p><i class="bi bi-lightbulb me-1" aria-hidden="true"></i><strong>Tip.</strong> The selectable cards are a pattern worth reusing: a <code>&lt;label class="card"&gt;</code> with a radio button inside, highlighted with the CSS selector <code>:has(:checked)</code>. They remain real radio buttons, so they work with the keyboard (<kbd>Tab</kbd> and the arrow keys) and with screen readers. For plainer lists of options, Bootstrap’s <code>.form-field-card</code> does the same without custom CSS.</p>
     </div>
 </section>
 
@@ -180,7 +182,7 @@ I("start-tour").addEventListener("click", () => Tour.start(steps));</code></pre>
 
 {% block uproot_main_buttons %}
 
-{# The Next button lives in the confirmation modal, so only the Back button remains here #}
+{# The Next button lives in the confirmation dialog, so only the Back button remains here #}
 <div id="uproot-button-wrapper">
     {{ button_back() }}
 </div>
@@ -190,7 +192,9 @@ I("start-tour").addEventListener("click", () => Tour.start(steps));</code></pre>
 
 {% block late %}
 
-<script>
+<script type="module">
+    import { Dialog } from "bootstrap";
+
     const steps = [
         {
             target: "#decision-screen",
@@ -206,13 +210,13 @@ I("start-tour").addEventListener("click", () => Tour.start(steps));</code></pre>
         {
             target: "#tour-instructions",
             title: "Instructions on demand",
-            content: "This button opens the instructions in an offcanvas panel, without leaving the page.",
+            content: "This button opens the instructions in a drawer, without leaving the page.",
             placement: "left",
         },
         {
             target: "#tour-options",
             title: "Make your choice",
-            content: "Click on a card to select it. The cards are real radio buttons, so uproot validates and stores the choice.",
+            content: "Click on a card to select it. The cards contain real radio buttons, so uproot validates and stores the choice.",
             placement: "top",
         },
         {
@@ -224,7 +228,7 @@ I("start-tour").addEventListener("click", () => Tour.start(steps));</code></pre>
         {
             target: "#submit-decision",
             title: "Submit",
-            content: "Before anything is submitted, a modal asks for confirmation.",
+            content: "Before anything is submitted, a dialog asks for confirmation.",
             placement: "top",
         },
     ];
@@ -233,23 +237,26 @@ I("start-tour").addEventListener("click", () => Tour.start(steps));</code></pre>
 
     // Confirmation before submitting
     const missing = I("choice-missing");
+    const confirmation = Dialog.getOrCreateInstance(I("confirm-dialog"));
 
     I("submit-decision").addEventListener("click", () => {
         const chosen = document.querySelector('input[name="option"]:checked');
 
         if (chosen === null) {
-            missing.classList.remove("d-none");
+            missing.hidden = false;
 
             return;
         }
 
         I("confirm-choice").textContent = chosen.dataset.name;
-        bootstrap.Modal.getOrCreateInstance(I("confirm-modal")).show();
+        confirmation.show();
     });
 
-    document.querySelectorAll('input[name="option"]').forEach((radio) => {
-        radio.addEventListener("change", () => missing.classList.add("d-none"));
-    });
+    for (const radio of document.querySelectorAll('input[name="option"]')) {
+        radio.addEventListener("change", () => {
+            missing.hidden = true;
+        });
+    }
 </script>
 
 {% endblock late %}

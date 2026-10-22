@@ -1,29 +1,46 @@
-/* Styles for tour.js: a transparent backdrop, a spotlight, and a slightly wider popover */
+/* Styles for tour.js: a transparent backdrop, a spotlight, and a popover positioned by the tour */
 
-/* Catches clicks on the page while the tour runs (Bootstrap’s modals use 1055) */
+/* Backdrop and spotlight sit right below Bootstrap’s popovers, above sticky, fixed, and drawer layers */
 .tour-backdrop {
     inset: 0;
     position: fixed;
-    z-index: 1060;
+    z-index: calc(var(--bs-z-popover) - 2);
 }
 
 /* The huge shadow dims everything except the spotlight itself */
 .tour-spotlight {
-    border-radius: var(--bs-border-radius-lg);
-    box-shadow: 0 0 0 200vmax rgba(0, 0, 0, 0.55);
+    border-radius: var(--bs-radius-5);
+    box-shadow: 0 0 0 200vmax rgb(0 0 0 / 0.55);
     pointer-events: none;
     position: absolute;
-    transition: top 0.5s ease, left 0.5s ease, width 0.5s ease, height 0.5s ease;
-    z-index: 1061;
+    z-index: calc(var(--bs-z-popover) - 1);
 }
 
-/* Popovers use z-index 1070, so they appear above the spotlight */
+/* Bootstrap’s .popover provides the look; tour.js sets top, left, and the arrow’s offset */
 .tour-popover {
-    --bs-popover-max-width: 340px;
+    --bs-popover-max-width: 21rem;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: min(var(--bs-popover-max-width), 100% - 2rem);
+}
+.tour-popover > .popover-arrow {
+    position: absolute;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .tour-spotlight {
-        transition: none;
+/* Once the first step is in place, tour.js adds .tour-glide: from then on, spotlight and popover glide together */
+@media (prefers-reduced-motion: no-preference) {
+    .tour-spotlight,
+    .tour-popover {
+        --tour-glide: 0.5s ease;
+    }
+    .tour-spotlight.tour-glide {
+        transition: top var(--tour-glide), left var(--tour-glide), width var(--tour-glide), height var(--tour-glide);
+    }
+    .tour-popover.tour-glide {
+        transition: opacity var(--bs-popover-transition-duration) linear, top var(--tour-glide), left var(--tour-glide);
+    }
+    .tour-popover.tour-glide > .popover-arrow {
+        transition: top var(--tour-glide), left var(--tour-glide);
     }
 }

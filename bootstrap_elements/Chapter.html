@@ -19,8 +19,8 @@
 {% block pre_main %}
 
 <div class="container" id="wt-chapter-progress">
-    <div class="d-flex justify-content-between small text-body-secondary mb-1">
-        <span><i class="bi bi-bootstrap-fill text-primary me-1" aria-hidden="true"></i>Bootstrap walkthrough</span>
+    <div class="d-flex justify-content-between small fg-2 mb-1">
+        <span><i class="bi bi-bootstrap-fill fg-primary me-1" aria-hidden="true"></i>Bootstrap walkthrough</span>
         <span>Chapter {{ number }} of {{ total }}</span>
     </div>
     <div class="progress" role="progressbar" aria-label="Walkthrough progress" aria-valuenow="{{ number }}" aria-valuemin="0" aria-valuemax="{{ total }}" style="height: 4px;">
@@ -33,14 +33,14 @@
 
 {% block title %}
 
-<i class="bi bi-{{ page.icon }} text-primary me-2" aria-hidden="true"></i>{{ page.title }}
+<i class="bi bi-{{ page.icon }} fg-primary me-3" aria-hidden="true"></i>{{ page.title }}
 
 {% endblock title %}
 
 
 {% block main %}
 
-<p class="lead">{{ page.summary }}</p>
+<p class="fs-lg fw-light">{{ page.summary }}</p>
 
 {% block chapter %}
 {% endblock chapter %}
@@ -54,9 +54,9 @@
     {{ button_back() }}
     {# .ms-auto keeps the Next button on the right, even without a Back button #}
     {% if number < total %}
-    {{ button_next(label="Next: " ~ chapters[number].title, class_="btn btn-primary ms-auto") }}
+    {{ button_next(label="Next: " ~ chapters[number].title, class_="btn-solid theme-primary ms-auto") }}
     {% else %}
-    {{ button_next(label="Finish", class_="btn btn-primary ms-auto") }}
+    {{ button_next(label="Finish", class_="btn-solid theme-primary ms-auto") }}
     {% endif %}
 </div>
 

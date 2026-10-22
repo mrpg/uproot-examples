@@ -1,7 +1,8 @@
 /*
  * Styles for the walkthrough itself. None of this is needed to use Bootstrap:
  * it frames the examples and visualizes otherwise invisible things (grid columns,
- * spacing). Everything else in this app uses plain Bootstrap classes.
+ * spacing). Everything else in this app uses plain Bootstrap classes. Colors,
+ * borders, and radii come from Bootstrap’s CSS variables, so they follow dark mode.
  */
 
 /* Each topic is a section with a heading, explanations, and examples */
@@ -9,7 +10,7 @@
     margin-top: 3.5rem;
 }
 .wt-section > h2 {
-    border-bottom: 1px solid var(--bs-border-color);
+    border-bottom: var(--bs-border-width) solid var(--bs-border-color);
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1rem;
@@ -23,15 +24,15 @@
 
 /* Live examples are framed by a dashed border and labeled “Example” */
 .wt-example {
-    border: 1px dashed var(--bs-border-color);
-    border-radius: var(--bs-border-radius-lg);
+    border: var(--bs-border-width) dashed var(--bs-border-color);
+    border-radius: var(--bs-radius-5);
     margin: 1.5rem 0;
     padding: 1.5rem 1.25rem 1.25rem;
     position: relative;
 }
 .wt-example::before {
-    background-color: var(--bs-body-bg);
-    color: var(--bs-secondary-color);
+    background-color: var(--bs-bg-body);
+    color: var(--bs-fg-2);
     content: "Example";
     font-size: 0.75rem;
     font-weight: 600;
@@ -45,14 +46,14 @@
 
 /* The classes that a section is about */
 .wt-keys {
-    color: var(--bs-secondary-color);
+    color: var(--bs-fg-2);
     font-size: 0.875rem;
 }
 
 /* Code listings */
 .wt-code {
-    background-color: var(--bs-tertiary-bg);
-    border-radius: var(--bs-border-radius);
+    background-color: var(--bs-bg-1);
+    border-radius: var(--bs-radius-4);
     font-size: 0.875rem;
     padding: 0.75rem 1rem;
 }
@@ -60,28 +61,26 @@
 /* Makes grid columns and flex items visible */
 .wt-cell {
     background-color: var(--bs-primary-bg-subtle);
-    border: 1px solid var(--bs-primary-border-subtle);
-    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-width) solid var(--bs-primary-border);
+    border-radius: var(--bs-radius-4);
     padding: 0.5rem;
     text-align: center;
 }
 
-/* Selectable cards on the last page: a hidden radio button (.btn-check) followed by a <label> */
+/* Selectable cards on the last page: a <label class="card"> around a radio button */
 .wt-choice {
     cursor: pointer;
-    transition: border-color 0.15s, box-shadow 0.15s;
 }
-.wt-choice .wt-choice-mark {
-    visibility: hidden;
+.wt-choice:hover {
+    --bs-card-border-color: var(--bs-primary-border);
 }
-.btn-check:checked + .wt-choice {
-    background-color: var(--bs-primary-bg-subtle);
-    border-color: var(--bs-primary);
-    box-shadow: 0 0 0 1px var(--bs-primary);
+.wt-choice:has(:checked) {
+    --bs-card-bg: var(--bs-primary-bg-subtle);
+    --bs-card-border-color: var(--bs-primary-base);
+    box-shadow: 0 0 0 var(--bs-border-width) var(--bs-primary-base);
 }
-.btn-check:checked + .wt-choice .wt-choice-mark {
-    visibility: visible;
-}
-.btn-check:focus-visible + .wt-choice {
-    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+@media (prefers-reduced-motion: no-preference) {
+    .wt-choice {
+        transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+    }
 }

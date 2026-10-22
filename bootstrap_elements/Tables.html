@@ -55,42 +55,47 @@
         <li><code>.table-hover</code> highlights the row under the mouse pointer, which helps when reading across many columns.</li>
         <li><code>.table-bordered</code> adds borders on all sides of every cell; <code>.table-borderless</code> removes all borders.</li>
         <li><code>.table-sm</code> halves the cell padding for compact tables.</li>
+        <li><code>.table-card</code> on a wrapper around the table gives it a rounded border, like a card.</li>
     </ul>
 
-    <div class="wt-example" x-data="{ striped: true, hover: true, bordered: false, borderless: false, small: false }">
-        <div class="d-flex flex-wrap column-gap-4 row-gap-1 mb-3">
-            {% for option in ["striped", "hover", "bordered", "borderless", "small"] %}
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="variant-{{ option }}" x-model="{{ option }}">
-                <label class="form-check-label" for="variant-{{ option }}">{{ option }}</label>
+    <div class="wt-example" x-data="{ striped: true, hover: true, bordered: false, borderless: false, small: false, card: false }">
+        <div class="d-flex flex-wrap column-gap-7 row-gap-1 mb-5">
+            {% for option in ["striped", "hover", "bordered", "borderless", "small", "card"] %}
+            <div class="form-field">
+                <div class="switch">
+                    <input type="checkbox" id="variant-{{ option }}" role="switch" switch x-model="{{ option }}">
+                </div>
+                <label for="variant-{{ option }}">{{ option }}</label>
             </div>
             {% endfor %}
         </div>
 
-        <table class="table" :class="{ 'table-striped': striped, 'table-hover': hover, 'table-bordered': bordered, 'table-borderless': borderless, 'table-sm': small }">
-            <thead>
-                <tr>
-                    <th scope="col">Round</th>
-                    <th scope="col">Your choice</th>
-                    <th scope="col">Other’s choice</th>
-                    <th scope="col" class="text-end">Your payoff</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in C.HISTORY %}
-                <tr>
-                    <th scope="row">{{ row.round }}</th>
-                    <td>{{ row.you }}</td>
-                    <td>{{ row.other }}</td>
-                    <td class="text-end">{{ row.payoff | fmtnum(pre="$", places=2) }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div :class="{ 'table-card': card }">
+            <table class="table" :class="{ 'table-striped': striped, 'table-hover': hover, 'table-bordered': bordered, 'table-borderless': borderless, 'table-sm': small }">
+                <thead>
+                    <tr>
+                        <th scope="col">Round</th>
+                        <th scope="col">Your choice</th>
+                        <th scope="col">Other’s choice</th>
+                        <th scope="col" class="text-end">Your payoff</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in C.HISTORY %}
+                    <tr>
+                        <th scope="row">{{ row.round }}</th>
+                        <td>{{ row.you }}</td>
+                        <td>{{ row.other }}</td>
+                        <td class="text-end">{{ row.payoff | fmtnum(pre="$", places=2) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
         <p class="small mb-0">
-            <span class="text-body-secondary">Current classes:</span>
-            <code x-text="['table', striped && 'table-striped', hover && 'table-hover', bordered && 'table-bordered', borderless && 'table-borderless', small && 'table-sm'].filter(Boolean).join(' ')"></code>
+            <span class="fg-2">Current classes:</span>
+            <code x-text="['table', striped && 'table-striped', hover && 'table-hover', bordered && 'table-bordered', borderless && 'table-borderless', small && 'table-sm'].filter(Boolean).join(' ') + (card ? ', wrapped in table-card' : '')"></code>
         </p>
     </div>
 </section>
@@ -99,14 +104,14 @@
 <section class="wt-section" id="highlighting">
     <h2>Highlighting rows and cells</h2>
 
-    <p>Contextual classes color whole rows or single cells. In group results, highlighting the participant’s own row (plus a “You” badge, so the information does not depend on color alone) saves them from searching. <code>.table-active</code> works well for the current round. Headers can be set apart with <code>.table-light</code> (or <code>.table-dark</code>) on <code>&lt;thead&gt;</code>.</p>
+    <p>Theme classes color whole rows or single cells. In group results, highlighting the participant’s own row (plus a “You” badge, so the information does not depend on color alone) saves them from searching. <code>.table-active</code> works well for the current round.</p>
 
-    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.table-primary</code>, <code>.table-success</code>, <code>.table-danger</code>, <code>.table-warning</code>, <code>.table-info</code>, <code>.table-active</code>, <code>.table-light</code>, <code>.align-middle</code></p>
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.theme-primary</code>, <code>.theme-success</code>, <code>.theme-danger</code>, <code>.theme-warning</code>, <code>.theme-info</code> (on <code>&lt;tr&gt;</code> or <code>&lt;td&gt;</code>), <code>.table-active</code>, <code>.align-middle</code></p>
 
     <div class="wt-example">
         <table class="table align-middle mb-0">
             <caption>Results of your group in round {{ C.CURRENT_ROUND }}</caption>
-            <thead class="table-light">
+            <thead>
                 <tr>
                     <th scope="col">Participant</th>
                     <th scope="col" class="text-end">Contribution</th>
@@ -115,10 +120,10 @@
             </thead>
             <tbody>
                 {% for row in C.GROUP_RESULTS %}
-                <tr{% if row.you %} class="table-primary"{% endif %}>
+                <tr{% if row.you %} class="theme-primary"{% endif %}>
                     <th scope="row" class="fw-normal">
                         {{ row.player }}
-                        {% if row.you %}<span class="badge text-bg-primary ms-1">You</span>{% endif %}
+                        {% if row.you %}<span class="badge theme-primary ms-1">You</span>{% endif %}
                     </th>
                     <td class="text-end">{{ row.contribution | fmtnum(pre="$", places=2) }}</td>
                     <td class="text-end">{{ row.payoff | fmtnum(pre="$", places=2) }}</td>
@@ -141,32 +146,32 @@
         <div class="table-responsive">
             <table class="table table-bordered text-center align-middle w-auto mx-auto mb-0">
                 <caption class="text-center">
-                    In each cell, <span class="text-primary fw-semibold">your payoff</span> comes first and <span class="text-body-secondary">the other participant’s</span> second.
+                    In each cell, <span class="fg-primary fw-semibold">your payoff</span> comes first and <span class="fg-2">the other participant’s</span> second.
                 </caption>
                 <thead>
                     <tr>
                         <td class="border-0"></td>
-                        <th scope="col" colspan="2" class="border-0 fw-normal text-body-secondary">The other participant chooses</th>
+                        <th scope="col" colspan="2" class="border-0 fw-normal fg-2">The other participant chooses</th>
                     </tr>
                     <tr>
                         <td class="border-0"></td>
                         {% for other in C.PD_CHOICES %}
-                        <th scope="col" class="px-4">{{ other }}</th>
+                        <th scope="col" class="px-7">{{ other }}</th>
                         {% endfor %}
                     </tr>
                 </thead>
                 <tbody>
                     {% for you in C.PD_CHOICES %}
                     <tr>
-                        <th scope="row" class="px-4">
-                            {% if loop.first %}<div class="fw-normal small text-body-secondary">You choose</div>{% endif %}
+                        <th scope="row" class="px-7">
+                            {% if loop.first %}<div class="fw-normal small fg-2">You choose</div>{% endif %}
                             {{ you }}
                         </th>
                         {% for other in C.PD_CHOICES %}
                         {% set mine, theirs = C.PD_PAYOFFS[(you, other)] %}
-                        <td class="px-4 py-3">
-                            <span class="text-primary fw-semibold">{{ mine | fmtnum(pre="$", places=2) }}</span>,
-                            <span class="text-body-secondary">{{ theirs | fmtnum(pre="$", places=2) }}</span>
+                        <td class="px-7 py-5">
+                            <span class="fg-primary fw-semibold">{{ mine | fmtnum(pre="$", places=2) }}</span>,
+                            <span class="fg-2">{{ theirs | fmtnum(pre="$", places=2) }}</span>
                         </td>
                         {% endfor %}
                     </tr>
@@ -181,9 +186,9 @@
 <section class="wt-section" id="responsive">
     <h2>Wide tables on small screens</h2>
 
-    <p>A table with many columns, such as a multiple price list, does not fit on a phone. Wrap it in <code>.table-responsive</code>: the table then scrolls horizontally instead of breaking the page layout. <code>.table-responsive-md</code> and similar classes only scroll below a breakpoint. <code>.text-nowrap</code> keeps cells from wrapping. Make your window narrow to try it.</p>
+    <p>A table with many columns, such as a multiple price list, does not fit on a phone. Wrap it in <code>.table-responsive</code>: the table then scrolls horizontally instead of breaking the page layout. <code>.md:table-responsive</code> and similar classes only scroll below a breakpoint. <code>.text-nowrap</code> keeps cells from wrapping. Make your window narrow to try it.</p>
 
-    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.table-responsive</code>, <code>.table-responsive-*</code>, <code>.text-nowrap</code>, <code>.table-sm</code></p>
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.table-responsive</code>, <code>.md:table-responsive</code> (and other breakpoints), <code>.text-nowrap</code>, <code>.table-sm</code></p>
 
     <div class="wt-example">
         <div class="table-responsive">
@@ -214,8 +219,39 @@
         </div>
     </div>
 
-    <div class="alert alert-info callout" role="note">
-        <i class="bi bi-lightbulb me-1" aria-hidden="true"></i><strong>Tip.</strong> The <code>mpl</code>, <code>rounds</code>, and <code>prisoners_dilemma_repeated</code> apps contain tables that participants interact with or that grow over rounds.
+    <h3>Stacked tables</h3>
+
+    <p>Instead of scrolling, a table can also turn each row into a block of its own on narrow screens. Add <code>.md:table-stacked</code> to the table and wrap it in <code>.table-responsive</code>: whenever the wrapper is narrower than the <code>md</code> breakpoint (768 px), the header disappears, the first cell of each row becomes its title, and every other cell shows its label from the <code>data-cell</code> attribute. Stacking only works with <code>&lt;td&gt;</code> cells, so the first cell is a <code>&lt;td&gt;</code> here, too. Make your window narrow to try it.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.table-stacked</code>, <code>.md:table-stacked</code> (and other breakpoints), <code>.table-responsive</code></p>
+
+    <div class="wt-example">
+        <div class="table-responsive">
+            <table class="table md:table-stacked mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">Round</th>
+                        <th scope="col">Your choice</th>
+                        <th scope="col">Other’s choice</th>
+                        <th scope="col">Your payoff</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in C.HISTORY %}
+                    <tr>
+                        <td data-cell="Round">Round {{ row.round }}</td>
+                        <td data-cell="Your choice">{{ row.you }}</td>
+                        <td data-cell="Other’s choice">{{ row.other }}</td>
+                        <td data-cell="Your payoff">{{ row.payoff | fmtnum(pre="$", places=2) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="alert theme-info callout" role="note">
+        <p><i class="bi bi-lightbulb me-1" aria-hidden="true"></i><strong>Tip.</strong> The <code>mpl</code>, <code>rounds</code>, and <code>prisoners_dilemma_repeated</code> apps contain tables that participants interact with or that grow over rounds.</p>
     </div>
 </section>
 

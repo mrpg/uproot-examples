@@ -11,7 +11,7 @@
 from uproot.fields import *
 from uproot.smithereens import *
 
-DESCRIPTION = "A guided walkthrough of Bootstrap 5 and Bootstrap Icons for experiments"
+DESCRIPTION = "A guided walkthrough of Bootstrap 6 and Bootstrap Icons for experiments"
 LANDING_PAGE = False
 
 
@@ -195,15 +195,13 @@ class Layout(Chapter):
 class TextAndMedia(Chapter):
     title = "Text and media"
     icon = "fonts"
-    summary = "Headings, inline text, text utilities, lists, quotes, and images."
+    summary = "Headings, long instructions, text utilities, lists, quotes, and images."
 
 
 class Icons(Chapter):
     title = "Icons"
     icon = "emoji-smile"
-    summary = (
-        "Bootstrap Icons: loading, sizing, coloring, accessibility, and a gallery."
-    )
+    summary = "Bootstrap Icons: loading, sizing, coloring, avatars, accessibility, and a gallery."
 
 
 class Tables(Chapter):
@@ -227,19 +225,21 @@ class Buttons(Chapter):
 class Feedback(Chapter):
     title = "Feedback"
     icon = "chat-square-text"
-    summary = "Alerts, callouts, badges, progress bars, spinners, and placeholders."
+    summary = (
+        "Alerts, callouts, badges, progress bars, steppers, spinners, and placeholders."
+    )
 
 
 class ShowAndHide(Chapter):
     title = "Show and hide"
     icon = "arrows-collapse"
-    summary = "Collapse, accordions, tabs, carousels, offcanvas panels, and pagination."
+    summary = "Collapse, accordions, tabs, carousels, drawers, and pagination."
 
 
 class Overlays(Chapter):
     title = "Overlays"
     icon = "window-stack"
-    summary = "Modals, tooltips, popovers, toasts, and dropdowns."
+    summary = "Dialogs, tooltips, popovers, toasts, and menus."
 
 
 class Utilities(Chapter):
@@ -253,7 +253,7 @@ class Utilities(Chapter):
 class PuttingItTogether(Chapter):
     title = "Putting it together"
     icon = "stars"
-    summary = "A realistic decision screen with a home-made guided tour and a confirmation modal."
+    summary = "A realistic decision screen with a home-made guided tour and a confirmation dialog."
 
     fields = dict(
         option=RadioField(

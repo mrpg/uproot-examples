@@ -7,31 +7,52 @@
 
 
 <section class="wt-section" id="headings">
-    <h2>Headings and display text</h2>
+    <h2>Headings and large text</h2>
 
-    <p>Use <code>&lt;h2&gt;</code> to <code>&lt;h6&gt;</code> for the structure of a page (the page title is already an <code>&lt;h1&gt;</code>). If a heading should <em>look</em> larger or smaller than its level, keep the correct element and add a class such as <code>.h4</code>: screen readers use the element, not its looks. Display classes make single numbers or words stand out, for example a participant’s payoff.</p>
+    <p>Use <code>&lt;h2&gt;</code> to <code>&lt;h6&gt;</code> for the structure of a page (the page title is already an <code>&lt;h1&gt;</code>). If a heading should <em>look</em> larger or smaller than its level, keep the correct element and add a class such as <code>.h4</code>: screen readers use the element, not its looks. Font size classes make single numbers or words stand out, for example a participant’s payoff. They go from <code>.fs-xs</code> to <code>.fs-6xl</code>; from <code>.fs-lg</code> upwards, they grow and shrink smoothly with the width of the window.</p>
 
-    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.h1</code> to <code>.h6</code>, <code>.display-1</code> to <code>.display-6</code>, <code>.fs-1</code> to <code>.fs-6</code></p>
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.h1</code> to <code>.h6</code>, <code>.fs-xs</code>, <code>.fs-sm</code>, <code>.fs-md</code>, <code>.fs-lg</code>, <code>.fs-xl</code>, <code>.fs-2xl</code> to <code>.fs-6xl</code></p>
 
     <div class="wt-example">
         <h3 class="h5">An <code>&lt;h3&gt;</code> that looks like an <code>&lt;h5&gt;</code> (<code>.h5</code>)</h3>
-        <p class="text-body-secondary mb-1">Your payoff in this round</p>
-        <p class="display-4 fw-semibold mb-0">{{ 12.5 | fmtnum(pre="$", places=2) }}</p>
+        <p class="fg-2 mb-1">Your payoff in this round</p>
+        <p class="fs-5xl fw-semibold mb-0">{{ 12.5 | fmtnum(pre="$", places=2) }}</p>
     </div>
 </section>
 
 
 <section class="wt-section" id="paragraphs">
-    <h2>Lead paragraphs and secondary text</h2>
+    <h2>Introductions and secondary text</h2>
 
-    <p>A lead paragraph introduces a page (every chapter of this walkthrough starts with one). For less important text, use <code>&lt;small&gt;</code> or <code>.small</code> and a muted color.</p>
+    <p>A larger, lighter paragraph introduces a page (every chapter of this walkthrough starts with one): combine <code>.fs-lg</code> with <code>.fw-light</code>. For less important text, use <code>&lt;small&gt;</code> or <code>.small</code> and a muted color: <code>.fg-2</code> is secondary text, <code>.fg-3</code> is even lighter.</p>
 
-    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.lead</code>, <code>.small</code>, <code>.text-body-secondary</code>, <code>.text-body-tertiary</code></p>
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.fs-lg</code>, <code>.fw-light</code>, <code>.small</code>, <code>.fg-2</code>, <code>.fg-3</code></p>
 
     <div class="wt-example">
-        <p class="lead">In this part of the study, you will make ten decisions about how to split money.</p>
+        <p class="fs-lg fw-light">In this part of the study, you will make ten decisions about how to split money.</p>
         <p>Each decision is independent. At the end, one decision is randomly selected for payment.</p>
-        <p class="small text-body-secondary mb-0">All amounts are in US dollars. Your decisions remain anonymous.</p>
+        <p class="small fg-2 mb-0">All amounts are in US dollars. Your decisions remain anonymous.</p>
+    </div>
+</section>
+
+
+<section class="wt-section" id="prose">
+    <h2>Long instructions</h2>
+
+    <p>Instructions and consent forms are long texts with headings, paragraphs, and lists. Instead of adding classes to every element, wrap such a text in <code>.prose</code>: it sets a comfortable size, line height, and spacing for everything inside, and limits the line length. This is also the easiest way to style text that comes from Markdown. Elements that should keep their own styling (such as a component inside the text) take <code>.not-prose</code>.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.prose</code>, <code>.not-prose</code></p>
+
+    <div class="wt-example">
+        <div class="prose">
+            <h3>Your task</h3>
+            <p>You and three other participants form a group. Each of you receives <strong>{{ C.ENDOWMENT | fmtnum(pre="$", places=2) }}</strong> and decides how much of it to contribute to a group project.</p>
+            <ul>
+                <li>Everything you keep is yours.</li>
+                <li>All contributions are added up, multiplied by 1.6, and split equally among the four group members.</li>
+            </ul>
+            <p>You will make this decision in {{ C.ROUNDS }} rounds.</p>
+        </div>
     </div>
 </section>
 
@@ -43,12 +64,12 @@
 
     <div class="wt-example">
         <ul class="mb-0 vstack gap-1">
-            <li><strong>Important:</strong> you cannot change your decision later. <span class="small text-body-secondary">(<code>&lt;strong&gt;</code>)</span></li>
-            <li>The other participant does <em>not</em> know your identity. <span class="small text-body-secondary">(<code>&lt;em&gt;</code>)</span></li>
-            <li>Read the <mark>highlighted part</mark> carefully. <span class="small text-body-secondary">(<code>&lt;mark&gt;</code>)</span></li>
-            <li>Press <kbd>Space</kbd> as soon as the circle turns green. <span class="small text-body-secondary">(<code>&lt;kbd&gt;</code>)</span></li>
-            <li>The <abbr title="Marginal per capita return" class="initialism">MPCR</abbr> is 0.4. <span class="small text-body-secondary">(<code>&lt;abbr&gt;</code>; hover over it)</span></li>
-            <li>Price: <del>$10.00</del> <ins>$8.00</ins> <span class="small text-body-secondary">(<code>&lt;del&gt;</code> and <code>&lt;ins&gt;</code>)</span></li>
+            <li><strong>Important:</strong> you cannot change your decision later. <span class="small fg-2">(<code>&lt;strong&gt;</code>)</span></li>
+            <li>The other participant does <em>not</em> know your identity. <span class="small fg-2">(<code>&lt;em&gt;</code>)</span></li>
+            <li>Read the <mark>highlighted part</mark> carefully. <span class="small fg-2">(<code>&lt;mark&gt;</code>)</span></li>
+            <li>Press <kbd>Space</kbd> as soon as the circle turns green. <span class="small fg-2">(<code>&lt;kbd&gt;</code>)</span></li>
+            <li>The <abbr title="Marginal per capita return" class="initialism">MPCR</abbr> is 0.4. <span class="small fg-2">(<code>&lt;abbr&gt;</code>; hover over it)</span></li>
+            <li>Price: <del>$10.00</del> <ins>$8.00</ins> <span class="small fg-2">(<code>&lt;del&gt;</code> and <code>&lt;ins&gt;</code>)</span></li>
         </ul>
     </div>
 </section>
@@ -57,28 +78,28 @@
 <section class="wt-section" id="text-utilities">
     <h2>Text utilities</h2>
 
-    <p>Utility classes change alignment, wrapping, case, weight, and line height. Like most classes, alignment takes breakpoints: <code>.text-center .text-md-start</code> is centered on phones and left-aligned from tablets on.</p>
+    <p>Utility classes change alignment, wrapping, case, weight, and line height. Like most classes, alignment takes breakpoints: <code>.text-center .md:text-start</code> is centered on phones and left-aligned from tablets on. <code>.text-balance</code> evens out the lines of short texts such as headings, and <code>.text-pretty</code> avoids a lonely last word in paragraphs.</p>
 
-    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.text-start</code>, <code>.text-center</code>, <code>.text-end</code>, <code>.text-nowrap</code>, <code>.text-truncate</code>, <code>.text-break</code>, <code>.text-uppercase</code>, <code>.fw-*</code>, <code>.fst-italic</code>, <code>.lh-*</code>, <code>.font-monospace</code></p>
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.text-start</code>, <code>.text-center</code>, <code>.text-end</code>, <code>.text-nowrap</code>, <code>.text-truncate</code>, <code>.text-break</code>, <code>.text-balance</code>, <code>.text-pretty</code>, <code>.text-uppercase</code>, <code>.fw-*</code>, <code>.fst-italic</code>, <code>.lh-*</code>, <code>.font-monospace</code></p>
 
-    <div class="wt-example vstack gap-3">
-        <div class="row g-2">
-            <div class="col-md-4"><div class="wt-cell text-start">.text-start</div></div>
-            <div class="col-md-4"><div class="wt-cell text-center">.text-center</div></div>
-            <div class="col-md-4"><div class="wt-cell text-end">.text-end</div></div>
+    <div class="wt-example vstack gap-5">
+        <div class="row g-3">
+            <div class="md:col-4"><div class="wt-cell text-start">.text-start</div></div>
+            <div class="md:col-4"><div class="wt-cell text-center">.text-center</div></div>
+            <div class="md:col-4"><div class="wt-cell text-end">.text-end</div></div>
         </div>
-        <div class="row g-2">
-            <div class="col-md-6">
+        <div class="row g-3">
+            <div class="md:col-6">
                 <div class="wt-cell text-start text-truncate">.text-truncate cuts off long text with an ellipsis instead of wrapping it onto a second line</div>
             </div>
-            <div class="col-md-6">
+            <div class="md:col-6">
                 <div class="wt-cell text-start text-break">.text-break: participant-id-7f3a9c2e-4b1d-4e8a-9f6c-2d5e8b1a3c7f</div>
             </div>
         </div>
         <p class="mb-0">
             <span class="fw-light">.fw-light</span> ·
             <span class="fw-normal">.fw-normal</span> ·
-            <span class="fw-500">.fw-500 (uproot)</span> ·
+            <span class="fw-medium">.fw-medium</span> ·
             <span class="fw-semibold">.fw-semibold</span> ·
             <span class="fw-bold">.fw-bold</span> ·
             <span class="fst-italic">.fst-italic</span> ·
@@ -86,21 +107,26 @@
             <span class="font-monospace">.font-monospace</span>
         </p>
     </div>
+
+    <div class="alert theme-info callout" role="note">
+        <p><i class="bi bi-lightbulb me-1" aria-hidden="true"></i><strong>Tip.</strong> uproot adds finer font weights (<code>.fw-100</code> to <code>.fw-900</code> in steps of 100, plus <code>.fw-350</code>, <code>.fw-450</code>, and <code>.fw-950</code>). The <code>templating_and_typography</code> app shows them all.</p>
+    </div>
 </section>
 
 
 <section class="wt-section" id="links">
     <h2>Links</h2>
 
-    <p>Bootstrap 5.3 has utilities for link colors, underline offset, and underline opacity. <code>.icon-link</code> aligns an icon with the link text. Use <code>target="_blank"</code> for links that participants should open without leaving the study.</p>
+    <p>Links take a color from the theme classes (<code>.theme-primary</code>, <code>.theme-success</code>, …), and their underline has its own utilities for offset, opacity, and thickness, each also available on hover (<code>hover:</code>). <code>.icon-link</code> aligns an icon with the link text. Use <code>target="_blank"</code> for links that participants should open without leaving the study.</p>
 
-    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.link-primary</code> (and other colors), <code>.link-offset-2</code>, <code>.link-underline-opacity-25</code>, <code>.link-underline-opacity-100-hover</code>, <code>.icon-link</code>, <code>.link-subtle</code> (uproot)</p>
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.theme-*</code>, <code>.underline-offset-*</code>, <code>.underline-10</code> to <code>.underline-100</code>, <code>.hover:underline-100</code>, <code>.underline-thickness-*</code>, <code>.icon-link</code>, <code>.link-subtle</code> (uproot)</p>
 
-    <div class="wt-example vstack gap-2 align-items-start">
-        <a href="https://getbootstrap.com/docs/5.3/utilities/link/" target="_blank">A default link</a>
-        <a href="https://getbootstrap.com/docs/5.3/utilities/link/" target="_blank" class="link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">A link with a subtle underline that becomes solid on hover</a>
-        <a href="https://getbootstrap.com/docs/5.3/utilities/link/" target="_blank" class="link-subtle">uproot’s <code>.link-subtle</code></a>
-        <a href="https://getbootstrap.com/docs/5.3/helpers/icon-link/" target="_blank" class="icon-link">
+    <div class="wt-example vstack gap-3 align-items-start">
+        <a href="https://getbootstrap.com/docs/6.0/utilities/text-decoration/" target="_blank">A default link</a>
+        <a href="https://getbootstrap.com/docs/6.0/utilities/text-decoration/" target="_blank" class="underline-offset-2 underline-20 hover:underline-100">A link with a subtle underline that becomes solid on hover</a>
+        <a href="https://getbootstrap.com/docs/6.0/utilities/link/" target="_blank" class="theme-success">A link with <code>.theme-success</code></a>
+        <a href="https://getbootstrap.com/docs/6.0/utilities/text-decoration/" target="_blank" class="link-subtle">uproot’s <code>.link-subtle</code></a>
+        <a href="https://getbootstrap.com/docs/6.0/helpers/icon-link/" target="_blank" class="icon-link">
             <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>Download the consent form (<code>.icon-link</code>)
         </a>
     </div>
@@ -112,11 +138,11 @@
 
     <p>Numbered lists are the natural format for steps, bullet lists for unordered facts. <code>.list-unstyled</code> removes bullets (useful with icons, as on the welcome page), and <code>.list-inline</code> puts items on one line. A description list in the grid is a compact way to summarize parameters.</p>
 
-    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.list-unstyled</code>, <code>.list-inline</code>, <code>.list-inline-item</code>; <code>&lt;dl class="row"&gt;</code> with <code>.col-*</code> on <code>&lt;dt&gt;</code> and <code>&lt;dd&gt;</code></p>
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.list-unstyled</code>, <code>.list-inline</code>, <code>.list-inline-item</code>; <code>&lt;dl class="row"&gt;</code> with column classes such as <code>.sm:col-4</code> on <code>&lt;dt&gt;</code> and <code>&lt;dd&gt;</code></p>
 
     <div class="wt-example">
-        <div class="row g-4">
-            <div class="col-md-6">
+        <div class="row g-7">
+            <div class="md:col-6">
                 <h3 class="h6">What happens in each round</h3>
                 <ol class="mb-0">
                     <li>You receive {{ C.ENDOWMENT | fmtnum(pre="$", places=2) }}.</li>
@@ -124,17 +150,17 @@
                     <li>You see the results of your group.</li>
                 </ol>
             </div>
-            <div class="col-md-6">
+            <div class="md:col-6">
                 <h3 class="h6">Study parameters</h3>
                 <dl class="row mb-0">
                     {% for name, value in C.PARAMETERS %}
-                    <dt class="col-sm-4">{{ name }}</dt>
-                    <dd class="col-sm-8">{{ value }}</dd>
+                    <dt class="sm:col-4">{{ name }}</dt>
+                    <dd class="sm:col-8">{{ value }}</dd>
                     {% endfor %}
                 </dl>
             </div>
         </div>
-        <ul class="list-inline mb-0 mt-3 text-body-secondary small">
+        <ul class="list-inline mb-0 mt-5 fg-2 small">
             <li class="list-inline-item">Anonymous</li>
             <li class="list-inline-item">·</li>
             <li class="list-inline-item">Paid</li>
@@ -148,19 +174,19 @@
 <section class="wt-section" id="quotes">
     <h2>Quotes and vignettes</h2>
 
-    <p>Vignette studies present a scenario that participants respond to. A blockquote sets it apart from the instructions around it. Wrap it in a <code>&lt;figure&gt;</code> to add a source.</p>
+    <p>Vignette studies present a scenario that participants respond to. A blockquote sets it apart from the instructions around it. To add a source, put <code>.blockquote</code> on a <code>&lt;figure&gt;</code> that contains the <code>&lt;blockquote&gt;</code> and a <code>&lt;figcaption&gt;</code>.</p>
 
     <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.blockquote</code>, <code>.blockquote-footer</code>, <code>.callout</code> (uproot)</p>
 
-    <div class="wt-example vstack gap-3">
-        <figure class="mb-0">
-            <blockquote class="blockquote">
+    <div class="wt-example vstack gap-5">
+        <figure class="blockquote mb-0">
+            <blockquote>
                 <p>A hardware store has been selling snow shovels for $15. The morning after a large snowstorm, the store raises the price to $20.</p>
             </blockquote>
-            <figcaption class="blockquote-footer mb-0">Scenario adapted from <cite title="Kahneman, Knetsch, and Thaler (1986)">Kahneman, Knetsch, and Thaler (1986)</cite></figcaption>
+            <figcaption class="blockquote-footer">Scenario adapted from <cite title="Kahneman, Knetsch, and Thaler (1986)">Kahneman, Knetsch, and Thaler (1986)</cite></figcaption>
         </figure>
-        <div class="alert alert-secondary callout mb-0">
-            <p class="mb-0">The same scenario as a callout: an <code>.alert</code> with uproot’s <code>.callout</code> class, which keeps only a thick left border.</p>
+        <div class="alert theme-secondary callout mb-0">
+            <p>The same scenario as a callout: an <code>.alert</code> with uproot’s <code>.callout</code> class, which keeps only a thick left border.</p>
         </div>
     </div>
 </section>
@@ -169,33 +195,33 @@
 <section class="wt-section" id="images">
     <h2>Images and figures</h2>
 
-    <p>Always add <code>.img-fluid</code> to images: it scales them down on small screens instead of letting them overflow. Use <code>&lt;figure&gt;</code> with a caption for stimuli or charts. Give every image an <code>alt</code> text that describes it, or <code>alt=""</code> if it is purely decorative. Serve your own images from your app’s <code>_static</code> folder with <code>appstatic()</code> (see the <code>embed_static</code> app); the example uses uproot’s logo.</p>
+    <p>Always add <code>.img-fluid</code> to images: it scales them down on small screens instead of letting them overflow. Use <code>&lt;figure class="figure"&gt;</code> with a <code>.figure-caption</code> for stimuli or charts. Give every image an <code>alt</code> text that describes it, or <code>alt=""</code> if it is purely decorative. Serve your own images from your app’s <code>_static</code> folder with <code>appstatic()</code> (see the <code>embed_static</code> app); the example uses uproot’s logo.</p>
 
-    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.img-fluid</code>, <code>.img-thumbnail</code>, <code>.rounded</code>, <code>.rounded-circle</code>, <code>.figure</code>, <code>.figure-img</code>, <code>.figure-caption</code>, <code>.object-fit-cover</code></p>
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.img-fluid</code>, <code>.img-thumbnail</code>, <code>.rounded</code>, <code>.rounded-circle</code>, <code>.figure</code>, <code>.figure-caption</code>, <code>.object-fit-cover</code></p>
 
     <div class="wt-example">
-        <div class="row g-4 align-items-end">
-            <div class="col-6 col-md-3">
+        <div class="row g-7 align-items-end">
+            <div class="col-6 md:col-3">
                 <figure class="figure mb-0">
-                    <img src="{{ internalstatic('favicon.svg') }}" class="figure-img img-fluid rounded" alt="The uproot logo">
-                    <figcaption class="figure-caption">.figure-img .img-fluid</figcaption>
+                    <img src="{{ internalstatic('favicon.svg') }}" class="img-fluid rounded" alt="The uproot logo">
+                    <figcaption class="figure-caption">.img-fluid .rounded</figcaption>
                 </figure>
             </div>
-            <div class="col-6 col-md-3">
+            <div class="col-6 md:col-3">
                 <figure class="figure mb-0">
-                    <img src="{{ internalstatic('favicon.svg') }}" class="figure-img img-thumbnail" alt="The uproot logo in a thumbnail frame">
+                    <img src="{{ internalstatic('favicon.svg') }}" class="img-thumbnail" alt="The uproot logo in a thumbnail frame">
                     <figcaption class="figure-caption">.img-thumbnail</figcaption>
                 </figure>
             </div>
-            <div class="col-6 col-md-3">
+            <div class="col-6 md:col-3">
                 <figure class="figure mb-0">
-                    <img src="{{ internalstatic('favicon.svg') }}" class="figure-img img-fluid rounded-circle border p-3" alt="The uproot logo in a circle">
-                    <figcaption class="figure-caption">.rounded-circle .border .p-3</figcaption>
+                    <img src="{{ internalstatic('favicon.svg') }}" class="img-fluid rounded-circle border p-5" alt="The uproot logo in a circle">
+                    <figcaption class="figure-caption">.rounded-circle .border .p-5</figcaption>
                 </figure>
             </div>
-            <div class="col-6 col-md-3">
-                <figure class="figure mb-0 w-100">
-                    <img src="{{ internalstatic('favicon.svg') }}" class="figure-img w-100 object-fit-cover rounded bg-body-tertiary" style="height: 6rem;" alt="The uproot logo, cropped">
+            <div class="col-6 md:col-3">
+                <figure class="figure mb-0">
+                    <img src="{{ internalstatic('favicon.svg') }}" class="w-100 object-fit-cover rounded bg-1" style="height: 6rem;" alt="The uproot logo, cropped">
                     <figcaption class="figure-caption">.object-fit-cover with a fixed height</figcaption>
                 </figure>
             </div>
@@ -207,14 +233,14 @@
 <section class="wt-section" id="rules">
     <h2>Horizontal rules</h2>
 
-    <p>An <code>&lt;hr&gt;</code> separates parts of a page. It takes colors and opacity like other elements.</p>
+    <p>An <code>&lt;hr&gt;</code> separates parts of a page. Border utilities change its color and thickness.</p>
 
     <div class="wt-example">
         <p>Part 1 ends here.</p>
         <hr>
         <p>Part 2 begins here.</p>
-        <hr class="border border-primary border-2 opacity-75">
-        <p class="mb-0">After a thicker, colored rule (<code>.border .border-primary .border-2 .opacity-75</code>).</p>
+        <hr class="border-primary border-2">
+        <p class="mb-0">After a thicker, colored rule (<code>.border-primary .border-2</code>).</p>
     </div>
 </section>
 
