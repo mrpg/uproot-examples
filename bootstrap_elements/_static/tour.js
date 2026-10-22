@@ -18,6 +18,8 @@ window.Tour = (() => {
     "use strict";
 
     const PADDING = 8;  // Space between target and spotlight edge in pixels
+    const OFFSET = 12;  // Space between spotlight and popover in pixels
+    const SIDES = ["top", "right", "bottom", "left"];
 
     let steps = [];
     let index = 0;
@@ -25,6 +27,7 @@ window.Tour = (() => {
     let spotlight = null;
     let popover = null;
     let returnFocus = null;
+    let frame = 0;
 
     const isVisible = (el) => el !== null && el.getClientRects().length > 0;
 
@@ -57,6 +60,29 @@ window.Tour = (() => {
         spotlight.style.left = `${rect.left + window.scrollX - PADDING}px`;
         spotlight.style.width = `${rect.width + 2 * PADDING}px`;
         spotlight.style.height = `${rect.height + 2 * PADDING}px`;
+    };
+
+    // Choose the popover’s side once, from the target’s final position in the window: the
+    // step’s own placement if the popover fits there, otherwise the side with the most room
+    const chooseSide = (step, rect, tip) => {
+        const room = {
+            top: rect.top - tip.offsetHeight,
+            right: window.innerWidth - rect.right - tip.offsetWidth,
+            bottom: window.innerHeight - rect.bottom - tip.offsetHeight,
+            left: rect.left - tip.offsetWidth,
+        };
+
+        if (room[step.placement] >= PADDING + OFFSET) {
+            return step.placement;
+        }
+
+        return SIDES.reduce((best, side) => (room[side] > room[best] ? side : best));
+    };
+
+    // While the spotlight glides to a new target, re-align the popover with it on every frame
+    const follow = () => {
+        popover?.update();
+        frame = spotlight.getAnimations().length > 0 ? requestAnimationFrame(follow) : 0;
     };
 
     const header = (step) => {
@@ -103,8 +129,16 @@ window.Tour = (() => {
 
         // Center small targets; show tall ones from their top
         const tall = target.getBoundingClientRect().height > 0.6 * window.innerHeight;
+        const block = tall ? "start" : "center";
+        const { scrollX, scrollY } = window;
 
-        target.scrollIntoView({ block: tall ? "start" : "center" });
+        // Find out where the target ends up by scrolling there instantly and back again
+        // (nothing is drawn in between), then let the page scroll there smoothly
+        target.scrollIntoView({ block, behavior: "instant" });
+        const rect = target.getBoundingClientRect();
+        window.scrollTo({ left: scrollX, top: scrollY, behavior: "instant" });
+
+        target.scrollIntoView({ block });
         placeSpotlight();
 
         // The popover is attached to the spotlight, not to the target, so that the
@@ -114,13 +148,15 @@ window.Tour = (() => {
             content: body(step),
             customClass: "tour-popover",
             html: true,  // Allows passing DOM elements; their text is still set via textContent
-            offset: [0, 12],
-            placement: step.placement || "auto",
-            // Keep the popover inside the window, even if it then overlaps a tall target
+            offset: [0, OFFSET],
+            placement: (_, tip) => chooseSide(step, rect, tip),
+            // Never switch sides while gliding, and keep the popover inside the window,
+            // even if it then overlaps a tall target
             popperConfig: (config) => ({
                 ...config,
                 modifiers: [
                     ...config.modifiers,
+                    { name: "flip", enabled: false },
                     { name: "preventOverflow", options: { altAxis: true, padding: 8, tether: false } },
                 ],
             }),
@@ -128,6 +164,9 @@ window.Tour = (() => {
             trigger: "manual",
         });
         popover.show();
+
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(follow);
     };
 
     const onKeydown = (event) => {
@@ -157,6 +196,7 @@ window.Tour = (() => {
             return;
         }
 
+        cancelAnimationFrame(frame);
         popover.dispose();
         popover = null;
         spotlight.remove();
@@ -181,8 +221,6 @@ window.Tour = (() => {
         backdrop = element("div", "tour-backdrop");
         backdrop.addEventListener("click", end);
         spotlight = element("div", "tour-spotlight");
-        // After the spotlight glides to a new target, re-align the popover with it
-        spotlight.addEventListener("transitionend", () => popover?.update());
         spotlight.addEventListener("shown.bs.popover", onShown);
         document.body.append(backdrop, spotlight);
 
