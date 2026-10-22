@@ -1,0 +1,333 @@
+{% extends "bootstrap_elements/Chapter.html" %}
+
+
+{% block chapter %}
+
+<p>Overlays appear on top of the page. Modals demand attention and block the page until they are closed; tooltips, popovers, and toasts add information without interrupting. Modals and dropdowns work with <code>data-bs-*</code> attributes alone, whereas tooltips, popovers, and toasts need a line of JavaScript, which you find in the <code>late</code> block of this template.</p>
+
+
+<section class="wt-section" id="modals">
+    <h2>Modals</h2>
+
+    <p>A modal is a dialog window. In experiments, modals are useful for important notices, for asking participants to confirm a decision, and for reference material such as a payoff table. A modal consists of <code>.modal</code> &gt; <code>.modal-dialog</code> &gt; <code>.modal-content</code>, which contains a header, a body, and a footer. A button with <code>data-bs-toggle="modal"</code> and <code>data-bs-target</code> opens it; any element inside with <code>data-bs-dismiss="modal"</code> closes it, as do <kbd>Esc</kbd> and a click on the dark backdrop.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes and attributes: <code>.modal</code>, <code>.fade</code>, <code>.modal-dialog</code>, <code>.modal-content</code>, <code>.modal-header</code>, <code>.modal-title</code>, <code>.modal-body</code>, <code>.modal-footer</code>, <code>data-bs-toggle="modal"</code>, <code>data-bs-dismiss="modal"</code></p>
+
+    <div class="wt-example">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basic-modal">
+            <i class="bi bi-table me-1" aria-hidden="true"></i>Show the payoff table
+        </button>
+    </div>
+
+    <div class="modal fade" id="basic-modal" tabindex="-1" aria-labelledby="basic-modal-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title h5" id="basic-modal-title">Payoff table</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered text-center mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">You \ Other</th>
+                                {% for other in C.PD_CHOICES %}
+                                <th scope="col">{{ other }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for you in C.PD_CHOICES %}
+                            <tr>
+                                <th scope="row">{{ you }}</th>
+                                {% for other in C.PD_CHOICES %}
+                                {% set mine, theirs = C.PD_PAYOFFS[(you, other)] %}
+                                <td><span class="text-primary fw-semibold">{{ mine | fmtnum(pre="$", places=2) }}</span>, {{ theirs | fmtnum(pre="$", places=2) }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-warning callout" role="note">
+        <i class="bi bi-exclamation-triangle me-1" aria-hidden="true"></i><strong>Pitfall.</strong> A modal in the <code>main</code> block is part of uproot’s form. Any submit button inside it submits the page; the last chapter uses this on purpose for a confirmation dialog. Buttons that should only close the modal need <code>type="button"</code>.
+    </div>
+
+    <h3>Static backdrop: participants must acknowledge</h3>
+
+    <p>With <code>data-bs-backdrop="static"</code> and <code>data-bs-keyboard="false"</code>, the modal ignores clicks on the backdrop and the <kbd>Esc</kbd> key. Participants can only close it with the buttons you provide, for example after reading an important notice.</p>
+
+    <div class="wt-example">
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#static-modal">
+            <i class="bi bi-exclamation-triangle me-1" aria-hidden="true"></i>Show an important notice
+        </button>
+    </div>
+
+    <div class="modal fade" id="static-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="static-modal-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning-subtle">
+                    <h3 class="modal-title h5" id="static-modal-title"><i class="bi bi-exclamation-triangle-fill text-warning me-2" aria-hidden="true"></i>Please read carefully</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0">The rules change in the next part: from now on, you will be matched with a <strong>new</strong> participant in every round.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I understand</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Centered and scrollable</h3>
+
+    <p><code>.modal-dialog-centered</code> centers the dialog vertically. <code>.modal-dialog-scrollable</code> keeps header and footer visible and scrolls only the body, which suits long texts like a consent form.</p>
+
+    <div class="wt-example">
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#scrollable-modal">
+            <i class="bi bi-file-earmark-text me-1" aria-hidden="true"></i>Read the consent form
+        </button>
+    </div>
+
+    <div class="modal fade" id="scrollable-modal" tabindex="-1" aria-labelledby="scrollable-modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title h5" id="scrollable-modal-title">Consent form</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% for heading in ["Purpose of the study", "Procedures", "Payment", "Risks and benefits", "Confidentiality", "Voluntary participation", "Contact"] %}
+                    <h4 class="h6">{{ loop.index }}. {{ heading }}</h4>
+                    <p>This is placeholder text for the section “{{ heading }}”. A real consent form would explain this aspect of the study here, in plain language and in enough detail for participants to make an informed decision.</p>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Sizes</h3>
+
+    <p>Modals come in several widths. <code>.modal-fullscreen-sm-down</code> and similar classes make a modal fill the screen only below a breakpoint, which is often the best choice on phones.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes (on <code>.modal-dialog</code>): <code>.modal-sm</code>, <code>.modal-lg</code>, <code>.modal-xl</code>, <code>.modal-fullscreen</code>, <code>.modal-fullscreen-sm-down</code> (also <code>-md-</code>, <code>-lg-</code>, …)</p>
+
+    {% set sizes = [
+        ("modal-sm", "Small"),
+        ("modal-lg", "Large"),
+        ("modal-xl", "Extra large"),
+        ("modal-fullscreen", "Fullscreen"),
+        ("modal-fullscreen-sm-down", "Fullscreen on phones"),
+    ] %}
+
+    <div class="wt-example d-flex flex-wrap gap-2">
+        {% for size_class, label in sizes %}
+        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#size-modal-{{ loop.index }}">{{ label }}</button>
+        {% endfor %}
+    </div>
+
+    {% for size_class, label in sizes %}
+    <div class="modal fade" id="size-modal-{{ loop.index }}" tabindex="-1" aria-labelledby="size-modal-{{ loop.index }}-title" aria-hidden="true">
+        <div class="modal-dialog {{ size_class }}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title h5" id="size-modal-{{ loop.index }}-title">{{ label }}</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    This dialog uses <code>.{{ size_class }}</code>.
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <h3>Opening modals with JavaScript, and listening to them</h3>
+
+    <p>To open a modal from code, for instance when a timer expires or a live message arrives, use <code>bootstrap.Modal.getOrCreateInstance(element).show()</code>; <code>.hide()</code> closes it. Bootstrap fires events such as <code>shown.bs.modal</code> and <code>hidden.bs.modal</code>. The example uses them to measure how long the modal was open, which can serve as a rough measure of reading time.</p>
+
+    <div class="wt-example vstack gap-2 align-items-start">
+        <button type="button" class="btn btn-outline-primary" id="open-timed-modal">
+            <i class="bi bi-stopwatch me-1" aria-hidden="true"></i>Open with JavaScript
+        </button>
+        <span class="small text-body-secondary" id="timed-modal-result">Not opened yet.</span>
+    </div>
+
+    <div class="modal fade" id="timed-modal" tabindex="-1" aria-labelledby="timed-modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title h5" id="timed-modal-title">Opened by JavaScript</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Close this modal whenever you like. The page will tell you how long it was open.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>uproot’s built-in modal</h3>
+
+    <p>For a quick message, uproot provides <code>uproot.alert(html)</code>, which shows a ready-made modal. It interprets its argument as HTML, so pass text that came from participants through <code>uproot.escape()</code> first.</p>
+
+    <div class="wt-example">
+        <button type="button" class="btn btn-outline-uproot" id="uproot-alert-demo">
+            <i class="bi bi-chat-square-text me-1" aria-hidden="true"></i>Call <code class="text-reset">uproot.alert()</code>
+        </button>
+    </div>
+</section>
+
+
+<section class="wt-section" id="tooltips">
+    <h2>Tooltips</h2>
+
+    <p>A tooltip is a short text that appears while the mouse pointer rests on an element or the element has keyboard focus. Tooltips suit definitions of terms. Put the text into <code>data-bs-title</code>, add <code>data-bs-toggle="tooltip"</code>, and initialize all tooltips once (see the <code>late</code> block). An element that is not focusable by default, such as a <code>&lt;span&gt;</code>, needs <code>tabindex="0"</code> for keyboard users.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Attributes: <code>data-bs-toggle="tooltip"</code>, <code>data-bs-title</code>, <code>data-bs-placement</code> (<code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>)</p>
+
+    <div class="wt-example vstack gap-3">
+        <p class="mb-0">Your payoff depends on the
+            <span class="text-decoration-underline link-offset-2" style="text-decoration-style: dotted !important;" tabindex="0" data-bs-toggle="tooltip" data-bs-title="Marginal per capita return: what each member earns from one dollar in the group account">MPCR</span>
+            and on the contributions of others.
+        </p>
+        <div class="hstack gap-2 flex-wrap">
+            {% for placement in ["top", "right", "bottom", "left"] %}
+            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="{{ placement }}" data-bs-title="Tooltip on {{ placement }}">{{ placement | capitalize }}</button>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="alert alert-warning callout" role="note">
+        <i class="bi bi-exclamation-triangle me-1" aria-hidden="true"></i><strong>Pitfall.</strong> Phones have no mouse pointer, so many participants will never see a tooltip. Do not put essential information into tooltips; use a popover or visible text instead.
+    </div>
+</section>
+
+
+<section class="wt-section" id="popovers">
+    <h2>Popovers</h2>
+
+    <p>A popover is a larger tooltip with an optional title that opens on click, which works on phones, too. With <code>data-bs-trigger="focus"</code>, it closes on the next click anywhere. Like tooltips, popovers must be initialized. (uproot uses popovers for the values of its sliders.)</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Attributes: <code>data-bs-toggle="popover"</code>, <code>data-bs-title</code>, <code>data-bs-content</code>, <code>data-bs-placement</code>, <code>data-bs-trigger</code></p>
+
+    <div class="wt-example hstack gap-2 flex-wrap">
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="popover" data-bs-title="How is my payoff calculated?" data-bs-content="Endowment minus your contribution plus 40% of the group account.">
+            <i class="bi bi-question-circle me-1" aria-hidden="true"></i>Toggle a popover
+        </button>
+        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="right" data-bs-content="I close with your next click, wherever it is.">
+            Dismiss on next click
+        </button>
+    </div>
+</section>
+
+
+<section class="wt-section" id="toasts">
+    <h2>Toasts</h2>
+
+    <p>Toasts are small notifications in a corner of the screen that disappear by themselves. They inform without interrupting: “Your partner has made a decision”, “Your offer was accepted”. Place them in a fixed <code>.toast-container</code> and show them with <code>bootstrap.Toast.getOrCreateInstance(element).show()</code>. In a live experiment, you would call this from a handler that receives messages from the server (see the <code>notifications</code> app).</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes and attributes: <code>.toast-container</code>, <code>.toast</code>, <code>.toast-header</code>, <code>.toast-body</code>, <code>data-bs-delay</code>, <code>data-bs-autohide</code></p>
+
+    <div class="wt-example">
+        <button type="button" class="btn btn-outline-primary" id="show-toast">
+            <i class="bi bi-bell me-1" aria-hidden="true"></i>Simulate a notification
+        </button>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div class="toast" id="demo-toast" role="status" aria-live="polite" aria-atomic="true" data-bs-delay="4000">
+            <div class="toast-header">
+                <i class="bi bi-person-check-fill text-success me-2" aria-hidden="true"></i>
+                <strong class="me-auto">Participant C</strong>
+                <small class="text-body-secondary" id="demo-toast-time"></small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Your partner has made a decision.
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="dropdowns">
+    <h2>Dropdowns</h2>
+
+    <p>A dropdown is a menu that opens from a button. It is better suited to actions than to answers: to let participants choose a value, use a <code>SelectField</code> or a <code>RadioField</code> (see the <code>input_elements</code> app), which uproot validates and stores. Items should be buttons with <code>type="button"</code>.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes and attributes: <code>.dropdown</code>, <code>.dropdown-toggle</code>, <code>.dropdown-menu</code>, <code>.dropdown-item</code>, <code>.dropdown-header</code>, <code>.dropdown-divider</code>, <code>data-bs-toggle="dropdown"</code></p>
+
+    <div class="wt-example hstack gap-3 flex-wrap">
+        <div class="dropdown">
+            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-sort-down me-1" aria-hidden="true"></i>Sort results
+            </button>
+            <ul class="dropdown-menu">
+                <li><h3 class="dropdown-header">Sort by</h3></li>
+                <li><button type="button" class="dropdown-item" data-sort="round">Round</button></li>
+                <li><button type="button" class="dropdown-item" data-sort="payoff">Payoff</button></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><button type="button" class="dropdown-item disabled" aria-disabled="true">Opponent (hidden in this treatment)</button></li>
+            </ul>
+        </div>
+        <span class="small text-body-secondary">Sorted by: <strong id="sort-result">nothing yet</strong></span>
+    </div>
+</section>
+
+{% endblock chapter %}
+
+
+{% block late %}
+
+<script>
+    // Tooltips and popovers are opt-in: initialize them once the page has loaded
+    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((el) => new bootstrap.Tooltip(el));
+    document.querySelectorAll('[data-bs-toggle="popover"]').forEach((el) => new bootstrap.Popover(el));
+
+    // Opening a modal with JavaScript and measuring how long it stays open
+    const timedModal = I("timed-modal");
+    let openedAt = null;
+
+    I("open-timed-modal").addEventListener("click", () => {
+        bootstrap.Modal.getOrCreateInstance(timedModal).show();
+    });
+    timedModal.addEventListener("shown.bs.modal", () => {
+        openedAt = performance.now();
+    });
+    timedModal.addEventListener("hidden.bs.modal", () => {
+        const seconds = (performance.now() - openedAt) / 1000;
+
+        I("timed-modal-result").textContent = `The modal was open for ${seconds.toFixed(1)} seconds.`;
+    });
+
+    // uproot’s built-in modal
+    I("uproot-alert-demo").addEventListener("click", () => {
+        uproot.alert("<strong>Hello!</strong> This modal was opened with <code>uproot.alert()</code>.");
+    });
+
+    // Showing a toast
+    I("show-toast").addEventListener("click", () => {
+        I("demo-toast-time").textContent = new Date().toLocaleTimeString();
+        bootstrap.Toast.getOrCreateInstance(I("demo-toast")).show();
+    });
+
+    // Reacting to dropdown items
+    document.querySelectorAll("[data-sort]").forEach((item) => {
+        item.addEventListener("click", () => {
+            I("sort-result").textContent = item.textContent;
+        });
+    });
+</script>
+
+{% endblock late %}

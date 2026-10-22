@@ -1,0 +1,159 @@
+{% extends "bootstrap_elements/Chapter.html" %}
+
+
+{% block head %}
+
+{{ super() }}
+<link rel="stylesheet" href="{{ appstatic('tour.css') }}">
+<script src="{{ appstatic('tour.js') }}"></script>
+
+{% endblock head %}
+
+
+{% block chapter %}
+
+<p>This app is a walkthrough of the user interface elements that <a href="https://getbootstrap.com/docs/5.3/" target="_blank">Bootstrap</a> provides, with a focus on what is useful in experiments: instructions, decision screens, feedback, and results. Every chapter explains <em>when</em> to use something, shows a live example, and names the classes involved. Open the template of any chapter (e.g., <code>bootstrap_elements/Tables.html</code>) to see the exact markup.</p>
+
+<div class="d-flex flex-wrap align-items-center gap-3 mt-4">
+    <button type="button" class="btn btn-outline-primary" id="start-tour">
+        <i class="bi bi-signpost-2 me-1" aria-hidden="true"></i>Take a 30-second tour of this page
+    </button>
+    <span class="small text-body-secondary">Use <kbd>←</kbd> and <kbd>→</kbd> to navigate and <kbd>Esc</kbd> to end the tour.</span>
+</div>
+
+
+<section class="wt-section" id="available">
+    <h2>What is available on every page</h2>
+
+    <p>uproot loads the following on every page that extends <code>Base.html</code>. You do not need to add anything for these:</p>
+
+    <ul class="list-unstyled vstack gap-2">
+        <li><i class="bi bi-check-circle-fill text-success me-2" aria-hidden="true"></i><strong>Bootstrap <span id="bootstrap-version">5</span></strong>: CSS and JavaScript, including Popper (used for tooltips, popovers, and dropdowns). The version shown here is read live from <code>bootstrap.Tooltip.VERSION</code>.</li>
+        <li><i class="bi bi-check-circle-fill text-success me-2" aria-hidden="true"></i><strong>Alpine.js</strong> for small bits of interactivity (see the <code>counter_alpine</code> app).</li>
+        <li><i class="bi bi-check-circle-fill text-success me-2" aria-hidden="true"></i><strong>uproot’s stylesheet</strong>, which adds a few classes on top of Bootstrap, such as <code>.callout</code>, <code>.btn-uproot</code>, <code>.text-uproot</code>, <code>.fw-500</code>, and <code>.w-fit-content</code>. You will meet them throughout this walkthrough.</li>
+        <li><i class="bi bi-plus-circle-fill text-primary me-2" aria-hidden="true"></i><strong>Bootstrap Icons</strong> ship with uproot but are <em>not</em> loaded automatically. One line in the <code>head</code> block is enough:</li>
+    </ul>
+
+    <pre class="wt-code"><code>{% raw %}{% block head %}
+&lt;link rel="stylesheet" href="{{ internalstatic('vendor/bootstrap-icons/bootstrap-icons.min.css') }}"&gt;
+{% endblock head %}{% endraw %}</code></pre>
+</section>
+
+
+<section class="wt-section" id="chapters">
+    <h2>The chapters</h2>
+
+    <p>The chapters build on each other, from static layout to interactive components. You can always go back. (In uproot, pages form a sequence, so the list below is not clickable.)</p>
+
+    <ol class="list-group list-group-numbered" id="wt-toc">
+        {% for chapter in chapters %}
+        <li class="list-group-item d-flex align-items-start gap-2{% if loop.index == number %} active{% endif %}"{% if loop.index == number %} aria-current="step"{% endif %}>
+            <div class="ms-1">
+                <div class="fw-semibold"><i class="bi bi-{{ chapter.icon }} me-1" aria-hidden="true"></i>{{ chapter.title }}</div>
+                <div class="small{% if loop.index != number %} text-body-secondary{% endif %}">{{ chapter.summary }}</div>
+            </div>
+        </li>
+        {% endfor %}
+    </ol>
+</section>
+
+
+<section class="wt-section" id="anatomy">
+    <h2>How each section is organized</h2>
+
+    <p>Every section starts with an explanation, followed by the classes it is about:</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.list-group</code>, <code>.list-group-numbered</code>, <code>.active</code></p>
+
+    <p>Then comes a live example in a dashed frame, like this one:</p>
+
+    <div class="wt-example" id="wt-anatomy-example">
+        <p class="mb-0">This is a live example. Everything inside the frame is plain Bootstrap.</p>
+    </div>
+
+    <div class="alert alert-info callout" role="note">
+        <i class="bi bi-lightbulb me-1" aria-hidden="true"></i><strong>Tip.</strong> Blue boxes like this one contain tips for experiments.
+    </div>
+
+    <div class="alert alert-warning callout" role="note">
+        <i class="bi bi-exclamation-triangle me-1" aria-hidden="true"></i><strong>Pitfall.</strong> Yellow boxes warn about common mistakes.
+    </div>
+</section>
+
+
+<section class="wt-section" id="rules">
+    <h2>Five rules for Bootstrap in uproot</h2>
+
+    <ol class="vstack gap-3" id="wt-rules">
+        <li>
+            <strong>Every button needs <code>type="button"</code>.</strong>
+            The <code>main</code> block sits inside uproot’s <code>&lt;form&gt;</code>. A <code>&lt;button&gt;</code> without a type is a <em>submit</em> button and moves the participant to the next page. This is the most common mistake when copying examples from Bootstrap’s documentation.
+        </li>
+        <li>
+            <strong>Put things in the right template block.</strong>
+            Stylesheets and metadata go into <code>head</code>, visible content into <code>main</code> (or <code>main_full_width</code> for full-width bands), and scripts into <code>late</code>. The <code>templating_and_typography</code> app shows all blocks.
+        </li>
+        <li>
+            <strong>Some components need one line of JavaScript.</strong>
+            Collapse, accordions, tabs, modals, offcanvas panels, dropdowns, and carousels work through <code>data-bs-*</code> attributes alone. Tooltips, popovers, and toasts must be initialized explicitly (see the chapter on overlays).
+        </li>
+        <li>
+            <strong>Prefer utility classes over custom CSS.</strong>
+            Classes like <code>.mt-3</code>, <code>.d-flex</code>, or <code>.text-center</code> cover most needs. If you need your own CSS, put it into a file in your app’s <code>_static</code> folder and load it with <code>appstatic()</code>, as this app does with <code>walkthrough.css</code>.
+        </li>
+        <li>
+            <strong>Do not rely on color alone.</strong>
+            Some participants are color-blind or use screen readers. Pair colors with text or icons, and give icon-only controls a label. The chapters show how.
+        </li>
+    </ol>
+</section>
+
+{% endblock chapter %}
+
+
+{% block late %}
+
+<script>
+    I("bootstrap-version").textContent = bootstrap.Tooltip.VERSION;
+
+    // A tour is a list of steps; see the last chapter for how this works
+    const tour = [
+        {
+            target: "#wt-chapter-progress",
+            title: "Your progress",
+            content: "This bar shows where you are in the walkthrough. It is a regular Bootstrap progress bar.",
+            placement: "bottom",
+        },
+        {
+            target: "#uproot-title",
+            title: "The chapter",
+            content: "Each chapter covers one purpose, such as layout, tables, or feedback.",
+            placement: "bottom",
+        },
+        {
+            target: "#wt-toc",
+            title: "All chapters",
+            content: "This numbered list group shows all chapters. The current one is highlighted with .active.",
+        },
+        {
+            target: "#wt-anatomy-example",
+            title: "Live examples",
+            content: "Examples are framed like this. Open the template to see their markup.",
+        },
+        {
+            target: "#wt-rules",
+            title: "Read these rules",
+            content: "They will save you from the most common mistakes, in particular the first one.",
+        },
+        {
+            target: "#uproot-button-next",
+            title: "Let’s go",
+            content: "Click here to start with the first real chapter: Layout.",
+            placement: "top",
+        },
+    ];
+
+    I("start-tour").addEventListener("click", () => Tour.start(tour));
+</script>
+
+{% endblock late %}

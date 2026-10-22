@@ -1,0 +1,87 @@
+/*
+ * Styles for the walkthrough itself. None of this is needed to use Bootstrap:
+ * it frames the examples and visualizes otherwise invisible things (grid columns,
+ * spacing). Everything else in this app uses plain Bootstrap classes.
+ */
+
+/* Each topic is a section with a heading, explanations, and examples */
+.wt-section {
+    margin-top: 3.5rem;
+}
+.wt-section > h2 {
+    border-bottom: 1px solid var(--bs-border-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+}
+.wt-section > h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-top: 2rem;
+}
+
+/* Live examples are framed by a dashed border and labeled “Example” */
+.wt-example {
+    border: 1px dashed var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg);
+    margin: 1.5rem 0;
+    padding: 1.5rem 1.25rem 1.25rem;
+    position: relative;
+}
+.wt-example::before {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-secondary-color);
+    content: "Example";
+    font-size: 0.75rem;
+    font-weight: 600;
+    left: 1rem;
+    letter-spacing: 0.05em;
+    padding: 0 0.5rem;
+    position: absolute;
+    text-transform: uppercase;
+    top: -0.6rem;
+}
+
+/* The classes that a section is about */
+.wt-keys {
+    color: var(--bs-secondary-color);
+    font-size: 0.875rem;
+}
+
+/* Code listings */
+.wt-code {
+    background-color: var(--bs-tertiary-bg);
+    border-radius: var(--bs-border-radius);
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+}
+
+/* Makes grid columns and flex items visible */
+.wt-cell {
+    background-color: var(--bs-primary-bg-subtle);
+    border: 1px solid var(--bs-primary-border-subtle);
+    border-radius: var(--bs-border-radius);
+    padding: 0.5rem;
+    text-align: center;
+}
+
+/* Selectable cards on the last page: a hidden radio button (.btn-check) followed by a <label> */
+.wt-choice {
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.wt-choice .wt-choice-mark {
+    visibility: hidden;
+}
+.btn-check:checked + .wt-choice {
+    background-color: var(--bs-primary-bg-subtle);
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 1px var(--bs-primary);
+}
+.btn-check:checked + .wt-choice .wt-choice-mark {
+    visibility: visible;
+}
+.btn-check:focus-visible + .wt-choice {
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+}

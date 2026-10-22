@@ -1,0 +1,63 @@
+{#
+    Shared layout for all chapters. Each chapter extends this file and fills the
+    "chapter" block. This file is not a page itself; it only exists to avoid
+    repeating the same markup twelve times.
+#}
+{% extends "Base.html" %}
+
+
+{% block head %}
+
+<!-- Bootstrap CSS and JS are loaded by uproot; Bootstrap Icons need one line: -->
+<link rel="stylesheet" href="{{ internalstatic('vendor/bootstrap-icons/bootstrap-icons.min.css') }}">
+<!-- Styles for the walkthrough itself (not needed to use Bootstrap): -->
+<link rel="stylesheet" href="{{ appstatic('walkthrough.css') }}">
+
+{% endblock head %}
+
+
+{% block pre_main %}
+
+<div class="container" id="wt-chapter-progress">
+    <div class="d-flex justify-content-between small text-body-secondary mb-1">
+        <span><i class="bi bi-bootstrap-fill text-primary me-1" aria-hidden="true"></i>Bootstrap walkthrough</span>
+        <span>Chapter {{ number }} of {{ total }}</span>
+    </div>
+    <div class="progress" role="progressbar" aria-label="Walkthrough progress" aria-valuenow="{{ number }}" aria-valuemin="0" aria-valuemax="{{ total }}" style="height: 4px;">
+        <div class="progress-bar" style="width: {{ 100 * number / total }}%;"></div>
+    </div>
+</div>
+
+{% endblock pre_main %}
+
+
+{% block title %}
+
+<i class="bi bi-{{ page.icon }} text-primary me-2" aria-hidden="true"></i>{{ page.title }}
+
+{% endblock title %}
+
+
+{% block main %}
+
+<p class="lead">{{ page.summary }}</p>
+
+{% block chapter %}
+{% endblock chapter %}
+
+{% endblock main %}
+
+
+{% block uproot_main_buttons %}
+
+<div id="uproot-button-wrapper">
+    {{ button_back() }}
+    {# .ms-auto keeps the Next button on the right, even without a Back button #}
+    {% if number < total %}
+    {{ button_next(label="Next: " ~ chapters[number].title, class_="btn btn-primary ms-auto") }}
+    {% else %}
+    {{ button_next(label="Finish", class_="btn btn-primary ms-auto") }}
+    {% endif %}
+</div>
+
+{% endblock uproot_main_buttons %}

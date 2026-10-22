@@ -1,0 +1,144 @@
+{% extends "bootstrap_elements/Chapter.html" %}
+
+
+{% block chapter %}
+
+<p>Icons make pages faster to scan: a coin next to an amount, a clock next to a deadline, a check mark next to a correct answer. <a href="https://icons.getbootstrap.com/" target="_blank">Bootstrap Icons</a> contains more than 2,000 icons and ships with uproot, so no external requests are needed.</p>
+
+
+<section class="wt-section" id="loading">
+    <h2>Loading and using icons</h2>
+
+    <p>Load the stylesheet once in the <code>head</code> block. (In this app, <code>Chapter.html</code> does it for all chapters.) Then add an <code>&lt;i&gt;</code> element with the class <code>bi</code> and the class of the icon, which is <code>bi-</code> followed by its name on the <a href="https://icons.getbootstrap.com/" target="_blank">icon website</a>.</p>
+
+    <pre class="wt-code"><code>{% raw %}{% block head %}
+&lt;link rel="stylesheet" href="{{ internalstatic('vendor/bootstrap-icons/bootstrap-icons.min.css') }}"&gt;
+{% endblock head %}
+
+&lt;i class="bi bi-coin" aria-hidden="true"&gt;&lt;/i&gt; You receive $20.00.{% endraw %}</code></pre>
+
+    <div class="wt-example">
+        <p class="mb-0"><i class="bi bi-coin" aria-hidden="true"></i> You receive {{ C.ENDOWMENT | fmtnum(pre="$", places=2) }}.</p>
+    </div>
+</section>
+
+
+<section class="wt-section" id="size-color">
+    <h2>Size and color</h2>
+
+    <p>Icons are characters of a font. They therefore take the size and color of the surrounding text, and every text class works on them: <code>.fs-*</code> and <code>.display-*</code> for size, <code>.text-*</code> for color. An icon inside a heading is as large as the heading.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.fs-1</code> to <code>.fs-6</code>, <code>.display-*</code>, <code>.text-primary</code>, <code>.text-success</code>, …</p>
+
+    <div class="wt-example vstack gap-3">
+        <div class="hstack gap-3 align-items-end flex-wrap">
+            {% for size in range(6, 0, -1) %}
+            <i class="bi bi-trophy fs-{{ size }}" aria-hidden="true"></i>
+            {% endfor %}
+            <i class="bi bi-trophy display-4" aria-hidden="true"></i>
+        </div>
+        <div class="hstack gap-3 fs-3 flex-wrap">
+            {% for color in ["primary", "secondary", "success", "danger", "warning", "info", "uproot"] %}
+            <i class="bi bi-trophy-fill text-{{ color }}" aria-hidden="true" title=".text-{{ color }}"></i>
+            {% endfor %}
+        </div>
+        <h3 class="h5 mb-0"><i class="bi bi-hourglass-split text-warning me-1" aria-hidden="true"></i>An icon in a heading</h3>
+    </div>
+</section>
+
+
+<section class="wt-section" id="variants">
+    <h2>Outline and filled variants</h2>
+
+    <p>Many icons come in two versions: an outline and a filled one with the suffix <code>-fill</code>. The pair is a natural way to show state, for instance unselected and selected, or open and completed tasks.</p>
+
+    <div class="wt-example">
+        <ul class="list-unstyled vstack gap-2 mb-0">
+            <li><i class="bi bi-check-circle-fill text-success me-2" aria-hidden="true"></i>Part 1: Questionnaire <span class="text-body-secondary">(completed, <code>bi-check-circle-fill</code>)</span></li>
+            <li><i class="bi bi-circle-half text-primary me-2" aria-hidden="true"></i>Part 2: Public goods game <span class="text-body-secondary">(in progress, <code>bi-circle-half</code>)</span></li>
+            <li><i class="bi bi-circle text-body-tertiary me-2" aria-hidden="true"></i>Part 3: Risk elicitation <span class="text-body-secondary">(upcoming, <code>bi-circle</code>)</span></li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="wt-section" id="with-text">
+    <h2>Icons next to text</h2>
+
+    <p>A small margin (<code>.me-1</code> or <code>.me-2</code>) separates an icon from the following text. For longer, wrapping text, put both into a flex container, so that the text does not flow under the icon. Icons in buttons, badges, and alerts follow in later chapters.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.me-1</code>, <code>.me-2</code>, <code>.d-flex</code>, <code>.gap-2</code>, <code>.flex-shrink-0</code></p>
+
+    <div class="wt-example vstack gap-3">
+        <p class="mb-0"><i class="bi bi-clock me-1" aria-hidden="true"></i>About 25 minutes</p>
+        <div class="d-flex gap-2">
+            <i class="bi bi-info-circle-fill text-primary flex-shrink-0" aria-hidden="true"></i>
+            <p class="mb-0">With <code>.d-flex</code>, a long text stays to the right of its icon when it wraps onto several lines. Without it, the second line would start below the icon, which looks untidy, especially on small screens.</p>
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="avatars">
+    <h2>Icons as avatars</h2>
+
+    <p>An icon centered in a colored circle makes a neat avatar for participants or roles. No image is needed, and the colors can encode the role (always together with a label).</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.d-inline-flex</code>, <code>.align-items-center</code>, <code>.justify-content-center</code>, <code>.rounded-circle</code>, <code>.bg-*-subtle</code>, <code>.text-*-emphasis</code></p>
+
+    <div class="wt-example">
+        <div class="hstack gap-4 flex-wrap">
+            {% for role, icon, color in [("Proposer", "person-fill", "primary"), ("Responder", "person-fill", "success"), ("Observer", "eye-fill", "secondary"), ("Your group", "people-fill", "warning")] %}
+            <div class="hstack gap-2">
+                <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-{{ color }}-subtle text-{{ color }}-emphasis fs-4" style="width: 3rem; height: 3rem;">
+                    <i class="bi bi-{{ icon }}" aria-hidden="true"></i>
+                </span>
+                <span class="fw-semibold">{{ role }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="accessibility">
+    <h2>Accessibility</h2>
+
+    <p>Screen readers do not know what an icon means. If an icon is <strong>decorative</strong>, because the text next to it says the same, hide it with <code>aria-hidden="true"</code>. If an icon <strong>carries meaning on its own</strong>, add a text alternative: <code>role="img"</code> with an <code>aria-label</code>, or a hidden text with <code>.visually-hidden</code>. Icon-only buttons need an <code>aria-label</code>.</p>
+
+    <div class="wt-example vstack gap-3">
+        <p class="mb-0"><i class="bi bi-envelope me-1" aria-hidden="true"></i>Messages <span class="small text-body-secondary">(decorative: <code>aria-hidden="true"</code>)</span></p>
+        <p class="mb-0">Your answer: <i class="bi bi-check-circle-fill text-success" role="img" aria-label="correct"></i> <span class="small text-body-secondary">(meaningful: <code>role="img" aria-label="correct"</code>)</span></p>
+        <p class="mb-0">
+            <button type="button" class="btn btn-outline-secondary btn-sm" aria-label="Show help"><i class="bi bi-question-lg" aria-hidden="true"></i></button>
+            <span class="small text-body-secondary">(icon-only button: <code>aria-label="Show help"</code>)</span>
+        </p>
+    </div>
+</section>
+
+
+<section class="wt-section" id="gallery">
+    <h2>A gallery for experiments</h2>
+
+    <p>A small selection of icons that are often useful in experiments, grouped by purpose. Find many more on the <a href="https://icons.getbootstrap.com/" target="_blank">icon website</a>, which also has a search. The list of icons lives in <code>C.ICON_GALLERY</code> in <code>__init__.py</code>.</p>
+
+    <div class="wt-example vstack gap-4">
+        {% for category, icons in C.ICON_GALLERY.items() %}
+        <div>
+            <h3 class="h6 text-body-secondary text-uppercase text-ls-uppercase small mb-2">{{ category }}</h3>
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-6 g-2">
+                {% for icon in icons %}
+                <div class="col">
+                    <div class="border rounded text-center py-3 px-1 h-100">
+                        <i class="bi bi-{{ icon }} fs-3" aria-hidden="true"></i>
+                        <div class="small font-monospace text-body-secondary text-break mt-1">{{ icon }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock chapter %}

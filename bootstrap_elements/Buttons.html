@@ -1,0 +1,184 @@
+{% extends "bootstrap_elements/Chapter.html" %}
+
+
+{% block chapter %}
+
+<p>Buttons trigger actions: showing a hint, opening a dialog, or submitting a decision. In uproot, submitting the page is the job of the Next button, which uproot places for you. Every other button on a page must be told explicitly that it is <em>not</em> a submit button.</p>
+
+
+<section class="wt-section" id="pitfall">
+    <h2>The one rule: <code>type="button"</code></h2>
+
+    <p>Everything in the <code>main</code> block is inside uproot’s <code>&lt;form&gt;</code>. In a form, a <code>&lt;button&gt;</code> without a <code>type</code> attribute is a submit button. Clicking it submits the page, which is almost never what you want for an extra button. Bootstrap’s documentation often omits the type, because its examples are not inside forms.</p>
+
+    <div class="wt-example" x-data="{ clicks: 0 }">
+        <div class="hstack gap-3 flex-wrap">
+            <button type="button" class="btn btn-primary" @click="clicks++">
+                <code class="text-reset">type="button"</code>: click me
+            </button>
+            <span>Clicked <strong x-text="clicks">0</strong> times, and you are still on this page.</span>
+        </div>
+    </div>
+
+    <div class="alert alert-warning callout" role="note">
+        <i class="bi bi-exclamation-triangle me-1" aria-hidden="true"></i><strong>Pitfall.</strong> A <code>&lt;button class="btn btn-primary"&gt;Show hint&lt;/button&gt;</code> copied from the internet would submit this page. Links styled as buttons (<code>&lt;a class="btn"&gt;</code>) do not submit, but they navigate away if they have an <code>href</code>.
+    </div>
+</section>
+
+
+<section class="wt-section" id="variants">
+    <h2>Variants</h2>
+
+    <p>A button’s color signals its role. Use one primary button per screen for the main action, a secondary or outline button for alternatives, and <code>.btn-danger</code> only for actions with serious consequences. uproot adds <code>.btn-uproot</code> and <code>.btn-outline-uproot</code> in its own purple.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.btn</code> with <code>.btn-primary</code>, <code>.btn-secondary</code>, <code>.btn-success</code>, <code>.btn-danger</code>, <code>.btn-warning</code>, <code>.btn-info</code>, <code>.btn-light</code>, <code>.btn-dark</code>, <code>.btn-link</code>, <code>.btn-uproot</code>; outline versions with <code>.btn-outline-*</code></p>
+
+    <div class="wt-example vstack gap-3">
+        <div class="d-flex flex-wrap gap-2">
+            {% for variant in ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark", "uproot"] %}
+            <button type="button" class="btn btn-{{ variant }}">{{ variant | capitalize }}</button>
+            {% endfor %}
+            <button type="button" class="btn btn-link">Link</button>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            {% for variant in ["primary", "secondary", "success", "danger", "warning", "info", "dark", "uproot"] %}
+            <button type="button" class="btn btn-outline-{{ variant }}">{{ variant | capitalize }}</button>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="sizes-states">
+    <h2>Sizes and states</h2>
+
+    <p>Buttons come in three sizes, plus uproot’s extra small <code>.btn-xs</code>. A <code>disabled</code> attribute grays a button out and makes it unclickable, for example until a participant has read something. <code>.active</code> with <code>aria-pressed="true"</code> shows a button as pressed.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes and attributes: <code>.btn-lg</code>, <code>.btn-sm</code>, <code>.btn-xs</code> (uproot), <code>disabled</code>, <code>.active</code>, <code>aria-pressed</code></p>
+
+    <div class="wt-example vstack gap-3">
+        <div class="hstack gap-2 flex-wrap">
+            <button type="button" class="btn btn-primary btn-lg">.btn-lg</button>
+            <button type="button" class="btn btn-primary">Default</button>
+            <button type="button" class="btn btn-primary btn-sm">.btn-sm</button>
+            <button type="button" class="btn btn-primary btn-xs">.btn-xs</button>
+        </div>
+        <div class="hstack gap-2 flex-wrap">
+            <button type="button" class="btn btn-secondary" disabled>Disabled</button>
+            <button type="button" class="btn btn-outline-primary active" aria-pressed="true">Active</button>
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="icons">
+    <h2>Buttons with icons</h2>
+
+    <p>An icon before the label makes a button quicker to recognize. Icon-only buttons save space, but need an <code>aria-label</code> (or a <code>.visually-hidden</code> text) so that screen readers can announce them.</p>
+
+    <div class="wt-example hstack gap-2 flex-wrap">
+        <button type="button" class="btn btn-success"><i class="bi bi-check-lg me-1" aria-hidden="true"></i>Accept</button>
+        <button type="button" class="btn btn-danger"><i class="bi bi-x-lg me-1" aria-hidden="true"></i>Reject</button>
+        <button type="button" class="btn btn-outline-secondary"><i class="bi bi-arrow-counterclockwise me-1" aria-hidden="true"></i>Reset</button>
+        <button type="button" class="btn btn-outline-primary" aria-label="Play audio"><i class="bi bi-volume-up-fill" aria-hidden="true"></i></button>
+        <button type="button" class="btn btn-outline-primary rounded-circle" aria-label="Help"><i class="bi bi-question-lg" aria-hidden="true"></i></button>
+    </div>
+</section>
+
+
+<section class="wt-section" id="full-width">
+    <h2>Full-width buttons and alignment</h2>
+
+    <p>On phones, large touch targets are easier to hit. Wrap buttons in <code>.d-grid</code> to make them full width; <code>.d-md-flex</code> with <code>.justify-content-md-end</code> turns them back into normal buttons on larger screens. To arrange uproot’s own Next and Back buttons, see the <code>button_placement</code> app (this walkthrough uses <code>button_next(label=…)</code> in <code>Chapter.html</code>).</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.d-grid</code>, <code>.gap-2</code>, <code>.d-md-flex</code>, <code>.justify-content-md-end</code>, <code>.w-100</code></p>
+
+    <div class="wt-example vstack gap-4">
+        <div class="d-grid gap-2">
+            <button type="button" class="btn btn-primary btn-lg">Full width (<code class="text-reset">.d-grid</code>)</button>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-outline-secondary">Cancel</button>
+            <button type="button" class="btn btn-primary">Full width on phones, right-aligned from md</button>
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="groups">
+    <h2>Button groups and toolbars</h2>
+
+    <p>A button group joins related buttons into one control. Give it <code>role="group"</code> and an <code>aria-label</code>. Several groups form a toolbar.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.btn-group</code>, <code>.btn-group-vertical</code>, <code>.btn-group-sm</code>, <code>.btn-group-lg</code>, <code>.btn-toolbar</code></p>
+
+    <div class="wt-example vstack gap-3 align-items-start">
+        <div class="btn-group" role="group" aria-label="Adjust contribution">
+            <button type="button" class="btn btn-outline-primary">−$5</button>
+            <button type="button" class="btn btn-outline-primary">−$1</button>
+            <button type="button" class="btn btn-outline-primary">+$1</button>
+            <button type="button" class="btn btn-outline-primary">+$5</button>
+        </div>
+        <div class="btn-toolbar gap-2" role="toolbar" aria-label="Drawing tools">
+            <div class="btn-group btn-group-sm" role="group" aria-label="Tools">
+                <button type="button" class="btn btn-outline-secondary" aria-label="Pen"><i class="bi bi-pencil" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-outline-secondary" aria-label="Eraser"><i class="bi bi-eraser" aria-hidden="true"></i></button>
+            </div>
+            <div class="btn-group btn-group-sm" role="group" aria-label="History">
+                <button type="button" class="btn btn-outline-secondary" aria-label="Undo"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-outline-secondary" aria-label="Redo"><i class="bi bi-arrow-clockwise" aria-hidden="true"></i></button>
+            </div>
+        </div>
+        <div class="btn-group-vertical" role="group" aria-label="Vertical group">
+            <button type="button" class="btn btn-outline-dark">Top</button>
+            <button type="button" class="btn btn-outline-dark">Middle</button>
+            <button type="button" class="btn btn-outline-dark">Bottom</button>
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="toggles">
+    <h2>Toggle buttons</h2>
+
+    <p>Radio buttons and checkboxes can look like buttons: add <code>.btn-check</code> to the <code>&lt;input&gt;</code> and a <code>.btn</code> class to its <code>&lt;label&gt;</code>. Radios in a <code>.btn-group</code> form a segmented control, which is a compact way to switch between views.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.btn-check</code> on the input, <code>.btn .btn-outline-*</code> on the label</p>
+
+    <div class="wt-example vstack gap-3 align-items-start" x-data="{ view: 'table' }">
+        <div class="btn-group" role="group" aria-label="Choose a view">
+            <input type="radio" class="btn-check" name="demo_view" id="view-table" value="table" autocomplete="off" x-model="view">
+            <label class="btn btn-outline-primary" for="view-table"><i class="bi bi-table me-1" aria-hidden="true"></i>Table</label>
+            <input type="radio" class="btn-check" name="demo_view" id="view-chart" value="chart" autocomplete="off" x-model="view">
+            <label class="btn btn-outline-primary" for="view-chart"><i class="bi bi-bar-chart me-1" aria-hidden="true"></i>Chart</label>
+        </div>
+        <p class="mb-0">Selected view: <strong x-text="view">table</strong></p>
+        <div class="hstack gap-2">
+            <input type="checkbox" class="btn-check" id="demo-sound" autocomplete="off" checked>
+            <label class="btn btn-outline-success" for="demo-sound"><i class="bi bi-volume-up me-1" aria-hidden="true"></i>Sound</label>
+            <input type="checkbox" class="btn-check" id="demo-hints" autocomplete="off">
+            <label class="btn btn-outline-success" for="demo-hints"><i class="bi bi-lightbulb me-1" aria-hidden="true"></i>Hints</label>
+        </div>
+    </div>
+
+    <div class="alert alert-info callout" role="note">
+        <i class="bi bi-lightbulb me-1" aria-hidden="true"></i><strong>Tip.</strong> uproot only saves inputs that belong to a field defined in Python, so these toggles are not stored. To store a choice made with toggle buttons, define a field (e.g., a <code>RadioField</code>) and give the inputs its name. The last chapter does exactly that with cards. For the standard ways to ask questions, see the <code>input_elements</code> app.
+    </div>
+</section>
+
+
+<section class="wt-section" id="close">
+    <h2>The close button</h2>
+
+    <p><code>.btn-close</code> draws a neutral “×”. Alerts, modals, toasts, and offcanvas panels use it to dismiss themselves. It has no text, so it always needs an <code>aria-label</code>.</p>
+
+    <div class="wt-example hstack gap-3">
+        <button type="button" class="btn-close" aria-label="Close"></button>
+        <button type="button" class="btn-close" disabled aria-label="Close"></button>
+        <div class="bg-dark p-2 rounded" data-bs-theme="dark">
+            <button type="button" class="btn-close" aria-label="Close"></button>
+        </div>
+    </div>
+</section>
+
+{% endblock chapter %}

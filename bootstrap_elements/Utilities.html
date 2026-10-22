@@ -1,0 +1,176 @@
+{% extends "bootstrap_elements/Chapter.html" %}
+
+
+{% block chapter %}
+
+<p>Utilities are single-purpose classes: one class, one effect. You have already used many of them (spacing, flexbox, text). This chapter covers the rest: colors, borders, shadows, visibility, positioning, and interaction. Together with components, they cover almost everything without custom CSS.</p>
+
+
+<section class="wt-section" id="colors">
+    <h2>Colors</h2>
+
+    <p>Bootstrap has eight theme colors. Each comes as text color (<code>.text-*</code>), background (<code>.bg-*</code>), background with a matching readable text color (<code>.text-bg-*</code>), and, since Bootstrap 5.3, as a subtle background (<code>.bg-*-subtle</code>), a subtle border (<code>.border-*-subtle</code>), and a strong text color for use on subtle backgrounds (<code>.text-*-emphasis</code>). uproot adds its own purple: <code>.text-uproot</code>, <code>.bg-uproot</code>, <code>.bg-uproot-subtle</code>, and <code>.border-uproot</code>.</p>
+
+    <div class="wt-example">
+        <div class="row row-cols-2 row-cols-md-4 g-2">
+            {% for color in ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"] %}
+            <div class="col">
+                <div class="text-bg-{{ color }} rounded-top p-2 small fw-semibold">.text-bg-{{ color }}</div>
+                <div class="bg-{{ color }}-subtle text-{{ color }}-emphasis border border-{{ color }}-subtle border-top-0 rounded-bottom p-2 small">.bg-{{ color }}-subtle</div>
+            </div>
+            {% endfor %}
+        </div>
+        <p class="mt-3 mb-0">
+            <span class="text-primary">.text-primary</span> ·
+            <span class="text-success">.text-success</span> ·
+            <span class="text-danger">.text-danger</span> ·
+            <span class="text-body-secondary">.text-body-secondary</span> ·
+            <span class="text-primary text-opacity-50">.text-opacity-50</span> ·
+            <span class="text-uproot fw-semibold">.text-uproot</span>
+        </p>
+    </div>
+
+    <div class="alert alert-warning callout" role="note">
+        <i class="bi bi-exclamation-triangle me-1" aria-hidden="true"></i><strong>Pitfall.</strong> Roughly one in twelve men of Northern European ancestry has some form of color vision deficiency, and red versus green is the most common confusion. Colors also carry connotations (red for loss or danger) that may act as an unintended treatment. Pair colors with text or icons, and keep color assignments constant across treatments unless color <em>is</em> the treatment.
+    </div>
+</section>
+
+
+<section class="wt-section" id="borders">
+    <h2>Borders and corners</h2>
+
+    <p>Add borders to all sides (<code>.border</code>) or single ones (<code>.border-top</code>, <code>.border-start</code>, …), and remove them with <code>.border-0</code> or <code>.border-top-0</code>. Width goes from <code>.border-1</code> to <code>.border-5</code>. Corners are rounded with <code>.rounded</code>, sized from <code>.rounded-0</code> to <code>.rounded-5</code>, or shaped with <code>.rounded-pill</code> and <code>.rounded-circle</code>. uproot’s <code>.rounded-0-1</code> gives almost sharp corners.</p>
+
+    <div class="wt-example hstack gap-3 flex-wrap">
+        <div class="border p-3">.border</div>
+        <div class="border border-primary border-3 p-3">.border-primary .border-3</div>
+        <div class="border-start border-success border-5 bg-success-subtle p-3">.border-start .border-5</div>
+        <div class="border rounded-3 p-3">.rounded-3</div>
+        <div class="border rounded-pill px-4 py-3">.rounded-pill</div>
+        <div class="border rounded-circle d-flex align-items-center justify-content-center small" style="width: 5.5rem; height: 5.5rem;">.rounded-circle</div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="shadows">
+    <h2>Shadows</h2>
+
+    <p>Shadows lift an element off the page and draw attention to it. Use them sparingly, for the one element that matters most.</p>
+
+    <div class="wt-example">
+        <div class="row row-cols-2 row-cols-md-4 g-4">
+            {% for shadow in ["shadow-none", "shadow-sm", "shadow", "shadow-lg"] %}
+            <div class="col"><div class="bg-body rounded p-3 text-center {{ shadow }}">.{{ shadow }}</div></div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="display">
+    <h2>Display and responsive visibility</h2>
+
+    <p>Display classes set how an element is laid out (<code>.d-block</code>, <code>.d-inline</code>, <code>.d-flex</code>, <code>.d-grid</code>) or hide it (<code>.d-none</code>). With breakpoints, they show content only on some screens: <code>.d-md-none</code> hides from tablets on, <code>.d-none .d-md-block</code> shows only from tablets on. This is useful for wording that depends on the device, like “tap” versus “click”. <code>.d-print-none</code> hides an element when printing.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.d-none</code>, <code>.d-block</code>, <code>.d-inline-block</code>, <code>.d-flex</code>, <code>.d-*-none</code>, <code>.d-*-block</code>, <code>.d-print-none</code></p>
+
+    <div class="wt-example">
+        <p class="mb-0 d-md-none"><i class="bi bi-phone me-1" aria-hidden="true"></i><strong>Tap</strong> on an option to select it. <span class="small text-body-secondary">(Visible below 768 px: <code>.d-md-none</code>)</span></p>
+        <p class="mb-0 d-none d-md-block"><i class="bi bi-mouse me-1" aria-hidden="true"></i><strong>Click</strong> on an option to select it. <span class="small text-body-secondary">(Visible from 768 px: <code>.d-none .d-md-block</code>; make your window narrow to see the other text)</span></p>
+    </div>
+</section>
+
+
+<section class="wt-section" id="visually-hidden">
+    <h2>Visually hidden content</h2>
+
+    <p><code>.visually-hidden</code> hides content from the screen but not from screen readers. Use it for labels that are obvious visually but not otherwise, such as the meaning of an icon. <code>.visually-hidden-focusable</code> shows the content when it receives keyboard focus; uproot uses it for the “Skip to main content” link at the top of every page (press <kbd>Tab</kbd> right after loading a page to see it).</p>
+
+    <div class="wt-example">
+        <p class="mb-0">
+            <i class="bi bi-star-fill text-warning" aria-hidden="true"></i><i class="bi bi-star-fill text-warning" aria-hidden="true"></i><i class="bi bi-star-fill text-warning" aria-hidden="true"></i><i class="bi bi-star text-warning" aria-hidden="true"></i><i class="bi bi-star text-warning" aria-hidden="true"></i>
+            <span class="visually-hidden">3 out of 5 stars</span>
+            <span class="small text-body-secondary ms-2">(screen readers announce “3 out of 5 stars”)</span>
+        </p>
+    </div>
+</section>
+
+
+<section class="wt-section" id="position">
+    <h2>Position, overflow, and sticky elements</h2>
+
+    <p>A box with a fixed maximum height and <code>.overflow-auto</code> scrolls on its own, for example a long list of items to rate. Inside it, <code>.sticky-top</code> keeps a header in view while the rest scrolls. (On the whole page, <code>.sticky-top</code> sticks to the top of the window.) Positioning classes (<code>.position-relative</code>, <code>.position-absolute</code>, <code>.top-0</code>, <code>.start-100</code>, <code>.translate-middle</code>) place elements precisely, like the badge on the chat button in the feedback chapter.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.overflow-auto</code>, <code>.overflow-hidden</code>, <code>.sticky-top</code>, <code>.position-*</code>, <code>.top-*</code>, <code>.bottom-*</code>, <code>.start-*</code>, <code>.end-*</code>, <code>.translate-middle</code></p>
+
+    <div class="wt-example">
+        <div class="overflow-auto border rounded" style="max-height: 14rem;" tabindex="0" aria-label="Scrollable list of items">
+            <div class="sticky-top bg-body border-bottom px-3 py-2 fw-semibold">
+                <i class="bi bi-wallet2 me-1" aria-hidden="true"></i>Budget left: {{ C.ENDOWMENT | fmtnum(pre="$", places=2) }} <span class="fw-normal small text-body-secondary">(.sticky-top)</span>
+            </div>
+            {% for i in range(1, 16) %}
+            <div class="px-3 py-2 border-bottom">Item {{ i }}: scroll down; the budget stays in view.</div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="interaction">
+    <h2>Interaction</h2>
+
+    <p><code>.user-select-all</code> selects the whole text with one click, which is convenient for completion codes. <code>.user-select-none</code> prevents selecting text, for example the stimuli of a transcription task. <code>.pe-none</code> makes an element ignore the mouse, for example an illustration of a control that should not be operated.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.user-select-all</code>, <code>.user-select-none</code>, <code>.user-select-auto</code>, <code>.pe-none</code>, <code>.pe-auto</code></p>
+
+    <div class="wt-example vstack gap-3">
+        <p class="mb-0">Your completion code: <code class="user-select-all fs-5 border rounded px-2 py-1">C7XK-29QF</code> <span class="small text-body-secondary">(click once to select it all)</span></p>
+        <p class="mb-0 user-select-none">Try to select this sentence: it uses <code>.user-select-none</code>.</p>
+        <div class="hstack gap-2">
+            <button type="button" class="btn btn-primary pe-none" tabindex="-1" aria-hidden="true">Illustration of a button</button>
+            <span class="small text-body-secondary"><code>.pe-none</code>: clicks pass through</span>
+        </div>
+    </div>
+
+    <div class="alert alert-warning callout" role="note">
+        <i class="bi bi-exclamation-triangle me-1" aria-hidden="true"></i><strong>Pitfall.</strong> <code>.user-select-none</code> discourages copying; it does not prevent it. Anyone can read the text from the page source or with browser tools. If copying would invalidate a task, show the stimulus as an image (see the <code>captcha</code> app) and check answers on the server.
+    </div>
+</section>
+
+
+<section class="wt-section" id="dark-mode">
+    <h2>Dark mode on a single element</h2>
+
+    <p>Bootstrap 5.3 supports color modes. <code>data-bs-theme="dark"</code> switches an element and everything inside it to dark colors, including components. uproot pages use the light colors by default. A dark element can, for example, set a phase of the experiment apart or match a dark stimulus.</p>
+
+    <div class="wt-example">
+        <div data-bs-theme="dark" class="bg-body text-body rounded p-4">
+            <h3 class="h5"><i class="bi bi-moon-stars me-2" aria-hidden="true"></i>A dark card</h3>
+            <p>Everything inside this element uses the dark theme.</p>
+            <div class="alert alert-info py-2">An alert in dark mode</div>
+            <div class="hstack gap-2">
+                <button type="button" class="btn btn-primary">Primary</button>
+                <button type="button" class="btn btn-outline-light">Outline light</button>
+                <span class="badge text-bg-secondary">Badge</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="variables">
+    <h2>Customizing with CSS variables</h2>
+
+    <p>Bootstrap’s components read their colors and sizes from CSS variables with the prefix <code>--bs-</code>. Override them in a <code>style</code> attribute (or in your own CSS) to customize a single element without fighting Bootstrap’s rules. uproot’s <code>.btn-uproot</code> is defined exactly this way. The variables of each component are listed in its documentation under “CSS”.</p>
+
+    <div class="wt-example hstack gap-3 flex-wrap">
+        <button type="button" class="btn" style="--bs-btn-bg: #20c997; --bs-btn-color: #000; --bs-btn-border-color: #20c997; --bs-btn-hover-bg: #1aa179; --bs-btn-hover-border-color: #1aa179; --bs-btn-hover-color: #000;">
+            A teal button via <code class="text-reset">--bs-btn-*</code>
+        </button>
+        <div class="progress flex-grow-1" role="progressbar" aria-label="Customized progress bar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="--bs-progress-height: 1.5rem; --bs-progress-bar-bg: var(--bs-uproot); --bs-progress-border-radius: 0;">
+            <div class="progress-bar" style="width: 60%;">--bs-progress-*</div>
+        </div>
+    </div>
+</section>
+
+{% endblock chapter %}

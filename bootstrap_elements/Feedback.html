@@ -1,0 +1,193 @@
+{% extends "bootstrap_elements/Chapter.html" %}
+
+
+{% block chapter %}
+
+<p>Participants need to know where they stand: whether an answer was correct, how far along they are, and whether the page is waiting for something. Bootstrap’s feedback components answer these questions without words getting in the way.</p>
+
+
+<section class="wt-section" id="alerts">
+    <h2>Alerts</h2>
+
+    <p>An alert is a colored box for a message. Its color carries a conventional meaning, so use it consistently: green for success, red for errors, yellow for warnings, and blue for neutral information. An icon reinforces the meaning for participants who cannot tell the colors apart.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.alert</code> with <code>.alert-success</code>, <code>.alert-danger</code>, <code>.alert-warning</code>, <code>.alert-info</code>, <code>.alert-primary</code>, <code>.alert-secondary</code>, <code>.alert-light</code>, <code>.alert-dark</code></p>
+
+    <div class="wt-example">
+        <div class="alert alert-success d-flex gap-2" role="alert">
+            <i class="bi bi-check-circle-fill flex-shrink-0" aria-hidden="true"></i>
+            <div><strong>Correct.</strong> Your payoff is the sum of both amounts.</div>
+        </div>
+        <div class="alert alert-danger d-flex gap-2" role="alert">
+            <i class="bi bi-x-circle-fill flex-shrink-0" aria-hidden="true"></i>
+            <div><strong>Not quite.</strong> Remember that the other participant keeps what you do not send.</div>
+        </div>
+        <div class="alert alert-warning d-flex gap-2" role="alert">
+            <i class="bi bi-exclamation-triangle-fill flex-shrink-0" aria-hidden="true"></i>
+            <div><strong>One minute left.</strong> Please submit your decision soon.</div>
+        </div>
+        <div class="alert alert-info d-flex gap-2 mb-0" role="alert">
+            <i class="bi bi-info-circle-fill flex-shrink-0" aria-hidden="true"></i>
+            <div>The other participants are still reading the instructions.</div>
+        </div>
+    </div>
+
+    <h3>Additional content and dismissing</h3>
+
+    <p>Alerts can contain headings (<code>.alert-heading</code>), paragraphs, and links (<code>.alert-link</code> gives links a matching color). <code>.alert-dismissible</code> adds room for a close button with <code>data-bs-dismiss="alert"</code>; with <code>.fade .show</code>, the alert fades out. A dismissed alert is removed from the page until it is reloaded.</p>
+
+    <div class="wt-example">
+        <div class="alert alert-primary alert-dismissible fade show mb-0" role="alert">
+            <h4 class="alert-heading h5"><i class="bi bi-megaphone me-1" aria-hidden="true"></i>Welcome back!</h4>
+            <p>You left the study 10 minutes ago. Your answers so far have been saved.</p>
+            <hr>
+            <p class="mb-0">Questions? Read the <a href="https://getbootstrap.com/docs/5.3/components/alerts/" target="_blank" class="alert-link">frequently asked questions</a>.</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <div class="alert alert-info callout" role="note">
+        <i class="bi bi-lightbulb me-1" aria-hidden="true"></i><strong>Tip.</strong> <code>role="alert"</code> makes screen readers announce the message immediately. Use it for messages that appear in response to an action (like feedback after submitting), not for static text.
+    </div>
+</section>
+
+
+<section class="wt-section" id="callouts">
+    <h2>Callouts</h2>
+
+    <p>uproot adds <code>.callout</code>, which turns an alert into a box with a thick left border. Callouts are quieter than alerts and suit hints, definitions, and examples within instructions. uproot itself uses <code>alert alert-danger border-danger callout</code> to show validation errors; this walkthrough uses callouts for tips and pitfalls.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.alert .callout</code>, optionally with <code>.border-*</code> for a stronger border color</p>
+
+    <div class="wt-example">
+        <div class="alert alert-light border-secondary callout">
+            <strong>Example.</strong> If you contribute $10 and the others contribute $30 in total, the group account contains $40.
+        </div>
+        <div class="alert alert-danger border-danger callout mb-0">
+            Please answer this question. <span class="small">(This is how uproot shows errors.)</span>
+        </div>
+    </div>
+</section>
+
+
+<section class="wt-section" id="badges">
+    <h2>Badges</h2>
+
+    <p>Badges are small labels: the current round, a treatment, a role, or a count of new messages. They scale with the surrounding text, so a badge in a heading is larger. <code>.rounded-pill</code> makes them round. A badge can also sit on the corner of a button, with a hidden text for screen readers.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.badge</code> with <code>.text-bg-*</code>, <code>.rounded-pill</code>; for positioning: <code>.position-relative</code> on the parent, <code>.position-absolute .top-0 .start-100 .translate-middle</code> on the badge</p>
+
+    <div class="wt-example vstack gap-3 align-items-start">
+        <h3 class="h4 mb-0">Decision <span class="badge text-bg-secondary">Round {{ C.CURRENT_ROUND }} of {{ C.ROUNDS }}</span></h3>
+        <div class="hstack gap-2 flex-wrap">
+            <span class="badge text-bg-primary">Primary</span>
+            <span class="badge text-bg-success">Success</span>
+            <span class="badge text-bg-danger">Danger</span>
+            <span class="badge text-bg-warning">Warning</span>
+            <span class="badge rounded-pill text-bg-info">Pill</span>
+            <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle"><i class="bi bi-check-lg me-1" aria-hidden="true"></i>Subtle with icon</span>
+            <span class="badge bg-uproot">uproot</span>
+        </div>
+        <button type="button" class="btn btn-outline-primary position-relative mt-2">
+            <i class="bi bi-chat-dots me-1" aria-hidden="true"></i>Chat
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                3<span class="visually-hidden"> unread messages</span>
+            </span>
+        </button>
+    </div>
+</section>
+
+
+<section class="wt-section" id="progress">
+    <h2>Progress bars</h2>
+
+    <p>A progress bar shows a share: progress through the study, tokens spent, or time left. The outer <code>.progress</code> carries <code>role="progressbar"</code> and the <code>aria-value*</code> attributes; the inner <code>.progress-bar</code> gets its width as a style. Change the height with a style on <code>.progress</code>. Several bars in a <code>.progress-stacked</code> show how a total is composed.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.progress</code>, <code>.progress-bar</code>, <code>.progress-stacked</code>, <code>.progress-bar-striped</code>, <code>.progress-bar-animated</code>, <code>.bg-*</code></p>
+
+    <div class="wt-example vstack gap-4">
+        <div>
+            <div class="small mb-1">Study progress</div>
+            <div class="progress" role="progressbar" aria-label="Study progress" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 30%;">30%</div>
+            </div>
+        </div>
+        <div>
+            <div class="small mb-1">Thin, colored, and striped</div>
+            <div class="progress" role="progressbar" aria-label="Tokens spent" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="height: 6px;">
+                <div class="progress-bar bg-success progress-bar-striped" style="width: 65%;"></div>
+            </div>
+        </div>
+        <div>
+            <div class="small mb-1">Your earnings by part (stacked)</div>
+            <div class="progress-stacked">
+                {% set total = C.EARNINGS | sum(attribute=1) %}
+                {% for part, amount in C.EARNINGS %}
+                <div class="progress" role="progressbar" aria-label="{{ part }}" aria-valuenow="{{ amount }}" aria-valuemin="0" aria-valuemax="{{ total }}" style="width: {{ 100 * amount / total }}%;">
+                    <div class="progress-bar {{ ['bg-primary', 'bg-info', 'bg-warning'][loop.index0] }}">{{ amount | fmtnum(pre="$", places=2) }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div x-data="{ left: 10 }" x-init="setInterval(() => left = left > 0 ? left - 1 : 10, 1000)">
+            <div class="small mb-1">Time left, updated every second: <span x-text="left">10</span> seconds</div>
+            <div class="progress" role="progressbar" aria-label="Time left" aria-valuemin="0" aria-valuemax="10" :aria-valuenow="left">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" :class="left <= 3 ? 'bg-danger' : 'bg-primary'" :style="`width: ${left * 10}%`"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info callout" role="note">
+        <i class="bi bi-lightbulb me-1" aria-hidden="true"></i><strong>Tip.</strong> For real time limits, give the page a <code>timeout</code> method instead of building a countdown: uproot then shows the remaining time and enforces the limit on the server, too (see the <code>timeout_multipage</code> app). For a progress bar across a whole study, see the <code>progress_bar</code> example.
+    </div>
+</section>
+
+
+<section class="wt-section" id="spinners">
+    <h2>Spinners</h2>
+
+    <p>A spinner says “something is happening”: the page is waiting for another participant or for a response from the server. Spinners come as rotating borders or as growing dots, in any text color. Include a <code>.visually-hidden</code> text so that screen readers know what is going on.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.spinner-border</code>, <code>.spinner-grow</code>, <code>.spinner-border-sm</code>, <code>.spinner-grow-sm</code>, <code>.text-*</code></p>
+
+    <div class="wt-example vstack gap-3 align-items-start">
+        <div class="hstack gap-3">
+            <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading…</span></div>
+            <div class="spinner-grow text-success" role="status"><span class="visually-hidden">Loading…</span></div>
+            <div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading…</span></div>
+            <div class="spinner-grow spinner-grow-sm text-warning" role="status"><span class="visually-hidden">Loading…</span></div>
+        </div>
+        <button type="button" class="btn btn-primary" disabled>
+            <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            <span role="status">Waiting for the other participants…</span>
+        </button>
+    </div>
+</section>
+
+
+<section class="wt-section" id="placeholders">
+    <h2>Placeholders</h2>
+
+    <p>Placeholders are gray blocks in the shape of the content that is about to appear. They are useful when content is loaded after the page, for example the order book of a market via live methods. <code>.placeholder-glow</code> or <code>.placeholder-wave</code> animate them; column classes set their widths.</p>
+
+    <p class="wt-keys"><i class="bi bi-tag me-1" aria-hidden="true"></i>Key classes: <code>.placeholder</code>, <code>.placeholder-glow</code>, <code>.placeholder-wave</code>, <code>.placeholder-lg</code>, <code>.placeholder-sm</code>, <code>.col-*</code></p>
+
+    <div class="wt-example">
+        <div class="card col-md-6" aria-hidden="true">
+            <div class="card-body">
+                <h3 class="card-title h5 placeholder-glow">
+                    <span class="placeholder col-6"></span>
+                </h3>
+                <p class="card-text placeholder-glow">
+                    <span class="placeholder col-7"></span>
+                    <span class="placeholder col-4"></span>
+                    <span class="placeholder col-4"></span>
+                    <span class="placeholder col-6"></span>
+                </p>
+                <span class="btn btn-primary disabled placeholder col-4"></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock chapter %}
