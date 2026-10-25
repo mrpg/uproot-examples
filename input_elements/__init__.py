@@ -447,8 +447,11 @@ class ExampleInputsWTForms(Page):
                 render_kw={"class": "w-auto"},
                 validators=[wtforms.validators.NumberRange(min=0, max=5)],
             ),
+            # WTForms now deprecates tuple choices: direct wtforms.* choice fields
+            # need wtforms.SelectChoice(value, label) to avoid deprecation warnings.
+            # uproot's own choice fields still accept tuples and convert them automatically.
             "radio_field": wtforms.RadioField(
-                choices=[(1, "Yes"), (0, "No")],
+                choices=[wtforms.SelectChoice(1, "Yes"), wtforms.SelectChoice(0, "No")],
                 default=0,
                 description=safe(
                     "Description for the <code class='text-black-50'>wtforms.RadioField</code>."
@@ -458,7 +461,11 @@ class ExampleInputsWTForms(Page):
                 ),
             ),
             "radio_field_inline": wtforms.RadioField(
-                choices=[(1, "Yes"), (0, "No"), (0.5, "Maybe")],
+                choices=[
+                    wtforms.SelectChoice(1, "Yes"),
+                    wtforms.SelectChoice(0, "No"),
+                    wtforms.SelectChoice(0.5, "Maybe"),
+                ],
                 default=0,
                 description=safe(
                     "Description for the <code class='text-black-50'>wtforms.RadioField</code>."
@@ -472,12 +479,12 @@ class ExampleInputsWTForms(Page):
             ),
             "select_field": wtforms.SelectField(
                 choices=[
-                    ("", "Please select an option"),
-                    (1, "Bayer Leverkusen"),
-                    (2, "VfB Stuttgart"),
-                    (3, "Bayern München"),
-                    (4, "RB Leipzig"),
-                    (5, "BVB 09 Dortmund"),
+                    wtforms.SelectChoice("", "Please select an option"),
+                    wtforms.SelectChoice(1, "Bayer Leverkusen"),
+                    wtforms.SelectChoice(2, "VfB Stuttgart"),
+                    wtforms.SelectChoice(3, "Bayern München"),
+                    wtforms.SelectChoice(4, "RB Leipzig"),
+                    wtforms.SelectChoice(5, "BVB 09 Dortmund"),
                 ],
                 validators=[wtforms.validators.InputRequired()],
                 description=safe(
