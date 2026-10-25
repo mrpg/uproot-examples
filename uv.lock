@@ -1464,14 +1464,14 @@ wheels = [
 
 [[package]]
 name = "starlette"
-version = "1.9.0"
+version = "1.10.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ad/eb/4e197bf26b023abafc5e9043ec8710d7de0fcb032d0969045236d72aa0b1/starlette-1.9.0.tar.gz", hash = "sha256:3d931de246ed870e35ce605974440816ef895e592f255d1396cfdf191d4c4318", size = 2732466, upload-time = "2026-10-18T15:50:33.189Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/48/bb/3d8757f21e9a53d9035c9eb039a777047139a16bfdbedfc7a58241c3d914/starlette-1.10.0.tar.gz", hash = "sha256:b8399098d4c1e3522734f7235dc79b1fc967f96cf139c81e0fa30479e0685f9b", size = 2734356, upload-time = "2026-10-24T15:04:12.342Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f3/93/181df62699d9b5aca1d87e5cfda131dac87e3cdaebf668662f7206ca3470/starlette-1.9.0-py3-none-any.whl", hash = "sha256:fd3f159936e882d06c1108f84688f7cda2cf85fc6a592a50edbd175e882c2ddc", size = 80335, upload-time = "2026-10-18T15:50:31.526Z" },
+    { url = "https://files.pythonhosted.org/packages/88/2e/947cfe02def9371c07cd5bf5b6b61c829e9aecb9904db02a66cfafbc1eec/starlette-1.10.0-py3-none-any.whl", hash = "sha256:478c0ab3b4ced6e82719849c118fa406f0278a3499c1a898cd15cd31bdc38ce4", size = 80571, upload-time = "2026-10-24T15:04:10.371Z" },
 ]
 
 [[package]]
@@ -1582,7 +1582,7 @@ requires-dist = [
 [[package]]
 name = "uproot-science"
 version = "0.10.1"
-source = { git = "https://github.com/mrpg/uproot.git?rev=main#2bc308c7665ebf30db39fd86d720291b70118f94" }
+source = { git = "https://github.com/mrpg/uproot.git?rev=main#9d63e388c628ed24568f89e8af531d7db8c7a014" }
 dependencies = [
     { name = "appendmuch" },
     { name = "brotli", marker = "platform_python_implementation == 'CPython' and sys_platform != 'win32'" },
@@ -1770,14 +1770,14 @@ wheels = [
 
 [[package]]
 name = "wtforms"
-version = "3.3.0"
+version = "3.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "markupsafe" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c4/42/db38b45b7d791f608d7f1afbb9176dfef4a0dec415eb435b07cd44eb96cf/wtforms-3.3.0.tar.gz", hash = "sha256:efbc626b0b68d3bcb77822e0eceb995f56c5e9d0aeb4220b9dc2fc9f03e7e1ed", size = 171987, upload-time = "2026-10-23T14:43:11.152Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ef/5b/588dc20774f4cebeac23908a87e493f2f6fb2a4c54756675cd59afb8cc72/wtforms-3.3.1.tar.gz", hash = "sha256:9d10ccb5740290c9ae6673522d87bcae3b669cf0cb4e4584aee229b4694af10c", size = 172349, upload-time = "2026-10-24T07:19:37.624Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/01/99/e6eef415617529fe9479b4a0ea1a4fa360afece3b3a0c58a6904de3621b8/wtforms-3.3.0-py3-none-any.whl", hash = "sha256:eaf2f7649bedbee0bad74bb068dca8bfec8b00d04fd44c1735682c1fe33acfa7", size = 171960, upload-time = "2026-10-23T14:43:09.699Z" },
+    { url = "https://files.pythonhosted.org/packages/a6/67/0f56cd0f8ac699259476fc9a520aa6b09b0e7e4da776f91c48f6965dc486/wtforms-3.3.1-py3-none-any.whl", hash = "sha256:2f4728ef3f67173c22590e60e845937598af7455474330fdb84354a609d67ec1", size = 171964, upload-time = "2026-10-24T07:19:35.892Z" },
 ]
 
 [[package]]
