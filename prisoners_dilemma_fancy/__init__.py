@@ -17,6 +17,7 @@ SUGGESTED_MULTIPLE = 2
 
 class C:
     PAYOFF_MATRIX = {
+        # (you cooperate, other cooperates): your payoff
         (True, True): 10,
         (True, False): 0,
         (False, True): 15,
@@ -44,8 +45,10 @@ class Dilemma(Page):
 class Sync(SynchronizingWait):
     @classmethod
     def set_payoff(page, player: PlayerType) -> None:
-        other = player.other_in_group
-        player.payoff = C.PAYOFF_MATRIX[player.cooperate, other.cooperate]
+        player.payoff = C.PAYOFF_MATRIX[
+            player.cooperate,
+            player.other_in_group.cooperate,
+        ]
 
     @classmethod
     def all_here(page, group: GroupType) -> None:

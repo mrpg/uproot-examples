@@ -19,11 +19,16 @@ class C:
     GROUP_SIZE = 2
     DEFAULT_CONTINUATION_PROB = 0.75
     PAYOFF_MATRIX = {
+        # (you cooperate, other cooperates): your payoff
         (True, True): 10,
         (True, False): 0,
         (False, True): 15,
         (False, False): 3,
     }
+
+
+class Instructions(Page):
+    pass
 
 
 class GroupPlease(GroupCreatingWait):
@@ -42,14 +47,16 @@ class Dilemma(Page):
 class Sync(SynchronizingWait):
     @classmethod
     def all_here(page, group: GroupType) -> None:
-        prob = group.session.settings.get(
-            "continuation_prob", C.DEFAULT_CONTINUATION_PROB
+        prob = get_setting(
+            group.session, "continuation_prob", C.DEFAULT_CONTINUATION_PROB
         )
         continue_game = rng().random() < prob
 
         for player in group.players:
-            other = player.other_in_group
-            player.payoff = C.PAYOFF_MATRIX[player.cooperate, other.cooperate]
+            player.payoff = C.PAYOFF_MATRIX[
+                player.cooperate,
+                player.other_in_group.cooperate,
+            ]
             player.add_round = continue_game
 
 
@@ -133,6 +140,7 @@ def played_rounds(*players: PlayerType) -> list[Any]:
 
 
 page_order = [
+    Instructions,
     GroupPlease,
     Repeat(
         Dilemma,

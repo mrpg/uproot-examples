@@ -73,7 +73,7 @@ This repository is also an uproot *project*. That means: you can clone it and ru
 | `ping`†                                           | WebSocket round-trip time benchmark                             | Easy       |
 | `prediction_market`                               | Prediction market with LMSR automated market maker              | Advanced   |
 | `prisoners_dilemma_chat`                          | Prisoner's dilemma with continuous chat                         | Easy       |
-| `prisoners_dilemma_fancy`                         | Standard prisoner's dilemma (more fancy)                        | Medium     |
+| `prisoners_dilemma_fancy`                         | Prisoner's dilemma with illustrated instructions and pipeline   | Medium     |
 | `prisoners_dilemma_indefinite`                    | Indefinitely repeated prisoner's dilemma (random stopping)      | Easy       |
 | `prisoners_dilemma_repeated`                      | Repeated prisoner's dilemma (history table and digest)          | Easy       |
 | `prisoners_dilemma`                               | Standard prisoner's dilemma                                     | Easy       |

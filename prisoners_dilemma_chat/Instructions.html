@@ -1,0 +1,41 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Instructions
+{% endblock title %}
+
+
+{% block main %}
+
+<p>In this study, you will be paired with another participant.</p>
+
+<p>You will each make one private choice: to cooperate or not to cooperate.</p>
+
+<p>Once you are paired, you can chat with the other participant until the end of the study. Neither of you will learn the other’s choice until both decisions have been submitted. Please make your choice on the next page.</p>
+
+<p>The two decisions jointly determine both your payoff and the other participant’s payoff as follows:</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>The other participant cooperates</th>
+            <th>The other participant does not cooperate</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for you in [True, False] %}
+        <tr>
+            <th>{{ "You cooperate" if you else "You do not cooperate" }}</th>
+            {% for other in [True, False] %}
+            <td>
+                {{ C.PAYOFF_MATRIX[you, other] | fmtnum(pre="$", places=2) }} for you<br>
+                {{ C.PAYOFF_MATRIX[other, you] | fmtnum(pre="$", places=2) }} for the other participant
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock main %}

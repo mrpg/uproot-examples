@@ -17,11 +17,16 @@ SUGGESTED_MULTIPLE = 2
 
 class C:
     PAYOFF_MATRIX = {
+        # (you cooperate, other cooperates): your payoff
         (True, True): 10,
         (True, False): 0,
         (False, True): 15,
         (False, False): 3,
     }
+
+
+class Instructions(Page):
+    pass
 
 
 class GroupPlease(GroupCreatingWait):
@@ -45,44 +50,21 @@ class Dilemma(Page):
 
 
 class Sync(SynchronizingWait):
-    pass
+    @classmethod
+    def all_here(page, group: GroupType) -> None:
+        for player in group.players:
+            player.payoff = C.PAYOFF_MATRIX[
+                player.cooperate,
+                player.other_in_group.cooperate,
+            ]
 
 
 class Results(Page):
     pass
 
 
-def pipeline(session: SessionType, data: Any = None) -> list[dict[str, Any]]:
-    rows = []
-
-    for group in session.groups(app=__name__):
-        players = group.players
-        player1, player2 = players
-
-        for member_id, player in enumerate(players):
-            other = player2 if member_id == 0 else player1
-            player_data = player.within(app=__name__)
-            other_data = other.within(app=__name__)
-            cooperate = player_data.get("cooperate")
-            other_cooperate = other_data.get("cooperate")
-
-            rows.append(
-                {
-                    "session": session.name,
-                    "group": group.name,
-                    "uname": player.name,
-                    "member_id": member_id,
-                    "cooperate": cooperate,
-                    "other_uname": other.name,
-                    "other_cooperate": other_cooperate,
-                    "payoff": player_data.get("payoff"),
-                }
-            )
-
-    return rows
-
-
 page_order = [
+    Instructions,
     GroupPlease,
     Dilemma,
     Sync,

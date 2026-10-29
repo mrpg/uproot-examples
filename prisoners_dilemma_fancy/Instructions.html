@@ -23,8 +23,7 @@ Instructions
 
 <p>You will each make one private choice: to cooperate or not to cooperate.</p>
 
-<p>There is no opportunity to communicate with the other participant. Neither of you will learn the other's choice until both decisions have been
-    submitted. Please make your choice on the next page.</p>
+<p>There is no opportunity to communicate with the other participant. Neither of you will learn the other’s choice until both decisions have been submitted. Please make your choice on the next page.</p>
 
 <p>The two decisions jointly determine both your payoff and the other participant’s payoff as follows:</p>
 
@@ -180,13 +179,13 @@ Instructions
       <rect class="callout-border callout-border-lg" />
       <text x="0" y="0" dominant-baseline="middle" text-anchor="middle">
         <tspan class="participant-a" x="0" y="-23">
-          You receive {{ C.PAYOFF_MATRIX[(True, True)] | fmtnum(places=0, pre="$") }}
+          You receive {{ C.PAYOFF_MATRIX[True, True] | fmtnum(pre="$", places=2) }}
         </tspan>
         <tspan class="participant-b" dy="28" x="0">
           Other participant
         </tspan>
         <tspan class="participant-b" dy="21" x="0">
-          receives {{ C.PAYOFF_MATRIX[(True, True)] | fmtnum(places=0, pre="$") }}
+          receives {{ C.PAYOFF_MATRIX[True, True] | fmtnum(pre="$", places=2) }}
         </tspan>
       </text>
     </g>
@@ -195,13 +194,13 @@ Instructions
       <rect class="callout-border callout-border-lg" />
       <text x="0" y="0" dominant-baseline="middle" text-anchor="middle">
         <tspan class="participant-a" x="0" y="-23">
-          You receive {{ C.PAYOFF_MATRIX[(True, False)] | fmtnum(places=0, pre="$") }}
+          You receive {{ C.PAYOFF_MATRIX[True, False] | fmtnum(pre="$", places=2) }}
         </tspan>
         <tspan class="participant-b" dy="28" x="0">
           Other participant
         </tspan>
         <tspan class="participant-b" dy="21" x="0">
-          receives {{ C.PAYOFF_MATRIX[(False, True)] | fmtnum(places=0, pre="$") }}
+          receives {{ C.PAYOFF_MATRIX[False, True] | fmtnum(pre="$", places=2) }}
         </tspan>
       </text>
     </g>
@@ -210,13 +209,13 @@ Instructions
       <rect class="callout-border callout-border-lg" />
       <text x="0" y="0" dominant-baseline="middle" text-anchor="middle">
         <tspan class="participant-a" x="0" y="-23">
-          You receive {{ C.PAYOFF_MATRIX[(False, True)] | fmtnum(places=0, pre="$") }}
+          You receive {{ C.PAYOFF_MATRIX[False, True] | fmtnum(pre="$", places=2) }}
         </tspan>
         <tspan class="participant-b" dy="28" x="0">
           Other participant
         </tspan>
         <tspan class="participant-b" dy="21" x="0">
-          receives {{ C.PAYOFF_MATRIX[(True, False)] | fmtnum(places=0, pre="$") }}
+          receives {{ C.PAYOFF_MATRIX[True, False] | fmtnum(pre="$", places=2) }}
         </tspan>
       </text>
     </g>
@@ -225,13 +224,13 @@ Instructions
       <rect class="callout-border callout-border-lg" />
       <text x="0" y="0" dominant-baseline="middle" text-anchor="middle">
         <tspan class="participant-a" x="0" y="-23">
-          You receive {{ C.PAYOFF_MATRIX[(False, False)] | fmtnum(places=0, pre="$") }}
+          You receive {{ C.PAYOFF_MATRIX[False, False] | fmtnum(pre="$", places=2) }}
         </tspan>
         <tspan class="participant-b" x="0" dy="28">
           Other participant
         </tspan>
         <tspan class="participant-b" x="0" dy="21">
-          receives {{ C.PAYOFF_MATRIX[(False, False)] | fmtnum(places=0, pre="$") }}
+          receives {{ C.PAYOFF_MATRIX[False, False] | fmtnum(pre="$", places=2) }}
         </tspan>
       </text>
     </g>

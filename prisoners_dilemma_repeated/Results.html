@@ -1,7 +1,7 @@
 {% extends "Base.html" %}
 
 {% block title %}
-Results
+Results (round {{ player.round }} of {{ C.ROUNDS }})
 {% endblock title %}
 
 
@@ -14,11 +14,11 @@ Results
 {% endif %}
 
 {% if player.other_in_group.cooperate %}
-<p>Your partner cooperated.</p>
+<p>The other participant cooperated.</p>
 {% else %}
-<p>Your partner did not cooperate.</p>
+<p>The other participant did not cooperate.</p>
 {% endif %}
 
-<p>Your payoff is <b>{{ player.payoff }}</b>.</p>
+<p>Your payoff this round is <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b>.</p>
 
 {% endblock main %}
