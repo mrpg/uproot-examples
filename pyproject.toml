@@ -10,12 +10,13 @@ readme = "README.md"
 license = "0BSD"
 requires-python = ">=3.13"
 dependencies = [
+    "uproot-science @ git+https://github.com/mrpg/uproot.git@main",
     "anthropic",
     "audioop-lts",
     "black",
-    "find-eq @ git+https://github.com/mrpg/find-eq.git@master",
+    "find-eq @ git+https://github.com/mrpg/find-eq.git@4574b1ebb1c66a229202ffbccd7cb6230e0d887f",
     "isort",
-    "mini-exchange @ git+https://github.com/mrpg/mini-exchange.git@master",
+    "mini-exchange @ git+https://github.com/mrpg/mini-exchange.git@63e1501ff9dc2a8f9b1f07f4d73a0d9f77a7cc04",
     "mypy",
     "openai",
     "pillow",
@@ -23,7 +24,6 @@ dependencies = [
     "pydub",
     "ruff",
     "schwifty",
-    "uproot-science @ git+https://github.com/mrpg/uproot.git@main",
 ]
 
 [tool.setuptools]
