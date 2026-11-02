@@ -30,6 +30,13 @@ class Hello(Page):
     pass
 
 
+class Finished(Page):
+    @classmethod
+    def before_once(page, player: PlayerType) -> None:
+        stop_watching_for_dropout(player)
+
+
 page_order = [
     Hello,
+    Finished,
 ]

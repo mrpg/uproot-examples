@@ -1,0 +1,13 @@
+{% extends "Base.html" %}
+{% set buttons = False %}
+
+{% block title %}
+Finished
+{% endblock title %}
+
+
+{% block main %}
+
+<p>This app has stopped watching for dropouts, so <code>handle_dropout</code> will not be triggered if you close this tab now.</p>
+
+{% endblock main %}
