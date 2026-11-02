@@ -1543,7 +1543,7 @@ requires-dist = [
 [[package]]
 name = "uproot-science"
 version = "0.11.0"
-source = { git = "https://github.com/mrpg/uproot.git?rev=main#7ed47e4530594b4d0bb1cb3acc583f949e775592" }
+source = { git = "https://github.com/mrpg/uproot.git?rev=main#ce6b527e5e5f01b0e8290d85162444f8d102a583" }
 dependencies = [
     { name = "appendmuch" },
     { name = "brotli", marker = "sys_platform != 'win32'" },
