@@ -59,13 +59,10 @@ wheels = [
 [[package]]
 name = "appendmuch"
 version = "0.3.0"
-source = { registry = "https://pypi.org/simple" }
+source = { git = "https://github.com/mrpg/appendmuch.git?rev=4c934045d3fabb1dc76bad12c53f0a20df74137f#4c934045d3fabb1dc76bad12c53f0a20df74137f" }
 dependencies = [
     { name = "msgpack" },
     { name = "orjson" },
-]
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/8c/d9/4d2f5b78446df9b3ad55b894c97641674dba436a21d8c581b9eb416b22ef/appendmuch-0.3.0-py3-none-any.whl", hash = "sha256:67e8e3787d625ca6367a9ce80bc60432afe583031d857764154fbc9f656ad178", size = 35419, upload-time = "2026-10-10T05:50:36.208Z" },
 ]
 
 [[package]]
@@ -1543,7 +1540,7 @@ requires-dist = [
 [[package]]
 name = "uproot-science"
 version = "0.11.0"
-source = { git = "https://github.com/mrpg/uproot.git?rev=main#ce6b527e5e5f01b0e8290d85162444f8d102a583" }
+source = { git = "https://github.com/mrpg/uproot.git?rev=main#027fd4b9d563b1b8c14e76c83d37bf12f468a68d" }
 dependencies = [
     { name = "appendmuch" },
     { name = "brotli", marker = "sys_platform != 'win32'" },
