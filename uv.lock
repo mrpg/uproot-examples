@@ -1684,7 +1684,7 @@ requires-dist = [
 [[package]]
 name = "uproot-science"
 version = "0.11.0"
-source = { git = "https://github.com/mrpg/uproot.git?rev=main#5353a1dcbf749cf7f98a2b5561523b833d22429f" }
+source = { git = "https://github.com/mrpg/uproot.git?rev=main#1e1ff059a5071bb47dc8680098631199c448ad65" }
 dependencies = [
     { name = "anyio" },
     { name = "appendmuch" },
