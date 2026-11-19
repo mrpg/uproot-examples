@@ -14,8 +14,8 @@ underrepresented so far in the session.
 
 `page_order` is a function here, not a list. uproot calls it once for each
 participant, when they start. It counts the orders already assigned in the
-session, stores the chosen order's index in `player.perm_index`, and returns
-the pages in that order. `ORDERINGS` holds every order of `PAGES`. `WEIGHTS`
+session, stores the index of the chosen order in `player.order`, and returns
+the pages in that order. `ORDERS` holds every order of `PAGES`. `WEIGHTS`
 sets the target share of each order. The default is equal shares.
 
 ## Variants
@@ -25,20 +25,20 @@ Each variant below is a small change to `page_order` in `__init__.py`.
 ### Breaking ties at random
 
 When several orders are equally underrepresented, the app takes the first of
-them. With equal weights, participants therefore cycle through `ORDERINGS` in
+them. With equal weights, participants therefore cycle through `ORDERS` in
 the same sequence in every session: the first participant in each session
 always gets the first order, and so on. If arrival order is related to who your
 participants are (for example, keen participants arrive first), order is then
 confounded with arrival rank. To pick at random among the tied orders, replace
 
 ```python
-range(len(ORDERINGS)),
+range(len(ORDERS)),
 ```
 
 with
 
 ```python
-rng().sample(range(len(ORDERINGS)), len(ORDERINGS)),
+rng().sample(range(len(ORDERS)), len(ORDERS)),
 ```
 
 Balance stays the same. Only which of the tied orders comes next becomes random.
@@ -64,7 +64,7 @@ async def handle_dropout(player: PlayerType) -> None:
 In `page_order`, change the condition of the list comprehension to
 
 ```python
-if p.get("perm_index") is not None and not p.get("dropout")
+if p.get("order") is not None and not p.get("dropout")
 ```
 
 `move_to_end` sends a dropout to the end of the experiment. Without it, they
@@ -107,7 +107,7 @@ dropouts, put both parts in the same `new_player`.
 Then, in `page_order`, count only players in the same treatment:
 
 ```python
-if p.get("perm_index") is not None and p.get("treatment") == player.treatment
+if p.get("order") is not None and p.get("treatment") == player.treatment
 ```
 
 ### Why `p.get(...)`
