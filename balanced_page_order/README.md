@@ -18,30 +18,14 @@ session, stores the index of the chosen order in `player.order`, and returns
 the pages in that order. `ORDERS` holds every order of `PAGES`. `WEIGHTS`
 sets the target share of each order. The default is equal shares.
 
+When several orders are equally underrepresented, the app chooses at random
+among them. `rng().sample` shuffles the candidates before `max`, so each tied
+order is equally likely. This preserves balance while avoiding a fixed order
+sequence across sessions.
+
 ## Variants
 
-Each variant below is a small change to `page_order` in `__init__.py`.
-
-### Breaking ties at random
-
-When several orders are equally underrepresented, the app takes the first of
-them. With equal weights, participants therefore cycle through `ORDERS` in
-the same sequence in every session: the first participant in each session
-always gets the first order, and so on. If arrival order is related to who your
-participants are (for example, keen participants arrive first), order is then
-confounded with arrival rank. To pick at random among the tied orders, replace
-
-```python
-range(len(ORDERS)),
-```
-
-with
-
-```python
-rng().sample(range(len(ORDERS)), len(ORDERS)),
-```
-
-Balance stays the same. Only which of the tied orders comes next becomes random.
+Each variant below adapts the assignment in `__init__.py`.
 
 ### Leaving out dropouts
 
@@ -94,7 +78,7 @@ def new_player(player: PlayerType) -> None:
         if p.get("treatment") is not None
     )
     player.treatment = min(
-        TREATMENTS,
+        rng().sample(TREATMENTS, len(TREATMENTS)),
         key=lambda x: counts.get(x, 0),
     )
 ```

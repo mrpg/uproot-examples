@@ -17,22 +17,10 @@ To balance the order of pages rather than treatments, see the example
 
 ## Breaking ties at random
 
-When several treatments have the fewest players, the app takes the first of
-them. Participants therefore cycle through `TREATMENTS` in the same sequence in
-every session: the first participant in each session always gets the first
-treatment, and so on. If arrival order is related to who your participants are
-(for example, keen participants arrive first), treatment is then confounded
-with arrival rank. To pick at random among the tied treatments, replace
-
-```python
-TREATMENTS,
-```
-
-in the call to `min` with
-
-```python
-rng().sample(TREATMENTS, len(TREATMENTS)),
-```
+When several treatments have the fewest players, the app chooses at random
+among them. `rng().sample` shuffles the candidates before `min`, so each tied
+treatment is equally likely. This preserves balance while avoiding a fixed
+treatment sequence across sessions.
 
 ## Counting only some players
 

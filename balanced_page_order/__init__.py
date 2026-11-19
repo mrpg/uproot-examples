@@ -60,9 +60,9 @@ def page_order(player: PlayerType) -> list[Any]:
         total_weight = sum(WEIGHTS)
 
         # Assign to the most underrepresented order (largest deficit from target).
-        # Ties go to the first such order (see README.md).
+        # Break ties at random.
         player.order = max(
-            range(len(ORDERS)),
+            rng().sample(range(len(ORDERS)), len(ORDERS)),
             key=lambda i: WEIGHTS[i] / total_weight * n - counts.get(i, 0),
         )
 

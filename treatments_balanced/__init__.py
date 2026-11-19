@@ -32,9 +32,9 @@ class AssignTreatment(NoshowPage):
             if p.get("treatment") is not None
         )
 
-        # Ties go to the first such treatment (see README.md).
+        # Break ties at random.
         player.treatment = min(
-            TREATMENTS,
+            rng().sample(TREATMENTS, len(TREATMENTS)),
             key=lambda x: counts.get(x, 0),
         )
 
