@@ -53,9 +53,7 @@ def page_order(player: PlayerType) -> list[Any]:
     if player.get("order") is None:
         # To count only some players, add conditions to the `if` below (see README.md).
         assigned = [
-            p.get("order")
-            for p in player.session.players
-            if p.get("order") is not None
+            p.get("order") for p in player.session.players if p.get("order") is not None
         ]
         counts = Counter(assigned)
         n = len(assigned) + 1
