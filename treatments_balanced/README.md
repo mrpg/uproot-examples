@@ -45,10 +45,10 @@ if p.get("treatment") is not None and not p.get("dropout")
 
 This requires a `dropout` field. See the section on dropouts in the README of
 `balanced_page_order` for how to set it up. To count only players who
-contributed more than 10, as in the example `public_goods_game`, use
+contributed more than 5, as in the example `public_goods_game`, use
 
 ```python
-if p.get("treatment") is not None and p.get("contribution", 0) > 10
+if p.get("treatment") is not None and p.get("contribution", 0) > 5
 ```
 
 Use `p.get("field")` in these conditions, not `p.field` or
